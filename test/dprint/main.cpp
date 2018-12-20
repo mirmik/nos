@@ -1,14 +1,21 @@
+#define NOTRACE 0
+
 #include <nos/dprint.h>
 #include <nos/print.h>
+
+#include <nos/dtrace.h>
+#include <nos/trace.h>
+
 #include <nos/io/std.h>
+
+int func(int a, int b) 
+{
+	TRACE_ARGS(a, b);
+	return TRRET(a);
+}
 
 int main() 
 {
-	dprf("HelloWorld %d %d %d\n", 35, 78, 98);
-	dprln(33, 34, 35, 36, 37);
-
-	nos::println(33);
-	nos::println(33, "mirmik", 333);
-
-	nos::print_dump("mirmik", 6);
+	TRACE();
+	func(55, 33);
 }

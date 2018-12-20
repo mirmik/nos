@@ -7,7 +7,8 @@ licant.module("nos.util",
 	sources=[
 		"printf_impl.c",
 		"numconvert.c",
-		"hexascii.cpp"
+		"hexascii.cpp",
+		"trace.cpp"
 	]
 )
 

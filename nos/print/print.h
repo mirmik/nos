@@ -64,6 +64,11 @@ namespace nos
 	{
 		return println_to(*current_ostream, args ...);
 	}
+
+	static inline ssize_t putchar(char c)
+	{
+		return putchar_to(*current_ostream, c);
+	}
 }
 
 #endif
