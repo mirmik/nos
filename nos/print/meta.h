@@ -3,7 +3,7 @@
 
 namespace nos 
 {
-	template <typename T> struct print_implementations;
+	template <typename T> struct print_implementation;
 }
 
 #endif

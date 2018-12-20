@@ -10,6 +10,8 @@ namespace nos
 	struct tracer
 	{
 		const char* func = func;
+		void* retptr;
+		void* visit;
 
 		tracer(const char* func)
 		{
@@ -44,7 +46,7 @@ namespace nos
 	nos::putchar(' ');
 
 #define TRPRE_S()                               \
-	nos::tracer __tracer(__PRETTY_FUNCTION__);  \
+	nos::tracer __nos_tracer(__PRETTY_FUNCTION__);  \
 	do {                                        \
 		nos::print("TRACE: ");                  \
 		nos::print(trace_level);                \
@@ -76,11 +78,7 @@ namespace nos
 #else
 #define TRACE() TRPRE_S() TRPOS();
 #define TRACE_ARGS(...) CONCAT2(TRACE_ARGS_,COUNT_ARGS(__VA_ARGS__))(__VA_ARGS__)
-#define TRRET(ex)                           \
-	({ auto __ret = (ex);                   \
-	__tracer.print_out();					\
-	nos::println(" return:", __ret);		\
-	return __ret; __ret; })                 
+#define TRRET(ex) [&__nos_tracer](auto ret){ __nos_tracer.print_out(); nos::println(" return:", ret); return ret; }(ex)
 #endif
 
 #endif

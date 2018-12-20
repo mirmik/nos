@@ -28,6 +28,14 @@ licant.module("nos.print",
 	mdepends=["nos.current_ostream"]
 )
 
+licant.module("nos.fprint",
+	srcdir="nos/fprint", 
+	sources=[
+		"fprint.cpp"
+	],
+	mdepends=["nos.current_ostream"]
+)
+
 licant.module("nos.current_ostream", "cout",
 	sources=["nos/io/current_ostream_cout.cpp", "nos/io/std.cpp"]
 )
@@ -39,11 +47,13 @@ licant.module("nos.current_ostream", "nullptr",
 licant.module_defimpl("nos.current_ostream", "cout")
 
 licant.module("nos",
+	sources = ["nos/panic.cpp"],
 	mdepends=[
 		"nos.io",
 		"nos.util",
 		"nos.dprint",
 		"nos.print",
+		"nos.fprint",
 	],
 	include_paths=["."]
 )

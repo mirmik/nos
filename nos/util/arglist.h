@@ -11,10 +11,10 @@
 #include <memory>
 #include <utility>
 #include <assert.h>
-#include <gxx/buffer.h>
-#include <gxx/panic.h>
+#include <nos/util/buffer.h>
+#include <nos/panic.h>
 
-namespace gxx
+namespace nos
 {
 	namespace detail
 	{
@@ -37,8 +37,8 @@ namespace gxx
 	struct argpair
 	{
 		void* body;
-		gxx::buffer name;
-		constexpr argpair(const gxx::buffer& _name, const T& _body) : body((void*)&_body), name(_name) {}
+		nos::buffer name;
+		constexpr argpair(const nos::buffer& _name, const T& _body) : body((void*)&_body), name(_name) {}
 	};
 
 	/**
@@ -47,8 +47,8 @@ namespace gxx
 	 */
 	struct argname
 	{
-		gxx::buffer name;
-		constexpr argname(const gxx::buffer& _name) : name(_name) {};
+		nos::buffer name;
+		constexpr argname(const nos::buffer& _name) : name(_name) {};
 
 		template<typename T>
 		constexpr argpair<T> operator= (const T& body)
@@ -61,7 +61,7 @@ namespace gxx
 	{
 		static inline argname operator"" _a (const char* name, size_t sz)
 		{
-			return argname(gxx::buffer(name, sz));
+			return argname(nos::buffer(name, sz));
 		}
 	}
 
@@ -73,19 +73,19 @@ namespace gxx
 	struct visitable_argument
 	{
 		void* 		ptr;
-		gxx::buffer name;
+		nos::buffer name;
 		void* 		visit;
 
-		visitable_argument(void* _ptr, const gxx::buffer& buf, void* _visit) : 
+		visitable_argument(void* _ptr, const nos::buffer& buf, void* _visit) : 
 			ptr(_ptr), name(buf), visit(_visit) {}
 
 		template <typename Visitor, typename Object>
 		visitable_argument(const Object& obj, const Visitor& visitor)
 			: visitable_argument(
 			      (void*) & obj,
-			      gxx::buffer(),
+			      nos::buffer(),
 			      Visitor::template get_visit<detail::va_remove_cvref_t<Object>>())
-		{}
+		{(void)visitor;}
 
 		template <typename Visitor, typename Object>
 		visitable_argument(const argpair<Object>& pair, const Visitor& visitor)
@@ -135,14 +135,14 @@ namespace gxx
 			return arr[num];
 		}
 
-		const visitable_argument& operator[](gxx::buffer str) const
+		const visitable_argument& operator[](nos::buffer str) const
 		{
 			for (uint8_t i = 0; i < N; ++i)
 			{
 				if (str == arr[i].name) return arr[i];
 			}
 
-			gxx::panic("visitable_arglist: name error");
+			nos::panic("visitable_arglist: name error");
 			return arr[0]; // -Wreturn-type
 		}
 	};

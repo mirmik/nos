@@ -18,4 +18,7 @@ int main()
 {
 	TRACE();
 	func(55, 33);
+
+	nos::fprintln("mirmik");
+	nos::fprintln("mirmik {}", 33);
 }
