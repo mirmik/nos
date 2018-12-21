@@ -15,13 +15,13 @@ namespace nos
 		template<typename ... Args>
 		ssize_t print(const Args& ... args)
 		{
-			nos::print_to(*this, args ...);
+			return nos::print_to(*this, args ...);
 		}
 
 		template<typename ... Args>
 		ssize_t println(const Args& ... args)
 		{
-			nos::println_to(*this, args ...);
+			return nos::println_to(*this, args ...);
 		}
 
 		ssize_t println()
@@ -48,6 +48,8 @@ namespace nos
 
 		ssize_t fill(char c, size_t len);
 		ssize_t printptr(const void* ptr);
+
+		virtual void flush() { }
 
 	protected:
 		virtual ssize_t writeData(const char* ptr, size_t sz) = 0;

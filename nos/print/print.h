@@ -19,7 +19,7 @@ namespace nos
 	template<typename Arg>
 	ssize_t print_to(nos::ostream& out, const Arg& arg)
 	{
-		return nos::print_implementations<Arg>::print_to(out, arg);
+		return nos::print_implementation<Arg>::print_to(out, arg);
 	}
 
 	template<typename Head, typename ... Tail>
@@ -68,6 +68,18 @@ namespace nos
 	static inline ssize_t putchar(char c)
 	{
 		return putchar_to(*current_ostream, c);
+	}
+
+	ssize_t write_to(nos::ostream& out, const void* buf, size_t sz);
+
+	static inline ssize_t write(const void* buf, size_t sz) {
+		return nos::write_to(*current_ostream, buf, sz);
+	}
+
+	ssize_t writeln_to(nos::ostream& out, const void* buf, size_t sz);
+
+	static inline ssize_t writeln(const void* buf, size_t sz) {
+		return nos::writeln_to(*current_ostream, buf, sz);
 	}
 }
 
