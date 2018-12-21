@@ -39,6 +39,25 @@ namespace nos
 			return 2;
 		}
 
+		ssize_t printhex(void* ptr, size_t sz)
+		{
+			size_t ret = 0;
+			char* _ptr = (char*) ptr;
+
+			for (uint i = 0; i < sz; ++i) 
+			{
+				ret += printhex(*_ptr++);
+			}
+
+			return ret;
+		}
+
+		template <typename O>
+		ssize_t printhex(const O& o)
+		{
+			return printhex((void*)&o, sizeof(O));
+		}
+
 		ssize_t fill(char c, size_t len);
 		ssize_t printptr(const void* ptr);
 

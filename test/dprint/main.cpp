@@ -14,11 +14,28 @@ int func(int a, int b)
 	return TRRET(a);
 }
 
+struct A 
+{
+	int a = 3;
+	ssize_t print_to(nos::ostream& os) const {
+		os.print("helloWorld");
+	}
+};
+
 int main() 
 {
 	TRACE();
 	func(55, 33);
 
+	A a;
+
 	nos::fprintln("mirmik");
-	nos::fprintln("mirmik {}", 33);
+	nos::fprintln("mirmik {} {}", 33, 35);
+	nos::fprintln("mirmik {} {} {}", 33, a, 34);
+
+	nos::println(a);
+
+	nos::printhex(a);
+
+//	nos::fprintln("mirmik {} {}", 33, a);
 }

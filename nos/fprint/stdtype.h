@@ -8,7 +8,7 @@
 
 namespace nos 
 {
-	template <> struct fprint_implementation<const char*>
+	/*template <> struct fprint_implementation<const char*>
 	{
 		static ssize_t fprint_to(const char* obj, nos::ostream& out, nos::buffer opts)
 		{
@@ -24,7 +24,7 @@ namespace nos
 			(void) opts;
 			return out.print(obj);
 		}
-	};
+	};*/
 }
 
 #endif

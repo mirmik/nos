@@ -2,11 +2,23 @@
 #define NOS_PRINT_STDTYPE_H
 
 #include <stdlib.h>
+#include <stdint.h>
 
 namespace nos { class ostream; }
 
 ssize_t nos_print(nos::ostream& out, const char* str);
-ssize_t nos_print(nos::ostream& out, int str);
+
+ssize_t nos_print(nos::ostream& out, int8_t str);
+ssize_t nos_print(nos::ostream& out, int16_t str);
+ssize_t nos_print(nos::ostream& out, int32_t str);
+ssize_t nos_print(nos::ostream& out, int64_t str);
+
+ssize_t nos_print(nos::ostream& out, uint8_t str);
+ssize_t nos_print(nos::ostream& out, uint16_t str);
+ssize_t nos_print(nos::ostream& out, uint32_t str);
+ssize_t nos_print(nos::ostream& out, uint64_t str);
+
+
 
 //namespace nos
 //{

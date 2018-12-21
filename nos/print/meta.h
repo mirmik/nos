@@ -14,22 +14,32 @@ namespace nos
 {
 	template <typename T> struct print_implementation;
 
-	template <typename T, bool HasNosPrint = false> struct print_implementation_solver 
-	{
+	template <typename T, bool HasNosPrint = false, bool HasMtdPrint = false> 
+	struct print_implementation_solver;
+	//{
 		//static_assert(0, "strange type");
-	};
+	//};
 
-	template <typename T> struct print_implementation_solver<T, true> 
+	template <typename T, bool HasMtdPrint> struct print_implementation_solver<T, true, HasMtdPrint> 
 	{
 		static ssize_t print_to(nos::ostream& os, const T& obj) {
 			return nos_print(adsl_finder(os), obj);
 		}
 	};	
 
+	template <typename T> struct print_implementation_solver<T, false, true> 
+	{
+		static ssize_t print_to(nos::ostream& os, const T& obj) {
+			return obj.print_to(os);
+		}
+	};	
+
 	template <typename T>
 	struct print_implementation : print_implementation_solver<
 		typename std::remove_cv<T>::type, 
-		nos::has_nos_print<typename std::remove_cv<T>::type>::value>
+		nos::has_nos_print<typename std::remove_cv<T>::type>::value,
+		nos::has_print_method<typename std::remove_cv<T>::type>::value
+	>
 	{};
 }
 

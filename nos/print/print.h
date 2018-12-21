@@ -43,6 +43,10 @@ namespace nos
 	ssize_t println(const Args& ... args);
 
 	ssize_t println_to(nos::ostream&);
+
+
+	template<typename ... Args>
+	ssize_t printhex(const Args& ... args);
 }
 
 #include <nos/io/ostream.h>
@@ -96,6 +100,12 @@ template<typename ... Args>
 ssize_t nos::println(const Args& ... args)
 {
 	return println_to(*current_ostream, args ...);
+}
+
+template<typename ... Args>
+ssize_t nos::printhex(const Args& ... args) 
+{
+	return current_ostream->printhex(args ...);
 }
 
 #endif
