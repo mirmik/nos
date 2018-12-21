@@ -3,7 +3,6 @@
 
 #include <string.h>
 
-#include <nos/print/print.h>
 #include <nos/util/hexascii.h>
 #include <nos/util/numconvert.h>
 
@@ -13,16 +12,10 @@ namespace nos
 	{
 	public:
 		template<typename ... Args>
-		ssize_t print(const Args& ... args)
-		{
-			return nos::print_to(*this, args ...);
-		}
+		ssize_t print(const Args& ... args);
 
 		template<typename ... Args>
-		ssize_t println(const Args& ... args)
-		{
-			return nos::println_to(*this, args ...);
-		}
+		ssize_t println(const Args& ... args);
 
 		ssize_t println()
 		{
@@ -54,6 +47,20 @@ namespace nos
 	protected:
 		virtual ssize_t writeData(const char* ptr, size_t sz) = 0;
 	};
+}
+
+#include <nos/print/print.h>
+
+template<typename ... Args>
+ssize_t nos::ostream::print(const Args& ... args)
+{
+	return nos::print_to(*this, args ...);
+}
+
+template<typename ... Args>
+ssize_t nos::ostream::println(const Args& ... args)
+{
+	return nos::println_to(*this, args ...);
 }
 
 #endif

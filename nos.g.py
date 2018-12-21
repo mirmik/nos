@@ -23,7 +23,8 @@ licant.module("nos.io",
 licant.module("nos.print",
 	srcdir="nos/print", 
 	sources=[
-		"print.cpp"
+		"print.cpp",
+		"stdtype.cpp"
 	],
 	mdepends=["nos.current_ostream"]
 )
@@ -55,5 +56,9 @@ licant.module("nos",
 		"nos.print",
 		"nos.fprint",
 	],
+	include_paths=["."]
+)
+
+licant.module("nos.include",
 	include_paths=["."]
 )

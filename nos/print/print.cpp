@@ -6,12 +6,12 @@ ssize_t nos::putchar_to(nos::ostream& o, char c)
 	return o.write(&c, 1);
 }
 
-ssize_t write_to(nos::ostream& out, const void* buf, size_t sz)
+ssize_t nos::write_to(nos::ostream& out, const void* buf, size_t sz)
 {
 	return out.write(buf, sz);
 }
 
-ssize_t writeln_to(nos::ostream& out, const void* buf, size_t sz)
+ssize_t nos::writeln_to(nos::ostream& out, const void* buf, size_t sz)
 {
 	ssize_t ret = 0;
 	ret += out.write(buf, sz);
@@ -83,4 +83,19 @@ ssize_t nos::print_dump_to(nos::ostream& out, const void *mem, size_t len, unsig
 ssize_t nos::print_dump(const void* ptr, size_t sz, unsigned int columns)
 {
 	return nos::print_dump_to(*nos::current_ostream, ptr, sz, columns);
+}
+
+ssize_t nos::putchar(char c)
+{
+	return putchar_to(*nos::current_ostream, c);
+}
+
+ssize_t nos::write(const void* buf, size_t sz)
+{
+	return nos::write_to(*nos::current_ostream, buf, sz);
+}
+
+ssize_t nos::writeln(const void* buf, size_t sz)
+{
+	return nos::writeln_to(*nos::current_ostream, buf, sz);
 }

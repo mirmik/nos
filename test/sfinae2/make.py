@@ -8,8 +8,7 @@ licant.execute("../../nos.g.py")
 
 licant.cxx_application("target",
 	sources=["main.cpp"],
-	mdepends=["nos"],
-#	cxx_flags="-Werror=all -Werror=extra -pedantic-errors"
+	mdepends=["nos.include"]
 )
 
 licant.ex("target")
