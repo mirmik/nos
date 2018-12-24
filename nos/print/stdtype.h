@@ -18,6 +18,19 @@ ssize_t nos_print(nos::ostream& out, uint16_t str);
 ssize_t nos_print(nos::ostream& out, uint32_t str);
 ssize_t nos_print(nos::ostream& out, uint64_t str);
 
+#include <nos/print.h>
+#include <vector>
+
+namespace nos
+{
+	template <typename T> struct print_implementation<std::vector<T>>
+	{
+		static ssize_t print_to(nos::ostream& out, const std::vector<T>& obj)
+		{
+			return nos::print_list_to<std::vector<T>>(out, obj);
+		}
+	};
+}
 
 
 //namespace nos

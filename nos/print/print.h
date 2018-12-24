@@ -47,6 +47,9 @@ namespace nos
 
 	template<typename ... Args>
 	ssize_t printhex(const Args& ... args);
+
+	template<typename V> ssize_t print_list_to(nos::ostream& out, const V& vec);
+	template<typename V> ssize_t print_list(const V& vec);
 }
 
 #include <nos/io/ostream.h>
@@ -106,6 +109,28 @@ template<typename ... Args>
 ssize_t nos::printhex(const Args& ... args) 
 {
 	return current_ostream->printhex(args ...);
+}
+
+template<typename V>
+ssize_t nos::print_list_to(nos::ostream& out, const V& vec) 
+{
+	size_t ret;
+	ret += out.putchar('{');
+	for (int i = 0; i < vec.size() - 1; ++i) 
+	{
+		ret += print_to(out, vec[i]);
+		ret += out.putchar(',');		
+	}
+	ret += print_to(out, vec[vec.size() - 1]);
+	ret += out.putchar('}');
+
+	return ret;
+}
+
+template<typename V>
+ssize_t nos::print_list(const V& vec) 
+{
+	return print_list_to(*current_ostream, vec);
 }
 
 #endif
