@@ -21,6 +21,7 @@ ssize_t nos_print(nos::ostream& out, uint64_t str);
 #include <nos/print.h>
 #include <vector>
 #include <array>
+#include <list>
 
 namespace nos
 {
@@ -29,6 +30,14 @@ namespace nos
 		static ssize_t print_to(nos::ostream& out, const std::vector<T>& obj)
 		{
 			return nos::print_list_to<std::vector<T>>(out, obj);
+		}
+	};
+
+	template <typename T> struct print_implementation<std::list<T>>
+	{
+		static ssize_t print_to(nos::ostream& out, const std::list<T>& obj)
+		{
+			return nos::print_list_to<std::list<T>>(out, obj);
 		}
 	};
 
