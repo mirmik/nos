@@ -8,8 +8,10 @@ namespace nos
 
 #include <nos/io/ostream.h>
 #include <nos/util/buffer.h>
+#include <iostream>
 
 class nos_test_ostream : public nos::ostream {};
+class nos_test_std_ostream : public std::ostream {};
 
 namespace nos 
 {
@@ -65,6 +67,21 @@ namespace nos
 		template <typename U>
 		static decltype( 
 				std::declval<U>().fprint_to(std::declval<nos_test_ostream&>(), nos::buffer())
+			, std::true_type()) test(int);
+
+		template <typename> static std::false_type test(...);
+
+	public:
+		static constexpr const bool value = decltype(test<T>(0))::value;
+	};
+
+	template <typename T>
+	class has_std_ostream
+	{
+	private:
+		template <typename U>
+		static decltype( 
+				std::declval<nos_test_std_ostream&>() << std::declval<U>()
 			, std::true_type()) test(int);
 
 		template <typename> static std::false_type test(...);
