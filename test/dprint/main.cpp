@@ -37,7 +37,7 @@ int main()
 
 	nos::printhex(a);
 
-	nos::println(std::vector<float> {0,1,23,4});
+	nos::println(std::array<float,4>{0,1,23,4});
 
 //	nos::fprintln("mirmik {} {}", 33, a);
 }
