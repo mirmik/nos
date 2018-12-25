@@ -45,8 +45,8 @@ TEST(fprint, fprint_longstring) {
 	EXPECT_EQ(output, "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
 }
 
-/*TEST(print, format) {
-	std::string out = gxx::format("format {} {} {}", "aaa", "bbb", "ccc");
+TEST(fprint, format) {
+	std::string out = nos::format("format {} {} {}", "aaa", "bbb", "ccc");
 	EXPECT_EQ(out, "format aaa bbb ccc");
-}*/
+}
 

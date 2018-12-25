@@ -94,18 +94,20 @@ struct A
 	int a = 42;
 };
 
-template <> struct print_implementation<A>
+namespace nos 
 {
-	static ssize_t print_to ( nos::ostream& os, const A& a ) 
+	template <> struct print_implementation<A>
 	{
-		ssize_t ret = 0;
-		ret += os.print("A(");
-		ret += os.print(a.a); 
-		ret += os.print(")");
-		return ret;
-	}
-};
-
+		static ssize_t print_to ( nos::ostream& os, const A& a ) 
+		{
+			ssize_t ret = 0;
+			ret += os.print("A(");
+			ret += os.print(a.a); 
+			ret += os.print(")");
+			return ret;
+		}
+	};
+}
 
 ...
 
@@ -140,10 +142,9 @@ nos::fprint("{a} + {b} = {1} + {0}", "a"_a="42", "b"_a="24");
 
 Опции форматирования:
 ```c++
-nos::fprint("{>16f_}", "Foo");
-//output: _____________Foo
+nos::fprint("{>8f_}", "Foo");
+//output: _____Foo
 ```
-
 
 # Трассировка 
 

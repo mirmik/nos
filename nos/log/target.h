@@ -7,7 +7,7 @@ namespace nos {
 	namespace log {
 		struct target {
 			virtual void log(std::shared_ptr<logmessage> logmsg) {
-				gxx::println("virtual log function");
+				nos::println("virtual log function");
 			}
 		};
 
@@ -15,7 +15,7 @@ namespace nos {
 			const char* tmplt = "{logger} | {level} | {msg} |";
 
 			void log(std::shared_ptr<logmessage> logmsg) override {
-				gxx::fprintln(tmplt, 
+				nos::fprintln(tmplt, 
 					"msg"_a=logmsg->message, 
 					"logger"_a=logmsg->logger->name,
 					"level"_a=level_to_string(logmsg->level));
@@ -26,7 +26,7 @@ namespace nos {
 			const char* tmplt = "{logger} | {level} | {msg} |";
 
 			void log(std::shared_ptr<logmessage> logmsg) override {
-				gxx::fprintln(tmplt, 
+				nos::fprintln(tmplt, 
 					"msg"_a=logmsg->message, 
 					"logger"_a=logmsg->logger->name,
 					"level"_a=level_to_collored_string(logmsg->level));
