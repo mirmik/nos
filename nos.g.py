@@ -8,6 +8,7 @@ licant.module("nos.util",
 		"printf_impl.c",
 		"numconvert.c",
 		"hexascii.cpp",
+		"error.cpp",
 		"trace.cpp"
 	]
 )

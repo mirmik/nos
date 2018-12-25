@@ -13,6 +13,7 @@
 #include <assert.h>
 #include <nos/util/buffer.h>
 #include <nos/panic.h>
+#include <nos/error.h>
 
 namespace nos
 {
@@ -142,7 +143,7 @@ namespace nos
 				if (str == arr[i].name) return arr[i];
 			}
 
-			nos::panic("visitable_arglist: name error");
+			nos::error("visitable_arglist: name error");
 			return arr[0]; // -Wreturn-type
 		}
 	};
