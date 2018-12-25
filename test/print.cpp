@@ -1,12 +1,12 @@
 #include <gtest/gtest.h>
 #include <nos/print.h>
 
-struct A { int i = 42; ssize_t print_to(nos::ostream& os) const { os.print(i); }; };
+struct A { int i = 42; ssize_t print_to(nos::ostream& os) const { os << i; }; };
 struct B { int i = 42; };
 struct C { int i = 42; };
 struct D { int i = 42; };
 
-ssize_t nos_print(nos::ostream& os, const B& b) { os.print(b.i); };
+ssize_t nos_print(nos::ostream& os, const B& b) { os << b.i; };
 std::ostream& operator << (std::ostream& os, const C& c) { os << c.i; };
 namespace nos { template <> struct print_implementation<D> { static ssize_t print_to(nos::ostream& out, const D& d) { return out.print(d.i); } }; }
 

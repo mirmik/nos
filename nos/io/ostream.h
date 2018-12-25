@@ -16,6 +16,14 @@ namespace nos
 		template<typename ... Args>
 		ssize_t print(const Args& ... args);
 
+		template<typename Arg>
+		ostream& operator << (const Arg& arg) 
+		{
+			print(arg);
+			return *this;
+		}
+
+
 		template<typename ... Args>
 		ssize_t println(const Args& ... args);
 
