@@ -116,6 +116,16 @@ nos::println(A()); //A(42)
 
 # Форматированный вывод
 
+## Основные функции:
+
+Функция ```fprint(const char * fmt, const Args& ... args)```.
+Функция осуществляет форматированный вывод:
+
+```c++
+nos::fprint("How are you? {}. How old are you? {}.", "world", "I'm fine", 42);
+//output: How are you? I'm fine. How old are you? 42.
+```
+
 # Трассировка 
 
 # Логирование
