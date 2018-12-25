@@ -18,6 +18,9 @@ ssize_t nos_print(nos::ostream& out, uint16_t str);
 ssize_t nos_print(nos::ostream& out, uint32_t str);
 ssize_t nos_print(nos::ostream& out, uint64_t str);
 
+ssize_t nos_print(nos::ostream& out, float str);
+ssize_t nos_print(nos::ostream& out, double str);
+
 #include <nos/print.h>
 #include <vector>
 #include <array>

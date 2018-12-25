@@ -63,3 +63,17 @@ ssize_t nos_print(nos::ostream& out, uint64_t obj)
 		u64toa(obj, buf, 10);
 		return nos_print(out, buf);
 }
+
+ssize_t nos_print(nos::ostream& out, float obj) 
+{
+		char buf[48];
+		ftoa(obj, buf, 5);
+		return nos_print(out, buf);
+}
+
+ssize_t nos_print(nos::ostream& out, double obj) 
+{
+		char buf[48];
+		ftoa(obj, buf, 5);
+		return nos_print(out, buf);
+}
