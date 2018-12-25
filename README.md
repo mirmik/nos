@@ -87,7 +87,7 @@ struct A
 nos::println(A()); //A(42)
 ```
 
-3. Специализация структуры nos::print_implementation для типа.
+3. Специализация структуры ```nos::print_implementation``` для типа.
 ```c++
 struct A 
 {
