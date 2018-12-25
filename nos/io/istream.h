@@ -6,7 +6,7 @@ namespace nos
 	class istream 
 	{
 	protected:
-		virtual ssize_t readData(char* ptr, size_t sz) = 0;	
+		virtual ssize_t read(char* ptr, size_t sz) = 0;	
 	};
 }
 

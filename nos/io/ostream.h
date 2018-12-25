@@ -11,6 +11,8 @@ namespace nos
 	class ostream
 	{
 	public:
+		virtual ssize_t write(const void* ptr, size_t sz) = 0;
+		
 		template<typename ... Args>
 		ssize_t print(const Args& ... args);
 
@@ -19,17 +21,12 @@ namespace nos
 
 		ssize_t println()
 		{
-			return writeData("\r\n", 2);
-		}
-
-		ssize_t write(const void* ptr, size_t sz)
-		{
-			return writeData((const char*) ptr, sz);
+			return write("\r\n", 2);
 		}
 
 		ssize_t putchar(char c)
 		{
-			return writeData(&c, 1);
+			return write(&c, 1);
 		}
 
 		ssize_t printhex(char c)
@@ -61,10 +58,7 @@ namespace nos
 		ssize_t fill(char c, size_t len);
 		ssize_t printptr(const void* ptr);
 
-		virtual void flush() { }
-
-	protected:
-		virtual ssize_t writeData(const char* ptr, size_t sz) = 0;
+		virtual int flush() { }
 	};
 }
 
