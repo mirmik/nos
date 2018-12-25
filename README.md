@@ -122,9 +122,28 @@ nos::println(A()); //A(42)
 Функция осуществляет форматированный вывод:
 
 ```c++
-nos::fprint("How are you? {}. How old are you? {}.", "world", "I'm fine", 42);
+nos::fprint("How are you? {}. How old are you? {}.", "I'm fine", 42);
 //output: How are you? I'm fine. How old are you? 42.
 ```
+
+Использование нумерации аргументов:
+```c++
+nos::fprint("{0} + {1} = {1} + {0}", "a", "b");
+//output: a + b = b + a
+```
+
+Поддерживаются именованные аргументы.
+```c++
+nos::fprint("{a} + {b} = {1} + {0}", "a"_a="42", "b"_a="24");
+//output: 42 + 24 = 24 + 42
+```
+
+Опции форматирования:
+```c++
+nos::fprint("{>16f_}", "Foo");
+//output: _____________Foo
+```
+
 
 # Трассировка 
 
