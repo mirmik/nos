@@ -54,9 +54,11 @@ struct A
 
 ssize_t nos_print ( nos::ostream& os, const A& a ) 
 {
-	os.print("A(");
-	os.print(a.a); 
-	os.print(")");
+	ssize_t ret = 0;
+	ret += os.print("A(");
+	ret += os.print(a.a); 
+	ret += os.print(")");
+	return ret;
 }
 
 ...
@@ -72,11 +74,12 @@ struct A
 
 	ssize_t print_to (nos::ostream& os) const 
 	{
-		os.print("A(");
-		os.print(a.a); 
-		os.print(")");
+		ssize_t ret = 0;
+		ret += os.print("A(");
+		ret += os.print(a.a); 
+		ret += os.print(")");
+		return ret;
 	}
-
 };
 
 ...
@@ -95,9 +98,11 @@ template <> struct print_implementation<A>
 {
 	static ssize_t print_to ( nos::ostream& os, const A& a ) 
 	{
-		os.print("A(");
-		os.print(a.a); 
-		os.print(")");
+		ssize_t ret = 0;
+		ret += os.print("A(");
+		ret += os.print(a.a); 
+		ret += os.print(")");
+		return ret;
 	}
 };
 
