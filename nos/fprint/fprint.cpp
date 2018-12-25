@@ -43,7 +43,7 @@ namespace nos
 		}
 		else if (isdigit(*fmt))
 		{
-			varg = &list[atou32(fmt, 10, &pend)];
+			varg = &list[nos_util_atou32(fmt, 10, &pend)];
 		}
 		else
 		{

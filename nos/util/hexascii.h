@@ -1,22 +1,5 @@
-#ifndef GXX_UTIL_HEXASCII_H
-#define GXX_UTIL_HEXASCII_H
-
-#ifdef __cplusplus
-
-#include <string>
-//#include <gxx/buffer.h>
-
-namespace gxx {
-	//bool is_base64(unsigned char c);
-	std::string hexascii_encode(const uint8_t *data, size_t size);
-	std::string hexascii_encode(std::string const& str);
-	//std::string hexascii_encode(gxx::buffer const& buf);
-
-	std::string hexascii_decode(std::string const& str);
-	//std::string hexascii_decode(gxx::buffer const& buf);
-}
-
-#endif
+#ifndef NOS_UTIL_HEXASCII_H
+#define NOS_UTIL_HEXASCII_H
 
 #include "nos/util/access.h"
 #include <stdint.h>

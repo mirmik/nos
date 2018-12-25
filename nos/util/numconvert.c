@@ -5,7 +5,7 @@
 #include <string.h>
 #include <math.h>
 
-char *i64toa( int64_t num, char *buf, uint8_t base )
+char *nos_util_i64toa( int64_t num, char *buf, uint8_t base )
 {
 	char *p = buf;
 	char *p1, *p2;
@@ -52,19 +52,19 @@ char *i64toa( int64_t num, char *buf, uint8_t base )
 	return buf;
 }
 
-char *i32toa( int32_t num, char *buf, uint8_t base ) {
-	return i64toa(num, buf, base);
+char *nos_util_i32toa( int32_t num, char *buf, uint8_t base ) {
+	return nos_util_i64toa(num, buf, base);
 }
 
-char *i16toa( int16_t num, char *buf, uint8_t base ) {
-	return i64toa(num, buf, base);
+char *nos_util_i16toa( int16_t num, char *buf, uint8_t base ) {
+	return nos_util_i64toa(num, buf, base);
 }
 
-char *i8toa( int8_t num, char *buf, uint8_t base ) {
-	return i64toa(num, buf, base);
+char *nos_util_i8toa( int8_t num, char *buf, uint8_t base ) {
+	return nos_util_i64toa(num, buf, base);
 }
 
-char *u64toa( uint64_t num, char *buf, uint8_t base )
+char *nos_util_u64toa( uint64_t num, char *buf, uint8_t base )
 {
 	char *p = buf;
 	char *p1, *p2;
@@ -103,19 +103,19 @@ char *u64toa( uint64_t num, char *buf, uint8_t base )
 	return buf;
 }
 
-char *u32toa( uint64_t num, char *buf, uint8_t base ) {
-	return u64toa(num, buf, base);
+char *nos_util_u32toa( uint64_t num, char *buf, uint8_t base ) {
+	return nos_util_u64toa(num, buf, base);
 }
 
-char *u16toa( uint64_t num, char *buf, uint8_t base ) {
-	return u64toa(num, buf, base);
+char *nos_util_u16toa( uint64_t num, char *buf, uint8_t base ) {
+	return nos_util_u64toa(num, buf, base);
 }
 
-char *u8toa( uint64_t num, char *buf, uint8_t base ) {
-	return u64toa(num, buf, base);
+char *nos_util_u8toa( uint64_t num, char *buf, uint8_t base ) {
+	return nos_util_u64toa(num, buf, base);
 }
 
-uint32_t atou32(const char *buf, uint8_t base, char** end) {
+uint32_t nos_util_atou32(const char *buf, uint8_t base, char** end) {
 	char c;
 	uint32_t res = 0;
 	
@@ -129,14 +129,14 @@ uint32_t atou32(const char *buf, uint8_t base, char** end) {
 	return res; 
 }
 
-int32_t atoi32(const char *buf, uint8_t base, char** end) {
+int32_t nos_util_atoi32(const char *buf, uint8_t base, char** end) {
 	uint8_t minus;
 	int32_t u;
 
 	minus = *buf == '-';
 	if (minus) ++buf;
 	
-	u = atou32(buf, base, end);
+	u = nos_util_atou32(buf, base, end);
 	return minus ? -u : u;
 }
 
@@ -156,7 +156,7 @@ static const double rounders[MAX_PRECISION + 1] =
 	0.00000000005       // 10
 };
 
-inline char * ftoa(double f, char * buf, int precision)
+inline char * nos_util_ftoa(double f, char * buf, int precision)
 {
 	char * ptr = buf;
 	char * p = ptr;
@@ -252,13 +252,13 @@ inline char * ftoa(double f, char * buf, int precision)
 	return buf;
 }
 
-double atod(const char* str, char** pend) {
+double nos_util_atod(const char* str, char** pend) {
 	if (!isdigit(*str) && *str != '-') {
 		return 0;
 	}
 
 	char* end;
-	int i = atoi32(str, 10, &end);
+	int i = nos_util_atoi32(str, 10, &end);
 	uint8_t minus = i < 0 ? 1 : 0; 
 	
 	if (minus) 
@@ -269,7 +269,7 @@ double atod(const char* str, char** pend) {
 	str = end;
 	if (*str == '.') 
 	{
-		int d = atou32(++str, 10, &end);
+		int d = nos_util_atou32(++str, 10, &end);
 		*pend = end;
 		double ret = (double)i + d / (pow(10, end - str)); 
 		return minus ? -ret : ret;
