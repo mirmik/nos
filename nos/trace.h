@@ -4,10 +4,10 @@
 #include <nos/print.h>
 #include <nos/util/macro.h>
 
-extern thread_local unsigned int trace_level;
-
 namespace nos
 {
+	extern thread_local unsigned int trace_level;
+
 	struct tracer
 	{
 		const char* func = func;
