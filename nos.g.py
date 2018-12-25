@@ -1,7 +1,5 @@
 import licant
 
-licant.execute("nos/dprint/dprint.g.py")
-
 licant.module("nos.util",
 	srcdir="nos/util", 
 	sources=[
@@ -49,11 +47,9 @@ licant.module("nos.current_ostream", "nullptr",
 licant.module_defimpl("nos.current_ostream", "cout")
 
 licant.module("nos",
-	sources = ["nos/panic.cpp"],
 	mdepends=[
 		"nos.io",
 		"nos.util",
-		"nos.dprint",
 		"nos.print",
 		"nos.fprint",
 	],

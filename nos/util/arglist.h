@@ -12,7 +12,6 @@
 #include <utility>
 #include <assert.h>
 #include <nos/util/buffer.h>
-#include <nos/panic.h>
 #include <nos/error.h>
 
 namespace nos

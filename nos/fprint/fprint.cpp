@@ -67,8 +67,8 @@ namespace nos
 				return -1;
 
 			default:
-				dprln("format internal error");
-				abort();
+				nos::error("format internal error");
+				return -1;
 		}
 
 		while (*fmt != '}' && *fmt != 0) fmt++;

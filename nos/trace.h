@@ -2,6 +2,7 @@
 #define NOS_TRACE_H
 
 #include <nos/print.h>
+#include <nos/util/macro.h>
 
 extern thread_local unsigned int trace_level;
 

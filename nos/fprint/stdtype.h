@@ -4,8 +4,6 @@
 #include <nos/util/buffer.h>
 #include <nos/io/ostream.h>
 
-#include <nos/dtrace.h>
-
 namespace nos 
 {
 	/*template <> struct fprint_implementation<const char*>

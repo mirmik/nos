@@ -1,9 +1,6 @@
 #define NOTRACE 0
 
-#include <nos/dprint.h>
 #include <nos/print.h>
-
-#include <nos/dtrace.h>
 #include <nos/trace.h>
 
 #include <nos/io/std.h>
@@ -16,11 +13,14 @@ int func(int a, int b)
 
 struct A 
 {
-	int a = 3;
-	ssize_t print_to(nos::ostream& os) const {
-		os.print("helloWorld");
-	}
+	int a = 42;
+	friend std::ostream& operator << ( std::ostream& os, const A&);
 };
+
+std::ostream& operator << ( std::ostream& os, const A& a) 
+{
+	os << std::hex << 42 << "A!!!"; 
+}
 
 int main() 
 {

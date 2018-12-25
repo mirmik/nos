@@ -54,7 +54,6 @@ namespace nos
 
 #include <nos/io/ostream.h>
 #include <nos/print/meta.h>
-#include <nos/dprint/dprint.h>
 
 template<typename Arg>
 ssize_t nos::print_to(nos::ostream& out, const Arg& arg)
