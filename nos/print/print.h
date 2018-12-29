@@ -17,7 +17,8 @@ namespace nos
 												ssize_t println_to(nos::ostream&);
 	template<typename ... Args> 				ssize_t println_to(nos::ostream& out, const Args& ... args);
 	template<typename V> 						ssize_t print_list_to(nos::ostream& out, const V& vec);
-	template<typename ... Args> 				ssize_t printhex_to(const Args& ... args);
+	template<typename ... Args> 				ssize_t printhex_to(nos::ostream& out, const Args& ... args);
+	template<typename Arg> 						ssize_t printptr_to(nos::ostream& out, const Arg* arg);
 												ssize_t print_dump_to(nos::ostream&, const void *mem, size_t len, unsigned int columns = 8);
 
 												ssize_t putchar(char c);
@@ -28,6 +29,7 @@ namespace nos
 	template<typename ... Args>					ssize_t println(const Args& ... args);
 	template<typename V> 						ssize_t print_list(const V& vec);
 	template<typename ... Args> 				ssize_t printhex(const Args& ... args);
+	template<typename Arg> 						ssize_t printptr(const Arg& arg);
 												ssize_t print_dump(const void *mem, size_t len, unsigned int columns = 8);
 }
 
@@ -38,7 +40,9 @@ template<typename Arg> 			ssize_t nos::print_to(nos::ostream& out, const Arg& ar
 template<typename ... Args> 	ssize_t nos::print(const Args& ... args) 					{ return print_to(*current_ostream, args ...); }
 template<typename ... Args> 	ssize_t nos::println(const Args& ... args) 					{ return println_to(*current_ostream, args ...); }
 template<typename ... Args> 	ssize_t nos::printhex(const Args& ... args) 				{ return current_ostream->printhex(args ...); }
+template<typename ... Args> 	ssize_t nos::printptr(const Args& ... args) 				{ return current_ostream->printptr(args ...); }
 template<typename V> 			ssize_t nos::print_list(const V& vec) 						{ return print_list_to(*current_ostream, vec); }
+template<typename T>			ssize_t nos::printptr_to(nos::ostream& out, const T* arg) 	{ return out.printptr(arg); }
 
 template<typename Head, typename ... Tail>
 ssize_t nos::print_to(nos::ostream& out, const Head& head, const Tail& ... tail)
@@ -76,5 +80,6 @@ ssize_t nos::print_list_to(nos::ostream& out, const V& vec)
 
 	return ret;
 }
+
 
 #endif

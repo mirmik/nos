@@ -30,6 +30,22 @@ ssize_t nos_print(nos::ostream& out, double str);
 
 namespace nos
 {
+	template <> struct print_implementation<const char *>
+	{
+		static ssize_t print_to(nos::ostream& out, const char* const obj)
+		{
+			return nos_print(out, obj);
+		}
+	};
+
+	template <typename T> struct print_implementation<T*>
+	{
+		static ssize_t print_to(nos::ostream& out, const T* obj)
+		{
+			return nos::printptr_to(out, obj);
+		}
+	};
+
 	template <typename T> struct print_implementation<std::vector<T>>
 	{
 		static ssize_t print_to(nos::ostream& out, const std::vector<T>& obj)
