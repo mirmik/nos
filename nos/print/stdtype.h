@@ -8,6 +8,8 @@ namespace nos { class ostream; }
 
 ssize_t nos_print(nos::ostream& out, const char* str);
 
+ssize_t nos_print(nos::ostream& out, bool str);
+
 ssize_t nos_print(nos::ostream& out, int8_t str);
 ssize_t nos_print(nos::ostream& out, int16_t str);
 ssize_t nos_print(nos::ostream& out, int32_t str);

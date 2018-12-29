@@ -9,6 +9,7 @@ ssize_t nos_print(nos::ostream& out, const char* str)
 	out.write(str, strlen(str));
 }
 
+ssize_t nos_print(nos::ostream& out, bool obj) 		{ return nos_print(out, obj ? "true" : "false"); }
 ssize_t nos_print(nos::ostream& out, int8_t obj) 	{ char buf[48]; nos_util_i64toa(obj, buf, 10); return nos_print(out, buf); }
 ssize_t nos_print(nos::ostream& out, int16_t obj) 	{ char buf[48]; nos_util_i64toa(obj, buf, 10); return nos_print(out, buf); }
 ssize_t nos_print(nos::ostream& out, int32_t obj) 	{ char buf[48];	nos_util_i64toa(obj, buf, 10); return nos_print(out, buf); }
