@@ -50,7 +50,7 @@ namespace nos
 	nos::tracer __nos_tracer(__PRETTY_FUNCTION__);  \
 	do {                                        \
 		nos::print("TRACE: ");                  \
-		nos::print(trace_level);                \
+		nos::print(nos::trace_level);                \
 		nos::print(": -> ");                    \
 		nos::print(__PRETTY_FUNCTION__);        
 
