@@ -5,61 +5,40 @@
 
 namespace nos
 {
-	class ostream;
-
-	extern ostream* current_ostream;
-
-	ssize_t putchar(char c);
-	ssize_t putchar_to(nos::ostream&, char);
-
-	ssize_t write_to(nos::ostream& out, const void* buf, size_t sz);
-	ssize_t write(const void* buf, size_t sz);
-
-	ssize_t writeln_to(nos::ostream& out, const void* buf, size_t sz);
-	ssize_t writeln(const void* buf, size_t sz);
-
-	ssize_t print_dump_to(nos::ostream&, const void *mem, size_t len, unsigned int columns = 8);
-	ssize_t print_dump(const void *mem, size_t len, unsigned int columns = 8);
-
-	template<typename Arg>
-	ssize_t print_to(nos::ostream& out, const Arg& arg);
-
-	template<typename Arg>
-	ssize_t print(const Arg& arg);
-
-	template<typename Head, typename ... Tail>
-	ssize_t print_to(nos::ostream& out, const Head& head, const Tail& ... tail);
-
-	template<typename ... Args>
-	ssize_t print(const Args& ... args);
-
-	template<typename Arg>
-	ssize_t println(const Arg& arg);
-
-	template<typename ... Args>
-	ssize_t println_to(nos::ostream& out, const Args& ... args);
-
-	template<typename ... Args>
-	ssize_t println(const Args& ... args);
-
-	ssize_t println_to(nos::ostream&);
+												class ostream;
+												extern ostream* current_ostream;
 
 
-	template<typename ... Args>
-	ssize_t printhex(const Args& ... args);
+												ssize_t putchar_to(nos::ostream&, char);
+												ssize_t write_to(nos::ostream& out, const void* buf, size_t sz);
+												ssize_t writeln_to(nos::ostream& out, const void* buf, size_t sz);
+	template<typename Arg> 						ssize_t print_to(nos::ostream& out, const Arg& arg);
+	template<typename Head, typename ... Tail> 	ssize_t print_to(nos::ostream& out, const Head& head, const Tail& ... tail);
+												ssize_t println_to(nos::ostream&);
+	template<typename ... Args> 				ssize_t println_to(nos::ostream& out, const Args& ... args);
+	template<typename V> 						ssize_t print_list_to(nos::ostream& out, const V& vec);
+	template<typename ... Args> 				ssize_t printhex_to(const Args& ... args);
+												ssize_t print_dump_to(nos::ostream&, const void *mem, size_t len, unsigned int columns = 8);
 
-	template<typename V> ssize_t print_list_to(nos::ostream& out, const V& vec);
-	template<typename V> ssize_t print_list(const V& vec);
+												ssize_t putchar(char c);
+												ssize_t write(const void* buf, size_t sz);
+												ssize_t writeln(const void* buf, size_t sz);
+	template<typename ... Args> 				ssize_t print(const Args& ... args);
+												ssize_t println();
+	template<typename ... Args>					ssize_t println(const Args& ... args);
+	template<typename V> 						ssize_t print_list(const V& vec);
+	template<typename ... Args> 				ssize_t printhex(const Args& ... args);
+												ssize_t print_dump(const void *mem, size_t len, unsigned int columns = 8);
 }
 
 #include <nos/io/ostream.h>
 #include <nos/print/meta.h>
 
-template<typename Arg>
-ssize_t nos::print_to(nos::ostream& out, const Arg& arg)
-{
-	return nos::print_implementation<Arg>::print_to(out, arg);
-}
+template<typename Arg> 			ssize_t nos::print_to(nos::ostream& out, const Arg& arg) 	{ return nos::print_implementation<Arg>::print_to(out, arg); }
+template<typename ... Args> 	ssize_t nos::print(const Args& ... args) 					{ return print_to(*current_ostream, args ...); }
+template<typename ... Args> 	ssize_t nos::println(const Args& ... args) 					{ return println_to(*current_ostream, args ...); }
+template<typename ... Args> 	ssize_t nos::printhex(const Args& ... args) 				{ return current_ostream->printhex(args ...); }
+template<typename V> 			ssize_t nos::print_list(const V& vec) 						{ return print_list_to(*current_ostream, vec); }
 
 template<typename Head, typename ... Tail>
 ssize_t nos::print_to(nos::ostream& out, const Head& head, const Tail& ... tail)
@@ -80,56 +59,22 @@ ssize_t nos::println_to(nos::ostream& out, const Args& ... args)
 	return res;
 }
 
-template<typename Arg>
-ssize_t nos::print(const Arg& arg)
-{
-	return print_to(*current_ostream, arg);
-}
-
-template<typename ... Args>
-ssize_t nos::print(const Args& ... args)
-{
-	return print_to(*current_ostream, args ...);
-}
-
-template<typename Arg>
-ssize_t nos::println(const Arg& arg)
-{
-	return println_to(*current_ostream, arg);
-}
-
-template<typename ... Args>
-ssize_t nos::println(const Args& ... args)
-{
-	return println_to(*current_ostream, args ...);
-}
-
-template<typename ... Args>
-ssize_t nos::printhex(const Args& ... args) 
-{
-	return current_ostream->printhex(args ...);
-}
-
 template<typename V>
-ssize_t nos::print_list_to(nos::ostream& out, const V& vec) 
+ssize_t nos::print_list_to(nos::ostream& out, const V& vec)
 {
 	size_t ret;
 	ret += out.putchar('{');
-	for (int i = 0; i < vec.size() - 1; ++i) 
+
+	for (int i = 0; i < vec.size() - 1; ++i)
 	{
 		ret += print_to(out, vec[i]);
-		ret += out.putchar(',');		
+		ret += out.putchar(',');
 	}
+
 	ret += print_to(out, vec[vec.size() - 1]);
 	ret += out.putchar('}');
 
 	return ret;
-}
-
-template<typename V>
-ssize_t nos::print_list(const V& vec) 
-{
-	return print_list_to(*current_ostream, vec);
 }
 
 #endif

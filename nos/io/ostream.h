@@ -12,6 +12,8 @@ namespace nos
 	{
 	public:
 		virtual ssize_t write(const void* ptr, size_t sz) = 0;
+		ssize_t write_upper(const void* ptr, size_t sz);
+		ssize_t write_lower(const void* ptr, size_t sz);
 		
 		template<typename ... Args>
 		ssize_t print(const Args& ... args);

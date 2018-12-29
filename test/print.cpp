@@ -28,7 +28,7 @@ TEST(print, number) {
 	testing::internal::CaptureStdout();
 	nos::print(0.88);
 	std::string output = testing::internal::GetCapturedStdout();
-	EXPECT_EQ(output, "0.88000");
+	EXPECT_EQ(output, "0.88");
 }
 
 TEST(print, method) {

@@ -30,7 +30,7 @@ namespace nos
 	ssize_t fprintln(const Args& ... args)
 	{
 		size_t ret = 0;
-		ret += fprint_to(*current_ostream, std::forward<Args>(args) ...);
+		ret += fprint_to(*current_ostream, args ...);
 		ret += println();
 		return ret;
 	}

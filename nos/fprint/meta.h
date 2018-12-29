@@ -5,7 +5,8 @@ namespace nos
 {
 	template <typename T> struct fprint_implementation;
 
-	template <typename T, bool HasNosFPrint = false, bool HasMtdFPrint = false> struct fprint_implementation_solver 
+	template <typename T, bool HasNosFPrint = false, bool HasMtdFPrint = false> 
+	struct fprint_implementation_solver 
 	{
 		static ssize_t fprint_to(const T& obj, nos::ostream& os, nos::buffer opts) {
 			(void) opts;
@@ -13,26 +14,25 @@ namespace nos
 		}	
 	};
 
-	/*template <typename T, bool HasMtdPrint> struct print_implementation_solver<T, true, HasMtdPrint> 
+	template <typename T, bool HasMtdFPrint> struct fprint_implementation_solver<T, true, HasMtdFPrint> 
 	{
-		static ssize_t print_to(nos::ostream& os, const T& obj) {
-			return nos_print(adsl_finder(os), obj);
+		static ssize_t fprint_to(const T& obj, nos::ostream& os, nos::buffer opts) {
+			return nos_fprint(adsl_finder(os), obj, opts);
 		}
 	};	
 
-	template <typename T> struct print_implementation_solver<T, false, true> 
+	template <typename T> struct fprint_implementation_solver<T, false, true> 
 	{
-		static ssize_t print_to(nos::ostream& os, const T& obj) {
-			return obj.print_to(os);
+		static ssize_t fprint_to(const T& obj, nos::ostream& os, nos::buffer opts) {
+			return obj.fprint_to(os, opts);
 		}
 	};	
-*/
-	template <typename T>
-	struct fprint_implementation : fprint_implementation_solver<
-		typename std::remove_cv<T>::type//, 
-		//nos::has_nos_print<typename std::remove_cv<T>::type>::value
-		>
-	{};
+
+	template <typename T> struct fprint_implementation : public fprint_implementation_solver<
+		typename std::remove_cv<T>::type, 
+		nos::has_nos_fprint<typename std::remove_cv<T>::type>::value,
+		nos::has_fprint_method<typename std::remove_cv<T>::type>::value
+	> {};
 }
 
 #endif

@@ -24,6 +24,11 @@ ssize_t nos::println_to(nos::ostream& o)
 	return o.write("\r\n", 2);
 }
 
+ssize_t nos::println()
+{
+	return nos::current_ostream->write("\r\n", 2);
+}
+
 ssize_t nos::print_dump_to(nos::ostream& out, const void *mem, size_t len, unsigned int columns)
 {
 	size_t ret = 0;

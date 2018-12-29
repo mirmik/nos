@@ -3,7 +3,6 @@ import licant
 licant.module("nos.util",
 	srcdir="nos/util", 
 	sources=[
-		"printf_impl.c",
 		"numconvert.c",
 		"error.cpp",
 		"trace.cpp"
@@ -30,7 +29,8 @@ licant.module("nos.print",
 licant.module("nos.fprint",
 	srcdir="nos/fprint", 
 	sources=[
-		"fprint.cpp"
+		"fprint.cpp",
+		"stdtype.cpp",
 	],
 	mdepends=["nos.current_ostream"]
 )
