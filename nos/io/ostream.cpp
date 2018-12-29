@@ -3,7 +3,8 @@
 
 ssize_t nos::ostream::fill(char c, size_t len)
 {
-	while (len--)
+	size_t _len = len;
+	while (_len--)
 	{
 		putchar(c);
 	}
