@@ -12,7 +12,7 @@
 #include <utility>
 #include <assert.h>
 #include <nos/util/buffer.h>
-#include <nos/error.h>
+#include <nos/util/error.h>
 
 namespace nos
 {

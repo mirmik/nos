@@ -1,4 +1,4 @@
-#include <nos/error.h>
+#include <nos/util/error.h>
 #include <exception>
 
 namespace nos
