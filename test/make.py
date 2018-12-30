@@ -5,16 +5,22 @@ from licant.cxx_modules import application
 from licant.modules import submodule, module
 from licant.libs import include
 
-licant.include("malgo")
+licant.execute("../nos.g.py")
 
 tests = [
-	"vector",
+	"print",
+	"fprint",
+	#"log",
 ]
 
 application("runtests",
 	sources = ["main.cpp"] + [t+".cpp" for t in tests],
+
+	ld_flags = "-L/usr/local/lib/",
+
+	include_paths = ["."],
 	mdepends = [
-		"malgo"
+		"nos"
 	],
 
 	libs = ["gtest", "pthread"]
