@@ -49,7 +49,7 @@ char *nos_util_i64toa( int64_t num, char *buf, uint8_t base )
 		p1++;
 		p2--;
 	}
-	return buf;
+	return p;
 }
 
 char *nos_util_i32toa( int32_t num, char *buf, uint8_t base ) {
@@ -100,7 +100,7 @@ char *nos_util_u64toa( uint64_t num, char *buf, uint8_t base )
 		p1++;
 		p2--;
 	}
-	return buf;
+	return p;
 }
 
 char *nos_util_u32toa( uint64_t num, char *buf, uint8_t base ) {

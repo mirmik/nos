@@ -2,5 +2,5 @@
 
 int main ()
 {
-	nos::fprintln("{:20>}", "mirmik");
+	nos::fprintln("{:20>} {}", "mirmik", 32);
 } 

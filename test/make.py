@@ -6,6 +6,7 @@ from licant.modules import submodule, module
 from licant.libs import include
 
 licant.execute("../nos.g.py")
+licant.include("gxx")
 
 tests = [
 	"print",
@@ -20,7 +21,8 @@ application("runtests",
 
 	include_paths = ["."],
 	mdepends = [
-		"nos"
+		"nos",
+		("gxx.dprint", "stdout")
 	],
 
 	libs = ["gtest", "pthread"]

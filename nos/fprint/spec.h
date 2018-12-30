@@ -54,10 +54,28 @@ namespace nos
 
 	struct integer_spec : public basic_spec
 	{
+		integer_spec(nos::buffer opts) 
+		{
+			char* ptr = opts.begin();
+			char* end = opts.end();
+			while(ptr != end)
+			{
+				ptr = analyze(ptr);
+			}
+		}
 	};
 
 	struct float_spec : public basic_spec
 	{
+		float_spec(nos::buffer opts) 
+		{
+			char* ptr = opts.begin();
+			char* end = opts.end();
+			while(ptr != end)
+			{
+				ptr = analyze(ptr);
+			}
+		}
 	};
 
 	struct text_spec : public basic_spec

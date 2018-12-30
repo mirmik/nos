@@ -3,12 +3,14 @@
 
 import licant
 
-licant.libs.include("nos")
+licant.include("nos")
+licant.include("gxx")
 
 licant.cxx_application("target",
 	sources=["main.cpp"],
 	mdepends=[
 		"nos",
+		"gxx.dprint",
 	],	
 )
 
