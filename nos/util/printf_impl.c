@@ -291,7 +291,7 @@ static int print_f(void (*printchar_handler)(void *d, int c),
 }
 #endif
 
-int _nos_printf(void (*printchar_handler)(void *d, int c),
+int nos_printf(void (*printchar_handler)(void *d, int c),
 		void *printchar_data,
 		const char *format, va_list args) {
 	int pc, width, precision;

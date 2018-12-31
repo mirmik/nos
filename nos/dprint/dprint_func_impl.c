@@ -325,7 +325,7 @@ static void __debug_putchar(void * _, int c)
 
 int dprf_v(const char* format, va_list args)
 {
-	return __printf(__debug_putchar, NULL, format, args);
+	return nos_printf(__debug_putchar, NULL, format, args);
 }
 
 int dprf(const char* format, ...)

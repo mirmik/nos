@@ -8,6 +8,7 @@ from licant.libs import include
 licant.execute("../nos.g.py")
 
 tests = [
+	"dprint",
 	"print",
 	"fprint",
 	#"log",

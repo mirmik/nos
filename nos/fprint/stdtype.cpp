@@ -1,8 +1,6 @@
 #include <nos/fprint/stdtype.h>
 #include <nos/fprint/spec.h>
 
-#include <gxx/debug/dprint.h>
-
 ssize_t nos_fprint(nos::ostream& os, const char* text, int size, const nos::basic_spec& spec)
 {
 	int ret = 0;

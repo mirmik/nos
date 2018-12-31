@@ -35,20 +35,58 @@ licant.module("nos.fprint",
 	mdepends=["nos.current_ostream"]
 )
 
-licant.module("nos.current_ostream", "cout",
+licant.implementation("nos.current_ostream", "stdout",
 	sources=["nos/io/current_ostream_cout.cpp", "nos/io/std.cpp"]
 )
 
-licant.module("nos.current_ostream", "nullptr",
+licant.implementation("nos.current_ostream", "nullptr",
 	sources=["nos/io/current_ostream_nullptr.cpp"]
 )
 
-licant.module_defimpl("nos.current_ostream", "cout")
+licant.module("nos.printf",
+	sources=["nos/util/printf_impl.c"]
+)
+
+licant.module("nos.dprint.common", "impl", 
+	srcdir="nos/dprint",
+	sources=["dprint_func_impl.c", "dprintxx.cpp"],
+	mdepends=["nos.printf"]
+)
+
+licant.implementation("nos.dprint", "stub", 
+	srcdir="nos/dprint",
+	sources = "dprint_func_stub.c dprint_stub.c dprintxx.cpp".split(" ")
+)
+
+#licant.implementation("nos.dprint", "diag", 
+#	sources = "dprint_func_impl.c dprint_diag.c dprintxx.cpp".split(" "),
+#	cc_flags = "-Wno-pointer-to-int-cast",
+#	mdepends = [
+#		"gxx.diag",
+#		("nos.dprint.common", "impl")
+#	],
+#)
+
+licant.implementation("nos.dprint", "manually", 
+	srcdir="nos/dprint",
+	sources = ["dprint_manually.c"],
+	mdepends = [("nos.dprint.common","impl")],
+)
+
+licant.implementation("nos.dprint", "stdout",
+	srcdir="nos/dprint",
+	sources = ["dprint_stdout.c"],
+	mdepends = [("nos.dprint.common","impl")],
+)
+
+licant.module_defimpl("nos.current_ostream", "stdout")
+licant.module_defimpl("nos.dprint", "stdout")
 
 licant.module("nos",
 	mdepends=[
 		"nos.io",
 		"nos.util",
+		"nos.dprint",
 		"nos.print",
 		"nos.fprint",
 	],
