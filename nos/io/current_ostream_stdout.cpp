@@ -1,4 +1,4 @@
-#include <nos/io/std.h>
+#include <nos/io/stdfile.h>
 
 namespace nos {
 	nos::ostream * current_ostream = &nos::cout;

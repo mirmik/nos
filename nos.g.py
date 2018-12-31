@@ -4,7 +4,6 @@ licant.module("nos.util",
 	srcdir="nos/util", 
 	sources=[
 		"numconvert.c",
-		"error.cpp",
 		"trace.cpp"
 	]
 )
@@ -35,13 +34,9 @@ licant.module("nos.fprint",
 	mdepends=["nos.current_ostream"]
 )
 
-licant.implementation("nos.current_ostream", "stdout",
-	sources=["nos/io/current_ostream_cout.cpp", "nos/io/std.cpp"]
-)
-
-licant.implementation("nos.current_ostream", "nullptr",
-	sources=["nos/io/current_ostream_nullptr.cpp"]
-)
+licant.module("nos.current_ostream", impl="stdout", sources=["nos/io/current_ostream_stdout.cpp", "nos/io/stdfile.cpp"])
+licant.module("nos.current_ostream", impl="nullptr", sources=["nos/io/current_ostream_nullptr.cpp"])
+licant.module_defimpl("nos.current_ostream", "stdout")
 
 licant.module("nos.printf",
 	sources=["nos/util/printf_impl.c"]
@@ -79,7 +74,14 @@ licant.implementation("nos.dprint", "stdout",
 	mdepends = [("nos.dprint.common","impl")],
 )
 
-licant.module_defimpl("nos.current_ostream", "stdout")
+licant.module("nos.bugon", impl="abort", sources=["nos/util/bugon_abort.c"], mdepends=["nos.dprint"])
+licant.module("nos.bugon", impl="error", sources=["nos/util/bugon_error.cpp"], mdepends=["nos.error"])
+licant.module_defimpl("nos.bugon", "error")
+
+licant.module("nos.error", impl="throw", sources=["nos/util/error_throw.cpp"])
+licant.module("nos.error", impl="abort", sources=["nos/util/error_abort.cpp"])
+licant.module_defimpl("nos.error", "throw")
+
 licant.module_defimpl("nos.dprint", "stdout")
 
 licant.module("nos",
@@ -89,6 +91,7 @@ licant.module("nos",
 		"nos.dprint",
 		"nos.print",
 		"nos.fprint",
+		"nos.bugon",
 	],
 	include_paths=["."]
 )
