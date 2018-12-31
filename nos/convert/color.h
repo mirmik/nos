@@ -23,13 +23,21 @@ namespace nos
 	static inline std::string white 			(const std::string str)	{ return nos::format("\x1B[37m{}\x1B[0m", str);	}
 }
 
-#define COLOR_BLACK(str) 	"\x1B[30m" str "\x1B[0m"
-#define COLOR_RED(str) 		"\x1B[31m" str "\x1B[0m"
-#define COLOR_GREEN(str) 	"\x1B[32m" str "\x1B[0m"
-#define COLOR_YELLOW(str) 	"\x1B[33m" str "\x1B[0m"
-#define COLOR_BLUE(str) 	"\x1B[34m" str "\x1B[0m"
-#define COLOR_MAGENTA(str) 	"\x1B[35m" str "\x1B[0m"
-#define COLOR_CYAN(str) 	"\x1B[36m" str "\x1B[0m"
-#define COLOR_WHITE(str) 	"\x1B[37m" str "\x1B[0m"
+#define COLOR_BRIGHT_BLACK(str) 	"\x1B[30;1m" str "\x1B[0m"
+#define COLOR_BRIGHT_RED(str) 		"\x1B[31;1m" str "\x1B[0m"
+#define COLOR_BRIGHT_GREEN(str) 	"\x1B[32;1m" str "\x1B[0m"
+#define COLOR_BRIGHT_YELLOW(str) 	"\x1B[33;1m" str "\x1B[0m"
+#define COLOR_BRIGHT_BLUE(str) 		"\x1B[34;1m" str "\x1B[0m"
+#define COLOR_BRIGHT_MAGENTA(str) 	"\x1B[35;1m" str "\x1B[0m"
+#define COLOR_BRIGHT_CYAN(str) 		"\x1B[36;1m" str "\x1B[0m"
+#define COLOR_BRIGHT_WHITE(str) 	"\x1B[37;1m" str "\x1B[0m"
+#define COLOR_BLACK(str) 			"\x1B[30m" str "\x1B[0m"
+#define COLOR_RED(str) 				"\x1B[31m" str "\x1B[0m"
+#define COLOR_GREEN(str) 			"\x1B[32m" str "\x1B[0m"
+#define COLOR_YELLOW(str) 			"\x1B[33m" str "\x1B[0m"
+#define COLOR_BLUE(str) 			"\x1B[34m" str "\x1B[0m"
+#define COLOR_MAGENTA(str) 			"\x1B[35m" str "\x1B[0m"
+#define COLOR_CYAN(str) 			"\x1B[36m" str "\x1B[0m"
+#define COLOR_WHITE(str) 			"\x1B[37m" str "\x1B[0m"
 
 #endif
