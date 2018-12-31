@@ -11,7 +11,9 @@ tests = [
 	"dprint",
 	"print",
 	"fprint",
-	#"log",
+	"dtrace",
+	"trace",
+	"log",
 ]
 
 application("runtests",
