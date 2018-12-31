@@ -1,6 +1,5 @@
-#include <nos/print.h>
+#include <nos/log.h>
+#include <nos/log/target/stdout.h>
 
 int main ()
-{
-	nos::fprintln("{:20>} {}", "mirmik", 32);
-} 
+{} 
