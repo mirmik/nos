@@ -14,18 +14,20 @@ void bugon_impl(const char* str);
 
 __END_DECLS
 
-#define BUGON()					\
+#define BUG()					\
 {								\
 	CURRENT_LOCATION(loc);		\
 	debug_print_location(loc);	\
-	bugon_impl("BUGON");		\
+	bugon_impl("BUG");			\
 }
 
-#define BUGON_(msg)					\
-{								\
-	CURRENT_LOCATION(loc);		\
-	debug_print_location(loc);	\
-	bugon_impl(msg);			\
+#define BUG_ON(eq)					\
+{									\
+	if (eq) {						\
+		CURRENT_LOCATION(loc);		\
+		debug_print_location(loc);	\
+		bugon_impl(#eq);			\
+	}								\
 }
 
 #endif
