@@ -68,7 +68,7 @@ namespace nos
 		ssize_t fill(char c, size_t len);
 		ssize_t printptr(const void* ptr);
 
-		virtual int flush() { }
+		virtual int flush() { return 0; }
 	};
 }
 

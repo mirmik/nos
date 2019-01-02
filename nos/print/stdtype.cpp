@@ -6,7 +6,7 @@
 
 ssize_t nos_print(nos::ostream& out, const char* str) 
 {
-	out.write(str, strlen(str));
+	return out.write(str, strlen(str));
 }
 
 ssize_t nos_print(nos::ostream& out, bool obj) 		{ return nos_print(out, obj ? "true" : "false"); }
@@ -26,10 +26,12 @@ ssize_t nos_print(nos::ostream& out, float obj) 	{
 	adapterbuf<char> adapter(out); 
 	std::ostream stdos(&adapter);
 	stdos << obj;
+	return 0;
 }
 ssize_t nos_print(nos::ostream& out, double obj) 	{ 
 	/*char buf[48]; nos_util_ftoa(obj, buf, 5); return nos_print(out, buf);*/
 	adapterbuf<char> adapter(out); 
 	std::ostream stdos(&adapter);
 	stdos << obj;
+	return 0;
 }

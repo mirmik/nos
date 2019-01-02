@@ -67,6 +67,7 @@ namespace nos
 			adapterbuf<char> adapter(os);
 			std::ostream stdos(&adapter);
 			stdos << obj;
+			return 0;
 		}
 	};
 
