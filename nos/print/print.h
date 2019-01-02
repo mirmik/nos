@@ -69,7 +69,7 @@ ssize_t nos::print_list_to(nos::ostream& out, const V& vec)
 	size_t ret;
 	ret += out.putchar('{');
 
-	for (int i = 0; i < vec.size() - 1; ++i)
+	for (unsigned int i = 0; i < vec.size() - 1; ++i)
 	{
 		ret += print_to(out, vec[i]);
 		ret += out.putchar(',');
