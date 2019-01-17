@@ -33,6 +33,7 @@ namespace nos {
 		int open(const char * path, const char * mode) 
 		{
 			file = fopen(path, mode);
+			return 0;
 		}
 
 		virtual int flush()

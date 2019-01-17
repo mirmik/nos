@@ -1,5 +1,5 @@
-#ifndef GENOS_UTILXX_BUFFER_H
-#define GENOS_UTILXX_BUFFER_H
+#ifndef NOS_UTILXX_BUFFER_H
+#define NOS_UTILXX_BUFFER_H
 
 #include <string>
 #include <string.h>

@@ -66,7 +66,7 @@ ssize_t nos::println_to(nos::ostream& out, const Args& ... args)
 template<typename V>
 ssize_t nos::print_list_to(nos::ostream& out, const V& vec)
 {
-	size_t ret;
+	size_t ret = 0;
 	ret += out.putchar('{');
 
 	for (unsigned int i = 0; i < vec.size() - 1; ++i)

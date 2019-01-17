@@ -16,6 +16,14 @@ licant.module("nos.io",
 	mdepends=["nos.current_ostream"]
 )
 
+licant.module("nos.inet",
+	srcdir="nos/inet", 
+	sources=[
+		"common.cpp"
+	],
+	mdepends=["nos.current_ostream"]
+)
+
 licant.module("nos.print",
 	srcdir="nos/print", 
 	sources=[
@@ -86,12 +94,13 @@ licant.module_defimpl("nos.dprint", "stdout")
 
 licant.module("nos",
 	mdepends=[
-		"nos.io",
 		"nos.util",
 		"nos.dprint",
 		"nos.print",
 		"nos.fprint",
 		"nos.bugon",
+		"nos.io",
+		"nos.inet",
 	],
 	include_paths=["."]
 )
