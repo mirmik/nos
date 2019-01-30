@@ -1,5 +1,7 @@
 import licant
 
+licant.include("jackjack")
+
 licant.module("nos.util",
 	srcdir="nos/util", 
 	sources=[
@@ -100,7 +102,8 @@ licant.module("nos",
 		"nos.fprint",
 		"nos.bugon",
 		"nos.io",
-		"nos.inet",
+		#"nos.inet",
+		"jackjack"
 	],
 	include_paths=["."]
 )

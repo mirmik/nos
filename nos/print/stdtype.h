@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdint.h>
+#include <jackjack/compiler.h>
 
 namespace nos { class ostream; }
 
