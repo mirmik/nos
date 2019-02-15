@@ -31,7 +31,6 @@ namespace nos {
 	}
 
 	std::string dstring(const void* data, size_t size);
-	std::string dstring(nos::buffer buf);
 	std::string dstring(const std::string& str);
 }
 

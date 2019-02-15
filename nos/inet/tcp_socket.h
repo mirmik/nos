@@ -4,6 +4,7 @@
 #include <nos/io/iostream.h>
 #include <nos/inet/socket.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 namespace nos {
@@ -28,7 +29,7 @@ namespace nos {
 			
 			//io api implementation
 			ssize_t write(const void* data, size_t size) override;
-			ssize_t read(char* data, size_t size) override;
+			ssize_t read(void* data, size_t size) override;
 		};
 	}
 }

@@ -3,7 +3,7 @@
 
 #include <ctype.h>
 #include <nos/print.h>
-#include <nos/string.h>
+#include <nos/util/string.h>
 
 namespace nos {
 	class hostaddr {

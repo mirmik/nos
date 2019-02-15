@@ -1,9 +1,9 @@
-#include <gxx/util/string.h>
-#include <gxx/util/hexascii.h>
+#include <nos/util/string.h>
+#include <nos/util/hexascii.h>
 
-namespace gxx {
+namespace nos {
 	strvec split(const std::string& str, char delim) {
-		gxx::strvec outvec;
+		nos::strvec outvec;
 	
 		char* strt;
 		char* ptr = (char*)str.data();
@@ -21,7 +21,7 @@ namespace gxx {
 		return outvec;
 	}
 
-	std::string join(const gxx::strvec& vec, char delim) {
+	std::string join(const nos::strvec& vec, char delim) {
 		if (vec.size() == 0) {
 			return "";
 		}
@@ -68,9 +68,9 @@ namespace gxx {
 		return ret;
 	}
 
-	std::string dstring(gxx::buffer buf) {
+	/*std::string dstring(nod::buffer buf) {
 		return dstring(buf.data(), buf.size());
-	}	
+	}*/	
 
 	std::string dstring(const std::string& buf) {
 		return dstring(buf.data(), buf.size());

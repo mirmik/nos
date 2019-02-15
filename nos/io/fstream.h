@@ -23,7 +23,7 @@ namespace nos {
 			return fwrite(ptr, sizeof(char), sz, file);
 		}
 
-		ssize_t read(char* ptr, size_t sz) override
+		ssize_t read(void* ptr, size_t sz) override
 		{
 			return fread(ptr, sizeof(char), sz, file);
 		}

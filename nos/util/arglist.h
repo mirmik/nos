@@ -12,7 +12,7 @@
 #include <utility>
 #include <assert.h>
 #include <nos/util/buffer.h>
-#include <nos/util/error.h>
+#include <nos/bugon.h>
 
 namespace nos
 {
@@ -142,7 +142,7 @@ namespace nos
 				if (str == arr[i].name) return arr[i];
 			}
 
-			nos::error("visitable_arglist: name error");
+			BUG_ON("visitable_arglist: name error");
 			return arr[0]; // -Wreturn-type
 		}
 	};

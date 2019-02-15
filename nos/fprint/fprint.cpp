@@ -67,7 +67,7 @@ namespace nos
 				return -1;
 
 			default:
-				nos::error("format internal error");
+				BUG_ON("format internal error");
 				return -1;
 		}
 

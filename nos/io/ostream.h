@@ -2,6 +2,7 @@
 #define NOS_IO_OSTREAM_H
 
 #include <string.h>
+#include <stdlib.h>
 
 #include <nos/util/hexascii.h>
 #include <nos/util/numconvert.h>
