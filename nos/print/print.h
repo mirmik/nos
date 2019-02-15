@@ -2,6 +2,7 @@
 #define NOS_PRINT_PRINT_H
 
 #include <stdlib.h>
+#include <jackjack/compiler.h>
 
 namespace nos
 {

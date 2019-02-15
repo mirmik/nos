@@ -3,6 +3,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <jackjack/compiler.h>
 
 #include <nos/util/hexascii.h>
 #include <nos/util/numconvert.h>
