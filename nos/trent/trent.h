@@ -12,7 +12,7 @@
 #include <nos/result.h>
 //#include <gxx/util/string.h>
 //#include <gxx/util/ctrdtr.h>
-//#include <gxx/buffer.h>
+#include <nos/util/buffer.h>
 //#include <gxx/print.h>
 //#include <gxx/print/stdprint.h>
 //#include <gxx/print/printable.h>
@@ -229,7 +229,7 @@ namespace nos
 
 		string_type& as_string();
 		const string_type& as_string() const;
-		//const gxx::buffer as_buffer() const;
+		const nos::buffer as_buffer() const;
 		string_type& as_string_default(string_type& str);
 		result<string_type&> as_string_critical();
 		result<const string_type&> as_string_critical() const;

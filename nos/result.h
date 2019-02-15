@@ -10,7 +10,7 @@
 #include <string>
 #include <string.h>
 
-#include <nos/util/error.h>
+#include <nos/bugon.h>
 
 //#include <gxx/panic.h>
 

@@ -144,340 +144,366 @@ namespace nos
 		m_type = trent::type::nil;
 	}
 
-	/*	trent& trent::operator[](int i) {
-	        if (m_type != trent::type::list) init(trent::type::list);
-			if(m_arr.size() <= (unsigned int)i) m_arr.resize(i + 1);
-			return m_arr[i];
-		}
+	trent& trent::operator[](int i)
+	{
+		if (m_type != trent::type::list) init(trent::type::list);
+		if (m_arr.size() <= (unsigned int)i) m_arr.resize(i + 1);
+		return m_arr[i];
+	}
 
-		const trent& trent::operator[](int key) const {
-	        if (m_type != trent::type::list) igris::panic("wrong trent type");
-			return m_arr.at(key);
-		}
+	const trent& trent::operator[](int key) const
+	{
+		if (m_type != trent::type::list) BUG_ON("wrong trent type");
+		return m_arr.at(key);
+	}
 
-		trent& trent::operator[](const char* key) {
-	        if (m_type != trent::type::dict) init(trent::type::dict);
-			return m_dict[key];
-		}
+	trent& trent::operator[](const char* key)
+	{
+		if (m_type != trent::type::dict) init(trent::type::dict);
+		return m_dict[key];
+	}
 
-		trent& trent::operator[](const std::string& key) {
-	        if (m_type != trent::type::dict) init(trent::type::dict);
-			return m_dict[key];
-		}
+	trent& trent::operator[](const std::string& key)
+	{
+		if (m_type != trent::type::dict) init(trent::type::dict);
+		return m_dict[key];
+	}
 
-		const trent& trent::operator[](const std::string& key) const {
-	        if (m_type != trent::type::dict) igris::panic("wrong trent type");
-			return m_dict.at(key);
-		}
+	const trent& trent::operator[](const std::string& key) const
+	{
+		if (m_type != trent::type::dict) BUG_ON("wrong trent type");
+		return m_dict.at(key);
+	}
 
-		trent& trent::operator[](const igris::buffer& key) {
-	        if (m_type != trent::type::dict) init(trent::type::dict);
-			return m_dict[std::string(key.data(), key.size())];
-		}
+	/*trent& trent::operator[](const nos::buffer& key)
+	{
+		if (m_type != trent::type::dict) init(trent::type::dict);
+		return m_dict[std::string(key.data(), key.size())];
+	}*/
 
-		const trent& trent::operator[] (const igris::trent_path& path) const {
-			const igris::trent* tr = this;
-			for (const auto& p : path) {
-				if (p.is_string) {
-					tr = &tr->operator[](p.str);
+	/*		const trent& trent::operator[] (const igris::trent_path& path) const {
+				const igris::trent* tr = this;
+				for (const auto& p : path) {
+					if (p.is_string) {
+						tr = &tr->operator[](p.str);
+					}
+					else {
+						tr = &tr->operator[](p.i32);
+					}
 				}
-				else {
-					tr = &tr->operator[](p.i32);
-				}
+				return *tr;
 			}
-			return *tr;
-		}
-
-	        trent& trent::operator[] (const igris::trent_path& path) {
-	                igris::trent* tr = this;
-	                for (auto& p : path) {
-	                        if (p.is_string) {
-	                                tr = &tr->operator[](p.str);
-	                        }
-	                        else {
-	                                tr = &tr->operator[](p.i32);
-	                        }
-	                }
-	                return *tr;
-	        }
-
-		const trent& trent::at(int i) const {
-			if (m_type != trent::type::list) igris::panic("wrong trent type");
-	        if(m_arr.size() <= (unsigned int)i) igris::panic("wrong trent list size");
-			return m_arr[i];
-		}
-
-
-	        const trent& trent::operator[](const char* key) const {
-	        if (m_type != trent::type::dict) igris::panic("wrong trent type");
-	                return m_dict.at(key);
-	        }
-
-	        /*const trent& trent::at(const char* key) const {
-	        igris::println(2);
-	        if (m_type != trent::type::dict) init(trent::type::dict);
-	                return m_dict[key];
-	        }*/
-
-	/*	const trent& trent::at(const std::string& key) const {
-	        if (m_type != trent::type::dict) igris::panic("wrong trent type");
-			return m_dict.at(key);
-		}
-
-		const trent& trent::at(const igris::buffer& key) const {
-	        if (m_type != trent::type::dict) igris::panic("wrong trent type");
-			return m_dict.at(std::string(key.data(), key.size()));
-		}
-
-		bool trent::have(const std::string& str) const {
-	        if (m_type != trent::type::dict) igris::panic("wrong trent type");
-			return m_dict.count(str) != 0;
-		}
-
-	    std::map<std::string, trent>& trent::as_dict() {
-	        if (m_type != trent::type::dict) init(trent::type::dict);
-			return m_dict;
-		}
-
-	    const std::map<std::string, trent>& trent::as_dict() const {
-	        if (m_type != trent::type::dict) igris::panic("wrong_trent_type");
-			return m_dict;
-		}
-
-	    std::vector<trent>& trent::as_list() {
-	        if (m_type != trent::type::list) init(trent::type::list);
-			return m_arr;
-		}
-
-	    const std::vector<trent>& trent::as_list() const {
-	        if (m_type != trent::type::list) igris::panic("wrong_trent_type");
-			return m_arr;
-		}
-
-	    result<std::vector<trent>&> trent::as_list_critical() {
-	        if (!is_list()) return error("is't list");
-			return m_arr;
-		}
-	    result<const std::vector<trent>&> trent::as_list_critical() const {
-	        if (!is_list()) return error("is't list");
-			return m_arr;
-	    }
-
-		std::string& trent::as_string() {
-			if (m_type != trent::type::string) init(trent::type::string);
-			return m_str;
-		}
-		const std::string& trent::as_string() const {
-			if (m_type != trent::type::string) igris::panic("wrong_trent_type");
-			return m_str;
-		}
-
-		const igris::buffer trent::as_buffer() const {
-			if (m_type == trent::type::string) return igris::buffer(m_str.data(), m_str.size());
-			return igris::buffer();
-		}
-
-	    trent::numer_type trent::as_numer() const {
-			if (m_type == trent::type::numer) return m_num;
-			if (m_type == trent::type::integer) return m_int;
-			return 0;
-		}
-
-		trent::integer_type trent::as_integer() const {
-			if (m_type == trent::type::integer) return m_int;
-			return 0;
-		}
-
-	        result<trent::integer_type>  trent::as_integer_critical() const {
-	                if (!is_integer()) return error("is't integer");
-	                return m_int;
-	        }
-
-		result<std::string&> trent::as_string_critical() {
-			if (!is_string()) return error("is't string");
-			return m_str;
-		}
-
-		result<const std::string&> trent::as_string_critical() const {
-			if (!is_string()) return error("is't string");
-			return m_str;
-		}
-
-	    result<trent::numer_type> trent::as_numer_critical() const {
-			if (!is_numer()) return error("is't numer");
-			return as_numer();
-		}
-
-	    result<std::map<std::string, trent>&> trent::as_dict_critical() {
-	        if (!is_dict()) return error("is't dict");
-	        return as_dict();
-		}
-
-	    result<const std::map<std::string, trent>&> trent::as_dict_critical() const {
-	        if (!is_dict()) return error("is't dict");
-	        return as_dict();
-		}
-
-	    trent::numer_type trent::as_numer_default(trent::numer_type def) const {
-			if (!is_numer()) return def;
-			return as_numer();
-		}
-
-		std::string& trent::as_string_default(std::string& def) {
-			if (!is_string()) return def;
-			return m_str;
-		}
-
-		bool trent::contains(igris::buffer buf) {
-	        if (m_type != type::dict) {
-				return false;
-			}
-
-			for(const auto& p : m_dict) {
-				if (buf == igris::buffer(p.first.data(), p.first.size())) {
-					return true;
-				}
-			}
-
-			return false;
-		}
-*/
-		trent::type trent::get_type() const {
-			return m_type;
-		}
-
-		const char * trent::type_to_str() const {
-			switch(m_type) {
-	            case trent::type::string: 		return "string";
-	            case trent::type::list: 		return "list";
-	            case trent::type::dict:         return "dict";
-	            case trent::type::numer: 		return "numer";
-	            case trent::type::integer: 		return "integer";
-	            case trent::type::nil:          return "nil";
-				default: abort();
-			}
-			return "";
-		}
-/*
-		trent& trent::operator= (const trent& other) {
-			invalidate();
-			m_type = other.m_type;
-			switch(m_type) {
-				case trent::type::string:
-					igris::constructor(&m_str, other.m_str);
-					return *this;
-	            case trent::type::list:
-					igris::constructor(&m_arr, other.m_arr);
-					return *this;
-	            case trent::type::dict:
-					igris::constructor(&m_dict, other.m_dict);
-	                return *this;
-	            case trent::type::numer:
-	                m_num = other.m_num;
-					return *this;
-	            case trent::type::integer:
-	                m_int = other.m_int;
-					return *this;
-	            case trent::type::nil:
-					return *this;
-				default:
-					PANIC_TRACED();
-			}
-			return *this;
-		}
-
-		trent& trent::operator= (const std::string& str) {
-			reset(str);
-			return *this;
-		}
-
-		trent& trent::operator= (igris::buffer buf) {
-			reset(buf);
-			return *this;
-		}
-
-		trent& trent::operator= (float num) {
-			reset(num);
-			return *this;
-		}
-
-		trent& trent::operator= (double num) {
-			reset(num);
-			return *this;
-		}
-
-		trent& trent::operator= (long double num) {
-			reset(num);
-			return *this;
-		}
-
-		trent& trent::operator= (signed char i){
-			reset(i);
-			return *this;
-		}
-
-		trent& trent::operator= (signed short i){
-			reset(i);
-			return *this;
-		}
-
-		trent& trent::operator= (signed int i){
-			reset(i);
-			return *this;
-		}
-
-		trent& trent::operator= (signed long i){
-			reset(i);
-			return *this;
-		}
-
-		trent& trent::operator= (signed long long i){
-			reset(i);
-			return *this;
-		}
-
-
-		trent& trent::operator= (unsigned char i){
-			reset(i);
-			return *this;
-		}
-
-		trent& trent::operator= (unsigned short i){
-			reset(i);
-			return *this;
-		}
-
-		trent& trent::operator= (unsigned int i){
-			reset(i);
-			return *this;
-		}
-
-		trent& trent::operator= (unsigned long i){
-			reset(i);
-			return *this;
-		}
-
-		trent& trent::operator= (unsigned long long i){
-			reset(i);
-			return *this;
-		}
-
-		trent& trent::operator= (bool i){
-			reset(i);
-			return *this;
-		}
-
-		ssize_t trent::size() {
-	        switch(m_type) {
-	            case trent::type::numer:
-				case trent::type::string: return -1;
-	            case trent::type::list: return m_arr.size();
-	            case trent::type::dict: return m_dict.size();
-	            default: PANIC_TRACED();
-			}
-			return 0;
-		}
 	*/
+	/*trent& trent::operator[] (const igris::trent_path& path)
+	{
+		igris::trent* tr = this;
+		for (auto& p : path)
+		{
+			if (p.is_string)
+			{
+				tr = &tr->operator[](p.str);
+			}
+			else
+			{
+				tr = &tr->operator[](p.i32);
+			}
+		}
+		return *tr;
+	}*/
+	/*
+			const trent& trent::at(int i) const {
+				if (m_type != trent::type::list) igris::panic("wrong trent type");
+		        if(m_arr.size() <= (unsigned int)i) igris::panic("wrong trent list size");
+				return m_arr[i];
+			}
+
+
+		        const trent& trent::operator[](const char* key) const {
+		        if (m_type != trent::type::dict) igris::panic("wrong trent type");
+		                return m_dict.at(key);
+		        }
+
+		        /*const trent& trent::at(const char* key) const {
+		        igris::println(2);
+		        if (m_type != trent::type::dict) init(trent::type::dict);
+		                return m_dict[key];
+		        }*/
+
+	const trent& trent::at(const std::string& key) const
+	{
+		if (m_type != trent::type::dict) BUG_ON("wrong trent type");
+		return m_dict.at(key);
+	}
+
+	/*const trent& trent::at(const nos::buffer& key) const {
+	    if (m_type != trent::type::dict) BUG_ON("wrong trent type");
+		return m_dict.at(std::string(key.data(), key.size()));
+	}*/
+
+	bool trent::have(const std::string& str) const
+	{
+		if (m_type != trent::type::dict) BUG_ON("wrong trent type");
+		return m_dict.count(str) != 0;
+	}
+
+	std::map<std::string, trent>& trent::as_dict()
+	{
+		if (m_type != trent::type::dict) init(trent::type::dict);
+		return m_dict;
+	}
+
+	const std::map<std::string, trent>& trent::as_dict() const
+	{
+		if (m_type != trent::type::dict) BUG_ON("wrong_trent_type");
+		return m_dict;
+	}
+
+	std::vector<trent>& trent::as_list()
+	{
+		if (m_type != trent::type::list) init(trent::type::list);
+		return m_arr;
+	}
+
+	const std::vector<trent>& trent::as_list() const
+	{
+		if (m_type != trent::type::list) BUG_ON("wrong_trent_type");
+		return m_arr;
+	}
+
+	result<std::vector<trent>&> trent::as_list_critical()
+	{
+		if (!is_list()) return error("is't list");
+		return m_arr;
+	}
+	result<const std::vector<trent>&> trent::as_list_critical() const
+	{
+		if (!is_list()) return error("is't list");
+		return m_arr;
+	}
+
+	std::string& trent::as_string()
+	{
+		if (m_type != trent::type::string) init(trent::type::string);
+		return m_str;
+	}
+	const std::string& trent::as_string() const
+	{
+		if (m_type != trent::type::string) BUG_ON("wrong_trent_type");
+		return m_str;
+	}
+
+	const nos::buffer trent::as_buffer() const
+	{
+		if (m_type == trent::type::string) return nos::buffer(m_str.data(), m_str.size());
+		return nos::buffer();
+	}
+
+	trent::numer_type trent::as_numer() const
+	{
+		if (m_type == trent::type::numer) return m_num;
+		if (m_type == trent::type::integer) return m_int;
+		return 0;
+	}
+
+	trent::integer_type trent::as_integer() const
+	{
+		if (m_type == trent::type::integer) return m_int;
+		return 0;
+	}
+	/*
+			        result<trent::integer_type>  trent::as_integer_critical() const {
+			                if (!is_integer()) return error("is't integer");
+			                return m_int;
+			        }
+
+				result<std::string&> trent::as_string_critical() {
+					if (!is_string()) return error("is't string");
+					return m_str;
+				}
+
+				result<const std::string&> trent::as_string_critical() const {
+					if (!is_string()) return error("is't string");
+					return m_str;
+				}
+
+			    result<trent::numer_type> trent::as_numer_critical() const {
+					if (!is_numer()) return error("is't numer");
+					return as_numer();
+				}
+
+			    result<std::map<std::string, trent>&> trent::as_dict_critical() {
+			        if (!is_dict()) return error("is't dict");
+			        return as_dict();
+				}
+
+			    result<const std::map<std::string, trent>&> trent::as_dict_critical() const {
+			        if (!is_dict()) return error("is't dict");
+			        return as_dict();
+				}
+
+			    trent::numer_type trent::as_numer_default(trent::numer_type def) const {
+					if (!is_numer()) return def;
+					return as_numer();
+				}
+
+				std::string& trent::as_string_default(std::string& def) {
+					if (!is_string()) return def;
+					return m_str;
+				}
+
+				bool trent::contains(igris::buffer buf) {
+			        if (m_type != type::dict) {
+						return false;
+					}
+
+					for(const auto& p : m_dict) {
+						if (buf == igris::buffer(p.first.data(), p.first.size())) {
+							return true;
+						}
+					}
+
+					return false;
+				}
+		*/
+	trent::type trent::get_type() const
+	{
+		return m_type;
+	}
+
+	const char * trent::type_to_str() const
+	{
+		switch (m_type)
+		{
+			case trent::type::string: 		return "string";
+			case trent::type::list: 		return "list";
+			case trent::type::dict:         return "dict";
+			case trent::type::numer: 		return "numer";
+			case trent::type::integer: 		return "integer";
+			case trent::type::nil:          return "nil";
+			default: abort();
+		}
+		return "";
+	}
+	/*
+			trent& trent::operator= (const trent& other) {
+				invalidate();
+				m_type = other.m_type;
+				switch(m_type) {
+					case trent::type::string:
+						igris::constructor(&m_str, other.m_str);
+						return *this;
+		            case trent::type::list:
+						igris::constructor(&m_arr, other.m_arr);
+						return *this;
+		            case trent::type::dict:
+						igris::constructor(&m_dict, other.m_dict);
+		                return *this;
+		            case trent::type::numer:
+		                m_num = other.m_num;
+						return *this;
+		            case trent::type::integer:
+		                m_int = other.m_int;
+						return *this;
+		            case trent::type::nil:
+						return *this;
+					default:
+						PANIC_TRACED();
+				}
+				return *this;
+			}
+
+			trent& trent::operator= (const std::string& str) {
+				reset(str);
+				return *this;
+			}
+
+			trent& trent::operator= (igris::buffer buf) {
+				reset(buf);
+				return *this;
+			}
+
+			trent& trent::operator= (float num) {
+				reset(num);
+				return *this;
+			}
+
+			trent& trent::operator= (double num) {
+				reset(num);
+				return *this;
+			}
+
+			trent& trent::operator= (long double num) {
+				reset(num);
+				return *this;
+			}
+
+			trent& trent::operator= (signed char i){
+				reset(i);
+				return *this;
+			}
+
+			trent& trent::operator= (signed short i){
+				reset(i);
+				return *this;
+			}
+
+			trent& trent::operator= (signed int i){
+				reset(i);
+				return *this;
+			}
+
+			trent& trent::operator= (signed long i){
+				reset(i);
+				return *this;
+			}
+
+			trent& trent::operator= (signed long long i){
+				reset(i);
+				return *this;
+			}
+
+
+			trent& trent::operator= (unsigned char i){
+				reset(i);
+				return *this;
+			}
+
+			trent& trent::operator= (unsigned short i){
+				reset(i);
+				return *this;
+			}
+
+			trent& trent::operator= (unsigned int i){
+				reset(i);
+				return *this;
+			}
+
+			trent& trent::operator= (unsigned long i){
+				reset(i);
+				return *this;
+			}
+
+			trent& trent::operator= (unsigned long long i){
+				reset(i);
+				return *this;
+			}
+
+			trent& trent::operator= (bool i){
+				reset(i);
+				return *this;
+			}
+
+			ssize_t trent::size() {
+		        switch(m_type) {
+		            case trent::type::numer:
+					case trent::type::string: return -1;
+		            case trent::type::list: return m_arr.size();
+		            case trent::type::dict: return m_dict.size();
+		            default: PANIC_TRACED();
+				}
+				return 0;
+			}
+		*/
 	size_t trent::print_to(nos::ostream& os) const
 	{
 		bool sep = false;

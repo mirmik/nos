@@ -44,7 +44,8 @@ int nos::read_paired(nos::istream& is, char* buf, size_t buflen, char a, char b,
 
 	if (ignore) 
 		do {
-			is.read(&c, 1);
+			int ret = is.read(&c, 1);
+			if (ret <= 0) return ret;
 		} while(c != a);
 	else {
 		is.read(&c, 1);
