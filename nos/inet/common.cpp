@@ -19,7 +19,7 @@
 
 #include <nos/util/osutil.h>
 
-#define NOTRACE 0
+#define NOTRACE 1
 #include <nos/trace.h>
 //#include <nos/warnings.h>
 

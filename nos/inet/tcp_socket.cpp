@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#define NOTRACE 0
+#define NOTRACE 1
 #include <nos/trace.h>
 
 nos::inet::tcp_socket::tcp_socket(nos::inet::hostaddr addr, uint16_t port) : tcp_socket()

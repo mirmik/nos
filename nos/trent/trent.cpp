@@ -217,17 +217,18 @@ namespace nos
 				return m_arr[i];
 			}
 
+	*/
+	const trent& trent::operator[](const char* key) const
+	{
+		if (m_type != trent::type::dict) BUG_ON("wrong trent type");
+		return m_dict.at(key);
+	}
 
-		        const trent& trent::operator[](const char* key) const {
-		        if (m_type != trent::type::dict) igris::panic("wrong trent type");
-		                return m_dict.at(key);
-		        }
-
-		        /*const trent& trent::at(const char* key) const {
-		        igris::println(2);
-		        if (m_type != trent::type::dict) init(trent::type::dict);
-		                return m_dict[key];
-		        }*/
+	/*const trent& trent::at(const char* key) const {
+	igris::println(2);
+	if (m_type != trent::type::dict) init(trent::type::dict);
+	        return m_dict[key];
+	}*/
 
 	const trent& trent::at(const std::string& key) const
 	{
