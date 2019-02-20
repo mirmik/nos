@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <nos/util/buffer.h>
-#include <jackjack/compiler.h>
+//#include <jackjack/compiler.h>
 
 namespace nos { class ostream; }
 
