@@ -30,6 +30,7 @@ namespace nos
 	template<typename ... Args>					ssize_t println(const Args& ... args);
 	template<typename V> 						ssize_t print_list(const V& vec);
 	template<typename ... Args> 				ssize_t printhex(const Args& ... args);
+	template<typename ... Args> 				ssize_t printhexln(const Args& ... args);
 	template<typename Arg> 						ssize_t printptr(const Arg& arg);
 												ssize_t print_dump(const void *mem, size_t len, unsigned int columns = 8);
 }
@@ -44,6 +45,13 @@ template<typename ... Args> 	ssize_t nos::printhex(const Args& ... args) 				{ r
 template<typename ... Args> 	ssize_t nos::printptr(const Args& ... args) 				{ return current_ostream->printptr(args ...); }
 template<typename V> 			ssize_t nos::print_list(const V& vec) 						{ return print_list_to(*current_ostream, vec); }
 template<typename T>			ssize_t nos::printptr_to(nos::ostream& out, const T* arg) 	{ return out.printptr(arg); }
+
+template<typename ... Args> 	
+ssize_t nos::printhexln(const Args& ... args) { 
+	int ret = current_ostream->printhex(args ...);
+	ret += current_ostream->println();
+	return ret; 
+}
 
 template<typename Head, typename ... Tail>
 ssize_t nos::print_to(nos::ostream& out, const Head& head, const Tail& ... tail)

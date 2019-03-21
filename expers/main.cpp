@@ -3,6 +3,5 @@
 
 int main ()
 {
-	nos::println(nos::green("Mirmik"));
-	nos::println(COLOR_GREEN("Mirmik"));
+	nos::println(COUNT_ARGS());
 } 
