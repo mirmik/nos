@@ -13,7 +13,12 @@ int nos::read_until(nos::istream& is, char* buf, size_t buflen, char delim)
 	{
 		int readed = is.read(&c, 1);
 
-		if (readed <= 0)
+		if (readed < 0) 
+		{
+			return readed;
+		}
+
+		if (readed == 0)
 		{
 			*buf = 0;
 			return count;
