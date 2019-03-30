@@ -3,13 +3,13 @@
 
 #include <iostream>
 #include <nos/io/iostream.h>
-#include <nos/io/fstream.h>
+#include <nos/io/file.h>
 
 namespace nos
 {
-	extern fstream cout;
-	extern fstream cerr;
-	extern fstream cin;
+	extern file cout;
+	extern file cerr;
+	extern file cin;
 
 }
 

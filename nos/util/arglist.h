@@ -142,7 +142,11 @@ namespace nos
 				if (str == arr[i].name) return arr[i];
 			}
 
-			BUG_ON("visitable_arglist: name error");
+			dprln("BUG:");
+			dprln("visitable_arglist: name error");
+			dpr("on name: "); debug_write(str.data(), str.size()); dprln();
+			BUG();
+
 			return arr[0]; // -Wreturn-type
 		}
 	};
