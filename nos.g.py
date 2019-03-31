@@ -1,12 +1,14 @@
 import licant
 
-licant.include("jackjack")
+#licant.include("jackjack")
 
 licant.module("nos.util",
 	srcdir="nos/util", 
 	sources=[
-		#"numconvert.c",
-		"trace.cpp"
+		"numconvert.c",
+		"trace.cpp",
+		"osutil.cpp",
+		"string.cpp"
 	]
 )
 
@@ -21,7 +23,9 @@ licant.module("nos.io",
 licant.module("nos.inet",
 	srcdir="nos/inet", 
 	sources=[
-		"common.cpp"
+		"common.cpp",
+		"tcp_server.cpp",
+		"tcp_socket.cpp"
 	],
 	mdepends=["nos.current_ostream"]
 )
@@ -33,6 +37,14 @@ licant.module("nos.print",
 		"stdtype.cpp"
 	],
 	mdepends=["nos.current_ostream"]
+)
+
+licant.module("nos.input",
+	srcdir="nos/input", 
+	sources=[
+		"input.cpp",
+	],
+	mdepends = ["nos.util"]
 )
 
 licant.module("nos.fprint",
@@ -86,7 +98,7 @@ licant.implementation("nos.dprint", "stdout",
 
 licant.module("nos.bugon", impl="abort", sources=["nos/util/bugon_abort.c"], mdepends=["nos.dprint"])
 licant.module("nos.bugon", impl="error", sources=["nos/util/bugon_error.cpp"], mdepends=["nos.error"])
-licant.module_defimpl("nos.bugon", "error")
+licant.module_defimpl("nos.bugon", "abort")
 
 licant.module("nos.error", impl="throw", sources=["nos/util/error_throw.cpp"])
 licant.module("nos.error", impl="abort", sources=["nos/util/error_abort.cpp"])
@@ -99,11 +111,11 @@ licant.module("nos",
 		"nos.util",
 		"nos.dprint",
 		"nos.print",
+		"nos.input",
 		"nos.fprint",
 		"nos.bugon",
 		"nos.io",
-		#"nos.inet",
-		"jackjack"
+#		"jackjack"
 	],
 	include_paths=["."]
 )
@@ -111,3 +123,8 @@ licant.module("nos",
 licant.module("nos.include",
 	include_paths=["."]
 )
+
+licant.module("nos.trent", sources=[
+	"nos/trent/trent.cpp",
+	"nos/trent/json.cpp"
+])

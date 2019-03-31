@@ -3,7 +3,7 @@
 
 namespace nos
 {
-	void error(const char* msg);
+	void fatal_handle(const char* msg);
 }
 
 #endif

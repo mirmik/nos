@@ -3,7 +3,6 @@
 
 #include <nos/inet/tcp_socket.h>
 
-
 namespace nos {
 	namespace inet {
 		struct tcp_server : public inet::socket {

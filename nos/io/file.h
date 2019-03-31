@@ -8,11 +8,11 @@ namespace nos {
 	class file : public nos::iostream
 	{
 	private:
-		FILE* filp = nullptr;
+		FILE* filp;
 
 	public:
 		file(FILE* f) : filp(f) {}
-		file() : file(nullptr) {}
+		file() : filp(nullptr) {}
 		file(const char * path, const char * mode) 
 		{
 			open(path, mode);

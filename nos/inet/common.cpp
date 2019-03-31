@@ -19,6 +19,8 @@
 
 #include <nos/util/osutil.h>
 
+#define NOTRACE 1
+#include <nos/trace.h>
 //#include <nos/warnings.h>
 
 //#include <nos/osutil/fd.h>
@@ -33,9 +35,10 @@ using sa_family_t = int;
 
 int nos::inet::socket::nonblock(bool en)
 {
+	TRACE();
 	int ret = nos::osutil::nonblock(fd, en);
 	if (NOS_WARNINGS && ret < 0) {
-		perror("warn: socket::nodelay");
+		perror("warn: socket::nonblock");
 	}
 
 	return ret;
@@ -43,6 +46,7 @@ int nos::inet::socket::nonblock(bool en)
 
 int nos::inet::socket::nodelay(bool en)
 {
+	TRACE();
 	int on = en;
 	int rc = setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, (char *) &on, sizeof(on));
 	if (NOS_WARNINGS && rc < 0) {
@@ -53,6 +57,7 @@ int nos::inet::socket::nodelay(bool en)
 
 int nos::inet::socket::reusing(bool en)
 {
+	TRACE();
 	int on = en;
 	int rc = setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (char *) &on, sizeof (on));
 	if (NOS_WARNINGS && rc < 0) {
@@ -63,6 +68,7 @@ int nos::inet::socket::reusing(bool en)
 
 int nos::inet::socket::init(int domain, int type, int proto)
 {
+	TRACE();
 	fd = ::socket(domain, type, proto);
 	if (NOS_WARNINGS && fd < 0) {
 		perror("warn: socket::init");
@@ -73,6 +79,7 @@ int nos::inet::socket::init(int domain, int type, int proto)
 
 int nos::inet::socket::bind(const nos::inet::hostaddr& haddr, uint16_t port, int family)
 {
+	TRACE();
 	int sts;
 	struct sockaddr_in addr;
 	
@@ -92,6 +99,7 @@ int nos::inet::socket::bind(const nos::inet::hostaddr& haddr, uint16_t port, int
 
 int nos::inet::socket::listen(int conn)
 {
+	TRACE();
 	int sts;
 	
 	sts = ::listen(fd, conn);
@@ -104,6 +112,7 @@ int nos::inet::socket::listen(int conn)
 
 int nos::inet::socket::connect(const nos::inet::hostaddr& haddr, uint16_t port, int family)
 {
+	TRACE();
 	int sts;
 	struct sockaddr_in addr;
 	memset(&addr, 0, sizeof(addr));
@@ -122,6 +131,7 @@ int nos::inet::socket::connect(const nos::inet::hostaddr& haddr, uint16_t port, 
 
 int nos::inet::socket::close()
 {
+	TRACE();
 	int sts;
 
 	sts = ::shutdown(fd, SHUT_RDWR);
@@ -138,80 +148,7 @@ int nos::inet::socket::close()
 }
 
 
-nos::inet::tcp_socket::tcp_socket(nos::inet::hostaddr addr, uint16_t port) : tcp_socket()
-{
-	inet::socket::init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	connect(addr, port);
-}
 
-int nos::inet::tcp_socket::init()
-{
-	return inet::socket::init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-}
-
-int nos::inet::tcp_socket::connect(nos::inet::hostaddr addr, uint16_t port)
-{
-	return socket::connect(addr, port, PF_INET);
-}
-
-ssize_t nos::inet::tcp_socket::write(const void* data, size_t size)
-{
-	return socket::send(data, size, 0);
-}
-
-ssize_t nos::inet::tcp_socket::read(char* data, size_t size)
-{
-	return socket::recv(data, size, 0);
-}
-
-ssize_t nos::inet::socket::send(const void* data, size_t size, int flags)
-{
-	return ::send(fd, data, size, flags);
-}
-
-ssize_t nos::inet::socket::recv(char* data, size_t size, int flags)
-{
-	return ::recv(fd, data, size, flags);
-}
-
-nos::inet::tcp_server::tcp_server(const nos::inet::hostaddr& addr, uint16_t port, int conn)
-{
-	this->init();
-	this->bind(addr, port);
-	this->listen(conn);
-}
-
-int nos::inet::tcp_server::init()
-{
-	return socket::init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-}
-
-int nos::inet::tcp_server::bind(const nos::hostaddr& addr, uint16_t port)
-{
-	return socket::bind(addr, port, PF_INET);
-}
-
-int nos::inet::tcp_server::listen(int conn)
-{
-	return inet::socket::listen(conn);
-}
-
-int nos::inet::tcp_server::listen()
-{
-	return inet::socket::listen(10);
-}
-
-nos::inet::tcp_socket nos::inet::tcp_server::accept()
-{
-	int c = sizeof(sockaddr_in);
-	sockaddr_in caddr;
-	memset(&caddr, 0, sizeof(caddr));
-	int cfd = ::accept( fd, (sockaddr*)&caddr, (socklen_t*)&c );
-
-	nos::inet::tcp_socket sock;
-	sock.fd = cfd;
-	return sock;
-}
 
 
 nos::inet::datagramm_socket::datagramm_socket(int domain, int type, int proto)

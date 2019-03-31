@@ -1,13 +1,17 @@
 #ifndef NOS_IO_ISTREAM_H
 #define NOS_IO_ISTREAM_H
 
+#include <nos/input.h>
+#include <stdlib.h>
+#include <string>
+
 namespace nos
 {
 	class istream
 	{
 	public:
 
-		std::string readline()
+		std::string readline();/*
 		{
 			std::string ret;
 			char c;
@@ -22,9 +26,22 @@ namespace nos
 					default: ret += c;
 				}
 			}
+		}*/
+
+		int ignore() { char c; int readed = read(&c,1); return readed; }
+		int ignore(int i) { char c[i]; int readed = read(&c,1); return readed; }
+
+		int read_until(char* buf, size_t buflen, char delim) 
+		{
+			return nos::read_until(*this, buf, buflen, delim);
 		}
 
-		virtual ssize_t read(char* ptr, size_t sz) = 0;
+		int read_paired(char* buf, size_t buflen, char a, char b, bool ignore=true) 
+		{
+			return nos::read_paired(*this, buf, buflen, a, b, ignore);
+		}
+
+		virtual ssize_t read(void* ptr, size_t sz) = 0;
 	};
 }
 
