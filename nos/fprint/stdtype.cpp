@@ -85,7 +85,7 @@ ssize_t nos_fprint(nos::ostream& os, int32_t obj, nos::buffer opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[32];
-	char * end = nos_util_i32toa(obj, buf, 10);
+	char * end = i32toa(obj, buf, 10);
 	return nos_fprint_integer_impl(os, buf, end - buf, spec);
 }
 
@@ -93,7 +93,7 @@ ssize_t nos_fprint(nos::ostream& os, int64_t obj, nos::buffer opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64];
-	char * end = nos_util_i64toa(obj, buf, 10);
+	char * end = i64toa(obj, buf, 10);
 	return nos_fprint_integer_impl(os, buf, end - buf, spec);
 }
 
@@ -103,7 +103,7 @@ ssize_t nos_fprint(nos::ostream& os, uint32_t obj, nos::buffer opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[32];
-	char * end = nos_util_u32toa(obj, buf, 10);
+	char * end = u32toa(obj, buf, 10);
 	return nos_fprint_integer_impl(os, buf, end - buf, spec);
 }
 
@@ -111,6 +111,6 @@ ssize_t nos_fprint(nos::ostream& os, uint64_t obj, nos::buffer opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64];
-	char * end = nos_util_u64toa(obj, buf, 10);
+	char * end = u64toa(obj, buf, 10);
 	return nos_fprint_integer_impl(os, buf, end - buf, spec);
 }

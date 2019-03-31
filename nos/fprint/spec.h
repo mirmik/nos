@@ -1,7 +1,7 @@
 #ifndef NOS_FPRINT_SPEC_H
 #define NOS_FPRINT_SPEC_H
 
-#include <nos/util/numconvert.h>
+#include <igris/util/numconvert.h>
 
 namespace nos
 {
@@ -26,7 +26,7 @@ namespace nos
 		{
 			if (isdigit(*ptr))
 			{
-				width = nos_util_atou32(ptr, 10, &ptr);
+				width = atou32(ptr, 10, &ptr);
 				return ptr;
 			}
 

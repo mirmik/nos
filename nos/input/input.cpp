@@ -1,8 +1,6 @@
 #include <nos/input.h>
 #include <nos/io/istream.h>
 
-#include <nos/dprint.h>
-
 int nos::read_until(nos::istream& is, char* buf, size_t buflen, char delim)
 {
 	char c;
@@ -74,7 +72,6 @@ int nos::read_paired(nos::istream& is, char* buf, size_t buflen, char a, char b,
 
 		if (c == a) 
 		{
-			dprln("++paircount");
 			++paircount;
 		}
 

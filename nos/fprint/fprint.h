@@ -6,7 +6,7 @@
 #include <nos/print/print.h>
 #include <nos/io/string_writer.h>
 
-#include <nos/util/numconvert.h>
+#include <igris/util/numconvert.h>
 
 namespace nos
 {

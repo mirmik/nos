@@ -1,15 +1,12 @@
 import licant
 
-#licant.include("jackjack")
-
 licant.module("nos.util",
 	srcdir="nos/util", 
 	sources=[
-		"numconvert.c",
 		"trace.cpp",
 		"osutil.cpp",
-		"string.cpp"
-	]
+	],
+	mdepends=["igris.utils"]
 )
 
 licant.module("nos.io",
@@ -60,62 +57,23 @@ licant.module("nos.current_ostream", impl="stdout", sources=["nos/io/current_ost
 licant.module("nos.current_ostream", impl="nullptr", sources=["nos/io/current_ostream_nullptr.cpp"])
 licant.module_defimpl("nos.current_ostream", "stdout")
 
-licant.module("nos.printf",
-	sources=["nos/util/printf_impl.c"]
-)
-
-licant.module("nos.dprint.common", "impl", 
-	srcdir="nos/dprint",
-	sources=["dprint_func_impl.c", "dprintxx.cpp"],
-	mdepends=["nos.printf"]
-)
-
-licant.implementation("nos.dprint", "stub", 
-	srcdir="nos/dprint",
-	sources = "dprint_func_stub.c dprint_stub.c dprintxx.cpp".split(" ")
-)
-
-#licant.implementation("nos.dprint", "diag", 
-#	sources = "dprint_func_impl.c dprint_diag.c dprintxx.cpp".split(" "),
-#	cc_flags = "-Wno-pointer-to-int-cast",
-#	mdepends = [
-#		"gxx.diag",
-#		("nos.dprint.common", "impl")
-#	],
-#)
-
-licant.implementation("nos.dprint", "manually", 
-	srcdir="nos/dprint",
-	sources = ["dprint_manually.c"],
-	mdepends = [("nos.dprint.common","impl")],
-)
-
-licant.implementation("nos.dprint", "stdout",
-	srcdir="nos/dprint",
-	sources = ["dprint_stdout.c"],
-	mdepends = [("nos.dprint.common","impl")],
-)
-
-licant.module("nos.bugon", impl="abort", sources=["nos/util/bugon_abort.c"], mdepends=["nos.dprint"])
-licant.module("nos.bugon", impl="error", sources=["nos/util/bugon_error.cpp"], mdepends=["nos.error"])
-licant.module_defimpl("nos.bugon", "abort")
+#licant.module("nos.printf", sources=["nos/util/printf_impl.c"])
 
 licant.module("nos.error", impl="throw", sources=["nos/util/error_throw.cpp"])
 licant.module("nos.error", impl="abort", sources=["nos/util/error_abort.cpp"])
 licant.module_defimpl("nos.error", "throw")
 
-licant.module_defimpl("nos.dprint", "stdout")
-
 licant.module("nos",
 	mdepends=[
 		"nos.util",
-		"nos.dprint",
 		"nos.print",
 		"nos.input",
 		"nos.fprint",
-		"nos.bugon",
 		"nos.io",
 #		"jackjack"
+		
+		"igris.include",
+		"igris.bug",
 	],
 	include_paths=["."]
 )

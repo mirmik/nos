@@ -11,8 +11,8 @@
 #include <memory>
 #include <utility>
 #include <assert.h>
-#include <nos/util/buffer.h>
-#include <nos/bugon.h>
+#include <igris/buffer.h>
+#include <igris/bug.h>
 
 namespace nos
 {

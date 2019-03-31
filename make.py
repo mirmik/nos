@@ -8,6 +8,7 @@ import os
 version = "1.0.0"
 
 licant.execute("nos.g.py")
+licant.include("igris")
 
 target = "libnos.{}.so".format(version)
 install_include_path = '/usr/local/include/nos' 
