@@ -5,7 +5,7 @@ licant.include("jackjack")
 licant.module("nos.util",
 	srcdir="nos/util", 
 	sources=[
-		"numconvert.c",
+		#"numconvert.c",
 		"trace.cpp"
 	]
 )

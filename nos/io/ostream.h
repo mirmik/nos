@@ -52,7 +52,7 @@ namespace nos
 			size_t ret = 0;
 			char* _ptr = (char*) ptr;
 
-			for (uint i = 0; i < sz; ++i) 
+			for (unsigned int i = 0; i < sz; ++i) 
 			{
 				ret += printhex(*_ptr++);
 			}
