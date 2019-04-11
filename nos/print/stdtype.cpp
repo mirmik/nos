@@ -24,19 +24,13 @@ ssize_t nos_print(nos::ostream& out, uint16_t obj) 	{ char buf[48];	u64toa(obj, 
 ssize_t nos_print(nos::ostream& out, uint32_t obj) 	{ char buf[48];	u64toa(obj, buf, 10); return nos_print(out, buf); }
 ssize_t nos_print(nos::ostream& out, uint64_t obj) 	{ char buf[48];	u64toa(obj, buf, 10); return nos_print(out, buf); }
 
-/*ssize_t nos_print(nos::ostream& out, float obj) 	{ 
-//	char buf[48];	
-//	nos_util_ftoa(obj, buf, 5); 
-//	return nos_print(out, buf); 
-	adapterbuf<char> adapter(out); 
-	std::ostream stdos(&adapter);
-	stdos << obj;
-	return 0;
+ssize_t nos_print(nos::ostream& out, float obj) 	{ 
+	char buf[48];	
+	numconvert_ftoa(obj, buf, 5); 
+	return nos_print(out, buf); 
 }
 ssize_t nos_print(nos::ostream& out, double obj) 	{ 
-	/*char buf[48]; nos_util_ftoa(obj, buf, 5); return nos_print(out, buf);*/
-/*	adapterbuf<char> adapter(out); 
-	std::ostream stdos(&adapter);
-	stdos << obj;
-	return 0;
-}*/
+	char buf[48]; 
+	numconvert_ftoa(obj, buf, 5); 
+	return nos_print(out, buf);
+}
