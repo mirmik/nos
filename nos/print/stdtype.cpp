@@ -26,11 +26,11 @@ ssize_t nos_print(nos::ostream& out, uint64_t obj) 	{ char buf[48];	u64toa(obj, 
 
 ssize_t nos_print(nos::ostream& out, float obj) 	{ 
 	char buf[48];	
-	numconvert_ftoa(obj, buf, 5); 
+	f32toa(obj, buf, 5); 
 	return nos_print(out, buf); 
 }
 ssize_t nos_print(nos::ostream& out, double obj) 	{ 
 	char buf[48]; 
-	numconvert_ftoa(obj, buf, 5); 
+	f64toa(obj, buf, 5); 
 	return nos_print(out, buf);
 }
