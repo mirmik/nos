@@ -74,6 +74,7 @@ licant.module("nos",
 		
 		"igris.include",
 		"igris.bug",
+		"igris.dprint",
 	],
 	include_paths=["."]
 )
