@@ -1,6 +1,9 @@
 #include <nos/print.h>
 #include <nos/io/ostream.h>
 
+#include <nos/util/arglist.h>
+#include <nos/fprint/visitor.h>
+
 namespace nos
 {
 	ssize_t fprint(const char* arg)
