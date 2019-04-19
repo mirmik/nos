@@ -12,7 +12,7 @@
 #include <utility>
 #include <assert.h>
 #include <igris/buffer.h>
-#include <igris/bug.h>
+#include <igris/util/bug.h>
 
 namespace nos
 {

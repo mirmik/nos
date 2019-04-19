@@ -1,7 +1,7 @@
 #ifndef NOS_IO_STRING_WRITER_H
 #define NOS_IO_STRING_WRITER_H
 
-#include <iostream>
+#include <string>
 
 namespace nos {
 	class string_writer : public nos::ostream {
