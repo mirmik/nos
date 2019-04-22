@@ -82,8 +82,3 @@ licant.module("nos",
 licant.module("nos.include",
 	include_paths=["."]
 )
-
-licant.module("nos.trent", sources=[
-	"nos/trent/trent.cpp",
-	"nos/trent/json.cpp"
-])
