@@ -6,7 +6,7 @@ licant.module("nos.util",
 		"trace.cpp",
 		"osutil.cpp",
 	],
-	mdepends=["igris.utils"]
+	mdepends=["igris.util"]
 )
 
 licant.module("nos.io",
@@ -31,7 +31,7 @@ licant.module("nos.print",
 	srcdir="nos/print", 
 	sources=[
 		"print.cpp",
-		"stdtype.cpp"
+		"stdtype.cpp",
 	],
 	mdepends=["nos.current_ostream"]
 )
@@ -53,9 +53,17 @@ licant.module("nos.fprint",
 	mdepends=["nos.current_ostream"]
 )
 
-licant.module("nos.current_ostream", impl="stdout", sources=["nos/io/current_ostream_stdout.cpp", "nos/io/stdfile.cpp"])
-licant.module("nos.current_ostream", impl="nullptr", sources=["nos/io/current_ostream_nullptr.cpp"])
-licant.module_defimpl("nos.current_ostream", "stdout")
+licant.module("nos.current_ostream", impl="stdout", 
+	sources=["nos/io/current_ostream_stdout.cpp", "nos/io/stdfile.cpp"],
+	mdepends = ["nos.io"],
+	default = True
+)
+
+licant.module("nos.current_ostream", impl="nullptr", 
+	sources=["nos/io/current_ostream_nullptr.cpp"],
+	mdepends = ["nos.io"]
+)
+
 
 #licant.module("nos.printf", sources=["nos/util/printf_impl.c"])
 

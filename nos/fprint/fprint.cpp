@@ -70,7 +70,7 @@ namespace nos
 				return -1;
 
 			default:
-				BUG_ON("format internal error");
+				dprln("nos::format_error");
 				return -1;
 		}
 
