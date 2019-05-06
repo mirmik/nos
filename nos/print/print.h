@@ -2,7 +2,7 @@
 #define NOS_PRINT_PRINT_H
 
 #include <stdlib.h>
-//#include <jackjack/compiler.h>
+#include <igris/buffer.h>
 
 namespace nos
 {
@@ -33,6 +33,7 @@ namespace nos
 	template<typename ... Args> 				ssize_t printhexln(const Args& ... args);
 	template<typename Arg> 						ssize_t printptr(const Arg& arg);
 												ssize_t print_dump(const void *mem, size_t len, unsigned int columns = 8);
+												ssize_t print_dump(igris::buffer buf, unsigned int columns = 8);
 }
 
 #include <nos/io/ostream.h>
