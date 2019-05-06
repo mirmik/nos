@@ -6,7 +6,7 @@ licant.module("nos.util",
 		"trace.cpp",
 		"osutil.cpp",
 	],
-	mdepends=["igris.utils"]
+	mdepends=["igris.util"]
 )
 
 licant.module("nos.io",
