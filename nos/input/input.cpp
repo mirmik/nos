@@ -60,7 +60,7 @@ int nos::read_paired(nos::istream& is, char* buf, size_t buflen, char a, char b,
 	*buf++ = c;
 	count++;
 
-	while (paircount != 0)
+	while (paircount != 0 && buf != last)
 	{
 		int readed = is.read(&c, 1);
 
