@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 #include <stdint.h>
-#include <nos/util/buffer.h>
+#include <igris/buffer.h>
 
 namespace nos { class ostream; }
 
@@ -23,7 +23,7 @@ ssize_t nos_print(nos::ostream& out, uint64_t str);
 ssize_t nos_print(nos::ostream& out, float str);
 ssize_t nos_print(nos::ostream& out, double str);
 
-ssize_t nos_print(nos::ostream& out, nos::buffer buf);
+ssize_t nos_print(nos::ostream& out, igris::buffer buf);
 
 #include <nos/print.h>
 #include <vector>

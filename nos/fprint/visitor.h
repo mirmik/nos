@@ -1,7 +1,7 @@
 #ifndef NOS_FPRINT_VISITOR_H
 #define NOS_FPRINT_VISITOR_H
 
-#include <nos/util/buffer.h>
+#include <igris/buffer.h>
 #include <nos/util/arglist.h>
 
 #include <nos/fprint/meta.h>
@@ -12,7 +12,7 @@ namespace nos
 
 	struct format_visitor
 	{
-		using ftype = int(*)(void*, nos::ostream&, nos::buffer opts);
+		using ftype = int(*)(void*, nos::ostream&, igris::buffer opts);
 
 		template<typename Object>
 		static void* get_visit()

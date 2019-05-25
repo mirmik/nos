@@ -54,7 +54,7 @@ namespace nos
 
 	struct integer_spec : public basic_spec
 	{
-		integer_spec(nos::buffer opts) 
+		integer_spec(igris::buffer opts) 
 		{
 			char* ptr = opts.begin();
 			char* end = opts.end();
@@ -67,7 +67,7 @@ namespace nos
 
 	struct float_spec : public basic_spec
 	{
-		float_spec(nos::buffer opts) 
+		float_spec(igris::buffer opts) 
 		{
 			char* ptr = opts.begin();
 			char* end = opts.end();
@@ -80,7 +80,7 @@ namespace nos
 
 	struct text_spec : public basic_spec
 	{
-		text_spec(nos::buffer opts) 
+		text_spec(igris::buffer opts) 
 		{
 			char* ptr = opts.begin();
 			char* end = opts.end();

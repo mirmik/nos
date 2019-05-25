@@ -42,7 +42,7 @@ namespace nos
 
 			while (isalpha(*count_ptr++)) len++;
 
-			varg = &list[nos::buffer(fmt, len)];
+			varg = &list[igris::buffer(fmt, len)];
 		}
 		else if (isdigit(*fmt))
 		{
@@ -58,12 +58,12 @@ namespace nos
 		switch (*fmt)
 		{
 			case '}':
-				ret = nos::format_visitor::visit(*varg, out, nos::buffer());
+				ret = nos::format_visitor::visit(*varg, out, igris::buffer());
 				break;
 
 			case ':':
 				++fmt;
-				ret = nos::format_visitor::visit(*varg, out, nos::buffer(fmt, strchr(fmt, '}') - fmt));
+				ret = nos::format_visitor::visit(*varg, out, igris::buffer(fmt, strchr(fmt, '}') - fmt));
 				break;
 
 			case 0	:

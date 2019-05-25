@@ -37,8 +37,8 @@ namespace nos
 	struct argpair
 	{
 		void* body;
-		nos::buffer name;
-		constexpr argpair(const nos::buffer& _name, const T& _body) : body((void*)&_body), name(_name) {}
+		igris::buffer name;
+		constexpr argpair(const igris::buffer& _name, const T& _body) : body((void*)&_body), name(_name) {}
 	};
 
 	/**
@@ -47,8 +47,8 @@ namespace nos
 	 */
 	struct argname
 	{
-		nos::buffer name;
-		constexpr argname(const nos::buffer& _name) : name(_name) {};
+		igris::buffer name;
+		constexpr argname(const igris::buffer& _name) : name(_name) {};
 
 		template<typename T>
 		constexpr argpair<T> operator= (const T& body)
@@ -61,7 +61,7 @@ namespace nos
 	{
 		static inline argname operator"" _a (const char* name, size_t sz)
 		{
-			return argname(nos::buffer(name, sz));
+			return argname(igris::buffer(name, sz));
 		}
 	}
 
@@ -73,17 +73,17 @@ namespace nos
 	struct visitable_argument
 	{
 		void* 		ptr;
-		nos::buffer name;
+		igris::buffer name;
 		void* 		visit;
 
-		visitable_argument(void* _ptr, const nos::buffer& buf, void* _visit) : 
+		visitable_argument(void* _ptr, const igris::buffer& buf, void* _visit) : 
 			ptr(_ptr), name(buf), visit(_visit) {}
 
 		template <typename Visitor, typename Object>
 		visitable_argument(const Object& obj, const Visitor& visitor)
 			: visitable_argument(
 			      (void*) & obj,
-			      nos::buffer(),
+			      igris::buffer(),
 			      Visitor::template get_visit<detail::va_remove_cvref_t<Object>>())
 		{(void)visitor;}
 
@@ -135,7 +135,7 @@ namespace nos
 			return arr[num];
 		}
 
-		const visitable_argument& operator[](nos::buffer str) const
+		const visitable_argument& operator[](igris::buffer str) const
 		{
 			for (uint8_t i = 0; i < N; ++i)
 			{
