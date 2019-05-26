@@ -8,6 +8,8 @@
 #include <igris/util/hexascii.h>
 #include <igris/util/numconvert.h>
 
+#include <igris/util/types_extension.h>
+
 namespace nos
 {
 	class ostream

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <igris/buffer.h>
+#include <igris/util/types_extension.h>
 
 namespace nos { class ostream; }
 

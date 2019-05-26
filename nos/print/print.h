@@ -2,6 +2,7 @@
 #define NOS_PRINT_PRINT_H
 
 #include <stdlib.h>
+#include <igris/util/types_extension.h>
 #include <igris/buffer.h>
 
 namespace nos
@@ -43,7 +44,7 @@ template<typename Arg> 			ssize_t nos::print_to(nos::ostream& out, const Arg& ar
 template<typename ... Args> 	ssize_t nos::print(const Args& ... args) 					{ return print_to(*current_ostream, args ...); }
 template<typename ... Args> 	ssize_t nos::println(const Args& ... args) 					{ return println_to(*current_ostream, args ...); }
 template<typename ... Args> 	ssize_t nos::printhex(const Args& ... args) 				{ return current_ostream->printhex(args ...); }
-template<typename ... Args> 	ssize_t nos::printptr(const Args& ... args) 				{ return current_ostream->printptr(args ...); }
+//template<typename ... Args> 	ssize_t nos::printptr(const Args& ... args) 				{ return current_ostream->printptr(args ...); }
 template<typename V> 			ssize_t nos::print_list(const V& vec) 						{ return print_list_to(*current_ostream, vec); }
 template<typename T>			ssize_t nos::printptr_to(nos::ostream& out, const T* arg) 	{ return out.printptr(arg); }
 

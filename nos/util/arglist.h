@@ -111,9 +111,6 @@ namespace nos
 	public:
 		visitable_arglist() : N(0), arr(nullptr) {}
 
-		__attribute__((deprecated))
-		visitable_arglist(visitable_argument* buffer, size_t N) : N(N), arr(buffer) {}
-
 		template<size_t M>
 		visitable_arglist(visitable_argument(&& arr)[M]) 
 			: N(M), arr(arr) 

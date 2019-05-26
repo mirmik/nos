@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string>
 
+#include <igris/util/types_extension.h>
+
 namespace nos
 {
 	class istream
@@ -29,7 +31,7 @@ namespace nos
 		}*/
 
 		int ignore() { char c; int readed = read(&c,1); return readed; }
-		int ignore(int i) { char c[i]; int readed = read(&c,1); return readed; }
+		int ignore(int i) { int j = i; while(j--) ignore(); return i; }
 
 		int read_until(char* buf, size_t buflen, char delim) 
 		{

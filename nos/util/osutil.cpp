@@ -1,5 +1,6 @@
 #include <nos/util/osutil.h>
 
+#ifndef _MSC_VER
 #include <unistd.h>
 #include <fcntl.h>
 
@@ -10,3 +11,4 @@ int nos::osutil::nonblock(int fd, bool en) {
    flags = en ? (flags|O_NONBLOCK) : (flags&~O_NONBLOCK);
    return fcntl(fd, F_SETFL, flags) == 0;
 }
+#endif

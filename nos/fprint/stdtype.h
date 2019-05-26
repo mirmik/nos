@@ -2,6 +2,7 @@
 #define NOS_FPRINT_STDTYPE_H
 
 #include <igris/buffer.h>
+#include <igris/util/types_extension.h>
 
 namespace nos { class ostream; }
 
