@@ -6,6 +6,8 @@
 #include <igris/buffer.h>
 #include <igris/util/types_extension.h>
 
+#include <string>
+
 namespace nos { class ostream; }
 
 ssize_t nos_print(nos::ostream& out, const char* str);
@@ -25,6 +27,12 @@ ssize_t nos_print(nos::ostream& out, float str);
 ssize_t nos_print(nos::ostream& out, double str);
 
 ssize_t nos_print(nos::ostream& out, igris::buffer buf);
+
+static inline
+ssize_t nos_print(nos::ostream& out, const std::string& str) 
+{
+	return nos_print(out, igris::buffer(str));
+}
 
 #include <nos/print.h>
 #include <vector>
