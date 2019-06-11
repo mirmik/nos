@@ -16,7 +16,11 @@ namespace nos
 	ssize_t fprint_to(nos::ostream& out, const char* fmt, const Args& ... args)
 	{
 		return fprint_impl(out, fmt,
-		    visitable_arglist ({ visitable_argument(args, nos::format_visitor()) ... })
+		    visitable_arglist ({ 
+		    	visitable_argument(args, 
+		    	nos::format_visitor()) 
+		    	... 
+		    })
 		);
 	}
 
@@ -39,7 +43,7 @@ namespace nos
 	ssize_t fprintln_to(nos::ostream& out, const Args& ... args)
 	{
 		size_t ret = 0;
-		ret += fprint_to(out, std::forward<Args>(args) ...);
+		ret += fprint_to(out, args ...);
 		ret += println();
 		return ret;
 	}
