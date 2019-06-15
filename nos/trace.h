@@ -10,7 +10,7 @@ namespace nos
 
 	struct tracer
 	{
-		const char* func = func;
+		const char* func;
 		void* retptr;
 		void* visit;
 

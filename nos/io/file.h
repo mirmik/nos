@@ -36,7 +36,7 @@ namespace nos {
 			return 0;
 		}
 
-		virtual int flush()
+		int flush() override
 		{
 			return fflush(filp);
 		}

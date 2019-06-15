@@ -93,7 +93,7 @@ namespace nos
 			      pair.body,
 			      pair.name,
 			      Visitor::template get_visit<detail::va_remove_cvref_t<Object>>())
-		{}
+		{(void) visitor;}
 	};
 
 	/**
