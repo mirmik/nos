@@ -3,6 +3,7 @@
 
 #include <nos/io/iostream.h>
 #include <nos/inet/socket.h>
+#include <nos/inet/hostaddr.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -32,6 +33,8 @@ namespace nos
 			//io api implementation
 			ssize_t write(const void* data, size_t size) override;
 			ssize_t read(void* data, size_t size) override;
+
+			netaddr getaddr();
 		};
 	}
 }

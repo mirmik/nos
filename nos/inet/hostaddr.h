@@ -2,8 +2,11 @@
 #define nos_INETADDR_H
 
 #include <ctype.h>
+
 #include <nos/print.h>
-#include <nos/util/string.h>
+#include <nos/fprint.h>
+
+#include <igris/util/string.h>
 
 namespace nos {
 	class hostaddr {
@@ -14,7 +17,7 @@ namespace nos {
 		
 		hostaddr(const char* str) {
 			if (isdigit(*str)) {
-				nos::strvec nums = nos::split(str, '.');
+				igris::strvec nums = igris::split(str, '.');
 				addr =
 					atoi(nums[0].c_str()) << 24 |
 					atoi(nums[1].c_str()) << 16 |
@@ -29,13 +32,20 @@ namespace nos {
 			return o.printhex(addr);
 		}
 
-		size_t fprint_to(nos::ostream& o, nos::buffer opts) const {
+/*		size_t fprint_to(nos::ostream& o, igris::buffer opts) const {
+			(void)opts;
 			return o.printhex(addr);
-		}
+		}*/
 		
 		bool operator == (const hostaddr& oth) const {
 			return oth.addr == addr;
 		}
+
+		bool operator < (const hostaddr & oth) const
+			{
+				if (addr < oth.addr) return true; 
+				return false;
+			}
 	};
 
 	namespace inet {
@@ -59,6 +69,13 @@ namespace nos {
 
 			bool operator==(const netaddr& oth) const {
 				return oth.addr == addr && oth.port == port;
+			}
+
+			bool operator < (const netaddr & oth) const
+			{
+				if (addr < oth.addr) return true; 
+				if (port < oth.port) return true;
+				return false;
 			}
 		};
 	}
