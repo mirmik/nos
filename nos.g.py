@@ -78,11 +78,11 @@ licant.module("nos",
 		"nos.input",
 		"nos.fprint",
 		"nos.io",
-#		"jackjack"
-		
-		"igris.include",
-		"igris.bug",
+		"nos.current_ostream",
+
 		"igris.dprint",
+		"igris.include",
+		"igris.bug"
 	],
 	include_paths=["."]
 )

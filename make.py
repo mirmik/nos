@@ -11,7 +11,7 @@ licant.execute("nos.g.py")
 licant.include("igris")
 
 target = "libnos.{}.so".format(version)
-install_include_path = '/usr/local/include/nos' 
+install_include_path = '/usr/include/nos' 
 install_directory_path = '/usr/lib/'
 install_library_path = os.path.join(install_directory_path, target) 
 install_library_link = os.path.join(install_directory_path, 'libnos.so')
@@ -19,7 +19,7 @@ install_library_link = os.path.join(install_directory_path, 'libnos.so')
 licant.cxx_shared_library(target,
 	mdepends = 
 	[
-		"nos"
+		"nos",
 	],
 
 	cxx_flags = '-fPIC',
