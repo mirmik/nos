@@ -20,6 +20,7 @@ licant.cxx_shared_library(target,
 	mdepends = 
 	[
 		"nos",
+		"nos.inet",
 	],
 
 	cxx_flags = '-fPIC',
