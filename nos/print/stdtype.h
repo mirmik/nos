@@ -4,8 +4,10 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <igris/buffer.h>
+#include <igris/math/defs.h>
 #include <igris/util/types_extension.h>
 
+#include <complex>
 #include <string>
 
 namespace nos { class ostream; }
@@ -78,6 +80,23 @@ namespace nos
 		static ssize_t print_to(nos::ostream& out, const std::array<T,M>& obj)
 		{
 			return nos::print_list_to<std::array<T,M>>(out, obj);
+		}
+	};
+
+	template <typename T> struct print_implementation<std::complex<T>>
+	{
+		static ssize_t print_to(nos::ostream& out, const std::complex<T>& obj)
+		{
+			int ret = 0;
+			
+			T re = obj.real();
+			T im = obj.imag();
+
+			ret += nos::print_to(out, re);
+			ret += nos::print_to(out, im < 0 ? "-" : "+");
+			ret += nos::print_to(out, ABS(im));
+			ret += nos::print_to(out, "j");			
+			return ret;
 		}
 	};
 }
