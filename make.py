@@ -21,6 +21,7 @@ licant.cxx_shared_library(target,
 	[
 		"nos",
 		"nos.inet",
+		"nos.input",
 	],
 
 	cxx_flags = '-fPIC',
