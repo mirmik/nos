@@ -2,6 +2,7 @@
 #define NOS_FPRINT_SPEC_H
 
 #include <igris/util/numconvert.h>
+#include <igris/dprint.h>
 
 namespace nos
 {
@@ -54,11 +55,11 @@ namespace nos
 
 	struct integer_spec : public basic_spec
 	{
-		integer_spec(igris::buffer opts) 
+		integer_spec(igris::buffer opts)
 		{
 			char* ptr = opts.begin();
 			char* end = opts.end();
-			while(ptr != end)
+			while (ptr != end)
 			{
 				ptr = analyze(ptr);
 			}
@@ -67,11 +68,11 @@ namespace nos
 
 	struct float_spec : public basic_spec
 	{
-		float_spec(igris::buffer opts) 
+		float_spec(igris::buffer opts)
 		{
 			char* ptr = opts.begin();
 			char* end = opts.end();
-			while(ptr != end)
+			while (ptr != end)
 			{
 				ptr = analyze(ptr);
 			}
@@ -80,13 +81,27 @@ namespace nos
 
 	struct text_spec : public basic_spec
 	{
-		text_spec(igris::buffer opts) 
+		text_spec(igris::buffer opts)
 		{
 			char* ptr = opts.begin();
 			char* end = opts.end();
-			while(ptr != end)
+			while (ptr != end)
 			{
-				ptr = analyze(ptr);
+				switch (*ptr)
+				{
+					case 'u':
+						tcase = text_case::upper;
+						break;
+
+					case 'l':
+						tcase = text_case::lower;
+						break;
+
+					default:
+						ptr = analyze(ptr);
+						continue;
+				}
+				ptr++;
 			}
 		}
 	};

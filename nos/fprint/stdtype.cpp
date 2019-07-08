@@ -40,11 +40,11 @@ ssize_t nos_fprint(nos::ostream& os, const char* text, int size, const nos::basi
 
 	if (spec.tcase == nos::text_case::upper)
 	{
-		ret += os.write_lower(text, size);
+		ret += os.write_upper(text, size);
 	}
 	else if (spec.tcase == nos::text_case::lower)
 	{
-		ret += os.write_upper(text, size);
+		ret += os.write_lower(text, size);
 	} 
 	else
 	{

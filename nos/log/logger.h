@@ -4,11 +4,10 @@
 #include <nos/print.h>
 #include <nos/fprint.h>
 #include <nos/log/level.h>
+#include <nos/log/target.h>
 
 #include <vector>
 #include <memory>
-#include <ctime>
-#include <cstdio>
 
 #define WITHOUT_LOG 1
 
@@ -16,31 +15,21 @@ namespace nos
 {
 	namespace log
 	{
-		class target;
-
-		class logmsg
-		{
-			level lvl;
-			std::string text;
-			std::tm timestamp;
-
-		public:
-			logmsg(level lvl, std::string && str, std::tm & timestamp) :
-				lvl(lvl),
-				text(std::move(str)),
-				timestamp(timestamp)
-			{}
-		};
-
 		class logger
 		{
+		private:
+			std::vector<nos::log::target*> targets;
+
 		public:
-			std::vector<std::pair<nos::log::target*, nos::level>> targets;
 			std::string name;
 
 		public:
 			logger(const std::string& _name) : name(_name) {}
-			void link(target* tgt, level lvl);
+
+			void link(target* tgt)
+			{
+				targets.push_back(tgt);
+			}
 
 			/// Logging method implementation
 			void log(level lvl, std::string&& msg)
@@ -54,10 +43,16 @@ namespace nos
 				std::shared_ptr<nos::log::logmsg> logmsg
 				    = std::make_shared<nos::log::logmsg>
 				      (
+				          this,
 				          lvl,
 				          std::move(msg),
 				          local_time
 				      );
+
+				for (auto * tgt : targets)
+				{
+					tgt->log(logmsg);
+				}
 			}
 
 			void clear_targets();
