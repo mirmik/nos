@@ -5,12 +5,17 @@
 
 namespace nos
 {
-	struct target
+	namespace log
 	{
-		//virtual void log(std::shared_ptr<logmessage> logmsg) {
-		//	nos::println("virtual log function");
-		//}
-	};
+		struct target
+		{
+			virtual void log(
+				std::shared_ptr<nos::log::logmsg> logmsg) 
+			{
+				nos::println("virtual log function");
+			}
+		};
+	}
 
 	/*struct print_target : public target {
 		const char* tmplt = "{logger} | {level} | {msg} |";

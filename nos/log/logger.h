@@ -2,67 +2,97 @@
 #define NOS_LOGGER_H
 
 #include <nos/print.h>
+#include <nos/fprint.h>
 #include <nos/log/level.h>
+
 #include <vector>
+#include <memory>
+#include <ctime>
+#include <cstdio>
 
 #define WITHOUT_LOG 1
 
 namespace nos
 {
-	class target;
-
-	class logger
+	namespace log
 	{
-	public:
-		std::vector<std::pair<nos::target*, nos::level>> targets;
-		std::string name;
+		class target;
 
-	public:
-		logger(const std::string& _name) : name(_name) {}
-		void link(target* tgt, level lvl);
-
-		/// Logging method implementation
-		void log(level lvl, std::string&& msg);
-
-		void clear_targets();
-
-#if NOS_WITHOUT_LOG != 1
-
-		template <typename ... Args>
-		inline void log(level lvl, const char* fmt, const Args& ... args)
+		class logmsg
 		{
-			log(lvl, nos::format(fmt, args ...));
-		}
+			level lvl;
+			std::string text;
+			std::tm timestamp;
 
-		template <typename ... Args>
-		inline void log(level lvl, std::string& fmt, const Args& ... args)
+		public:
+			logmsg(level lvl, std::string && str, std::tm & timestamp) :
+				lvl(lvl),
+				text(std::move(str)),
+				timestamp(timestamp)
+			{}
+		};
+
+		class logger
 		{
-			log(lvl, nos::format(fmt, args ...));
-		}
+		public:
+			std::vector<std::pair<nos::log::target*, nos::level>> targets;
+			std::string name;
 
-		template <typename ... Args> inline void trace(const Args& ... args) { log(level::trace, args ...); }
-		template <typename ... Args> inline void debug(const Args& ... args) { log(level::debug, args ...); }
-		template <typename ... Args> inline void info(const Args& ... args) { log(level::info, args ...); }
-		template <typename ... Args> inline void warn(const Args& ... args) { log(level::warn, args ...); }
-		template <typename ... Args> inline void error(const Args& ... args) { log(level::error, args ...); }
-		template <typename ... Args> inline void fault(const Args& ... args) { log(level::fault, args ...); }
+		public:
+			logger(const std::string& _name) : name(_name) {}
+			void link(target* tgt, level lvl);
 
-#else
+			/// Logging method implementation
+			void log(level lvl, std::string&& msg)
+			{
+				time_t current_time;
+				struct tm  local_time;
 
-		template <typename ... Args>
-		inline void log(level lvl, const char* fmt, Args&& ... args) {}
+				::time(&current_time);
+				::localtime_r(&current_time, &local_time);
 
-		template <typename ... Args>
-		inline void log(level lvl, std::string& fmt, Args&& ... args) {}
+				std::shared_ptr<nos::log::logmsg> logmsg
+				    = std::make_shared<nos::log::logmsg>
+				      (
+				          lvl,
+				          std::move(msg),
+				          local_time
+				      );
+			}
 
-		template <typename ... Args> inline void trace(Args&& ... args) {}
-		template <typename ... Args> inline void debug(Args&& ... args) {}
-		template <typename ... Args> inline void info(Args&& ... args) {}
-		template <typename ... Args> inline void warn(Args&& ... args) {}
-		template <typename ... Args> inline void error(Args&& ... args) {}
-		template <typename ... Args> inline void fault(Args&& ... args) {}
+			void clear_targets();
 
-#endif
+//#if NOS_WITHOUT_LOG != 1
+			template <typename ... Args>
+			inline void log(level lvl, igris::buffer fmt, const Args& ... args)
+			{
+				log(lvl, nos::format(fmt, args ...));
+			}
+
+			template <typename ... Args> inline void trace(const Args& ... args) { log(level::trace, args ...); }
+			template <typename ... Args> inline void debug(const Args& ... args) { log(level::debug, args ...); }
+			template <typename ... Args> inline void info(const Args& ... args) { log(level::info, args ...); }
+			template <typename ... Args> inline void warn(const Args& ... args) { log(level::warn, args ...); }
+			template <typename ... Args> inline void error(const Args& ... args) { log(level::error, args ...); }
+			template <typename ... Args> inline void fault(const Args& ... args) { log(level::fault, args ...); }
+
+			/*#else
+
+					template <typename ... Args>
+					inline void log(level lvl, const char* fmt, Args&& ... args) {}
+
+					template <typename ... Args>
+					inline void log(level lvl, std::string& fmt, Args&& ... args) {}
+
+					template <typename ... Args> inline void trace(Args&& ... args) {}
+					template <typename ... Args> inline void debug(Args&& ... args) {}
+					template <typename ... Args> inline void info(Args&& ... args) {}
+					template <typename ... Args> inline void warn(Args&& ... args) {}
+					template <typename ... Args> inline void error(Args&& ... args) {}
+					template <typename ... Args> inline void fault(Args&& ... args) {}
+
+			#endif*/
+		};
 	};
 }
 
