@@ -6,7 +6,7 @@ licant.module("nos.util",
 		"trace.cpp",
 		"osutil.cpp",
 	],
-	mdepends=["igris.util"]
+#	mdepends=["igris.util"]
 )
 
 licant.module("nos.io",
@@ -80,9 +80,9 @@ licant.module("nos",
 		"nos.io",
 		"nos.current_ostream",
 
-		"igris.dprint",
-		"igris.include",
-		"igris.bug"
+		#"igris.dprint",
+		#"igris.include",
+		#"igris.bug"
 	],
 	include_paths=["."]
 )
