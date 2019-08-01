@@ -32,6 +32,7 @@ licant.module("nos.print",
 	sources=[
 		"print.cpp",
 		"stdtype.cpp",
+		"trent.cpp",
 	],
 	mdepends=["nos.current_ostream"]
 )
