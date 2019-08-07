@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <igris/buffer.h>
-#include <igris/trent/trent.h>
 #include <igris/math/defs.h>
 #include <igris/util/types_extension.h>
 
