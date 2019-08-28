@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <igris/buffer.h>
+#include <igris/container/array_view.h>
 #include <igris/math/defs.h>
 #include <igris/util/types_extension.h>
 
@@ -81,6 +82,14 @@ namespace nos
 		static ssize_t print_to(nos::ostream& out, const std::array<T,M>& obj)
 		{
 			return nos::print_list_to<std::array<T,M>>(out, obj);
+		}
+	};
+
+	template <typename T> struct print_implementation<igris::array_view<T>>
+	{
+		static ssize_t print_to(nos::ostream& out, const igris::array_view<T>& obj)
+		{
+			return nos::print_list_to<igris::array_view<T>>(out, obj);
 		}
 	};
 
