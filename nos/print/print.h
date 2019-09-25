@@ -19,6 +19,7 @@ namespace nos
 												ssize_t println_to(nos::ostream&);
 	template<typename ... Args> 				ssize_t println_to(nos::ostream& out, const Args& ... args);
 	template<typename V> 						ssize_t print_list_to(nos::ostream& out, const V& vec);
+	template<typename M> 						ssize_t print_matrix_to(nos::ostream& out, const M& mat);
 	template<typename ... Args> 				ssize_t printhex_to(nos::ostream& out, const Args& ... args);
 	template<typename Arg> 						ssize_t printptr_to(nos::ostream& out, const Arg* arg);
 												ssize_t print_dump_to(nos::ostream&, const void *mem, size_t len, unsigned int columns = 8);
@@ -30,6 +31,7 @@ namespace nos
 												ssize_t println();
 	template<typename ... Args>					ssize_t println(const Args& ... args);
 	template<typename V> 						ssize_t print_list(const V& vec);
+	template<typename M> 						ssize_t print_matrix(const M& mat);
 	template<typename ... Args> 				ssize_t printhex(const Args& ... args);
 	template<typename ... Args> 				ssize_t printhexln(const Args& ... args);
 	template<typename Arg> 						ssize_t printptr(const Arg& arg);
@@ -46,6 +48,7 @@ template<typename ... Args> 	ssize_t nos::println(const Args& ... args) 					{ r
 template<typename ... Args> 	ssize_t nos::printhex(const Args& ... args) 				{ return current_ostream->printhex(args ...); }
 //template<typename ... Args> 	ssize_t nos::printptr(const Args& ... args) 				{ return current_ostream->printptr(args ...); }
 template<typename V> 			ssize_t nos::print_list(const V& vec) 						{ return print_list_to(*current_ostream, vec); }
+template<typename M> 			ssize_t nos::print_matrix(const M& mat) 					{ return print_matrix_to(*current_ostream, mat); }
 template<typename T>			ssize_t nos::printptr_to(nos::ostream& out, const T* arg) 	{ return out.printptr(arg); }
 
 template<typename ... Args> 	
@@ -97,5 +100,22 @@ ssize_t nos::print_list_to(nos::ostream& out, const V& vec)
 	return ret;
 }
 
+template<typename M>
+ssize_t nos::print_matrix_to(nos::ostream& out, const M& mat)
+{
+	size_t ret = 0;
+	
+	for (int i = 0; i < mat.size1(); ++i)
+	{
+		for (int j = 0; j < mat.size2(); ++j) 
+		{
+			nos::print(mat(i,j));
+			nos::print(" ");
+		}
+		nos::println();
+	}
+
+	return ret;
+}
 
 #endif
