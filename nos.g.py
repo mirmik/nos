@@ -17,6 +17,10 @@ licant.module("nos.io",
 	mdepends=["nos.current_ostream"]
 )
 
+licant.module("nos.serial_port",
+	sources=["nos/io/serial_port.cpp"]
+)
+
 licant.module("nos.inet",
 	srcdir="nos/inet", 
 	sources=[
