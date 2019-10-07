@@ -40,10 +40,12 @@ namespace nos
 		static inline level level_from_string(igris::buffer str)
 		{
 			if (str == "fault") return level::fault;
-			if (str == "error") return level::error;
-			if (str == "warn") return level::warn;
-			if (str == "info") return level::info;
-			if (str == "debug") return level::debug;
+			else if (str == "error") return level::error;
+			else if (str == "warn") return level::warn;
+			else if (str == "info") return level::info;
+			else if (str == "debug") return level::debug;
+			else if (str == "trace") return level::trace;
+			BUG();
 			return level::trace;
 		}
 
