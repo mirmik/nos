@@ -37,7 +37,7 @@ namespace nos
 			}
 		}
 
-		static inline level level_from_string(igris::buffer str)
+		static inline level level_from_string(const igris::buffer str)
 		{
 			if (str == "fault") return level::fault;
 			else if (str == "error") return level::error;
