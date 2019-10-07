@@ -37,6 +37,17 @@ namespace nos
 			}
 		}
 
+		static inline level level_from_string(igris::buffer str)
+		{
+			if (str == "fault") return level::fault;
+			if (str == "error") return level::error;
+			if (str == "warn") return level::warn;
+			if (str == "info") return level::info;
+			if (str == "debug") return level::debug;
+			return level::trace;
+		}
+
+
 		/*static const char* level_to_collored_string(level lvl)
 		{
 			switch (lvl)
