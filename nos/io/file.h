@@ -53,9 +53,15 @@ namespace nos {
 			return fclose(filp);
 		}
 
-		int fd() const { return fileno(filp); }
+		int fd() const 
+		{ 
+			return fileno(filp); 
+		}
 		
-		int nonblock(bool en) { return igris::osutil::nonblock(fd(), en); }
+		int nonblock(bool en) 
+		{ 
+			return igris::osutil::nonblock(fd(), en); 
+		}
 
 	};
 
