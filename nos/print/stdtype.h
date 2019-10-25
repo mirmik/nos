@@ -77,6 +77,20 @@ namespace nos
 		}
 	};
 
+	template <class T0, class T1> struct print_implementation<std::pair<T0,T1>>
+	{
+		static ssize_t print_to(nos::ostream& out, const std::pair<T0,T1>& obj)
+		{
+			ssize_t res = 0;
+			res += nos::print_to(out, "{");
+			res += nos::print_to(out, obj.first);
+			res += nos::print_to(out, ",");
+			res += nos::print_to(out, obj.second);
+			res += nos::print_to(out, "}");
+			return res;
+		}
+	};
+
 	template <typename T, size_t M> struct print_implementation<std::array<T,M>>
 	{
 		static ssize_t print_to(nos::ostream& out, const std::array<T,M>& obj)

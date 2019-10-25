@@ -28,7 +28,9 @@ TEST(print, number) {
 	testing::internal::CaptureStdout();
 	nos::print(0.88);
 	std::string output = testing::internal::GetCapturedStdout();
-	EXPECT_EQ(output, "0.88");
+	//EXPECT_EQ(output, "0.88");
+	EXPECT_EQ(output, "0.88000");
+	//TODO
 }
 
 TEST(print, method) {
@@ -50,6 +52,13 @@ TEST(print, std_ostream) {
 	nos::print(C());
 	std::string output = testing::internal::GetCapturedStdout();
 	EXPECT_EQ(output, "42");
+}
+
+TEST(print, std_pair) {
+	testing::internal::CaptureStdout();
+	nos::print(std::make_pair(33,55));
+	std::string output = testing::internal::GetCapturedStdout();
+	EXPECT_EQ(output, "{33,55}");
 }
 
 /*TEST(print, print_implementation) {

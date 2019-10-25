@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <nos/print.h>
+#include <nos/fprint.h>
 
 using namespace nos::argument_literal;
 
