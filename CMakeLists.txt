@@ -40,10 +40,9 @@ target_link_libraries(nos_test igris)
 target_link_libraries(nos_test gtest)
 target_link_libraries(nos_test pthread)
 
-if (UNIX)
+if (UNIX AND NOT APPLE)
 	install(TARGETS ${PROJECT_NAME}
 		LIBRARY DESTINATION /usr/lib
-		PUBLIC_HEADER DESTINATION /usr/local/include
 	)
 
 	install(DIRECTORY ${PROJECT_NAME}
@@ -55,7 +54,7 @@ endif()
 
 if (APPLE)
 	install(TARGETS ${PROJECT_NAME}
-		LIBRARY DESTINATION /usr/lib
+		LIBRARY DESTINATION /usr/local/lib
 	)
 
 	install(DIRECTORY ${PROJECT_NAME}
