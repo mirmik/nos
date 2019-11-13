@@ -58,4 +58,5 @@ script:
   - cmake CMakeLists.txt
   - make
   - sudo make install
+  - nos_test
   - make test
