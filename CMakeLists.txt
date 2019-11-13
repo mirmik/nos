@@ -35,6 +35,7 @@ add_library(nos SHARED ${SOURCES})
 
 target_include_directories(nos_test PRIVATE .)
 target_include_directories(nos PRIVATE .)
+target_link_libraries(nos igris)
 target_link_libraries(nos_test nos)
 target_link_libraries(nos_test igris)
 target_link_libraries(nos_test gtest)
