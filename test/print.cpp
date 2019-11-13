@@ -7,7 +7,7 @@ struct C { int i = 42; };
 struct D { int i = 42; };
 
 ssize_t nos_print(nos::ostream& os, const B& b) { return os.print(b.i); };
-std::ostream& operator << (std::ostream& os, const C& c) { return os << c; };
+std::ostream& operator << (std::ostream& os, const C& c) { return os << c.i; };
 namespace nos { template <> struct print_implementation<D> { static ssize_t print_to(nos::ostream& out, const D& d) { return out.print(d.i); } }; }
 
 TEST(print, print) {
