@@ -1,6 +1,9 @@
 # nos
 Printing, tracing and loging library.
 
+# Status
+![](https://travis-ci.com/mirmik/nos.svg?branch=master)
+
 # Printing
 
 ## Основные функции:
