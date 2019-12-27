@@ -22,18 +22,18 @@ int nos::read_until(nos::istream& is, char* buf, size_t buflen, char delim)
 			return count;
 		}
 
+		*buf++ = c;
+		count++;
+
 		if (c == delim)
 		{
 			*buf = 0;
 			return count;
 		}
-
-		*buf++ = c;
-		count++;
 	}
 
-	*buf = 0;
-	return count;
+	//*buf = 0;
+	//return count;
 }
 
 
