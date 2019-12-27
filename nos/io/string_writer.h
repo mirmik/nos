@@ -16,6 +16,20 @@ namespace nos {
 			return sz;
 		}
 	};
+
+	class cstring_writer : public nos::ostream {
+	private:
+		char* str;
+
+	public:
+		cstring_writer(char* _str) : str(_str) {}
+	
+		ssize_t write(const void* ptr, size_t sz) override {
+			memcpy(str, ptr, sz);
+			str += sz;
+			return sz;
+		}
+	};
 }
 
 #endif
