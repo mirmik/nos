@@ -11,7 +11,7 @@ namespace nos
 		class target
 		{
 		protected:
-			std::string fmt;
+			std::string fmt = "[{level}]{logger}: {msg}";
 			nos::log::level lvl;
 
 		public:

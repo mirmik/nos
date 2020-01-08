@@ -64,6 +64,13 @@ namespace nos
 		nos::fprint_to(writer, fmt, args ...);
 		return ret;
 	}
+
+	template<typename ... Args>
+	ssize_t format_buffer(char* buf, const char* fmt, const Args& ... args)
+	{
+		nos::cstring_writer writer(buf);
+		return nos::fprint_to(writer, fmt, args ...);
+	}
 }
 
 #endif

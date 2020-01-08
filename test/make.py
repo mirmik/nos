@@ -8,10 +8,8 @@ from licant.libs import include
 licant.execute("../nos.g.py")
 
 tests = [
-	"dprint",
 	"print",
 	"fprint",
-	"dtrace",
 	"trace",
 	"log",
 ]
@@ -26,7 +24,7 @@ application("runtests",
 		"nos"
 	],
 
-	libs = ["gtest", "pthread"]
+	libs = ["gtest", "pthread", "igris"]
 )
 
 licant.ex("runtests")

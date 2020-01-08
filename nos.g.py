@@ -17,6 +17,10 @@ licant.module("nos.io",
 	mdepends=["nos.current_ostream"]
 )
 
+licant.module("nos.serial_port",
+	sources=["nos/io/serial_port.cpp"]
+)
+
 licant.module("nos.inet",
 	srcdir="nos/inet", 
 	sources=[
@@ -55,13 +59,13 @@ licant.module("nos.fprint",
 )
 
 licant.module("nos.current_ostream", impl="stdout", 
-	sources=["nos/io/current_ostream_stdout.cpp", "nos/io/stdfile.cpp"],
+	sources=["nos/io/impls/current_ostream_stdout.cpp", "nos/io/stdfile.cpp"],
 	mdepends = ["nos.io"],
 	default = True
 )
 
 licant.module("nos.current_ostream", impl="nullptr", 
-	sources=["nos/io/current_ostream_nullptr.cpp"],
+	sources=["nos/io/impls/current_ostream_nullptr.cpp"],
 	mdepends = ["nos.io"]
 )
 

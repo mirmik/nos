@@ -1,17 +1,18 @@
-#ifndef GXX_SPAM_SERVER_H
-#define GXX_SPAM_SERVER_H
+#ifndef igris_SPAM_SERVER_H
+#define igris_SPAM_SERVER_H
 
-#include <gxx/inet/tcp_server.h>
+#include <nos/inet/tcp_server.h>
+#include <nos/io/ostream.h>
 #include <algorithm>
 #include <list>
 
 #include <string.h>
-#include <gxx/debug.h>
+//#include <igris/debug.h>
 
-namespace gxx {
+namespace nos {
 	namespace inet {
-		class tcpspam_server : public inet::tcp_server, public io::ostream {
-			std::list<gxx::inet::tcp_socket> clients;
+		class tcpspam_server : public nos::ostream, public inet::tcp_server {
+			std::list<nos::inet::tcp_socket> clients;
 	
 		public:
 			tcpspam_server() = default;
@@ -32,7 +33,7 @@ namespace gxx {
 	
 			ssize_t __send(const char* str, size_t n) {
 				while(true) {
-					gxx::inet::tcp_socket newsock = accept();
+					nos::inet::tcp_socket newsock = accept();
 					if (!newsock.good()) break;
 					clients.push_back(newsock);
 				}
@@ -50,7 +51,7 @@ namespace gxx {
 				}
 				
 				/*if (needRemove)	{ 
-					std::list<gxx::socket>::iterator it;
+					std::list<igris::socket>::iterator it;
 					auto next = clients.begin();
 					auto end = clients.end();
 					it = next;
@@ -64,8 +65,8 @@ namespace gxx {
 				return ret;
 			}
 	
-			ssize_t writeData(const char* str, size_t sz) override {
-				return __send(str, sz);
+			ssize_t write(const void* str, size_t sz) override {
+				return __send((char*)str, sz);
 			}	
 	
 			void drop_all() {

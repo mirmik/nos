@@ -23,12 +23,20 @@ namespace nos
 		public:
 			std::string name;
 
+			std::string pattern = "[{level}]{logger}: {msg}";
+			level minlevel = level::trace;
+
 		public:
 			logger(const std::string& _name) : name(_name) {}
 
 			void link(target* tgt)
 			{
 				targets.push_back(tgt);
+			}
+
+			void set_level(level lvl)
+			{
+				minlevel = lvl;
 			}
 
 			/// Logging method implementation
@@ -55,11 +63,16 @@ namespace nos
 				}
 			}
 
-			void clear_targets();
+			void clear_targets() { targets.clear(); } 
+
+			void set_pattern(const char* pattern) 
+			{
+				this->pattern = pattern;
+			}
 
 //#if NOS_WITHOUT_LOG != 1
 			template <typename ... Args>
-			inline void log(level lvl, igris::buffer fmt, const Args& ... args)
+			inline void log(level lvl, const char* fmt, const Args& ... args)
 			{
 				log(lvl, nos::format(fmt, args ...));
 			}
