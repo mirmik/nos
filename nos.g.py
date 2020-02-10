@@ -95,3 +95,5 @@ licant.module("nos",
 licant.module("nos.include",
 	include_paths=["."]
 )
+
+licant.module("nos.timestamp", "millis", sources=["nos/util/timestamp-millis.cpp"])
