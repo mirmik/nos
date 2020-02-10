@@ -82,19 +82,19 @@ ssize_t nos::print_list_to(nos::ostream& out, const V& vec)
 {
 	size_t ret = 0;
 	
-	if (vec.size() == 0) 
+	if (std::size(vec) == 0) 
 	{
 		return out.write("{}",2);
 	}
 
 	ret += out.putchar('{');
 
-	for (unsigned int i = 0; i < vec.size() - 1; ++i)
+	for (unsigned int i = 0; i < std::size(vec) - 1; ++i)
 	{
 		ret += print_to(out, vec[i]);
 		ret += out.putchar(',');
 	}
-		ret += print_to(out, vec[vec.size() - 1]);
+		ret += print_to(out, vec[std::size(vec) - 1]);
 	ret += out.putchar('}');
 
 	return ret;
