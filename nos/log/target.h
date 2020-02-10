@@ -25,28 +25,6 @@ namespace nos
 			void set_level(nos::log::level lvl) { this->lvl = lvl; }
 		};
 	}
-
-	/*struct print_target : public target {
-		const char* tmplt = "{logger} | {level} | {msg} |";
-
-		void log(std::shared_ptr<logmessage> logmsg) override {
-			nos::fprintln(tmplt,
-				"msg"_a=logmsg->message,
-				"logger"_a=logmsg->logger->name,
-				"level"_a=level_to_string(logmsg->level));
-		}
-	};
-
-	struct colored_print_target : public target {
-		const char* tmplt = "{logger} | {level} | {msg} |";
-
-		void log(std::shared_ptr<logmessage> logmsg) override {
-			nos::fprintln(tmplt,
-				"msg"_a=logmsg->message,
-				"logger"_a=logmsg->logger->name,
-				"level"_a=level_to_collored_string(logmsg->level));
-		}
-	};*/
 }
 
 #endif

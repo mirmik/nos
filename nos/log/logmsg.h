@@ -10,19 +10,19 @@ namespace nos
 {
 	namespace log
 	{
-		class logger;
+		class tlogger;
 
 		class logmsg
 		{
 		public:
-			nos::log::logger * logger; 
+			nos::log::tlogger * logger; 
 			level lvl;
 			std::string text;
 			std::tm timestamp;
 
 		public:
 			logmsg(
-				nos::log::logger * logger,
+				nos::log::tlogger * logger,
 				nos::log::level lvl, 
 				std::string && str, 
 				std::tm & timestamp

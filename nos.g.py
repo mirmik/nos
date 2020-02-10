@@ -83,6 +83,7 @@ licant.module("nos",
 		"nos.input",
 		"nos.fprint",
 		"nos.io",
+		"nos.timestamp",
 		"nos.current_ostream",
 
 		#"igris.dprint",
@@ -96,4 +97,5 @@ licant.module("nos.include",
 	include_paths=["."]
 )
 
+licant.module("nos.timestamp", "undefined", sources=["nos/util/timestamp-undefined.cpp"], default=True)
 licant.module("nos.timestamp", "millis", sources=["nos/util/timestamp-millis.cpp"])

@@ -56,6 +56,14 @@ namespace nos
 
 	ssize_t fprintln_to(nos::ostream& out, const char* arg);
 
+	inline std::string format(const char* fmt, const visitable_arglist& args)
+	{
+		std::string ret;
+		nos::string_writer writer(ret);
+		nos::fprint_impl(writer, fmt, args);
+		return ret;
+	}
+
 	template<typename ... Args>
 	std::string format(const char* fmt, const Args& ... args)
 	{
