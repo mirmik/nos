@@ -5,6 +5,8 @@
 #include <igris/util/types_extension.h>
 #include <igris/buffer.h>
 
+#include <iterator>
+
 namespace nos
 {
 												class ostream;
