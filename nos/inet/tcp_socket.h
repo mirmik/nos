@@ -12,7 +12,7 @@ namespace nos
 {
 	namespace inet
 	{
-		struct tcp_socket : public nos::inet::socket, public nos::iostream
+		struct tcp_socket : public nos::inet::socket
 		{
 			tcp_socket() = default;
 

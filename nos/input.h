@@ -12,6 +12,8 @@ namespace nos
 	std::string readline();	
 	int read_until(nos::istream& is, char* buf, size_t buflen, char delim);
 	int read_paired(nos::istream& is, char* buf, size_t buflen, char a, char b, bool ignore=true);
+
+	int read_with_timeout_ms(nos::istream& is, char* buf, size_t buflen, int timeout_ms);
 }
 
 #include <nos/io/istream.h>
