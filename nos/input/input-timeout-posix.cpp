@@ -6,7 +6,7 @@ int nos::read_with_timeout_ms(
     char* buf, size_t buflen,
     int timeout_ms)
 {
-
+	return 0;
 }
 
 ssize_t nos::fdlike::read_with_timeout_ms(void* ptr, size_t sz, int ms)

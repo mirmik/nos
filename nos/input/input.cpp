@@ -33,7 +33,7 @@ int nos::read_until(nos::istream& is, char* buf, size_t buflen, char delim)
 	}
 
 	//*buf = 0;
-	//return count;
+	return count;
 }
 
 
