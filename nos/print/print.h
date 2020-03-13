@@ -106,9 +106,9 @@ ssize_t nos::print_matrix_to(nos::ostream& out, const M& mat)
 {
 	size_t ret = 0;
 	
-	for (int i = 0; i < mat.size1(); ++i)
+	for (unsigned int i = 0; i < mat.size1(); ++i)
 	{
-		for (int j = 0; j < mat.size2(); ++j) 
+		for (unsigned int j = 0; j < mat.size2(); ++j) 
 		{
 			nos::print(mat(i,j));
 			nos::print(" ");
