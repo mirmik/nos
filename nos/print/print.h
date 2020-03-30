@@ -2,6 +2,8 @@
 #define NOS_PRINT_PRINT_H
 
 #include <stdlib.h>
+#include <iterator>
+
 #include <igris/util/types_extension.h>
 #include <igris/buffer.h>
 #include <igris/util/size.h>
@@ -38,6 +40,10 @@ namespace nos
 	template<typename Arg> 						ssize_t printptr(const Arg& arg);
 												ssize_t print_dump(const void *mem, size_t len, unsigned int columns = 8);
 												ssize_t print_dump(igris::buffer buf, unsigned int columns = 8);
+
+
+	static inline ssize_t print(void* ptr) { return nos::printptr(ptr); }
+	static inline ssize_t print_to(nos::ostream& out, void* ptr) { return nos::printptr_to(out, ptr); }
 }
 
 #include <nos/io/ostream.h>

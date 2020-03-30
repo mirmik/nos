@@ -7,13 +7,6 @@ from licant.libs import include
 
 licant.execute("../nos.g.py")
 
-tests = [
-	"print",
-	"fprint",
-	"trace",
-	"log",
-]
-
 application("runtests",
 	sources = ["main.cpp"],
 

@@ -11,7 +11,7 @@
 
 namespace nos {
 	namespace inet {
-		class tcpspam_server : public nos::ostream, public inet::tcp_server {
+		class tcpspam_server : public inet::tcp_server {
 			std::list<nos::inet::tcp_socket> clients;
 	
 		public:
