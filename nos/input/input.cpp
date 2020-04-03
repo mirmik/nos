@@ -93,3 +93,8 @@ int nos::read_paired(nos::istream& is, char* buf, size_t buflen, char a, char b,
 	*buf = 0;
 	return count;
 }
+
+std::string nos::readall_from(nos::istream& is) 
+{
+	return is.readall();
+}
