@@ -4,9 +4,6 @@ os: linux
 
 matrix:
   include:
-    - os: "osx"
-      compiler: clang
-      
     - addons:
         apt:
           sources:

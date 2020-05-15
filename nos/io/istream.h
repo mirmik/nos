@@ -30,6 +30,21 @@ namespace nos
 			}
 		}*/
 
+		std::string readall() 
+		{
+			std::string ret;
+
+			int len;
+			char buf[1024];
+
+			while(( len = read(buf, 1024) ) != 0) 
+			{
+				ret.append(buf, len);
+			}
+
+			return ret;
+		}
+
 		int ignore() { char c; int readed = read(&c,1); return readed; }
 		int ignore(int i) { int j = i; while(j--) ignore(); return i; }
 

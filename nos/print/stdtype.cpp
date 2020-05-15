@@ -4,6 +4,8 @@
 #include <nos/io/ostream.h>
 #include <iostream>
 
+#include <igris/dprint.h>
+
 ssize_t nos_print(nos::ostream& out, const char* str) 
 {
 	return out.write(str, strlen(str));

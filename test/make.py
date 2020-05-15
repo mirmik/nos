@@ -7,15 +7,8 @@ from licant.libs import include
 
 licant.execute("../nos.g.py")
 
-tests = [
-	"print",
-	"fprint",
-	"trace",
-	"log",
-]
-
 application("runtests",
-	sources = ["main.cpp"] + [t+".cpp" for t in tests],
+	sources = ["main.cpp"],
 
 	ld_flags = "-L/usr/local/lib/",
 
@@ -24,7 +17,7 @@ application("runtests",
 		"nos"
 	],
 
-	libs = ["gtest", "pthread", "igris"]
+	libs = ["igris"]
 )
 
 licant.ex("runtests")

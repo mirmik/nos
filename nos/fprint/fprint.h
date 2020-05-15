@@ -76,14 +76,18 @@ namespace nos
 	static inline ssize_t format_buffer(char* buf, const char* fmt, const visitable_arglist& args)
 	{
 		nos::cstring_writer writer(buf);
-		return nos::fprint_impl(writer, fmt, args);
+		ssize_t ret = nos::fprint_impl(writer, fmt, args);
+		writer.putchar('\0');
+		return ret;
 	}
 
 	template<typename ... Args>
 	ssize_t format_buffer(char* buf, const char* fmt, const Args& ... args)
 	{
 		nos::cstring_writer writer(buf);
-		return nos::fprint_to(writer, fmt, args ...);
+		ssize_t ret = nos::fprint_to(writer, fmt, args ...);
+		writer.putchar('\0');
+		return ret;
 	}
 }
 

@@ -12,17 +12,12 @@ namespace nos
 	std::string readline();	
 	int read_until(nos::istream& is, char* buf, size_t buflen, char delim);
 	int read_paired(nos::istream& is, char* buf, size_t buflen, char a, char b, bool ignore=true);
+
+	int read_with_timeout_ms(nos::istream& is, char* buf, size_t buflen, int timeout_ms);
+
+	std::string readall_from(nos::istream& is);
 }
 
 #include <nos/io/istream.h>
-
-namespace nos
-{
-	std::string readline();/*
-	{
-		return current_istream->readline();
-	}*/
-
-}
 
 #endif

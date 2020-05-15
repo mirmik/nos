@@ -1,4 +1,3 @@
-#include <gtest/gtest.h>
 #include <nos/trace.h>
 
 static void bar() 
@@ -23,24 +22,22 @@ static void foo_a(int a)
 	bar_a(a);
 }
 
-TEST(trace, TRACE) {
-	testing::internal::CaptureStdout();
+LT_BEGIN_TEST(nos_test_suite, TRACE_test) {
 	foo();
-	std::string output = testing::internal::GetCapturedStdout();
-	EXPECT_EQ(output, 
+	LT_CHECK_EQ(output, 
 		"TRACE: 1: -> void foo()\r\n"
 		"TRACE: 2: -> void bar()\r\n"
 		"TRACE: 2: <- void bar()\r\n"
 		"TRACE: 1: <- void foo()\r\n");
 }
+LT_END_TEST(TRACE_test)
 
-TEST(trace, TRACE_ARGS) {
-	testing::internal::CaptureStdout();
+LT_BEGIN_TEST(nos_test_suite, TRACE_ARGS_test) {
 	foo_a(42);
-	std::string output = testing::internal::GetCapturedStdout();
-	EXPECT_EQ(output, 
+	LT_CHECK_EQ(output, 
 		"TRACE: 1: -> void foo_a(int) args: a:42 \r\n"
 		"TRACE: 2: -> void bar_a(int) args: a:42 \r\n"
 		"TRACE: 2: <- void bar_a(int)\r\n"
 		"TRACE: 1: <- void foo_a(int)\r\n");
 }
+LT_END_TEST(TRACE_ARGS_test)

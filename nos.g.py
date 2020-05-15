@@ -17,6 +17,13 @@ licant.module("nos.io",
 	mdepends=["nos.current_ostream"]
 )
 
+licant.module("nos.log",
+	srcdir="nos/log", 
+	sources=[
+		"level.cpp"
+	]
+)
+
 licant.module("nos.serial_port",
 	sources=["nos/io/serial_port.cpp"]
 )
@@ -48,6 +55,8 @@ licant.module("nos.input",
 	],
 	mdepends = ["nos.util"]
 )
+
+licant.module("nos.input_timeout", "posix", sources=[ "nos/input/input-timeout-posix.cpp", ], default=True)
 
 licant.module("nos.fprint",
 	srcdir="nos/fprint", 
@@ -81,8 +90,10 @@ licant.module("nos",
 		"nos.util",
 		"nos.print",
 		"nos.input",
+		"nos.input_timeout",
 		"nos.fprint",
 		"nos.io",
+		"nos.log",
 		"nos.timestamp",
 		"nos.current_ostream",
 
