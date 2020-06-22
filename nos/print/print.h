@@ -25,6 +25,7 @@ namespace nos
 	template<typename M> 						ssize_t print_matrix_to(nos::ostream& out, const M& mat);
 	template<typename ... Args> 				ssize_t printhex_to(nos::ostream& out, const Args& ... args);
 	template<typename Arg> 						ssize_t printptr_to(nos::ostream& out, const Arg* arg);
+	template<typename Arg> 						ssize_t printptrln_to(nos::ostream& out, const Arg* arg);
 												ssize_t print_dump_to(nos::ostream&, const void *mem, size_t len, unsigned int columns = 8);
 
 												ssize_t putchar(char c);
