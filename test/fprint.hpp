@@ -64,3 +64,16 @@ LT_BEGIN_TEST(nos_test_suite, format_nanf) {
 	LT_CHECK_EQ(out, "nan");
 }
 LT_END_TEST(format_nanf)
+
+LT_BEGIN_TEST(nos_test_suite, format_string_arg) {
+	std::string out = nos::format("{}", std::string("hello"));
+	LT_CHECK_EQ(out, "hello");
+}
+LT_END_TEST(format_string_arg)
+
+LT_BEGIN_TEST(nos_test_suite, format_string_view_arg) {
+	std::string str = "hello";
+	std::string out = nos::format("{}", std::string_view(str));
+	LT_CHECK_EQ(out, "hello");
+}
+LT_END_TEST(format_string_view_arg)
