@@ -39,3 +39,13 @@ ssize_t nos_print(nos::ostream& out, float64_t obj) 	{
 	return nos_print(out, buf);
 }
 #endif
+
+ssize_t nos_print(nos::ostream& out, const std::string& str) 
+{
+	return nos_print(out, igris::buffer(str));
+}
+
+ssize_t nos_print(nos::ostream& out, const std::string_view& str)
+{
+	return nos_print(out, igris::buffer(str));
+}
