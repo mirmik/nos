@@ -18,8 +18,8 @@ namespace nos
 
 
 	public:
-		serial_port_file() {}
-		serial_port_file(const char * path,
+		serial_port() {}
+		serial_port(const char * path,
 		                 unsigned int baud = 9600,
 		                 uart_parity_e parity = UART_PARITY_NONE,
 		                 uint8_t bytesize = 8,
@@ -30,14 +30,13 @@ namespace nos
 			open(path, baud, parity, bytesize, stopbits, flowcontrol);
 		}
 
-		serial_port_file(const char * path,
+		serial_port(const char * path,
 		                 unsigned int baud = 9600,
 		                 char parity = UART_PARITY_NONE,
 		                 uint8_t bytesize = 8,
 		                 uint8_t stopbits = UART_STOPBITS_ONE,
 		                 char flowcontrol = UART_FLOWCONTROL_NONE)
-			: file(),
-			  baud(baud),
+			: baud(baud),
 			  parity((uart_parity_e)parity),
 			  bytesize(bytesize),
 			  stopbits((uart_stopbits_e)stopbits),

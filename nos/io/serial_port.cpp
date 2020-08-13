@@ -4,7 +4,7 @@
 #include <fcntl.h>
 #include <igris/util/bug.h>
 
-int nos::serial_port_file::open(const char * path,
+int nos::serial_port::open(const char * path,
                                 unsigned int baud,
                                 uart_parity_e parity,
                                 uint8_t bytesize,
@@ -13,15 +13,15 @@ int nos::serial_port_file::open(const char * path,
 {
 	int ret;
 
-	int fd = ::open(path, O_RDWR | O_NOCTTY);
+	int fd = nos::file::open(path, O_RDWR | O_NOCTTY);
 	if (fd < 0)
 	{
 		perror("serial::open");
 		exit(0);
 	}
 
-	fdopen(fd);
-	setvbuf( filp, (char *)NULL, _IONBF, 0 );
+	//fdopen(fd);
+	//setvbuf( filp, (char *)NULL, _IONBF, 0 );
 
 	struct termios tattr, orig;
 	ret = tcgetattr(fd, &orig);

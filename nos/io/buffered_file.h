@@ -1,5 +1,5 @@
-#ifndef NOS_IO_FSTREAM_H
-#define NOS_IO_FSTREAM_H
+#ifndef NOS_IO_BUFFERED_FILE_H
+#define NOS_IO_BUFFERED_FILE_H
 
 #include <nos/io/iostream.h>
 #include <igris/osutil/fd.h>
