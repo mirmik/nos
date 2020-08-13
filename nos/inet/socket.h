@@ -2,12 +2,12 @@
 #define NOS_IO_SOCKET2_H
 
 #include <nos/inet/hostaddr.h>
-#include <nos/io/fdlike.h>
+#include <nos/io/file.h>
 #include <string.h>
 
 namespace nos { 
 	namespace inet {
-		struct socket : public nos::fdlike
+		struct socket : public nos::file
 		{
 			int fd;
 
