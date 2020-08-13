@@ -8,7 +8,7 @@
 
 namespace nos
 {
-	class serial_port_file : public nos::file
+	class serial_port : public nos::file
 	{
 		unsigned int baud;
 		uart_parity_e parity;

@@ -1,66 +1,66 @@
-#ifndef NOS_IO_FSTREAM_H
-#define NOS_IO_FSTREAM_H
+#ifndef NOS_IO_FDFILE_H
+#define NOS_IO_FDFILE_H
 
 #include <nos/io/iostream.h>
 #include <igris/osutil/fd.h>
+#include <unistd.h>
+#include <fcntl.h>
 
-namespace nos {
+namespace nos
+{
 
 	class file : public nos::iostream
 	{
 	protected:
-		FILE* filp;
+		int m_fd;
 
 	public:
-		file(FILE* f) : filp(f) {}
-		file() : filp(nullptr) {}
-		file(const char * path, const char * mode) 
+		file(int fd) : m_fd(fd) {}
+		file() {}
+		file(const char * path, int flags)
 		{
-			open(path, mode);
+			open(path, flags);
 		}
 
 		ssize_t write(const void* ptr, size_t sz) override
 		{
-			return fwrite(ptr, sizeof(char), sz, filp);
+			return ::write(m_fd, ptr, sz);
 		}
 
 		ssize_t read(void* ptr, size_t sz) override
 		{
-			return fread(ptr, sizeof(char), sz, filp);
+			return ::read(m_fd, ptr, sz);
 		}
 
-		bool good() { return filp != nullptr; }
-
-		int open(const char * path, const char * mode) 
+		bool good()
 		{
-			filp = fopen(path, mode);
-			return filp == NULL ? -1 : 0;
+			return m_fd >= 0;
 		}
 
-		int fdopen(int fd, const char* mode = "rw") 
+		int open(const char * path, int mode)
 		{
-			filp = ::fdopen(fd, mode);
-			return filp == NULL ? -1 : 0;
+			m_fd = ::open(path, mode);
+			return m_fd;
 		}
 
 		int flush() override
 		{
-			return fflush(filp);
+			return 0;
 		}
 
-		int close() 
+		int close()
 		{
-			return fclose(filp);
+			return ::close(m_fd);
 		}
 
-		int fd() const 
-		{ 
-			return fileno(filp); 
+		int fd() const
+		{
+			return m_fd;
 		}
-		
-		int nonblock(bool en) 
-		{ 
-			return igris::osutil::nonblock(fd(), en); 
+
+		int nonblock(bool en)
+		{
+			return igris::osutil::nonblock(fd(), en);
 		}
 
 	};

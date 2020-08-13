@@ -3,13 +3,13 @@
 
 #include <iostream>
 #include <nos/io/iostream.h>
-#include <nos/io/file.h>
+#include <nos/io/buffered_file.h>
 
 namespace nos
 {
-	extern file cout;
-	extern file cerr;
-	extern file cin;
+	extern buffered_file cout;
+	extern buffered_file cerr;
+	extern buffered_file cin;
 
 }
 
