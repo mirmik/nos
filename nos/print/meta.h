@@ -1,7 +1,7 @@
 #ifndef NOS_PRINT_META_H
 #define NOS_PRINT_META_H
 
-#include <nos/meta/meta.h>
+#include <nos/meta.h>
 #include <iostream>
 
 struct adsl_finder
