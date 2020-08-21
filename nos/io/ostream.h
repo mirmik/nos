@@ -3,10 +3,8 @@
 
 #include <string.h>
 #include <stdlib.h>
-//#include <jackjack/compiler.h>
 
 #include <igris/util/hexascii.h>
-#include <igris/util/numconvert.h>
 
 #include <igris/util/types_extension.h>
 

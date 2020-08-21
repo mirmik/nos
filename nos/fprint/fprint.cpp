@@ -4,6 +4,8 @@
 #include <nos/util/arglist.h>
 #include <nos/fprint/visitor.h>
 
+//#include <igris/util/numconvert.h>
+
 namespace nos
 {
 	ssize_t fprint(const char* arg)
@@ -46,7 +48,8 @@ namespace nos
 		}
 		else if (isdigit(*fmt))
 		{
-			varg = &list[atou32(fmt, 10, &pend)];
+			//varg = &list[atou32(fmt, 10, &pend)];
+			varg = &list[strtoul(fmt, &pend, 10)];
 		}
 		else
 		{
