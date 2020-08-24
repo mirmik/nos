@@ -10,7 +10,6 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
            - clang++-7.0
-           - libgtest-dev
       env:
          - MATRIX_EVAL="CC=clang-7.0 && CXX=clang++-7.0"
 
@@ -20,7 +19,6 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
            - g++-8
-           - libgtest-dev
       env:
          - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
 
@@ -28,17 +26,6 @@ before_install:
   eval ${MATRIX_EVAL}
 
 install: 
-  - echo "INSTALL"
-  - pwd
-  - ls
-
-  - git clone https://github.com/google/googletest googletest/
-  - cd googletest
-  - cmake .
-  - make
-  - sudo make install
-  - cd ..
-
   - git clone https://github.com/mirmik/igris igris/
   - cd igris
   - cmake .
