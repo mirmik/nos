@@ -3,24 +3,9 @@ language: cpp
 os: linux
 
 matrix:
-  include:
-    - addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-           - clang++-7.0
-      env:
-         - MATRIX_EVAL="CC=clang-7.0 && CXX=clang++-7.0"
-
-    - addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-           - g++-8
-      env:
-         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+  compiler:
+    - clang
+    - gcc
 
 before_install:
   eval ${MATRIX_EVAL}
