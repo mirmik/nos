@@ -28,14 +28,22 @@ ssize_t nos_print(nos::ostream& out, uint64_t obj) 	{ char buf[48];	u64toa(obj, 
 
 ssize_t nos_print(nos::ostream& out, float32_t obj) 	{ 
 	char buf[48];	
+#if defined(NOS_USE_IGRIS_NUMCONVERT)
 	f32toa(obj, buf, 5); 
+#else
+	sprintf(buf, "%f", obj);
+#endif	
 	return nos_print(out, buf); 
 }
 
 #ifndef WITHOUT_FLOAT64
 ssize_t nos_print(nos::ostream& out, float64_t obj) 	{ 
 	char buf[48]; 
+#if defined(NOS_USE_IGRIS_NUMCONVERT)
 	f64toa(obj, buf, 5); 
+#else
+	sprintf(buf, "%f", obj);
+#endif	
 	return nos_print(out, buf);
 }
 #endif
