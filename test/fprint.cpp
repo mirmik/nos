@@ -1,11 +1,14 @@
 #include <nos/print.h>
 #include <nos/fprint.h>
 
+#include <doctest/doctest.h>
+
 using namespace nos::argument_literal;
 
 TEST_CASE("fprint")
 {
-	output.clear();
+	std::string output;
+	nos::string_writer writer{output};
 	nos::current_ostream = &writer;
 
 	SUBCASE("fprint")

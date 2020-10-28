@@ -1,4 +1,8 @@
 #include <nos/print.h>
+#include <nos/io/string_writer.h>
+#include <doctest/doctest.h>
+
+#include <igris/dprint.h>
 
 struct A { int i = 42; ssize_t print_to(nos::ostream& os) const { return os.print(i); }; };
 struct B { int i = 42; };
@@ -12,7 +16,8 @@ namespace nos { template <> struct print_implementation<D> { static ssize_t prin
 
 TEST_CASE("fprint")
 {
-	output.clear();
+	std::string output;
+	nos::string_writer writer{output};
 	nos::current_ostream = &writer;
 
 	SUBCASE("print")

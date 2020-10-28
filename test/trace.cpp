@@ -1,4 +1,6 @@
 #include <nos/trace.h>
+#include <doctest/doctest.h>
+#include <nos/io/string_writer.h>
 
 static void bar()
 {
@@ -25,7 +27,8 @@ static void foo_a(int a)
 
 TEST_CASE("fprint")
 {
-	output.clear();
+	std::string output;
+	nos::string_writer writer{output};
 	nos::current_ostream = &writer;
 
 	SUBCASE("TRACE_test")

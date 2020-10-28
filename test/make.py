@@ -8,7 +8,13 @@ from licant.libs import include
 licant.execute("../nos.g.py")
 
 application("runtests",
-	sources = ["main.cpp"],
+	sources = [
+		"main.cpp",
+		"print.cpp",
+		"fprint.cpp",
+		"trace.cpp",
+		"log.cpp"
+	],
 
 	ld_flags = "-L/usr/local/lib/",
 
