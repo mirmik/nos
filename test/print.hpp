@@ -9,46 +9,51 @@ ssize_t nos_print(nos::ostream& os, const B& b) { return os.print(b.i); };
 std::ostream& operator << (std::ostream& os, const C& c) { return os << c.i; };
 namespace nos { template <> struct print_implementation<D> { static ssize_t print_to(nos::ostream& out, const D& d) { return out.print(d.i); } }; }
 
-LT_BEGIN_TEST(nos_test_suite, print) {
-	nos::print("print");
-	LT_CHECK_EQ(output, "print");
-}
-LT_END_TEST(print)
 
-LT_BEGIN_TEST(nos_test_suite, integer) {
-	nos::print(88);
-	LT_CHECK_EQ(output, "88");
-}
-LT_END_TEST(integer)
+TEST_CASE("fprint")
+{
+	output.clear();
+	nos::current_ostream = &writer;
 
-LT_BEGIN_TEST(nos_test_suite, number) {
-	nos::print(0.88);
-	//LT_CHECK_EQ(output, "0.88");
-	LT_CHECK_EQ(output, "0.88000");
-	//TODO
-}
-LT_END_TEST(number)
+	SUBCASE("print")
+	{
+		nos::print("print");
+		CHECK_EQ(output, "print");
+	}
 
-LT_BEGIN_TEST(nos_test_suite, method) {
-	nos::print(A());
-	LT_CHECK_EQ(output, "42");
-}
-LT_END_TEST(method)
+	SUBCASE("integer")
+	{
+		nos::print(88);
+		CHECK_EQ(output, "88");
+	}
 
-LT_BEGIN_TEST(nos_test_suite, nos_print_test) {
-	nos::print(B());
-	LT_CHECK_EQ(output, "42");
-}
-LT_END_TEST(nos_print_test)
+	SUBCASE("number")
+	{
+		nos::print(0.88);
+		CHECK_EQ(output, "0.88000");
+	}
 
-LT_BEGIN_TEST(nos_test_suite, std_ostream) {
-	nos::print(C());
-	LT_CHECK_EQ(output, "42");
-}
-LT_END_TEST(std_ostream)
+	SUBCASE("method")
+	{
+		nos::print(A());
+		CHECK_EQ(output, "42");
+	}
 
-LT_BEGIN_TEST(nos_test_suite, std_pair) {
-	nos::print(std::make_pair(33,55));
-	LT_CHECK_EQ(output, "{33,55}");
+	SUBCASE("nos_print_test")
+	{
+		nos::print(B());
+		CHECK_EQ(output, "42");
+	}
+
+	SUBCASE("std_ostream")
+	{
+		nos::print(C());
+		CHECK_EQ(output, "42");
+	}
+
+	SUBCASE("std_pair")
+	{
+		nos::print(std::make_pair(33, 55));
+		CHECK_EQ(output, "{33,55}");
+	}
 }
-LT_END_TEST(std_pair)
