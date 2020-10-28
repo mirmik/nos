@@ -2,6 +2,8 @@
 #define NOS_CONVERT_COLOR
 
 #include <string>
+#include <nos/print.h>
+#include <nos/fprint.h>
 
 namespace nos
 {
@@ -39,5 +41,13 @@ namespace nos
 #define COLOR_DARK_MAGENTA(str) 		"\x1B[35m" str "\x1B[0m"
 #define COLOR_DARK_CYAN(str) 			"\x1B[36m" str "\x1B[0m"
 #define COLOR_DARK_WHITE(str) 			"\x1B[37m" str "\x1B[0m"
+
+namespace nos 
+{
+	void reset_terminal() 
+	{
+		nos::print("\x1B[0m");
+	}
+}
 
 #endif
