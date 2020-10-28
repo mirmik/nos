@@ -10,7 +10,7 @@
 
 #include <complex>
 #include <string>
-#include <string_view>
+#include <igris/util/__include_string_view.h>
 
 namespace nos { class ostream; }
 
@@ -33,7 +33,10 @@ ssize_t nos_print(nos::ostream& out, double str);
 ssize_t nos_print(nos::ostream& out, igris::buffer buf);
 
 ssize_t nos_print(nos::ostream& out, const std::string& str);
+
+#if IGRIS_HAS_STRING_VIEW
 ssize_t nos_print(nos::ostream& out, const std::string_view& str);
+#endif
 
 #include <nos/print.h>
 #include <vector>
