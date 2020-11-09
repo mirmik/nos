@@ -35,7 +35,10 @@ TEST_CASE("fprint")
 	SUBCASE("number")
 	{
 		nos::print(0.88);
-		CHECK_EQ(output, "0.88000");
+		CHECK_EQ(output[0],'0');
+		CHECK_EQ(output[1],'.');
+		CHECK_EQ(output[2],'8');
+		CHECK_EQ(output[3],'8');
 	}
 
 	SUBCASE("method")

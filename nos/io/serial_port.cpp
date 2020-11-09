@@ -2,7 +2,6 @@
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <igris/util/bug.h>
 
 int nos::serial_port::open(const char * path,
                                 unsigned int baud,
