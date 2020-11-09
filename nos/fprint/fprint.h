@@ -6,8 +6,6 @@
 #include <nos/print/print.h>
 #include <nos/io/string_writer.h>
 
-#include <igris/util/numconvert.h>
-
 namespace nos
 {
 	ssize_t fprint_impl(nos::ostream& out, const char* fmt, const visitable_arglist& args);

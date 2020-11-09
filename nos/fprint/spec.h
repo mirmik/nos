@@ -1,7 +1,6 @@
 #ifndef NOS_FPRINT_SPEC_H
 #define NOS_FPRINT_SPEC_H
 
-//#include <igris/util/numconvert.h>
 #include <string.h>
 
 namespace nos
