@@ -1,10 +1,7 @@
 #include <nos/print.h>
 #include <nos/io/ostream.h>
-
 #include <nos/util/arglist.h>
 #include <nos/fprint/visitor.h>
-
-//#include <igris/util/numconvert.h>
 
 namespace nos
 {
@@ -44,7 +41,7 @@ namespace nos
 
 			while (isalpha(*count_ptr++)) len++;
 
-			varg = &list[igris::buffer(fmt, len)];
+			varg = &list[nos::buffer(fmt, len)];
 		}
 		else if (isdigit(*fmt))
 		{
@@ -61,19 +58,18 @@ namespace nos
 		switch (*fmt)
 		{
 			case '}':
-				ret = nos::format_visitor::visit(*varg, out, igris::buffer());
+				ret = nos::format_visitor::visit(*varg, out, nos::buffer());
 				break;
 
 			case ':':
 				++fmt;
-				ret = nos::format_visitor::visit(*varg, out, igris::buffer(fmt, strchr(fmt, '}') - fmt));
+				ret = nos::format_visitor::visit(*varg, out, nos::buffer(fmt, strchr(fmt, '}') - fmt));
 				break;
 
-			case 0	:
+			case 0:
 				return -1;
 
 			default:
-				dprln("nos::format_error");
 				return -1;
 		}
 

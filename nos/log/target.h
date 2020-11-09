@@ -21,7 +21,7 @@ namespace nos
 				nos::println("virtual log function");
 			}
 
-			void set_format(igris::buffer fmt) { this->fmt = (std::string)fmt; }
+			void set_format(nos::buffer fmt) { this->fmt = (std::string)fmt; }
 			void set_level(nos::log::level lvl) { this->lvl = lvl; }
 		};
 	}

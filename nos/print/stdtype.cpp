@@ -1,17 +1,16 @@
 #include <nos/print/stdtype.h>
-#include <igris/util/numconvert.h>
-
 #include <nos/io/ostream.h>
+
 #include <iostream>
 
-#include <igris/dprint.h>
+#include <igris/util/numconvert.h>
 
 ssize_t nos_print(nos::ostream& out, const char* str)
 {
 	return out.write(str, strlen(str));
 }
 
-ssize_t nos_print(nos::ostream& out, igris::buffer buf)
+ssize_t nos_print(nos::ostream& out, nos::buffer buf)
 {
 	return out.write(buf.data(), buf.size());
 }
@@ -52,12 +51,12 @@ ssize_t nos_print(nos::ostream& out, float64_t obj)
 
 ssize_t nos_print(nos::ostream& out, const std::string& str)
 {
-	return nos_print(out, igris::buffer(str));
+	return nos_print(out, nos::buffer(str));
 }
 
 #if IGRIS_HAS_STRING_VIEW
 ssize_t nos_print(nos::ostream& out, const std::string_view& str)
 {
-	return nos_print(out, igris::buffer(str));
+	return nos_print(out, nos::buffer(str));
 }
 #endif

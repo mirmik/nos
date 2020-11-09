@@ -7,7 +7,7 @@ namespace nos
 }
 
 #include <nos/io/ostream.h>
-#include <igris/buffer.h>
+#include <nos/util/buffer.h>
 #include <iostream>
 
 class nos_test_ostream : public nos::ostream {};
@@ -36,7 +36,7 @@ namespace nos
 	private:
 		template <typename U>
 		static decltype( nos_fprint(
-				std::declval<nos_test_ostream&>(), std::declval<U>(), igris::buffer()
+				std::declval<nos_test_ostream&>(), std::declval<U>(), nos::buffer()
 			), std::true_type()) test(int);
 
 		template <typename> static std::false_type test(...);
@@ -66,7 +66,7 @@ namespace nos
 	private:
 		template <typename U>
 		static decltype( 
-				std::declval<U>().fprint_to(std::declval<nos_test_ostream&>(), igris::buffer())
+				std::declval<U>().fprint_to(std::declval<nos_test_ostream&>(), nos::buffer())
 			, std::true_type()) test(int);
 
 		template <typename> static std::false_type test(...);

@@ -68,20 +68,20 @@ ssize_t nos_fprint(nos::ostream& os, const char* text, const nos::basic_spec& sp
 	return nos_fprint(os, text, strlen(text), spec);
 }
 
-ssize_t nos_fprint(nos::ostream& os, const char* obj, igris::buffer opts)
+ssize_t nos_fprint(nos::ostream& os, const char* obj, nos::buffer opts)
 {
 	nos::text_spec spec(opts);
 	return nos_fprint(os, obj, strlen(obj), spec);
 }
 
-ssize_t nos_fprint(nos::ostream& os, bool obj, igris::buffer opts) 
+ssize_t nos_fprint(nos::ostream& os, bool obj, nos::buffer opts) 
 {
 	return nos_fprint(os, obj ? "true" : "false", opts);
 }
 
-ssize_t nos_fprint(nos::ostream& os, int8_t obj, igris::buffer opts) { return nos_fprint(os, (int32_t)obj, opts); }
-ssize_t nos_fprint(nos::ostream& os, int16_t obj, igris::buffer opts) { return nos_fprint(os, (int32_t)obj, opts); }
-ssize_t nos_fprint(nos::ostream& os, int32_t obj, igris::buffer opts) 
+ssize_t nos_fprint(nos::ostream& os, int8_t obj, nos::buffer opts) { return nos_fprint(os, (int32_t)obj, opts); }
+ssize_t nos_fprint(nos::ostream& os, int16_t obj, nos::buffer opts) { return nos_fprint(os, (int32_t)obj, opts); }
+ssize_t nos_fprint(nos::ostream& os, int32_t obj, nos::buffer opts) 
 {
 	nos::integer_spec spec(opts);
 	char buf[32];
@@ -89,7 +89,7 @@ ssize_t nos_fprint(nos::ostream& os, int32_t obj, igris::buffer opts)
 	return nos_fprint_integer_impl(os, buf, end - buf, spec);
 }
 
-ssize_t nos_fprint(nos::ostream& os, int64_t obj, igris::buffer opts)
+ssize_t nos_fprint(nos::ostream& os, int64_t obj, nos::buffer opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64];
@@ -97,9 +97,9 @@ ssize_t nos_fprint(nos::ostream& os, int64_t obj, igris::buffer opts)
 	return nos_fprint_integer_impl(os, buf, end - buf, spec);
 }
 
-ssize_t nos_fprint(nos::ostream& os, uint8_t obj, igris::buffer opts) { return nos_fprint(os, (uint32_t)obj, opts); }
-ssize_t nos_fprint(nos::ostream& os, uint16_t obj, igris::buffer opts) { return nos_fprint(os, (uint32_t)obj, opts); }
-ssize_t nos_fprint(nos::ostream& os, uint32_t obj, igris::buffer opts)
+ssize_t nos_fprint(nos::ostream& os, uint8_t obj, nos::buffer opts) { return nos_fprint(os, (uint32_t)obj, opts); }
+ssize_t nos_fprint(nos::ostream& os, uint16_t obj, nos::buffer opts) { return nos_fprint(os, (uint32_t)obj, opts); }
+ssize_t nos_fprint(nos::ostream& os, uint32_t obj, nos::buffer opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[32];
@@ -107,7 +107,7 @@ ssize_t nos_fprint(nos::ostream& os, uint32_t obj, igris::buffer opts)
 	return nos_fprint_integer_impl(os, buf, end - buf, spec);
 }
 
-ssize_t nos_fprint(nos::ostream& os, uint64_t obj, igris::buffer opts)
+ssize_t nos_fprint(nos::ostream& os, uint64_t obj, nos::buffer opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64];

@@ -3,10 +3,11 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
 
-#include <igris/util/hexascii.h>
-
-#include <igris/util/types_extension.h>
+static inline char half2hex(uint8_t n) {
+	return (char)(n < 10 ? '0' + n : 'A' - 10 + n);
+}
 
 namespace nos
 {

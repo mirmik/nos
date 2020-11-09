@@ -1,8 +1,7 @@
 #ifndef NOS_LOG_LEVEL_H
 #define NOS_LOG_LEVEL_H
 
-#include <igris/buffer.h>
-#include <igris/util/bug.h>
+#include <nos/util/buffer.h>
 
 namespace nos
 {
@@ -19,7 +18,7 @@ namespace nos
 		};
 
 		const char* level_to_string(level lvl);
-		level level_from_string(const igris::buffer str);
+		level level_from_string(const nos::buffer str);
 	}
 }
 

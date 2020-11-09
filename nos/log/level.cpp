@@ -14,14 +14,14 @@ const char* nos::log::level_to_string(level lvl)
 	return nullptr;
 }
 
-nos::log::level nos::log::level_from_string(const igris::buffer str)
+nos::log::level nos::log::level_from_string(const nos::buffer str)
 {
-	if (str == "fault") return level::fault;
+	if      (str == "fault") return level::fault;
 	else if (str == "error") return level::error;
-	else if (str == "warn") return level::warn;
-	else if (str == "info") return level::info;
+	else if (str == "warn")  return level::warn;
+	else if (str == "info")  return level::info;
 	else if (str == "debug") return level::debug;
 	else if (str == "trace") return level::trace;
-	BUG();
+
 	return level::trace;
 }

@@ -1,5 +1,5 @@
-#ifndef igris_SPAM_SERVER_H
-#define igris_SPAM_SERVER_H
+#ifndef NOS_TCPSPAM_SERVER_H
+#define NOS_TCPSPAM_SERVER_H
 
 #include <nos/inet/tcp_server.h>
 #include <nos/io/ostream.h>
@@ -7,7 +7,6 @@
 #include <list>
 
 #include <string.h>
-//#include <igris/debug.h>
 
 namespace nos {
 	namespace inet {
@@ -48,19 +47,7 @@ namespace nos {
 					if (ret < 0) {
 						clients.erase(cit);
 					}
-				}
-				
-				/*if (needRemove)	{ 
-					std::list<igris::socket>::iterator it;
-					auto next = clients.begin();
-					auto end = clients.end();
-					it = next;
-					for(; it != end; it = next) {
-						next++;
-						if (it->is_connected() == false) clients.erase(it);
-					}
-				}*/
-	
+				}	
 	
 				return ret;
 			}

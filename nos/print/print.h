@@ -4,9 +4,7 @@
 #include <stdlib.h>
 #include <iterator>
 
-#include <igris/util/types_extension.h>
-#include <igris/buffer.h>
-#include <igris/util/size.h>
+#include <nos/util/buffer.h>
 
 namespace nos
 {
@@ -40,7 +38,7 @@ namespace nos
 	template<typename ... Args> 				ssize_t printhexln(const Args& ... args);
 	template<typename Arg> 						ssize_t printptr(const Arg& arg);
 												ssize_t print_dump(const void *mem, size_t len, unsigned int columns = 8);
-												ssize_t print_dump(igris::buffer buf, unsigned int columns = 8);
+												ssize_t print_dump(nos::buffer buf, unsigned int columns = 8);
 
 
 	static inline ssize_t print(void* ptr) { return nos::printptr(ptr); }
@@ -90,19 +88,19 @@ ssize_t nos::print_list_to(nos::ostream& out, const V& vec)
 {
 	size_t ret = 0;
 	
-	if (igris::size(vec) == 0) 
+	if (std::size(vec) == 0) 
 	{
 		return out.write("{}",2);
 	}
 
 	ret += out.putchar('{');
 
-	for (unsigned int i = 0; i < igris::size(vec) - 1; ++i)
+	for (unsigned int i = 0; i < std::size(vec) - 1; ++i)
 	{
 		ret += print_to(out, vec[i]);
 		ret += out.putchar(',');
 	}
-		ret += print_to(out, vec[igris::size(vec) - 1]);
+		ret += print_to(out, vec[std::size(vec) - 1]);
 	ret += out.putchar('}');
 
 	return ret;

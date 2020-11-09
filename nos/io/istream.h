@@ -5,8 +5,6 @@
 #include <stdlib.h>
 #include <string>
 
-#include <igris/util/types_extension.h>
-
 namespace nos
 {
 	class istream

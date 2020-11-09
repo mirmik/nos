@@ -1,5 +1,5 @@
-#ifndef GXX_ARGLIST2_H
-#define GXX_ARGLIST2_H
+#ifndef NOS_ARGLIST_H
+#define NOS_ARGLIST_H
 
 //Структура данных visitable_arglist используется для форматирующей печати.
 //Для обработки строки формата все аргументы однотипно записываются с помощью указателей,
@@ -11,8 +11,7 @@
 //#include <memory>
 #include <utility>
 #include <assert.h>
-#include <igris/buffer.h>
-#include <igris/util/bug.h>
+#include <nos/util/buffer.h>
 
 namespace nos
 {
@@ -37,8 +36,8 @@ namespace nos
 	struct argpair
 	{
 		void* body;
-		igris::buffer name;
-		constexpr argpair(const igris::buffer& _name, const T& _body) : body((void*)&_body), name(_name) {}
+		nos::buffer name;
+		constexpr argpair(const nos::buffer& _name, const T& _body) : body((void*)&_body), name(_name) {}
 	};
 
 	/**
@@ -47,8 +46,8 @@ namespace nos
 	 */
 	struct argname
 	{
-		igris::buffer name;
-		constexpr argname(const igris::buffer& _name) : name(_name) {};
+		nos::buffer name;
+		constexpr argname(const nos::buffer& _name) : name(_name) {};
 
 		template<typename T>
 		constexpr argpair<T> operator= (const T& body)
@@ -61,7 +60,7 @@ namespace nos
 	{
 		static inline argname operator"" _a (const char* name, size_t sz)
 		{
-			return argname(igris::buffer(name, sz));
+			return argname(nos::buffer(name, sz));
 		}
 	}
 
@@ -73,17 +72,17 @@ namespace nos
 	struct visitable_argument
 	{
 		void* 		ptr;
-		igris::buffer name;
+		nos::buffer name;
 		void* 		visit;
 
-		visitable_argument(void* _ptr, const igris::buffer& buf, void* _visit) : 
+		visitable_argument(void* _ptr, const nos::buffer& buf, void* _visit) : 
 			ptr(_ptr), name(buf), visit(_visit) {}
 
 		template <typename Visitor, typename Object>
 		visitable_argument(const Object& obj, const Visitor& visitor)
 			: visitable_argument(
 			      (void*) & obj,
-			      igris::buffer(),
+			      nos::buffer(),
 			      Visitor::template get_visit<detail::va_remove_cvref_t<Object>>())
 		{(void)visitor;}
 
@@ -132,16 +131,13 @@ namespace nos
 			return arr[num];
 		}
 
-		const visitable_argument& operator[](igris::buffer str) const
+		const visitable_argument& operator[](nos::buffer str) const
 		{
 			for (uint8_t i = 0; i < N; ++i)
 			{
 				if (str == arr[i].name) return arr[i];
 			}
-
-			dpr("nos::visitable_arglist: name error: ");
-			dprln("on name: "); debug_write(str.data(), str.size()); dprln();
-			
+		
 			return arr[0]; // -Wreturn-type
 		}
 	};

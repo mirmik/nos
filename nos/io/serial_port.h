@@ -4,78 +4,65 @@
 #include <nos/io/file.h>
 #include <unistd.h>
 
-#include <igris/defs/uart.h>
+#define UART_PARITY_NONE 'n'
+#define UART_PARITY_EVEN 'e'
+#define UART_PARITY_ODD  'o'
+
+#define UART_STOPBITS_ONE 1
+#define UART_STOPBITS_TWO 2
 
 namespace nos
 {
 	class serial_port : public nos::file
 	{
 		unsigned int baud;
-		uart_parity_e parity;
+		char parity;
 		uint8_t bytesize;
-		uart_stopbits_e stopbits;
-		uart_flowcontrol_e flowcontrol;
-
+		uint8_t stopbits;
 
 	public:
 		serial_port() {}
 		serial_port(const char * path,
-		                 unsigned int baud = 9600,
-		                 uart_parity_e parity = UART_PARITY_NONE,
-		                 uint8_t bytesize = 8,
-		                 uart_stopbits_e stopbits = UART_STOPBITS_ONE,
-		                 uart_flowcontrol_e flowcontrol = UART_FLOWCONTROL_NONE)
+		            unsigned int baud = 9600,
+		            char parity = UART_PARITY_NONE,
+		            uint8_t bytesize = 8,
+		            uint8_t stopbits = UART_STOPBITS_ONE)
 			: file(), baud(baud), parity(parity), bytesize(bytesize), stopbits(stopbits), flowcontrol(flowcontrol)
 		{
-			open(path, baud, parity, bytesize, stopbits, flowcontrol);
+			open(path, baud, parity, bytesize, stopbits);
 		}
 
 		serial_port(const char * path,
-		                 unsigned int baud = 9600,
-		                 char parity = UART_PARITY_NONE,
-		                 uint8_t bytesize = 8,
-		                 uint8_t stopbits = UART_STOPBITS_ONE,
-		                 char flowcontrol = UART_FLOWCONTROL_NONE)
+		            unsigned int baud = 9600,
+		            char parity = UART_PARITY_NONE,
+		            uint8_t bytesize = 8,
+		            uint8_t stopbits = UART_STOPBITS_ONE)
 			: baud(baud),
-			  parity((uart_parity_e)parity),
+			  parity((char)parity),
 			  bytesize(bytesize),
-			  stopbits((uart_stopbits_e)stopbits),
-			  flowcontrol((uart_flowcontrol_e)flowcontrol)
+			  stopbits((uint8_t)stopbits)
 		{
-			open(path, baud,
-			     (uart_parity_e) parity,
+			open(path,
+			     baud,
+			     parity,
 			     bytesize,
-			     (uart_stopbits_e) stopbits,
-			     (uart_flowcontrol_e) flowcontrol);
+			     (uint8_t) stopbits);
 		}
-
-		int open(const char * path,
-		         unsigned int baud = 9600,
-		         uart_parity_e parity = UART_PARITY_NONE,
-		         uint8_t bytesize = 8,
-		         uart_stopbits_e stopbits = UART_STOPBITS_ONE,
-		         uart_flowcontrol_e flowcontrol = UART_FLOWCONTROL_NONE);
 
 		int open(const char * path,
 		         unsigned int baud = 9600,
 		         char parity = UART_PARITY_NONE,
 		         uint8_t bytesize = 8,
-		         uint8_t stopbits = UART_STOPBITS_ONE,
-		         char flowcontrol = UART_FLOWCONTROL_NONE);
+		         uint8_t stopbits = UART_STOPBITS_ONE);
+
+		int open(const char * path,
+		         unsigned int baud = 9600,
+                 char parity = UART_PARITY_NONE,
+                 uint8_t bytesize = 8,
+                 uint8_t stopbits = UART_STOPBITS_ONE);
 
 		void reconfigurePort();
-
-		/*int32_t readData(char *data, size_t maxSize) override
-		{
-		    return ::read(fd, data, maxSize);
-		}
-
-		int32_t writeData(const char *data, size_t maxSize) override
-		{
-		    return ::write(fd, data, maxSize);
-		}*/
 	};
-
 }
 
 #endif

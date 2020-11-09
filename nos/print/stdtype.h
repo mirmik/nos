@@ -3,14 +3,11 @@
 
 #include <stdlib.h>
 #include <stdint.h>
-#include <igris/buffer.h>
-#include <igris/container/array_view.h>
-#include <igris/math/defs.h>
-#include <igris/util/types_extension.h>
 
 #include <complex>
 #include <string>
-#include <igris/util/__include_string_view.h>
+
+#include <nos/util/buffer.h>
 
 namespace nos { class ostream; }
 
@@ -30,11 +27,11 @@ ssize_t nos_print(nos::ostream& out, uint64_t str);
 ssize_t nos_print(nos::ostream& out, float str);
 ssize_t nos_print(nos::ostream& out, double str);
 
-ssize_t nos_print(nos::ostream& out, igris::buffer buf);
+ssize_t nos_print(nos::ostream& out, nos::buffer buf);
 
 ssize_t nos_print(nos::ostream& out, const std::string& str);
 
-#if IGRIS_HAS_STRING_VIEW
+#if HAS_STRING_VIEW
 ssize_t nos_print(nos::ostream& out, const std::string_view& str);
 #endif
 
@@ -96,14 +93,6 @@ namespace nos
 		static ssize_t print_to(nos::ostream& out, const std::array<T,M>& obj)
 		{
 			return nos::print_list_to<std::array<T,M>>(out, obj);
-		}
-	};
-
-	template <typename T> struct print_implementation<igris::array_view<T>>
-	{
-		static ssize_t print_to(nos::ostream& out, const igris::array_view<T>& obj)
-		{
-			return nos::print_list_to<igris::array_view<T>>(out, obj);
 		}
 	};
 

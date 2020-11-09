@@ -6,10 +6,9 @@
 
 int nos::serial_port::open(const char * path,
                                 unsigned int baud,
-                                uart_parity_e parity,
+                                char parity,
                                 uint8_t bytesize,
-                                uart_stopbits_e stopbits,
-                                uart_flowcontrol_e flowcontrol)
+                                uint8_t stopbits)
 {
 	int ret;
 
@@ -19,9 +18,6 @@ int nos::serial_port::open(const char * path,
 		perror("serial::open");
 		exit(0);
 	}
-
-	//fdopen(fd);
-	//setvbuf( filp, (char *)NULL, _IONBF, 0 );
 
 	struct termios tattr, orig;
 	ret = tcgetattr(fd, &orig);
