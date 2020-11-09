@@ -63,7 +63,7 @@ int nos::serial_port::open(const char * path,
 			break;
 
 		default:
-			BUG();
+			return -1;
 	}
 
 	/*switch (parity)
@@ -97,7 +97,7 @@ int nos::serial_port::open(const char * path,
 	}
 	else
 	{
-		BUG();
+		return -1;
 	}
 
 	/* put terminal in raw mode after flushing */
@@ -105,8 +105,7 @@ int nos::serial_port::open(const char * path,
 
 	if (ret < 0)
 	{
-		perror("serial::tcsetattr");
-		exit(0);
+		return -1;
 	}
 
 	return 0;
