@@ -22,8 +22,6 @@ application("runtests",
 	mdepends = [
 		"nos"
 	],
-
-	libs = ["igris"]
 )
 
 licant.ex("runtests")
