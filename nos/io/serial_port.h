@@ -22,15 +22,6 @@ namespace nos
 
 	public:
 		serial_port() {}
-		serial_port(const char * path,
-		            unsigned int baud = 9600,
-		            char parity = UART_PARITY_NONE,
-		            uint8_t bytesize = 8,
-		            uint8_t stopbits = UART_STOPBITS_ONE)
-			: file(), baud(baud), parity(parity), bytesize(bytesize), stopbits(stopbits), flowcontrol(flowcontrol)
-		{
-			open(path, baud, parity, bytesize, stopbits);
-		}
 
 		serial_port(const char * path,
 		            unsigned int baud = 9600,
@@ -54,12 +45,6 @@ namespace nos
 		         char parity = UART_PARITY_NONE,
 		         uint8_t bytesize = 8,
 		         uint8_t stopbits = UART_STOPBITS_ONE);
-
-		int open(const char * path,
-		         unsigned int baud = 9600,
-                 char parity = UART_PARITY_NONE,
-                 uint8_t bytesize = 8,
-                 uint8_t stopbits = UART_STOPBITS_ONE);
 
 		void reconfigurePort();
 	};

@@ -29,6 +29,11 @@ ssize_t nos_print(nos::ostream& out, double str);
 
 ssize_t nos_print(nos::ostream& out, nos::buffer buf);
 
+#if __has_include(<igris/buffer.h>)
+#include <igris/buffer.h>
+ssize_t nos_print(nos::ostream& out, igris::buffer buf);
+#endif
+
 ssize_t nos_print(nos::ostream& out, const std::string& str);
 
 #if HAS_STRING_VIEW

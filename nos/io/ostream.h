@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-static inline char half2hex(uint8_t n) {
+static inline char __nos_half2hex(uint8_t n) {
 	return (char)(n < 10 ? '0' + n : 'A' - 10 + n);
 }
 
@@ -44,8 +44,8 @@ namespace nos
 
 		ssize_t printhex(char c)
 		{
-			putchar(half2hex((uint8_t)((c & 0xF0) >> 4)));
-			putchar(half2hex((uint8_t)(c & 0x0F)));
+			putchar(__nos_half2hex((uint8_t)((c & 0xF0) >> 4)));
+			putchar(__nos_half2hex((uint8_t)(c & 0x0F)));
 			return 2;
 		}
 

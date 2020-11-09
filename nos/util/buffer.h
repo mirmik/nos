@@ -106,6 +106,12 @@ namespace nos
 		{
 			return _data == nullptr;
 		}
+
+		explicit operator std::string() 
+		{
+			return std::string(_data, _size);
+		}
+
 	};
 }
 
