@@ -6,6 +6,10 @@
 
 #include <nos/util/buffer.h>
 
+#if __has_include(<igris/buffer.h>)
+#include <igris/buffer.h>
+#endif
+
 namespace nos
 {
 												class ostream;
@@ -38,8 +42,11 @@ namespace nos
 	template<typename ... Args> 				ssize_t printhexln(const Args& ... args);
 	template<typename Arg> 						ssize_t printptr(const Arg& arg);
 												ssize_t print_dump(const void *mem, size_t len, unsigned int columns = 8);
-												ssize_t print_dump(nos::buffer buf, unsigned int columns = 8);
 
+												ssize_t print_dump(nos::buffer buf, unsigned int columns = 8);
+#if __has_include(<igris/buffer.h>)
+												ssize_t print_dump(igris::buffer buf, unsigned int columns = 8);
+#endif
 
 	static inline ssize_t print(void* ptr) { return nos::printptr(ptr); }
 	static inline ssize_t print_to(nos::ostream& out, void* ptr) { return nos::printptr_to(out, ptr); }

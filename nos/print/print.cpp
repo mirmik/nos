@@ -95,6 +95,11 @@ ssize_t nos::print_dump(nos::buffer buf, unsigned int columns)
 	return nos::print_dump_to(*nos::current_ostream, buf.data(), buf.size(), columns);
 }
 
+ssize_t nos::print_dump(igris::buffer buf, unsigned int columns)
+{
+	return nos::print_dump_to(*nos::current_ostream, buf.data(), buf.size(), columns);
+}
+
 ssize_t nos::putchar(char c)
 {
 	return putchar_to(*nos::current_ostream, c);
