@@ -44,7 +44,7 @@ namespace nos
 
 namespace nos 
 {
-	void reset_terminal() 
+	static void reset_terminal() 
 	{
 		nos::print("\x1B[0m");
 	}
