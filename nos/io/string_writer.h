@@ -2,6 +2,7 @@
 #define NOS_IO_STRING_WRITER_H
 
 #include <string>
+#include <nos/io/ostream.h>
 
 namespace nos {
 	class string_writer : public nos::ostream {
