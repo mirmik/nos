@@ -100,7 +100,7 @@ ssize_t nos_fprint(nos::ostream& os, int64_t obj, nos::buffer opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64];
-	int len = sprintf(buf, "%ld", obj);
+	int len = sprintf(buf, "%lld", obj);
 	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
@@ -118,6 +118,6 @@ ssize_t nos_fprint(nos::ostream& os, uint64_t obj, nos::buffer opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64];
-	int len = sprintf(buf, "%lu", obj);
+	int len = sprintf(buf, "%llu", obj);
 	return nos_fprint_integer_impl(os, buf, len, spec);
 }

@@ -26,11 +26,11 @@ ssize_t nos_print(nos::ostream& out, bool obj) 		{ return nos_print(out, obj ? "
 ssize_t nos_print(nos::ostream& out, int8_t obj) 	{ char buf[48]; sprintf(buf, "%d", obj); return nos_print(out, buf); }
 ssize_t nos_print(nos::ostream& out, int16_t obj) 	{ char buf[48]; sprintf(buf, "%d", obj); return nos_print(out, buf); }
 ssize_t nos_print(nos::ostream& out, int32_t obj) 	{ char buf[48];	sprintf(buf, "%d", obj); return nos_print(out, buf); }
-ssize_t nos_print(nos::ostream& out, int64_t obj) 	{ char buf[48];	sprintf(buf, "%ld", obj); return nos_print(out, buf); }
+ssize_t nos_print(nos::ostream& out, int64_t obj) 	{ char buf[48];	sprintf(buf, "%lld", obj); return nos_print(out, buf); }
 ssize_t nos_print(nos::ostream& out, uint8_t obj) 	{ char buf[48];	sprintf(buf, "%u", obj); return nos_print(out, buf); }
 ssize_t nos_print(nos::ostream& out, uint16_t obj) 	{ char buf[48];	sprintf(buf, "%u", obj); return nos_print(out, buf); }
 ssize_t nos_print(nos::ostream& out, uint32_t obj) 	{ char buf[48];	sprintf(buf, "%u", obj); return nos_print(out, buf); }
-ssize_t nos_print(nos::ostream& out, uint64_t obj) 	{ char buf[48];	sprintf(buf, "%lu", obj); return nos_print(out, buf); }
+ssize_t nos_print(nos::ostream& out, uint64_t obj) 	{ char buf[48];	sprintf(buf, "%llu", obj); return nos_print(out, buf); }
 
 ssize_t nos_print(nos::ostream& out, float obj)
 {
