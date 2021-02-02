@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <igris/util/types_extension.h>
 
 static inline char __nos_half2hex(uint8_t n) {
 	return (char)(n < 10 ? '0' + n : 'A' - 10 + n);
