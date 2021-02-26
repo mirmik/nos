@@ -66,30 +66,6 @@ int nos::serial_port::open(const char * path,
 			return -1;
 	}
 
-	/*switch (parity)
-	{
-		case serial::parity_none:
-			tattr.c_cflag &= ~(PARENB);
-			tattr.c_cflag &= ~(PARODD);
-			break;
-
-		case serial::parity_odd:
-			tattr.c_cflag |= (PARENB);
-			tattr.c_cflag |= (PARODD);
-			break;
-
-		case serial::parity_even:
-			tattr.c_cflag |= (PARENB);
-			tattr.c_cflag &= ~(PARODD);
-			break;
-
-		case serial::parity_mark:
-			PANIC_TRACED();
-
-		case serial::parity_space:
-			PANIC_TRACED();
-	}*/
-
 	if (baud == 115200)
 	{
 		cfsetispeed(&tattr, B115200);
