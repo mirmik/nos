@@ -29,15 +29,15 @@ namespace nos
 		            uint8_t bytesize = 8,
 		            uint8_t stopbits = UART_STOPBITS_ONE)
 			: baud(baud),
-			  parity((char)parity),
+			  parity(parity),
 			  bytesize(bytesize),
-			  stopbits((uint8_t)stopbits)
+			  stopbits(stopbits)
 		{
 			open(path,
 			     baud,
 			     parity,
 			     bytesize,
-			     (uint8_t) stopbits);
+			     stopbits);
 		}
 
 		int open(const char * path,
