@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-//#include <igris/util/numconvert.h>
+#include <igris/util/numconvert.h>
 
 ssize_t nos_print(nos::ostream& out, const char* str)
 {
@@ -39,11 +39,11 @@ ssize_t nos_print(nos::ostream& out, unsigned long long obj){ char buf[48];	spri
 ssize_t nos_print(nos::ostream& out, float obj)
 {
 	char buf[48];
-//#if 1
-//	f32toa(obj, buf, 5);
-//#else
+#if 1
+	f32toa(obj, buf, 5);
+#else
 	sprintf(buf, "%f", obj);
-//#endif
+#endif
 	return nos_print(out, buf);
 }
 
@@ -51,11 +51,11 @@ ssize_t nos_print(nos::ostream& out, float obj)
 ssize_t nos_print(nos::ostream& out, double obj)
 {
 	char buf[48];
-//#if 1
-//	f64toa(obj, buf, 5);
-//#else
+#if 1
+	f64toa(obj, buf, 5);
+#else
 	sprintf(buf, "%lf", obj);
-//#endif
+#endif
 	return nos_print(out, buf);
 }
 #endif
