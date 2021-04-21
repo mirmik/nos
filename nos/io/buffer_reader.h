@@ -12,7 +12,7 @@ namespace nos {
 	public:
 		buffer_reader(char* buf, size_t len) : buf(buf), len(len) {}
 	
-		ssize_t read(void* ptr, size_t sz) override {
+		int read(void* ptr, size_t sz) override {
 			if (len == 0) return 0;
 
 			int rd = len > sz ? sz : len;

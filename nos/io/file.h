@@ -22,12 +22,12 @@ namespace nos
 			open(path, flags);
 		}
 
-		ssize_t write(const void* ptr, size_t sz) override
+		int write(const void* ptr, size_t sz) override
 		{
 			return ::write(m_fd, ptr, sz);
 		}
 
-		ssize_t read(void* ptr, size_t sz) override
+		int read(void* ptr, size_t sz) override
 		{
 			return ::read(m_fd, ptr, sz);
 		}

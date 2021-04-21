@@ -18,9 +18,9 @@ namespace nos {
 	namespace inet {
 		struct datagramm_socket : public inet::socket {
 			datagramm_socket(int domain, int type, int proto);
-			ssize_t sendto(nos::inet::hostaddr haddr, uint16_t port, const char* data, size_t size);
-			ssize_t ne_sendto(uint32_t addr, uint16_t port, const char* data, size_t size);
-			ssize_t recvfrom(char* data, size_t maxsize, nos::inet::netaddr* inaddr);
+			int sendto(nos::inet::hostaddr haddr, uint16_t port, const char* data, size_t size);
+			int ne_sendto(uint32_t addr, uint16_t port, const char* data, size_t size);
+			int recvfrom(char* data, size_t maxsize, nos::inet::netaddr* inaddr);
 		};
 	
 		struct udp_socket : public datagramm_socket {

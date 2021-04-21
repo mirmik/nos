@@ -1,7 +1,7 @@
 #include <nos/fprint/stdtype.h>
 #include <nos/fprint/spec.h>
 
-ssize_t nos_fprint(nos::ostream& os,
+int nos_fprint(nos::ostream& os,
                    const char* text,
                    int size,
                    const nos::basic_spec& spec)
@@ -62,30 +62,30 @@ ssize_t nos_fprint(nos::ostream& os,
 	return ret;
 }
 
-ssize_t nos_fprint_integer_impl(nos::ostream& os, char* buf, size_t len, const nos::integer_spec& spec)
+int nos_fprint_integer_impl(nos::ostream& os, char* buf, size_t len, const nos::integer_spec& spec)
 {
 	return nos_fprint(os, buf, len, spec);
 }
 
-ssize_t nos_fprint(nos::ostream& os, const char* text, const nos::basic_spec& spec)
+int nos_fprint(nos::ostream& os, const char* text, const nos::basic_spec& spec)
 {
 	return nos_fprint(os, text, strlen(text), spec);
 }
 
-ssize_t nos_fprint(nos::ostream& os, const char* obj, nos::buffer opts)
+int nos_fprint(nos::ostream& os, const char* obj, nos::buffer opts)
 {
 	nos::text_spec spec(opts);
 	return nos_fprint(os, obj, strlen(obj), spec);
 }
 
-ssize_t nos_fprint(nos::ostream& os, bool obj, nos::buffer opts)
+int nos_fprint(nos::ostream& os, bool obj, nos::buffer opts)
 {
 	return nos_fprint(os, obj ? "true" : "false", opts);
 }
 
-ssize_t nos_fprint(nos::ostream& os, signed char obj, nos::buffer opts) { return nos_fprint(os, (signed int)obj, opts); }
-ssize_t nos_fprint(nos::ostream& os, signed short obj, nos::buffer opts) { return nos_fprint(os, (signed int)obj, opts); }
-ssize_t nos_fprint(nos::ostream& os, signed int obj, nos::buffer opts)
+int nos_fprint(nos::ostream& os, signed char obj, nos::buffer opts) { return nos_fprint(os, (signed int)obj, opts); }
+int nos_fprint(nos::ostream& os, signed short obj, nos::buffer opts) { return nos_fprint(os, (signed int)obj, opts); }
+int nos_fprint(nos::ostream& os, signed int obj, nos::buffer opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[32];
@@ -94,7 +94,7 @@ ssize_t nos_fprint(nos::ostream& os, signed int obj, nos::buffer opts)
 	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
-ssize_t nos_fprint(nos::ostream& os, signed long obj, nos::buffer opts)
+int nos_fprint(nos::ostream& os, signed long obj, nos::buffer opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64];
@@ -102,7 +102,7 @@ ssize_t nos_fprint(nos::ostream& os, signed long obj, nos::buffer opts)
 	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
-ssize_t nos_fprint(nos::ostream& os, signed long long obj, nos::buffer opts)
+int nos_fprint(nos::ostream& os, signed long long obj, nos::buffer opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64];
@@ -110,9 +110,9 @@ ssize_t nos_fprint(nos::ostream& os, signed long long obj, nos::buffer opts)
 	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
-ssize_t nos_fprint(nos::ostream& os, unsigned char obj, nos::buffer opts) { return nos_fprint(os, (unsigned int)obj, opts); }
-ssize_t nos_fprint(nos::ostream& os, unsigned short obj, nos::buffer opts) { return nos_fprint(os, (unsigned int)obj, opts); }
-ssize_t nos_fprint(nos::ostream& os, unsigned int obj, nos::buffer opts)
+int nos_fprint(nos::ostream& os, unsigned char obj, nos::buffer opts) { return nos_fprint(os, (unsigned int)obj, opts); }
+int nos_fprint(nos::ostream& os, unsigned short obj, nos::buffer opts) { return nos_fprint(os, (unsigned int)obj, opts); }
+int nos_fprint(nos::ostream& os, unsigned int obj, nos::buffer opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[32];
@@ -120,7 +120,7 @@ ssize_t nos_fprint(nos::ostream& os, unsigned int obj, nos::buffer opts)
 	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
-ssize_t nos_fprint(nos::ostream& os, unsigned long int obj, nos::buffer opts)
+int nos_fprint(nos::ostream& os, unsigned long int obj, nos::buffer opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64];
@@ -128,7 +128,7 @@ ssize_t nos_fprint(nos::ostream& os, unsigned long int obj, nos::buffer opts)
 	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
-ssize_t nos_fprint(nos::ostream& os, unsigned long long int obj, nos::buffer opts)
+int nos_fprint(nos::ostream& os, unsigned long long int obj, nos::buffer opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64];

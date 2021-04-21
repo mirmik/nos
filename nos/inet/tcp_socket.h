@@ -31,8 +31,8 @@ namespace nos
 			int connect(nos::inet::hostaddr addr, uint16_t port);
 
 			//io api implementation
-			ssize_t write(const void* data, size_t size) override;
-			ssize_t read(void* data, size_t size) override;
+			int write(const void* data, size_t size) override;
+			int read(void* data, size_t size) override;
 
 			netaddr getaddr();
 		};

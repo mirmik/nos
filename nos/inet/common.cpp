@@ -156,7 +156,7 @@ nos::inet::datagramm_socket::datagramm_socket(int domain, int type, int proto)
 	socket::init(domain, type, proto);
 }
 
-ssize_t nos::inet::datagramm_socket::sendto(nos::inet::hostaddr haddr, uint16_t port, const char* data, size_t size)
+int nos::inet::datagramm_socket::sendto(nos::inet::hostaddr haddr, uint16_t port, const char* data, size_t size)
 {
 	struct sockaddr_in addr;
 	memset(&addr, 0, sizeof(addr));
@@ -168,7 +168,7 @@ ssize_t nos::inet::datagramm_socket::sendto(nos::inet::hostaddr haddr, uint16_t 
 	return ::sendto(fd, data, size, 0, (sockaddr*) &addr, sizeof(sockaddr_in));
 }
 
-ssize_t nos::inet::datagramm_socket::ne_sendto(uint32_t ipaddr, uint16_t port, const char* data, size_t size)
+int nos::inet::datagramm_socket::ne_sendto(uint32_t ipaddr, uint16_t port, const char* data, size_t size)
 {
 	struct sockaddr_in addr;
 	memset(&addr, 0, sizeof(addr));
@@ -180,11 +180,11 @@ ssize_t nos::inet::datagramm_socket::ne_sendto(uint32_t ipaddr, uint16_t port, c
 	return ::sendto(fd, data, size, 0, (sockaddr*) &addr, sizeof(sockaddr_in));
 }
 
-ssize_t nos::inet::datagramm_socket::recvfrom(char* data, size_t maxsize, nos::inet::netaddr* inaddr)
+int nos::inet::datagramm_socket::recvfrom(char* data, size_t maxsize, nos::inet::netaddr* inaddr)
 {
 	struct sockaddr_in si_other;
 	socklen_t sz = sizeof(sockaddr_in);
-	ssize_t ret = ::recvfrom(fd, data, maxsize, 0, (sockaddr*) &si_other, &sz);
+	int ret = ::recvfrom(fd, data, maxsize, 0, (sockaddr*) &si_other, &sz);
 
 	if (ret < 0) {
 		return ret;

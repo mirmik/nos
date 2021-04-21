@@ -23,22 +23,22 @@ int nos::inet::tcp_socket::connect(nos::inet::hostaddr addr, uint16_t port)
 	return socket::connect(addr, port, PF_INET);
 }
 
-ssize_t nos::inet::tcp_socket::write(const void* data, size_t size)
+int nos::inet::tcp_socket::write(const void* data, size_t size)
 {
 	return socket::send(data, size, 0);
 }
 
-ssize_t nos::inet::tcp_socket::read(void* data, size_t size)
+int nos::inet::tcp_socket::read(void* data, size_t size)
 {
 	return socket::recv((char*)data, size, 0);
 }
 
-ssize_t nos::inet::socket::send(const void* data, size_t size, int flags)
+int nos::inet::socket::send(const void* data, size_t size, int flags)
 {
 	return ::send(fd, data, size, flags);
 }
 
-ssize_t nos::inet::socket::recv(char* data, size_t size, int flags)
+int nos::inet::socket::recv(char* data, size_t size, int flags)
 {
 	return ::recv(fd, data, size, flags);
 }

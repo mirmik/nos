@@ -7,7 +7,7 @@ namespace nos
 	class array_printable 
 	{
 	public:
-		ssize_t print_to(nos::ostream& os) const
+		int print_to(nos::ostream& os) const
 		{
 			return nos::print_list_to(os, *(T*)this);
 		}
@@ -17,7 +17,7 @@ namespace nos
 	class matrix_printable 
 	{
 	public:
-		ssize_t print_to(nos::ostream& os) const
+		int print_to(nos::ostream& os) const
 		{
 			return nos::print_matrix_to(os, *(T*)this);
 		}

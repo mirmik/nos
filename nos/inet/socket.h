@@ -21,8 +21,8 @@ namespace nos {
 			socket& operator=(const socket& oth) = default;
 			socket& operator=(socket&& oth) = default;
 
-			ssize_t send(const void* data, size_t size, int flags);
-			ssize_t recv(char* data, size_t size, int flags);
+			int send(const void* data, size_t size, int flags);
+			int recv(char* data, size_t size, int flags);
 
 			int init(int domain, int type, int proto); //posix ::socket
 			int bind(const hostaddr& haddr, uint16_t port, int family);

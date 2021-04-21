@@ -8,7 +8,7 @@ namespace nos
 {
 	class debug_ostream : public nos::ostream 
 	{
-		ssize_t write(const void* ptr, size_t sz) 
+		int write(const void* ptr, size_t sz) 
 		{
 			debug_write((const char*)ptr, sz);
 			return sz;

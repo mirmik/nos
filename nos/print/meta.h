@@ -47,7 +47,7 @@ namespace nos
 
 	template <typename T, bool HasMtdPrint, bool HasStdOstream> struct print_implementation_solver<T, true, HasMtdPrint, HasStdOstream>
 	{
-		static ssize_t print_to(nos::ostream& os, const T& obj)
+		static int print_to(nos::ostream& os, const T& obj)
 		{
 			return nos_print(adsl_finder(os), obj);
 		}
@@ -55,7 +55,7 @@ namespace nos
 
 	template <typename T, bool HasStdOstream> struct print_implementation_solver<T, false, true, HasStdOstream>
 	{
-		static ssize_t print_to(nos::ostream& os, const T& obj)
+		static int print_to(nos::ostream& os, const T& obj)
 		{
 			return obj.print_to(os);
 		}
@@ -63,7 +63,7 @@ namespace nos
 
 	template <typename T> struct print_implementation_solver<T, false, false, true>
 	{
-		static ssize_t print_to(nos::ostream& os, const T& obj)
+		static int print_to(nos::ostream& os, const T& obj)
 		{
 			adapterbuf<char> adapter(os);
 			std::ostream stdos(&adapter);

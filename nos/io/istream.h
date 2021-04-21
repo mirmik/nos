@@ -56,7 +56,7 @@ namespace nos
 			return nos::read_paired(*this, buf, buflen, a, b, ignore);
 		}
 
-		virtual ssize_t read(void* ptr, size_t sz) = 0;
+		virtual int read(void* ptr, size_t sz) = 0;
 	};
 }
 

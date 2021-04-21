@@ -15,12 +15,12 @@ namespace nos
 	class ostream
 	{
 	public:
-		virtual ssize_t write(const void* ptr, size_t sz) = 0;
-		ssize_t write_upper(const void* ptr, size_t sz);
-		ssize_t write_lower(const void* ptr, size_t sz);
+		virtual int write(const void* ptr, size_t sz) = 0;
+		int write_upper(const void* ptr, size_t sz);
+		int write_lower(const void* ptr, size_t sz);
 		
 		template<typename ... Args>
-		ssize_t print(const Args& ... args);
+		int print(const Args& ... args);
 
 		template<typename Arg>
 		ostream& operator << (const Arg& arg) 
@@ -31,26 +31,26 @@ namespace nos
 
 
 		template<typename ... Args>
-		ssize_t println(const Args& ... args);
+		int println(const Args& ... args);
 
-		ssize_t println()
+		int println()
 		{
 			return write("\r\n", 2);
 		}
 
-		ssize_t putchar(char c)
+		int putchar(char c)
 		{
 			return write(&c, 1);
 		}
 
-		ssize_t printhex(char c)
+		int printhex(char c)
 		{
 			putchar(__nos_half2hex((uint8_t)((c & 0xF0) >> 4)));
 			putchar(__nos_half2hex((uint8_t)(c & 0x0F)));
 			return 2;
 		}
 
-		ssize_t printhex(void* ptr, size_t sz)
+		int printhex(void* ptr, size_t sz)
 		{
 			size_t ret = 0;
 			char* _ptr = (char*) ptr;
@@ -64,13 +64,13 @@ namespace nos
 		}
 
 		template <typename O>
-		ssize_t printhex(const O& o)
+		int printhex(const O& o)
 		{
 			return printhex((void*)&o, sizeof(O));
 		}
 
-		ssize_t fill(char c, size_t len);
-		ssize_t printptr(const void* ptr);
+		int fill(char c, size_t len);
+		int printptr(const void* ptr);
 
 		virtual int flush() { return 0; }
 	};
@@ -79,13 +79,13 @@ namespace nos
 #include <nos/print/print.h>
 
 template<typename ... Args>
-ssize_t nos::ostream::print(const Args& ... args)
+int nos::ostream::print(const Args& ... args)
 {
 	return nos::print_to(*this, args ...);
 }
 
 template<typename ... Args>
-ssize_t nos::ostream::println(const Args& ... args)
+int nos::ostream::println(const Args& ... args)
 {
 	return nos::println_to(*this, args ...);
 }

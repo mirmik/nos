@@ -9,7 +9,7 @@ namespace nos
 	{
 	public:
 
-		ssize_t write(const void* ptr, size_t sz) override
+		int write(const void* ptr, size_t sz) override
 		{
 			return sz;
 		}
