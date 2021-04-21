@@ -75,7 +75,7 @@ namespace nos
 	{
 		nos::cstring_writer writer(buf);
 		int ret = nos::fprint_impl(writer, fmt, args);
-		writer.putchar('\0');
+		writer.putbyte('\0');
 		return ret;
 	}
 
@@ -84,7 +84,7 @@ namespace nos
 	{
 		nos::cstring_writer writer(buf);
 		int ret = nos::fprint_to(writer, fmt, args ...);
-		writer.putchar('\0');
+		writer.putbyte('\0');
 		return ret;
 	}
 }

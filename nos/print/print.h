@@ -16,7 +16,6 @@ namespace nos
 												extern ostream* current_ostream;
 
 
-												int putchar_to(nos::ostream&, char);
 												int write_to(nos::ostream& out, const void* buf, size_t sz);
 												int writeln_to(nos::ostream& out, const void* buf, size_t sz);
 	template<typename Arg> 						int print_to(nos::ostream& out, const Arg& arg);
@@ -30,7 +29,6 @@ namespace nos
 	template<typename Arg> 						int printptrln_to(nos::ostream& out, const Arg* arg);
 												int print_dump_to(nos::ostream&, const void *mem, size_t len, unsigned int columns = 8);
 
-												int putchar(char c);
 												int write(const void* buf, size_t sz);
 												int writeln(const void* buf, size_t sz);
 	template<typename ... Args> 				int print(const Args& ... args);
@@ -74,9 +72,10 @@ int nos::printhexln(const Args& ... args) {
 template<typename Head, typename ... Tail>
 int nos::print_to(nos::ostream& out, const Head& head, const Tail& ... tail)
 {
+	char c = ' ';
 	int res = 0;
 	res += print_to(out, head);
-	res += nos::putchar_to(out, ' ');
+	res += nos::write_to(out, &c, 1);
 	res += print_to(out, tail ...);
 	return res;
 }
@@ -100,15 +99,15 @@ int nos::print_list_to(nos::ostream& out, const V& vec)
 		return out.write("{}",2);
 	}
 
-	ret += out.putchar('{');
+	ret += out.putbyte('{');
 
 	for (unsigned int i = 0; i < std::size(vec) - 1; ++i)
 	{
 		ret += print_to(out, vec[i]);
-		ret += out.putchar(',');
+		ret += out.putbyte(',');
 	}
 		ret += print_to(out, vec[std::size(vec) - 1]);
-	ret += out.putchar('}');
+	ret += out.putbyte('}');
 
 	return ret;
 }

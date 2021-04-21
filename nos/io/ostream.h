@@ -4,6 +4,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <ctype.h>
+
 #include <igris/util/types_extension.h>
 
 static inline char __nos_half2hex(uint8_t n) {
@@ -38,16 +40,17 @@ namespace nos
 			return write("\r\n", 2);
 		}
 
-		int putchar(char c)
+		int putbyte(char c)
 		{
 			return write(&c, 1);
 		}
 
 		int printhex(char c)
 		{
-			putchar(__nos_half2hex((uint8_t)((c & 0xF0) >> 4)));
-			putchar(__nos_half2hex((uint8_t)(c & 0x0F)));
-			return 2;
+			char buf[2];
+			buf[0] = __nos_half2hex((uint8_t)((c & 0xF0) >> 4));
+			buf[1] = __nos_half2hex((uint8_t)(c & 0x0F));
+			return write(buf,2);
 		}
 
 		int printhex(void* ptr, size_t sz)

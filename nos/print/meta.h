@@ -27,11 +27,11 @@ protected:
 	int_type overflow(int_type ch = traits_type::eof()) override
 	{
 		if (!traits_type::eq_int_type(ch, traits_type::eof()))
-			out.putchar(ch);
+			out.putbyte(ch);
 		return ch;
 	}
 
-	std::streamsize xsputn(const C *s, std::streamsize count) override
+	int xsputn(const C *s, int count) override
 	{
 		out.write(s, count);
 		return count;

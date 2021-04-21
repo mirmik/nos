@@ -1,11 +1,6 @@
 #include <nos/print/print.h>
 #include <nos/io/ostream.h>
 
-int nos::putchar_to(nos::ostream& o, char c)
-{
-	return o.write(&c, 1);
-}
-
 int nos::write_to(nos::ostream& out, const void* buf, size_t sz)
 {
 	return out.write(buf, sz);
@@ -41,14 +36,14 @@ int nos::print_dump_to(nos::ostream& out, const void *mem, size_t len, unsigned 
 		{
 			ret += out.write("0x", 2);
 			ret += out.printptr((void*)((char*)mem + i));
-			ret += out.putchar(':');
+			ret += out.putbyte(':');
 		}
 
 		// print hex data
 		if (i < len)
 		{
 			ret += out.printhex(((char*)mem)[i]);
-			ret += out.putchar(' ');
+			ret += out.putbyte(' ');
 		}
 		else
 		{
@@ -64,17 +59,17 @@ int nos::print_dump_to(nos::ostream& out, const void *mem, size_t len, unsigned 
 				if (j >= len)
 				{
 					// end of block, not really printing
-					ret += out.putchar(' ');
+					ret += out.putbyte(' ');
 				}
 				else if (isprint(((char*)mem)[j]))
 				{
 					// printable char
-					ret += out.putchar((char)0xFF & ((char*)mem)[j]);
+					ret += out.putbyte((char)0xFF & ((char*)mem)[j]);
 				}
 				else
 				{
 					// other char
-					ret += out.putchar('.');
+					ret += out.putbyte('.');
 				}
 			}
 
@@ -98,11 +93,6 @@ int nos::print_dump(nos::buffer buf, unsigned int columns)
 int nos::print_dump(igris::buffer buf, unsigned int columns)
 {
 	return nos::print_dump_to(*nos::current_ostream, buf.data(), buf.size(), columns);
-}
-
-int nos::putchar(char c)
-{
-	return putchar_to(*nos::current_ostream, c);
 }
 
 int nos::write(const void* buf, size_t sz)

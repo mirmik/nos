@@ -3,6 +3,8 @@
 #include <nos/util/arglist.h>
 #include <nos/fprint/visitor.h>
 
+#include <ctype.h>
+
 namespace nos
 {
 	int fprint(const char* arg)
