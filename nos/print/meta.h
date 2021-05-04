@@ -17,6 +17,7 @@ class adapterbuf : public std::basic_streambuf<C>
 private:
 	typedef typename std::basic_streambuf<C>::int_type int_type;
 	typedef typename std::basic_streambuf<C>::traits_type traits_type;
+	using char_type = typename std::basic_streambuf<C>::char_type;
 
 	nos::ostream& out;
 
@@ -31,7 +32,7 @@ protected:
 		return ch;
 	}
 
-	int xsputn(const C *s, int count) override
+	std::streamsize xsputn(const char_type *s, std::streamsize count) override
 	{
 		out.write(s, count);
 		return count;
