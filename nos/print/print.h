@@ -15,7 +15,7 @@ namespace nos
 												class ostream;
 												extern ostream* current_ostream;
 
-
+												int putbyte_to(nos::ostream& out, char c);
 												int write_to(nos::ostream& out, const void* buf, size_t sz);
 												int writeln_to(nos::ostream& out, const void* buf, size_t sz);
 	template<typename Arg> 						int print_to(nos::ostream& out, const Arg& arg);
@@ -29,6 +29,7 @@ namespace nos
 	template<typename Arg> 						int printptrln_to(nos::ostream& out, const Arg* arg);
 												int print_dump_to(nos::ostream&, const void *mem, size_t len, unsigned int columns = 8);
 
+												int putbyte(char c);
 												int write(const void* buf, size_t sz);
 												int writeln(const void* buf, size_t sz);
 	template<typename ... Args> 				int print(const Args& ... args);

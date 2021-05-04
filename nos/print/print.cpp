@@ -6,6 +6,11 @@ int nos::write_to(nos::ostream& out, const void* buf, size_t sz)
 	return out.write(buf, sz);
 }
 
+int nos::putbyte_to(nos::ostream& out, char c)
+{
+	return out.write(&c, 1);
+}
+
 int nos::writeln_to(nos::ostream& out, const void* buf, size_t sz)
 {
 	int ret = 0;
@@ -98,6 +103,11 @@ int nos::print_dump(igris::buffer buf, unsigned int columns)
 int nos::write(const void* buf, size_t sz)
 {
 	return nos::write_to(*nos::current_ostream, buf, sz);
+}
+
+int nos::putbyte(char c)
+{
+	return nos::putbyte_to(*nos::current_ostream, c);
 }
 
 int nos::writeln(const void* buf, size_t sz)

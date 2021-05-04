@@ -42,9 +42,9 @@ namespace nos
 
 #define PRARG(x)                    \
     nos::print(STRINGIFY(x));       \
-    nos::putchar(':');              \
+    nos::putbyte(':');              \
     nos::print(x);                  \
-    nos::putchar(' ');
+    nos::putbyte(' ');
 
 #define TRPRE_S()                                       \
     nos::tracer __nos_tracer(__PRETTY_FUNCTION__);      \
