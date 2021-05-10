@@ -3,31 +3,33 @@
 #include <nos/util/arglist.h>
 #include <nos/fprint/visitor.h>
 
+#include <ctype.h>
+
 namespace nos
 {
-	ssize_t fprint(const char* arg)
+	int fprint(const char* arg)
 	{
 		return print(arg);
 	}
 
-	ssize_t fprintln(const char* arg)
+	int fprintln(const char* arg)
 	{
 		return println(arg);
 	}
 
-	ssize_t fprint_to(nos::ostream& out, const char* arg)
+	int fprint_to(nos::ostream& out, const char* arg)
 	{
 		return print_to(out, arg);
 	}
 
-	ssize_t fprintln_to(nos::ostream& out, const char* arg)
+	int fprintln_to(nos::ostream& out, const char* arg)
 	{
 		return println_to(out, arg);
 	}
 
-	static ssize_t fprint_format_argument(nos::ostream& out, const char*& fmt, const nos::visitable_arglist& list, uint8_t argnum)
+	static int fprint_format_argument(nos::ostream& out, const char*& fmt, const nos::visitable_arglist& list, uint8_t argnum)
 	{
-		ssize_t ret;
+		int ret;
 		char* pend;
 		assert(*fmt == '{');
 		
@@ -86,11 +88,11 @@ namespace nos
 		return ret;
 	}
 
-	ssize_t fprint_impl(nos::ostream& out, const char* fmt, const visitable_arglist& args)
+	int fprint_impl(nos::ostream& out, const char* fmt, const visitable_arglist& args)
 	{
 		uint8_t argnum = 0;
 		const char* fmtptr = fmt;
-		ssize_t ret = 0;
+		int ret = 0;
 
 		while (*fmtptr != 0)
 		{

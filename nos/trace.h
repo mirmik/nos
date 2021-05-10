@@ -6,57 +6,57 @@
 
 namespace nos
 {
-	extern thread_local unsigned int trace_level;
+    extern thread_local unsigned int trace_level;
 
-	struct tracer
-	{
-		const char* func;
-		void* retptr;
-		void* visit;
+    struct tracer
+    {
+        const char* func;
+        void* retptr;
+        void* visit;
 
-		tracer(const char* func)
-		{
-			this->func = func;
-			++trace_level;
-		}
+        tracer(const char* func)
+        {
+            this->func = func;
+            ++trace_level;
+        }
 
-		void print_out() 
-		{
-			nos::print("TRACE: ");
-			nos::print(trace_level);
-			nos::print(": <- ");
-			nos::print(func);
-			func = nullptr;
-		}
+        void print_out()
+        {
+            nos::print("TRACE: ");
+            nos::print(trace_level);
+            nos::print(": <- ");
+            nos::print(func);
+            func = nullptr;
+        }
 
-		~tracer()
-		{
-			if (func) {
-				print_out();
-				nos::println();
-			}
-			--trace_level;
-		}
-	};
+        ~tracer()
+        {
+            if (func) {
+                print_out();
+                nos::println();
+            }
+            --trace_level;
+        }
+    };
 }
 
-#define PRARG(x)                \
-	nos::print(STRINGIFY(x));   \
-	nos::putchar(':');          \
-	nos::print(x);              \
-	nos::putchar(' ');
+#define PRARG(x)                    \
+    nos::print(STRINGIFY(x));       \
+    nos::putbyte(':');              \
+    nos::print(x);                  \
+    nos::putbyte(' ');
 
-#define TRPRE_S()                               \
-	nos::tracer __nos_tracer(__PRETTY_FUNCTION__);  \
-	do {                                        \
-		nos::print("TRACE: ");                  \
-		nos::print(nos::trace_level);                \
-		nos::print(": -> ");                    \
-		nos::print(__PRETTY_FUNCTION__);        
+#define TRPRE_S()                                       \
+    nos::tracer __nos_tracer(__PRETTY_FUNCTION__);      \
+    do {                                                \
+        nos::print("TRACE: ");                          \
+        nos::print(nos::trace_level);                   \
+        nos::print(": -> ");                            \
+        nos::print(__PRETTY_FUNCTION__);
 
-#define TRPRE()                                 \
-	TRPRE_S()									\
-	nos::print(" args: ");
+#define TRPRE()                             \
+    TRPRE_S()                               \
+    nos::print(" args: ");
 
 #define TRPOS() nos::println(); } while(0);
 

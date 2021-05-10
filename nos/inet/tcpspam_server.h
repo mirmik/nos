@@ -26,11 +26,11 @@ namespace nos {
 				inet::tcp_server::nonblock(true);
 				return 0;
 			}	
-			ssize_t __send(const char* str) {
+			int __send(const char* str) {
 				return __send(str, strlen(str));
 			};
 	
-			ssize_t __send(const char* str, size_t n) {
+			int __send(const char* str, size_t n) {
 				while(true) {
 					nos::inet::tcp_socket newsock = accept();
 					if (!newsock.good()) break;
@@ -52,7 +52,7 @@ namespace nos {
 				return ret;
 			}
 	
-			ssize_t write(const void* str, size_t sz) override {
+			int write(const void* str, size_t sz) override {
 				return __send((char*)str, sz);
 			}	
 	

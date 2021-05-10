@@ -12,7 +12,7 @@ namespace nos {
 	public:
 		string_writer(std::string& _str) : str(_str) {}
 	
-		ssize_t write(const void* ptr, size_t sz) override {
+		int write(const void* ptr, size_t sz) override {
 			str.append((char*)ptr, sz);
 			return sz;
 		}
@@ -25,7 +25,7 @@ namespace nos {
 	public:
 		cstring_writer(char* _str) : str(_str) {}
 	
-		ssize_t write(const void* ptr, size_t sz) override {
+		int write(const void* ptr, size_t sz) override {
 			memcpy(str, ptr, sz);
 			str += sz;
 			return sz;

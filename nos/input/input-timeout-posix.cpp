@@ -10,7 +10,7 @@ int nos::read_with_timeout_ms(
 }
 
 /*
-ssize_t nos::fdlike::read_with_timeout_ms(void* ptr, size_t sz, int ms)
+int nos::fdlike::read_with_timeout_ms(void* ptr, size_t sz, int ms)
 {
 	fd_set set;
 	struct timeval timeout;

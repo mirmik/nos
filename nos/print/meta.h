@@ -17,6 +17,7 @@ class adapterbuf : public std::basic_streambuf<C>
 private:
 	typedef typename std::basic_streambuf<C>::int_type int_type;
 	typedef typename std::basic_streambuf<C>::traits_type traits_type;
+	using char_type = typename std::basic_streambuf<C>::char_type;
 
 	nos::ostream& out;
 
@@ -27,11 +28,11 @@ protected:
 	int_type overflow(int_type ch = traits_type::eof()) override
 	{
 		if (!traits_type::eq_int_type(ch, traits_type::eof()))
-			out.putchar(ch);
+			out.putbyte(ch);
 		return ch;
 	}
 
-	std::streamsize xsputn(const C *s, std::streamsize count) override
+	std::streamsize xsputn(const char_type *s, std::streamsize count) override
 	{
 		out.write(s, count);
 		return count;
@@ -47,7 +48,7 @@ namespace nos
 
 	template <typename T, bool HasMtdPrint, bool HasStdOstream> struct print_implementation_solver<T, true, HasMtdPrint, HasStdOstream>
 	{
-		static ssize_t print_to(nos::ostream& os, const T& obj)
+		static int print_to(nos::ostream& os, const T& obj)
 		{
 			return nos_print(adsl_finder(os), obj);
 		}
@@ -55,7 +56,7 @@ namespace nos
 
 	template <typename T, bool HasStdOstream> struct print_implementation_solver<T, false, true, HasStdOstream>
 	{
-		static ssize_t print_to(nos::ostream& os, const T& obj)
+		static int print_to(nos::ostream& os, const T& obj)
 		{
 			return obj.print_to(os);
 		}
@@ -63,7 +64,7 @@ namespace nos
 
 	template <typename T> struct print_implementation_solver<T, false, false, true>
 	{
-		static ssize_t print_to(nos::ostream& os, const T& obj)
+		static int print_to(nos::ostream& os, const T& obj)
 		{
 			adapterbuf<char> adapter(os);
 			std::ostream stdos(&adapter);

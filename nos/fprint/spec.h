@@ -2,6 +2,7 @@
 #define NOS_FPRINT_SPEC_H
 
 #include <string.h>
+#include <ctype.h>
 
 namespace nos
 {

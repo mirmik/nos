@@ -1,35 +1,35 @@
 #include <nos/print/print.h>
 #include <nos/io/ostream.h>
 
-ssize_t nos::putchar_to(nos::ostream& o, char c)
-{
-	return o.write(&c, 1);
-}
-
-ssize_t nos::write_to(nos::ostream& out, const void* buf, size_t sz)
+int nos::write_to(nos::ostream& out, const void* buf, size_t sz)
 {
 	return out.write(buf, sz);
 }
 
-ssize_t nos::writeln_to(nos::ostream& out, const void* buf, size_t sz)
+int nos::putbyte_to(nos::ostream& out, char c)
 {
-	ssize_t ret = 0;
+	return out.write(&c, 1);
+}
+
+int nos::writeln_to(nos::ostream& out, const void* buf, size_t sz)
+{
+	int ret = 0;
 	ret += out.write(buf, sz);
 	ret += out.println();
 	return ret;
 }
 
-ssize_t nos::println_to(nos::ostream& o)
+int nos::println_to(nos::ostream& o)
 {
 	return o.write("\r\n", 2);
 }
 
-ssize_t nos::println()
+int nos::println()
 {
 	return nos::current_ostream->write("\r\n", 2);
 }
 
-ssize_t nos::print_dump_to(nos::ostream& out, const void *mem, size_t len, unsigned int columns)
+int nos::print_dump_to(nos::ostream& out, const void *mem, size_t len, unsigned int columns)
 {
 	size_t ret = 0;
 	unsigned int i, j;
@@ -41,14 +41,14 @@ ssize_t nos::print_dump_to(nos::ostream& out, const void *mem, size_t len, unsig
 		{
 			ret += out.write("0x", 2);
 			ret += out.printptr((void*)((char*)mem + i));
-			ret += out.putchar(':');
+			ret += out.putbyte(':');
 		}
 
 		// print hex data
 		if (i < len)
 		{
 			ret += out.printhex(((char*)mem)[i]);
-			ret += out.putchar(' ');
+			ret += out.putbyte(' ');
 		}
 		else
 		{
@@ -64,17 +64,17 @@ ssize_t nos::print_dump_to(nos::ostream& out, const void *mem, size_t len, unsig
 				if (j >= len)
 				{
 					// end of block, not really printing
-					ret += out.putchar(' ');
+					ret += out.putbyte(' ');
 				}
 				else if (isprint(((char*)mem)[j]))
 				{
 					// printable char
-					ret += out.putchar((char)0xFF & ((char*)mem)[j]);
+					ret += out.putbyte((char)0xFF & ((char*)mem)[j]);
 				}
 				else
 				{
 					// other char
-					ret += out.putchar('.');
+					ret += out.putbyte('.');
 				}
 			}
 
@@ -85,32 +85,32 @@ ssize_t nos::print_dump_to(nos::ostream& out, const void *mem, size_t len, unsig
 	return ret;
 }
 
-ssize_t nos::print_dump(const void* ptr, size_t sz, unsigned int columns)
+int nos::print_dump(const void* ptr, size_t sz, unsigned int columns)
 {
 	return nos::print_dump_to(*nos::current_ostream, ptr, sz, columns);
 }
 
-ssize_t nos::print_dump(nos::buffer buf, unsigned int columns)
+int nos::print_dump(nos::buffer buf, unsigned int columns)
 {
 	return nos::print_dump_to(*nos::current_ostream, buf.data(), buf.size(), columns);
 }
 
-ssize_t nos::print_dump(igris::buffer buf, unsigned int columns)
+int nos::print_dump(igris::buffer buf, unsigned int columns)
 {
 	return nos::print_dump_to(*nos::current_ostream, buf.data(), buf.size(), columns);
 }
 
-ssize_t nos::putchar(char c)
-{
-	return putchar_to(*nos::current_ostream, c);
-}
-
-ssize_t nos::write(const void* buf, size_t sz)
+int nos::write(const void* buf, size_t sz)
 {
 	return nos::write_to(*nos::current_ostream, buf, sz);
 }
 
-ssize_t nos::writeln(const void* buf, size_t sz)
+int nos::putbyte(char c)
+{
+	return nos::putbyte_to(*nos::current_ostream, c);
+}
+
+int nos::writeln(const void* buf, size_t sz)
 {
 	return nos::writeln_to(*nos::current_ostream, buf, sz);
 }

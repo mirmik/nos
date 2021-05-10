@@ -8,10 +8,10 @@
 
 namespace nos
 {
-	ssize_t fprint_impl(nos::ostream& out, const char* fmt, const visitable_arglist& args);
+	int fprint_impl(nos::ostream& out, const char* fmt, const visitable_arglist& args);
 
 	template<typename ... Args>
-	ssize_t fprint_to(nos::ostream& out, const char* fmt, const Args& ... args)
+	int fprint_to(nos::ostream& out, const char* fmt, const Args& ... args)
 	{
 		return fprint_impl(out, fmt,
 		    visitable_arglist ({ 
@@ -23,13 +23,13 @@ namespace nos
 	}
 
 	template<typename ... Args>
-	ssize_t fprint(const char* fmt, const Args& ... args)
+	int fprint(const char* fmt, const Args& ... args)
 	{
 		return nos::fprint_to(*current_ostream, fmt,  args ...);
 	}
 
 	template<typename ... Args>
-	ssize_t fprintln(const Args& ... args)
+	int fprintln(const Args& ... args)
 	{
 		size_t ret = 0;
 		ret += fprint_to(*current_ostream, args ...);
@@ -38,7 +38,7 @@ namespace nos
 	}
 
 	template<typename ... Args>
-	ssize_t fprintln_to(nos::ostream& out, const Args& ... args)
+	int fprintln_to(nos::ostream& out, const Args& ... args)
 	{
 		size_t ret = 0;
 		ret += fprint_to(out, args ...);
@@ -46,13 +46,13 @@ namespace nos
 		return ret;
 	}
 
-	ssize_t fprint(const char* arg);
+	int fprint(const char* arg);
 
-	ssize_t fprintln(const char* arg);
+	int fprintln(const char* arg);
 
-	ssize_t fprint_to(nos::ostream& out, const char* arg);
+	int fprint_to(nos::ostream& out, const char* arg);
 
-	ssize_t fprintln_to(nos::ostream& out, const char* arg);
+	int fprintln_to(nos::ostream& out, const char* arg);
 
 	inline std::string format(const char* fmt, const visitable_arglist& args)
 	{
@@ -71,20 +71,20 @@ namespace nos
 		return ret;
 	}
 
-	static inline ssize_t format_buffer(char* buf, const char* fmt, const visitable_arglist& args)
+	static inline int format_buffer(char* buf, const char* fmt, const visitable_arglist& args)
 	{
 		nos::cstring_writer writer(buf);
-		ssize_t ret = nos::fprint_impl(writer, fmt, args);
-		writer.putchar('\0');
+		int ret = nos::fprint_impl(writer, fmt, args);
+		writer.putbyte('\0');
 		return ret;
 	}
 
 	template<typename ... Args>
-	ssize_t format_buffer(char* buf, const char* fmt, const Args& ... args)
+	int format_buffer(char* buf, const char* fmt, const Args& ... args)
 	{
 		nos::cstring_writer writer(buf);
-		ssize_t ret = nos::fprint_to(writer, fmt, args ...);
-		writer.putchar('\0');
+		int ret = nos::fprint_to(writer, fmt, args ...);
+		writer.putbyte('\0');
 		return ret;
 	}
 }

@@ -61,7 +61,7 @@ namespace nos
 
 			netaddr() = default;
 
-			ssize_t print_to(nos::ostream& o) const
+			int print_to(nos::ostream& o) const
 			{
 				return nos::fprint_to(o, "(h:{},p:{})", addr, port);
 			}

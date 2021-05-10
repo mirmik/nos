@@ -20,12 +20,12 @@ namespace nos
 			open(path, mode);
 		}
 
-		ssize_t write(const void* ptr, size_t sz) override
+		int write(const void* ptr, size_t sz) override
 		{
 			return fwrite(ptr, sizeof(char), sz, filp);
 		}
 
-		ssize_t read(void* ptr, size_t sz) override
+		int read(void* ptr, size_t sz) override
 		{
 			return fread(ptr, sizeof(char), sz, filp);
 		}

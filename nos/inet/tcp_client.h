@@ -37,14 +37,14 @@ namespace nos
 				return socket::close();
 			}
 
-			ssize_t write(const void* data, size_t size) override 
+			int write(const void* data, size_t size) override 
 			{
 				int ret = socket::send(data, size, 0);
 				if (ret == -1) connected = false;
 				return ret;
 			}
 
-			ssize_t read(void* data, size_t size) override 
+			int read(void* data, size_t size) override 
 			{
 				int ret = socket::recv((char*)data, size, 0);
 				if (ret == -1) connected = false;
