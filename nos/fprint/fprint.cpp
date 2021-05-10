@@ -27,7 +27,7 @@ namespace nos
 		return println_to(out, arg);
 	}
 
-	static int fprint_format_argument(nos::ostream& out, const char*& fmt, const nos::visitable_arglist& list, uint8_t argnum)
+	static int fprint_format_argument(nos::ostream& out, const char*& fmt, const nos::visitable_arglist& list, uint8_t & argnum)
 	{
 		int ret;
 		char* pend;
@@ -85,6 +85,7 @@ namespace nos
 		while (*fmt != '}' && *fmt != 0) fmt++;
 
 		fmt++;
+		argnum++;
 		return ret;
 	}
 
@@ -99,7 +100,6 @@ namespace nos
 			if (*fmtptr == '{')
 			{
 				ret += fprint_format_argument(out, fmtptr, args, argnum);
-				argnum++;
 			}
 			else
 			{
