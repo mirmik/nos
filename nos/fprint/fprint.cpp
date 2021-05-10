@@ -35,9 +35,11 @@ namespace nos
 		
 		fmt++;
 
+		// Interpret double '{' symbol as '{'.
 		if (*fmt == '{') 
 		{
 			out.putbyte('{');
+			fmt++;
 			return 1;
 		}
 
