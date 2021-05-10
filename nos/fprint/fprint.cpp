@@ -30,7 +30,14 @@ namespace nos
 		ssize_t ret;
 		char* pend;
 		assert(*fmt == '{');
+		
 		fmt++;
+
+		if (*fmt == '{') 
+		{
+			out.putbyte('{');
+			return 1;
+		}
 
 		const visitable_argument* varg = nullptr;
 
