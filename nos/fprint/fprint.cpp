@@ -32,11 +32,11 @@ namespace nos
 		int ret;
 		char* pend;
 		assert(*fmt == '{');
-		
+
 		fmt++;
 
 		// Interpret double '{' symbol as '{'.
-		if (*fmt == '{') 
+		if (*fmt == '{')
 		{
 			out.putbyte('{');
 			fmt++;
@@ -50,7 +50,11 @@ namespace nos
 			const char* count_ptr = fmt;
 			int len = 0;
 
-			while (isalpha(*count_ptr++)) len++;
+			while (isalpha(*count_ptr) || isdigit(*count_ptr))
+			{
+				len++; 
+				count_ptr++;
+			}
 
 			varg = &list[nos::buffer(fmt, len)];
 		}

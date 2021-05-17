@@ -29,16 +29,28 @@ TEST_CASE("fprint")
 		CHECK_EQ(output, "fprint aaa bbb ccc");
 	}
 
-	SUBCASE("fprint_named_and_numers")
+	SUBCASE("fprint_named_and_numers1")
 	{
 		nos::fprint("fprint {b} {2} {0}", "a"_a = "aaa", "b"_a = "bbb", "c"_a = "ccc");
 		CHECK_EQ(output, "fprint bbb ccc aaa");
+	}
+
+	SUBCASE("fprint_named_and_numers3")
+	{
+		nos::fprint("fprint {a1}", "a1"_a = "aaa");
+		CHECK_EQ(output, "fprint aaa");
 	}
 
 	SUBCASE("fprint_zero_size_arglist")
 	{
 		nos::fprint("zerosize");
 		CHECK_EQ(output, "zerosize");
+	}
+
+	SUBCASE("fprint_named_and_numers2")
+	{
+		nos::fprint("fprint {a1} {b2}", "a1"_a = "aaa", "b2"_a = "bbb");
+		CHECK_EQ(output, "fprint aaa bbb");
 	}
 
 	SUBCASE("fprint_longstring")
