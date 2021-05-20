@@ -9,6 +9,8 @@
 #include <nos/print/stdtype.h>
 #include <nos/fprint/stdtype.h>
 
+#include <nos/log/tlogger.h>
+
 using namespace nos::argument_literal;
 
 namespace nos 

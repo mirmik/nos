@@ -1,3 +1,6 @@
+#ifndef NOS_LOG_TLOGGER_H
+#define NOS_LOG_TLOGGER_H
+
 #include <nos/log/logger.h>
 #include <nos/log/target.h>
 
@@ -69,3 +72,5 @@ namespace nos
 		};
 	};
 }
+
+#endif
