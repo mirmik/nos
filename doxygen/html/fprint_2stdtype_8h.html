@@ -71,7 +71,7 @@ $(function() {
 <div class="title">stdtype.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;nos/util/buffer.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;string_view&gt;</code><br />
 <code>#include &lt;nos/io/ostream.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for stdtype.h:</div>
@@ -79,9 +79,8 @@ Include dependency graph for stdtype.h:</div>
 <div class="center"><img src="fprint_2stdtype_8h__incl.png" border="0" usemap="#_2home_2mirmik_2project_2nos_2nos_2fprint_2stdtype_8h" alt=""/></div>
 <map name="_2home_2mirmik_2project_2nos_2nos_2fprint_2stdtype_8h" id="_2home_2mirmik_2project_2nos_2nos_2fprint_2stdtype_8h">
 <area shape="rect" title=" " alt="" coords="126,5,306,47"/>
-<area shape="rect" href="buffer_8h_source.html" title=" " alt="" coords="545,393,668,420"/>
+<area shape="rect" title=" " alt="" coords="558,393,655,420"/>
 <area shape="rect" href="ostream_8h_source.html" title=" " alt="" coords="361,95,492,121"/>
-<area shape="rect" title=" " alt="" coords="558,468,655,495"/>
 <area shape="rect" title=" " alt="" coords="43,169,114,196"/>
 <area shape="rect" title=" " alt="" coords="893,244,963,271"/>
 <area shape="rect" title=" " alt="" coords="138,169,209,196"/>
@@ -91,7 +90,7 @@ Include dependency graph for stdtype.h:</div>
 <area shape="rect" title=" " alt="" coords="645,244,715,271"/>
 <area shape="rect" href="print_2meta_8h.html" title=" " alt="" coords="739,244,869,271"/>
 <area shape="rect" href="meta_8h_source.html" title=" " alt="" coords="651,319,746,345"/>
-<area shape="rect" title=" " alt="" coords="721,393,801,420"/>
+<area shape="rect" title=" " alt="" coords="715,393,795,420"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -119,36 +118,36 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a566568e86b2572cb0cb9c9b291cee97f"><td class="memItemLeft" align="right" valign="top"><a id="a566568e86b2572cb0cb9c9b291cee97f"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, const char *obj, nos::buffer opts)</td></tr>
-<tr class="separator:a566568e86b2572cb0cb9c9b291cee97f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95109ea1ab211cb9a634c358369ba88f"><td class="memItemLeft" align="right" valign="top"><a id="a95109ea1ab211cb9a634c358369ba88f"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, bool obj, nos::buffer opts)</td></tr>
-<tr class="separator:a95109ea1ab211cb9a634c358369ba88f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af11819e5e81980f638f2b5fade2d3121"><td class="memItemLeft" align="right" valign="top"><a id="af11819e5e81980f638f2b5fade2d3121"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, int8_t obj, nos::buffer opts)</td></tr>
-<tr class="separator:af11819e5e81980f638f2b5fade2d3121"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a5cb5394117f38d713b20450313f398"><td class="memItemLeft" align="right" valign="top"><a id="a6a5cb5394117f38d713b20450313f398"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, int16_t obj, nos::buffer opts)</td></tr>
-<tr class="separator:a6a5cb5394117f38d713b20450313f398"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9315ded439986cc5c3c211aed6b10f6d"><td class="memItemLeft" align="right" valign="top"><a id="a9315ded439986cc5c3c211aed6b10f6d"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, int32_t obj, nos::buffer opts)</td></tr>
-<tr class="separator:a9315ded439986cc5c3c211aed6b10f6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b60a987ef2aa6c0b64fa0440b7750fb"><td class="memItemLeft" align="right" valign="top"><a id="a8b60a987ef2aa6c0b64fa0440b7750fb"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, int64_t obj, nos::buffer opts)</td></tr>
-<tr class="separator:a8b60a987ef2aa6c0b64fa0440b7750fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6fa74f9b32da8b763d2116f90e79bdf0"><td class="memItemLeft" align="right" valign="top"><a id="a6fa74f9b32da8b763d2116f90e79bdf0"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, uint8_t obj, nos::buffer opts)</td></tr>
-<tr class="separator:a6fa74f9b32da8b763d2116f90e79bdf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb14dd1cd2ea2efdf2042acbbb3a7b4e"><td class="memItemLeft" align="right" valign="top"><a id="acb14dd1cd2ea2efdf2042acbbb3a7b4e"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, uint16_t obj, nos::buffer opts)</td></tr>
-<tr class="separator:acb14dd1cd2ea2efdf2042acbbb3a7b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b8b994baa0c43bf8617520379b5d44a"><td class="memItemLeft" align="right" valign="top"><a id="a3b8b994baa0c43bf8617520379b5d44a"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, uint32_t obj, nos::buffer opts)</td></tr>
-<tr class="separator:a3b8b994baa0c43bf8617520379b5d44a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82c10e5104d9b420fbe35eb9b45d59eb"><td class="memItemLeft" align="right" valign="top"><a id="a82c10e5104d9b420fbe35eb9b45d59eb"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, uint64_t obj, nos::buffer opts)</td></tr>
-<tr class="separator:a82c10e5104d9b420fbe35eb9b45d59eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa949f2c8d67e360f4c58be33edf4631e"><td class="memItemLeft" align="right" valign="top"><a id="aa949f2c8d67e360f4c58be33edf4631e"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, const char *obj, const std::string_view &amp;opts)</td></tr>
+<tr class="separator:aa949f2c8d67e360f4c58be33edf4631e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65bb01f400a66b8c9e82024cf3025d5f"><td class="memItemLeft" align="right" valign="top"><a id="a65bb01f400a66b8c9e82024cf3025d5f"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, bool obj, const std::string_view &amp;opts)</td></tr>
+<tr class="separator:a65bb01f400a66b8c9e82024cf3025d5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74bd20cd22fd1a0d6d2beb5c636e41c6"><td class="memItemLeft" align="right" valign="top"><a id="a74bd20cd22fd1a0d6d2beb5c636e41c6"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, int8_t obj, const std::string_view &amp;opts)</td></tr>
+<tr class="separator:a74bd20cd22fd1a0d6d2beb5c636e41c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3db4f3c5998c69e7999cd503ad8c891d"><td class="memItemLeft" align="right" valign="top"><a id="a3db4f3c5998c69e7999cd503ad8c891d"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, int16_t obj, const std::string_view &amp;opts)</td></tr>
+<tr class="separator:a3db4f3c5998c69e7999cd503ad8c891d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a450e3ffb277c762ec2a25eac542e7d37"><td class="memItemLeft" align="right" valign="top"><a id="a450e3ffb277c762ec2a25eac542e7d37"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, int32_t obj, const std::string_view &amp;opts)</td></tr>
+<tr class="separator:a450e3ffb277c762ec2a25eac542e7d37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac743b219fdae0d9ea442394795f0bacc"><td class="memItemLeft" align="right" valign="top"><a id="ac743b219fdae0d9ea442394795f0bacc"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, int64_t obj, const std::string_view &amp;opts)</td></tr>
+<tr class="separator:ac743b219fdae0d9ea442394795f0bacc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9f2ef7c0181016d8bb7a7d7fc335272"><td class="memItemLeft" align="right" valign="top"><a id="ae9f2ef7c0181016d8bb7a7d7fc335272"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, uint8_t obj, const std::string_view &amp;opts)</td></tr>
+<tr class="separator:ae9f2ef7c0181016d8bb7a7d7fc335272"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59fb56bca2533b1d819d254153ebe8fc"><td class="memItemLeft" align="right" valign="top"><a id="a59fb56bca2533b1d819d254153ebe8fc"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, uint16_t obj, const std::string_view &amp;opts)</td></tr>
+<tr class="separator:a59fb56bca2533b1d819d254153ebe8fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcc6c4f06c5a079bf5939cac53b7ab23"><td class="memItemLeft" align="right" valign="top"><a id="adcc6c4f06c5a079bf5939cac53b7ab23"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, uint32_t obj, const std::string_view &amp;opts)</td></tr>
+<tr class="separator:adcc6c4f06c5a079bf5939cac53b7ab23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19c8f97057deee478a2058189ee387fa"><td class="memItemLeft" align="right" valign="top"><a id="a19c8f97057deee478a2058189ee387fa"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>nos_fprint</b> (<a class="el" href="classnos_1_1ostream.html">nos::ostream</a> &amp;os, uint64_t obj, const std::string_view &amp;opts)</td></tr>
+<tr class="separator:a19c8f97057deee478a2058189ee387fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->

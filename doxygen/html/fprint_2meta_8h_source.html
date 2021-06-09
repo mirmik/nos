@@ -72,45 +72,47 @@ $(function() {
 <a href="fprint_2meta_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef NOS_FPRINT_META_H</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define NOS_FPRINT_META_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>nos </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;{</div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="structnos_1_1fprint__implementation.html">   10</a></span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct </span><a class="code" href="structnos_1_1fprint__implementation.html">fprint_implementation</a>;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keywordtype">bool</span> HasNosFPr<span class="keywordtype">int</span> = false, <span class="keywordtype">bool</span> HasMtdFPr<span class="keywordtype">int</span> = false&gt; </div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="structnos_1_1fprint__implementation__solver.html">   13</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structnos_1_1fprint__implementation__solver.html">fprint_implementation_solver</a> </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">int</span> fprint_to(<span class="keyword">const</span> T&amp; obj, <a class="code" href="classnos_1_1ostream.html">nos::ostream</a>&amp; os, nos::buffer opts) {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            (void) opts;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <span class="keywordflow">return</span> nos::print_to(os, obj);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        }   </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    };</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="structnos_1_1fprint__implementation__solver_3_01T_00_01true_00_01HasMtdFPrint_01_4.html">   21</a></span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keywordtype">bool</span> HasMtdFPr<span class="keywordtype">int</span>&gt; <span class="keyword">struct </span><a class="code" href="structnos_1_1fprint__implementation__solver.html">fprint_implementation_solver</a>&lt;T, true, HasMtdFPrint&gt; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">int</span> fprint_to(<span class="keyword">const</span> T&amp; obj, <a class="code" href="classnos_1_1ostream.html">nos::ostream</a>&amp; os, nos::buffer opts) {</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <span class="keywordflow">return</span> nos_fprint(<a class="code" href="structadsl__finder.html">adsl_finder</a>(os), obj, opts);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        }</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    };  </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="structnos_1_1fprint__implementation__solver_3_01T_00_01false_00_01true_01_4.html">   28</a></span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct </span><a class="code" href="structnos_1_1fprint__implementation__solver.html">fprint_implementation_solver</a>&lt;T, false, true&gt; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">int</span> fprint_to(<span class="keyword">const</span> T&amp; obj, <a class="code" href="classnos_1_1ostream.html">nos::ostream</a>&amp; os, nos::buffer opts) {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            <span class="keywordflow">return</span> obj.fprint_to(os, opts);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        }</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    };  </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct </span><a class="code" href="structnos_1_1fprint__implementation.html">fprint_implementation</a> : <span class="keyword">public</span> <a class="code" href="structnos_1_1fprint__implementation__solver.html">fprint_implementation_solver</a>&lt;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        typename std::remove_cv&lt;T&gt;::type, </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        nos::has_nos_fprint&lt;typename std::remove_cv&lt;T&gt;::type&gt;::value,</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        nos::has_fprint_method&lt;typename std::remove_cv&lt;T&gt;::type&gt;::value</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    &gt; {};</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;string_view&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>nos </div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="structnos_1_1fprint__implementation.html">   12</a></span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct </span><a class="code" href="structnos_1_1fprint__implementation.html">fprint_implementation</a>;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keywordtype">bool</span> HasNosFPr<span class="keywordtype">int</span> = false, <span class="keywordtype">bool</span> HasMtdFPr<span class="keywordtype">int</span> = false&gt; </div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="structnos_1_1fprint__implementation__solver.html">   15</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structnos_1_1fprint__implementation__solver.html">fprint_implementation_solver</a> </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">int</span> fprint_to(<span class="keyword">const</span> T&amp; obj, <a class="code" href="classnos_1_1ostream.html">nos::ostream</a>&amp; os, <span class="keyword">const</span> std::string_view &amp; opts) {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            (void) opts;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            <span class="keywordflow">return</span> nos::print_to(os, obj);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        }   </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    };</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="structnos_1_1fprint__implementation__solver_3_01T_00_01true_00_01HasMtdFPrint_01_4.html">   23</a></span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keywordtype">bool</span> HasMtdFPr<span class="keywordtype">int</span>&gt; <span class="keyword">struct </span><a class="code" href="structnos_1_1fprint__implementation__solver.html">fprint_implementation_solver</a>&lt;T, true, HasMtdFPrint&gt; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">int</span> fprint_to(<span class="keyword">const</span> T&amp; obj, <a class="code" href="classnos_1_1ostream.html">nos::ostream</a>&amp; os, <span class="keyword">const</span> std::string_view &amp; opts) {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="keywordflow">return</span> nos_fprint(<a class="code" href="structadsl__finder.html">adsl_finder</a>(os), obj, opts);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        }</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    };  </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="structnos_1_1fprint__implementation__solver_3_01T_00_01false_00_01true_01_4.html">   30</a></span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct </span><a class="code" href="structnos_1_1fprint__implementation__solver.html">fprint_implementation_solver</a>&lt;T, false, true&gt; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">int</span> fprint_to(<span class="keyword">const</span> T&amp; obj, <a class="code" href="classnos_1_1ostream.html">nos::ostream</a>&amp; os, <span class="keyword">const</span> std::string_view &amp; opts) {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="keywordflow">return</span> obj.fprint_to(os, opts);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        }</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    };  </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct </span><a class="code" href="structnos_1_1fprint__implementation.html">fprint_implementation</a> : <span class="keyword">public</span> <a class="code" href="structnos_1_1fprint__implementation__solver.html">fprint_implementation_solver</a>&lt;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        typename std::remove_cv&lt;T&gt;::type, </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        nos::has_nos_fprint&lt;typename std::remove_cv&lt;T&gt;::type&gt;::value,</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        nos::has_fprint_method&lt;typename std::remove_cv&lt;T&gt;::type&gt;::value</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    &gt; {};</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="astructnos_1_1fprint__implementation__solver_html"><div class="ttname"><a href="structnos_1_1fprint__implementation__solver.html">nos::fprint_implementation_solver</a></div><div class="ttdef"><b>Definition:</b> meta.h:14</div></div>
+<div class="ttc" id="astructnos_1_1fprint__implementation__solver_html"><div class="ttname"><a href="structnos_1_1fprint__implementation__solver.html">nos::fprint_implementation_solver</a></div><div class="ttdef"><b>Definition:</b> meta.h:16</div></div>
 <div class="ttc" id="aclassnos_1_1ostream_html"><div class="ttname"><a href="classnos_1_1ostream.html">nos::ostream</a></div><div class="ttdef"><b>Definition:</b> ostream.h:18</div></div>
-<div class="ttc" id="astructnos_1_1fprint__implementation_html"><div class="ttname"><a href="structnos_1_1fprint__implementation.html">nos::fprint_implementation</a></div><div class="ttdef"><b>Definition:</b> meta.h:10</div></div>
+<div class="ttc" id="astructnos_1_1fprint__implementation_html"><div class="ttname"><a href="structnos_1_1fprint__implementation.html">nos::fprint_implementation</a></div><div class="ttdef"><b>Definition:</b> meta.h:12</div></div>
 <div class="ttc" id="astructadsl__finder_html"><div class="ttname"><a href="structadsl__finder.html">adsl_finder</a></div><div class="ttdef"><b>Definition:</b> meta.h:12</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
