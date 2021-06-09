@@ -1,6 +1,10 @@
 #ifndef NOS_IO_NULL_OSTREAM_H
 #define NOS_IO_NULL_OSTREAM_H
 
+/**
+	@file
+*/
+
 #include <nos/io/ostream.h>
 
 namespace nos

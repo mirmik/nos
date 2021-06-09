@@ -1,6 +1,10 @@
 #ifndef NOS_IO_STRING_WRITER_H
 #define NOS_IO_STRING_WRITER_H
 
+/**
+	@file
+*/
+
 #include <string>
 #include <nos/io/ostream.h>
 

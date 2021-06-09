@@ -1,0 +1,9 @@
+<map id="nos::inet::tcp_client" name="nos::inet::tcp_client">
+<area shape="rect" id="node1" title=" " alt="" coords="133,323,283,349"/>
+<area shape="rect" id="node2" href="$structnos_1_1inet_1_1socket.html" title=" " alt="" coords="144,233,272,260"/>
+<area shape="rect" id="node3" href="$classnos_1_1file.html" title=" " alt="" coords="158,157,231,184"/>
+<area shape="rect" id="node4" href="$classnos_1_1iostream.html" title=" " alt="" coords="67,81,178,108"/>
+<area shape="rect" id="node5" href="$classnos_1_1ostream.html" title=" " alt="" coords="5,5,112,32"/>
+<area shape="rect" id="node6" href="$classnos_1_1istream.html" title=" " alt="" coords="137,5,239,32"/>
+<area shape="rect" id="node7" href="$classnos_1_1hostaddr.html" title=" " alt="" coords="297,233,407,260"/>
+</map>

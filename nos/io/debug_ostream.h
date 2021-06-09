@@ -1,6 +1,10 @@
 #ifndef NOS_IO_DEBUG_OSTREAM_H
 #define NOS_IO_DEBUG_OSTREAM_H
 
+/**
+	@file
+*/
+
 #include <nos/io/ostream.h>
 #include <igris/dprint.h>
 

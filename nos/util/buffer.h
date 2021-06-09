@@ -1,7 +1,14 @@
 #ifndef NOS_UTIL_BUFFER_H
 #define NOS_UTIL_BUFFER_H
 
-#include <stdint.h>
+#include <string_view>
+
+namespace nos 
+{
+	using buffer = std::string_view;
+}
+
+/*#include <stdint.h>
 #include <string.h>
 
 #ifdef __has_include
@@ -123,6 +130,6 @@ namespace nos
 #endif
 
 	};
-}
+}*/
 
 #endif

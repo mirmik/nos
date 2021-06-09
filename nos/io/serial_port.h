@@ -1,6 +1,10 @@
 #ifndef NOS_IO_SERIAL_PORT_H
 #define NOS_IO_SERIAL_PORT_H
 
+/**
+	@file
+*/
+
 #include <nos/io/file.h>
 #include <unistd.h>
 

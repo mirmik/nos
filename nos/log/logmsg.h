@@ -3,6 +3,7 @@
 
 #include <ctime>
 #include <cstdio>
+#include <string>
 
 #include <nos/log/level.h>
 

@@ -1,6 +1,10 @@
 #ifndef NOS_FPRINT_FPRINT_H
 #define NOS_FPRINT_FPRINT_H
 
+/**
+	@file
+*/
+
 #include <utility>
 #include <nos/fprint/visitor.h>
 #include <nos/print/print.h>

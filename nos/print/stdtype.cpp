@@ -64,10 +64,3 @@ int nos_print(nos::ostream& out, const std::string& str)
 {
 	return nos_print(out, nos::buffer(str.data(), str.size()));
 }
-
-#if IGRIS_HAS_STRING_VIEW
-int nos_print(nos::ostream& out, const std::string_view& str)
-{
-	return nos_print(out, nos::buffer(str.data(), str.size()));
-}
-#endif

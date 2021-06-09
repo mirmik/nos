@@ -1,6 +1,10 @@
 #ifndef NOS_PRINT_META_H
 #define NOS_PRINT_META_H
 
+/**
+	@file
+*/
+
 #include <nos/meta.h>
 #include <iostream>
 

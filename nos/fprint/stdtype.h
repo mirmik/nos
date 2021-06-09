@@ -1,6 +1,10 @@
 #ifndef NOS_FPRINT_STDTYPE_H
 #define NOS_FPRINT_STDTYPE_H
 
+/**
+	@file
+*/
+
 #include <nos/util/buffer.h>
 
 namespace nos { class ostream; }

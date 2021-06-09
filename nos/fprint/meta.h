@@ -1,6 +1,10 @@
 #ifndef NOS_FPRINT_META_H
 #define NOS_FPRINT_META_H
 
+/**
+	@file
+*/
+
 namespace nos 
 {
 	template <typename T> struct fprint_implementation;

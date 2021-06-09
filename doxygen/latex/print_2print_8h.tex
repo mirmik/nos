@@ -1,0 +1,109 @@
+\hypertarget{print_2print_8h}{}\doxysection{/home/mirmik/project/nos/nos/print/print.h File Reference}
+\label{print_2print_8h}\index{/home/mirmik/project/nos/nos/print/print.h@{/home/mirmik/project/nos/nos/print/print.h}}
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$iterator$>$}\newline
+{\ttfamily \#include $<$nos/util/buffer.\+h$>$}\newline
+{\ttfamily \#include $<$nos/io/ostream.\+h$>$}\newline
+{\ttfamily \#include $<$nos/print/meta.\+h$>$}\newline
+Include dependency graph for print.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{print_2print_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{print_2print_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{print_2print_8h_a90bd39566851bdb15f521a8a2b7cc601}\label{print_2print_8h_a90bd39566851bdb15f521a8a2b7cc601}} 
+int {\bfseries nos\+::putbyte\+\_\+to} (\mbox{\hyperlink{classnos_1_1ostream}{nos\+::ostream}} \&out, char c)
+\item 
+\mbox{\Hypertarget{print_2print_8h_a2b6f7c4df340205b69b355a5bfe83e04}\label{print_2print_8h_a2b6f7c4df340205b69b355a5bfe83e04}} 
+int {\bfseries nos\+::write\+\_\+to} (\mbox{\hyperlink{classnos_1_1ostream}{nos\+::ostream}} \&out, const void $\ast$buf, size\+\_\+t sz)
+\item 
+\mbox{\Hypertarget{print_2print_8h_a629eeceb6d09f986d5df02ea88df2fb3}\label{print_2print_8h_a629eeceb6d09f986d5df02ea88df2fb3}} 
+int {\bfseries nos\+::writeln\+\_\+to} (\mbox{\hyperlink{classnos_1_1ostream}{nos\+::ostream}} \&out, const void $\ast$buf, size\+\_\+t sz)
+\item 
+\mbox{\Hypertarget{print_2print_8h_a3c50713319dfddfee6cc359dab3597a9}\label{print_2print_8h_a3c50713319dfddfee6cc359dab3597a9}} 
+{\footnotesize template$<$typename Arg $>$ }\\int {\bfseries nos\+::print\+\_\+to} (\mbox{\hyperlink{classnos_1_1ostream}{nos\+::ostream}} \&out, const Arg \&arg)
+\item 
+\mbox{\Hypertarget{print_2print_8h_ad5b029a579146b8f6598d1fbb8326976}\label{print_2print_8h_ad5b029a579146b8f6598d1fbb8326976}} 
+{\footnotesize template$<$typename Head , typename ... Tail$>$ }\\int {\bfseries nos\+::print\+\_\+to} (\mbox{\hyperlink{classnos_1_1ostream}{nos\+::ostream}} \&out, const Head \&head, const Tail \&... tail)
+\item 
+\mbox{\Hypertarget{print_2print_8h_a947dbf84de7799462b8cb77cd4606eec}\label{print_2print_8h_a947dbf84de7799462b8cb77cd4606eec}} 
+int {\bfseries nos\+::println\+\_\+to} (\mbox{\hyperlink{classnos_1_1ostream}{nos\+::ostream}} \&)
+\item 
+\mbox{\Hypertarget{print_2print_8h_a06eb8734233e4d5bb268e24e6632cbca}\label{print_2print_8h_a06eb8734233e4d5bb268e24e6632cbca}} 
+{\footnotesize template$<$typename ... Args$>$ }\\int {\bfseries nos\+::println\+\_\+to} (\mbox{\hyperlink{classnos_1_1ostream}{nos\+::ostream}} \&out, const Args \&... args)
+\item 
+\mbox{\Hypertarget{print_2print_8h_a787c44573b00cf3fd907a26533114815}\label{print_2print_8h_a787c44573b00cf3fd907a26533114815}} 
+{\footnotesize template$<$typename V $>$ }\\int {\bfseries nos\+::print\+\_\+list\+\_\+to} (\mbox{\hyperlink{classnos_1_1ostream}{nos\+::ostream}} \&out, const V \&vec)
+\item 
+\mbox{\Hypertarget{print_2print_8h_a1c694a2c1b0c3b2d0d79e459d09ddb02}\label{print_2print_8h_a1c694a2c1b0c3b2d0d79e459d09ddb02}} 
+{\footnotesize template$<$typename M $>$ }\\int {\bfseries nos\+::print\+\_\+matrix\+\_\+to} (\mbox{\hyperlink{classnos_1_1ostream}{nos\+::ostream}} \&out, const M \&mat)
+\item 
+\mbox{\Hypertarget{print_2print_8h_a0f3a4b968b2936ca7cd558a87a752be9}\label{print_2print_8h_a0f3a4b968b2936ca7cd558a87a752be9}} 
+{\footnotesize template$<$typename ... Args$>$ }\\int {\bfseries nos\+::printhex\+\_\+to} (\mbox{\hyperlink{classnos_1_1ostream}{nos\+::ostream}} \&out, const Args \&... args)
+\item 
+\mbox{\Hypertarget{print_2print_8h_a9fc904fd416540b04145f0893ded7bae}\label{print_2print_8h_a9fc904fd416540b04145f0893ded7bae}} 
+{\footnotesize template$<$typename Arg $>$ }\\int {\bfseries nos\+::printptr\+\_\+to} (\mbox{\hyperlink{classnos_1_1ostream}{nos\+::ostream}} \&out, const Arg $\ast$arg)
+\item 
+\mbox{\Hypertarget{print_2print_8h_af3a6c8f4adef01566b84d1d5bbdc349b}\label{print_2print_8h_af3a6c8f4adef01566b84d1d5bbdc349b}} 
+{\footnotesize template$<$typename Arg $>$ }\\int {\bfseries nos\+::printptrln\+\_\+to} (\mbox{\hyperlink{classnos_1_1ostream}{nos\+::ostream}} \&out, const Arg $\ast$arg)
+\item 
+\mbox{\Hypertarget{print_2print_8h_a5446a54629261467280af2ecc9246715}\label{print_2print_8h_a5446a54629261467280af2ecc9246715}} 
+int {\bfseries nos\+::print\+\_\+dump\+\_\+to} (\mbox{\hyperlink{classnos_1_1ostream}{nos\+::ostream}} \&, const void $\ast$mem, size\+\_\+t len, unsigned int columns=8)
+\item 
+\mbox{\Hypertarget{print_2print_8h_a0e14b1cdc933dc0eee3db7c110ac1ce4}\label{print_2print_8h_a0e14b1cdc933dc0eee3db7c110ac1ce4}} 
+int {\bfseries nos\+::putbyte} (char c)
+\item 
+\mbox{\Hypertarget{print_2print_8h_a26b5d2806b6489efb0933d2fd1933356}\label{print_2print_8h_a26b5d2806b6489efb0933d2fd1933356}} 
+int {\bfseries nos\+::write} (const void $\ast$buf, size\+\_\+t sz)
+\item 
+\mbox{\Hypertarget{print_2print_8h_a60705837d6c01eb15ca85b317aa82b46}\label{print_2print_8h_a60705837d6c01eb15ca85b317aa82b46}} 
+int {\bfseries nos\+::writeln} (const void $\ast$buf, size\+\_\+t sz)
+\item 
+\mbox{\Hypertarget{print_2print_8h_ac58a90a3046792d616386976df2adeb5}\label{print_2print_8h_ac58a90a3046792d616386976df2adeb5}} 
+{\footnotesize template$<$typename ... Args$>$ }\\int {\bfseries nos\+::print} (const Args \&... args)
+\item 
+\mbox{\Hypertarget{print_2print_8h_a75d66d4dbc1ffe928b3b1c76cf054f12}\label{print_2print_8h_a75d66d4dbc1ffe928b3b1c76cf054f12}} 
+int {\bfseries nos\+::println} ()
+\item 
+\mbox{\Hypertarget{print_2print_8h_adea53c4e8b41e5eb5041ce0fff97a348}\label{print_2print_8h_adea53c4e8b41e5eb5041ce0fff97a348}} 
+{\footnotesize template$<$typename ... Args$>$ }\\int {\bfseries nos\+::println} (const Args \&... args)
+\item 
+\mbox{\Hypertarget{print_2print_8h_aea36f3c9692ffdaa9e03ff7d0fce362f}\label{print_2print_8h_aea36f3c9692ffdaa9e03ff7d0fce362f}} 
+{\footnotesize template$<$typename V $>$ }\\int {\bfseries nos\+::print\+\_\+list} (const V \&vec)
+\item 
+\mbox{\Hypertarget{print_2print_8h_ab1bba09b03ebab850475ceb40177df53}\label{print_2print_8h_ab1bba09b03ebab850475ceb40177df53}} 
+{\footnotesize template$<$typename M $>$ }\\int {\bfseries nos\+::print\+\_\+matrix} (const M \&mat)
+\item 
+\mbox{\Hypertarget{print_2print_8h_a8355d3e20a6332de9fea088a667924d7}\label{print_2print_8h_a8355d3e20a6332de9fea088a667924d7}} 
+{\footnotesize template$<$typename ... Args$>$ }\\int {\bfseries nos\+::printhex} (const Args \&... args)
+\item 
+\mbox{\Hypertarget{print_2print_8h_a5dddcfb54dbf5b1b373b6ca92a316a43}\label{print_2print_8h_a5dddcfb54dbf5b1b373b6ca92a316a43}} 
+{\footnotesize template$<$typename ... Args$>$ }\\int {\bfseries nos\+::printhexln} (const Args \&... args)
+\item 
+\mbox{\Hypertarget{print_2print_8h_a3a3b52f314d019440b1a0977e2f2cc98}\label{print_2print_8h_a3a3b52f314d019440b1a0977e2f2cc98}} 
+{\footnotesize template$<$typename Arg $>$ }\\int {\bfseries nos\+::printptr} (const Arg \&arg)
+\item 
+\mbox{\Hypertarget{print_2print_8h_a5163342152ed859b04a2523b8318b200}\label{print_2print_8h_a5163342152ed859b04a2523b8318b200}} 
+int {\bfseries nos\+::print\+\_\+dump} (const void $\ast$mem, size\+\_\+t len, unsigned int columns=8)
+\item 
+\mbox{\Hypertarget{print_2print_8h_ae8199a1e4bfa5f1755197086fd457180}\label{print_2print_8h_ae8199a1e4bfa5f1755197086fd457180}} 
+int {\bfseries nos\+::print\+\_\+dump} (nos\+::buffer buf, unsigned int columns=8)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{print_2print_8h_a25c511f691c95784b978d53adeff22ae}\label{print_2print_8h_a25c511f691c95784b978d53adeff22ae}} 
+ostream $\ast$ {\bfseries nos\+::current\+\_\+ostream}
+\end{DoxyCompactItemize}

@@ -1,8 +1,13 @@
 #ifndef NOS_FPRINT_SPEC_H
 #define NOS_FPRINT_SPEC_H
 
+/**
+	@file
+*/
+
 #include <string.h>
 #include <ctype.h>
+#include <string_view>
 
 namespace nos
 {
@@ -23,11 +28,11 @@ namespace nos
 		int width = 0;
 		char fill = ' ';
 
-		char* analyze(char* ptr)
+		const char* analyze(const char* ptr)
 		{
 			if (isdigit(*ptr))
 			{
-				width = strtoul(ptr, &ptr, 10);
+				width = strtoul(ptr, (char**)&ptr, 10);
 				return ptr;
 			}
 
@@ -55,10 +60,10 @@ namespace nos
 
 	struct integer_spec : public basic_spec
 	{
-		integer_spec(nos::buffer opts)
+		integer_spec(const std::string_view & opts)
 		{
-			char* ptr = opts.begin();
-			char* end = opts.end();
+			const char* ptr = opts.begin();
+			const char* end = opts.end();
 			while (ptr != end)
 			{
 				ptr = analyze(ptr);
@@ -68,10 +73,10 @@ namespace nos
 
 	struct float_spec : public basic_spec
 	{
-		float_spec(nos::buffer opts)
+		float_spec(const std::string_view & opts)
 		{
-			char* ptr = opts.begin();
-			char* end = opts.end();
+			const char* ptr = opts.begin();
+			const char* end = opts.end();
 			while (ptr != end)
 			{
 				ptr = analyze(ptr);
@@ -81,10 +86,10 @@ namespace nos
 
 	struct text_spec : public basic_spec
 	{
-		text_spec(nos::buffer opts)
+		text_spec(const std::string_view & opts)
 		{
-			char* ptr = opts.begin();
-			char* end = opts.end();
+			const char* ptr = opts.begin();
+			const char* end = opts.end();
 			while (ptr != end)
 			{
 				switch (*ptr)
