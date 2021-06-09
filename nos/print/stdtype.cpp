@@ -15,13 +15,6 @@ int nos_print(nos::ostream& out, const std::string_view & buf)
 	return out.write(buf.data(), buf.size());
 }
 
-#if __has_include(<igris/buffer.h>)
-int nos_print(nos::ostream& out, igris::buffer buf)
-{
-	return out.write(buf.data(), buf.size());
-}
-#endif
-
 int nos_print(nos::ostream& out, bool obj) 		{ return nos_print(out, obj ? "true" : "false"); }
 
 int nos_print(nos::ostream& out, signed char obj) 	    { char buf[48]; sprintf(buf, "%d", obj);   return nos_print(out, buf); }

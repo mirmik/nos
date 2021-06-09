@@ -95,11 +95,6 @@ int nos::print_dump(const std::string_view & buf, unsigned int columns)
 	return nos::print_dump_to(*nos::current_ostream, buf.data(), buf.size(), columns);
 }
 
-int nos::print_dump(igris::buffer buf, unsigned int columns)
-{
-	return nos::print_dump_to(*nos::current_ostream, buf.data(), buf.size(), columns);
-}
-
 int nos::write(const void* buf, size_t sz)
 {
 	return nos::write_to(*nos::current_ostream, buf, sz);

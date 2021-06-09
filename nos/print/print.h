@@ -7,12 +7,8 @@
 
 #include <stdlib.h>
 #include <iterator>
-
 #include <string_view>
 
-#if __has_include(<igris/buffer.h>)
-#include <igris/buffer.h>
-#endif
 
 namespace nos
 {
@@ -47,9 +43,6 @@ namespace nos
 												int print_dump(const void *mem, size_t len, unsigned int columns = 8);
 
 												int print_dump(const std::string_view & buf, unsigned int columns = 8);
-#if __has_include(<igris/buffer.h>)
-												int print_dump(igris::buffer buf, unsigned int columns = 8);
-#endif
 
 	static inline int print(void* ptr) { return nos::printptr(ptr); }
 	static inline int print_to(nos::ostream& out, void* ptr) { return nos::printptr_to(out, ptr); }

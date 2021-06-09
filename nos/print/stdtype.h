@@ -29,11 +29,6 @@ int nos_print(nos::ostream& out, double str);
 
 int nos_print(nos::ostream& out, const std::string_view & buf);
 
-#if __has_include(<igris/buffer.h>)
-#include <igris/buffer.h>
-int nos_print(nos::ostream& out, igris::buffer buf);
-#endif
-
 #include <nos/print.h>
 #include <vector>
 #include <array>
