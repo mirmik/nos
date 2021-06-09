@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <iterator>
 
-#include <nos/util/buffer.h>
+#include <string_view>
 
 #if __has_include(<igris/buffer.h>)
 #include <igris/buffer.h>
@@ -46,7 +46,7 @@ namespace nos
 	template<typename Arg> 						int printptr(const Arg& arg);
 												int print_dump(const void *mem, size_t len, unsigned int columns = 8);
 
-												int print_dump(nos::buffer buf, unsigned int columns = 8);
+												int print_dump(const std::string_view & buf, unsigned int columns = 8);
 #if __has_include(<igris/buffer.h>)
 												int print_dump(igris::buffer buf, unsigned int columns = 8);
 #endif

@@ -72,20 +72,20 @@ int nos_fprint(nos::ostream& os, const char* text, const nos::basic_spec& spec)
 	return nos_fprint(os, text, strlen(text), spec);
 }
 
-int nos_fprint(nos::ostream& os, const char* obj, nos::buffer opts)
+int nos_fprint(nos::ostream& os, const char* obj, const std::string_view & opts)
 {
 	nos::text_spec spec(opts);
 	return nos_fprint(os, obj, strlen(obj), spec);
 }
 
-int nos_fprint(nos::ostream& os, bool obj, nos::buffer opts)
+int nos_fprint(nos::ostream& os, bool obj, const std::string_view & opts)
 {
 	return nos_fprint(os, obj ? "true" : "false", opts);
 }
 
-int nos_fprint(nos::ostream& os, signed char obj, nos::buffer opts) { return nos_fprint(os, (signed int)obj, opts); }
-int nos_fprint(nos::ostream& os, signed short obj, nos::buffer opts) { return nos_fprint(os, (signed int)obj, opts); }
-int nos_fprint(nos::ostream& os, signed int obj, nos::buffer opts)
+int nos_fprint(nos::ostream& os, signed char obj, const std::string_view & opts) { return nos_fprint(os, (signed int)obj, opts); }
+int nos_fprint(nos::ostream& os, signed short obj, const std::string_view & opts) { return nos_fprint(os, (signed int)obj, opts); }
+int nos_fprint(nos::ostream& os, signed int obj, const std::string_view & opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[32];
@@ -94,7 +94,7 @@ int nos_fprint(nos::ostream& os, signed int obj, nos::buffer opts)
 	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
-int nos_fprint(nos::ostream& os, signed long obj, nos::buffer opts)
+int nos_fprint(nos::ostream& os, signed long obj, const std::string_view & opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64];
@@ -102,7 +102,7 @@ int nos_fprint(nos::ostream& os, signed long obj, nos::buffer opts)
 	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
-int nos_fprint(nos::ostream& os, signed long long obj, nos::buffer opts)
+int nos_fprint(nos::ostream& os, signed long long obj, const std::string_view & opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64];
@@ -110,9 +110,9 @@ int nos_fprint(nos::ostream& os, signed long long obj, nos::buffer opts)
 	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
-int nos_fprint(nos::ostream& os, unsigned char obj, nos::buffer opts) { return nos_fprint(os, (unsigned int)obj, opts); }
-int nos_fprint(nos::ostream& os, unsigned short obj, nos::buffer opts) { return nos_fprint(os, (unsigned int)obj, opts); }
-int nos_fprint(nos::ostream& os, unsigned int obj, nos::buffer opts)
+int nos_fprint(nos::ostream& os, unsigned char obj, const std::string_view & opts) { return nos_fprint(os, (unsigned int)obj, opts); }
+int nos_fprint(nos::ostream& os, unsigned short obj, const std::string_view & opts) { return nos_fprint(os, (unsigned int)obj, opts); }
+int nos_fprint(nos::ostream& os, unsigned int obj, const std::string_view & opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[32];
@@ -120,7 +120,7 @@ int nos_fprint(nos::ostream& os, unsigned int obj, nos::buffer opts)
 	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
-int nos_fprint(nos::ostream& os, unsigned long int obj, nos::buffer opts)
+int nos_fprint(nos::ostream& os, unsigned long int obj, const std::string_view & opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64];
@@ -128,7 +128,7 @@ int nos_fprint(nos::ostream& os, unsigned long int obj, nos::buffer opts)
 	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
-int nos_fprint(nos::ostream& os, unsigned long long int obj, nos::buffer opts)
+int nos_fprint(nos::ostream& os, unsigned long long int obj, const std::string_view & opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64];

@@ -7,8 +7,9 @@ namespace nos
 }
 
 #include <nos/io/ostream.h>
-#include <nos/util/buffer.h>
+#include <string_view>
 #include <iostream>
+#include <string_view>
 
 class nos_test_ostream : public nos::ostream {};
 class nos_test_std_ostream : public std::ostream {};
@@ -36,7 +37,7 @@ namespace nos
 	private:
 		template <typename U>
 		static decltype( nos_fprint(
-				std::declval<nos_test_ostream&>(), std::declval<U>(), nos::buffer()
+				std::declval<nos_test_ostream&>(), std::declval<U>(), std::declval<std::string_view>()
 			), std::true_type()) test(int);
 
 		template <typename> static std::false_type test(...);
@@ -66,7 +67,7 @@ namespace nos
 	private:
 		template <typename U>
 		static decltype( 
-				std::declval<U>().fprint_to(std::declval<nos_test_ostream&>(), nos::buffer())
+				std::declval<U>().fprint_to(std::declval<nos_test_ostream&>(), std::declval<std::string_view>())
 			, std::true_type()) test(int);
 
 		template <typename> static std::false_type test(...);

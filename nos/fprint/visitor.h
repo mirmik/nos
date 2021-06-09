@@ -5,7 +5,7 @@
 	@file
 */
 
-#include <nos/util/buffer.h>
+#include <string_view>
 #include <nos/util/arglist.h>
 
 #include <nos/fprint/meta.h>
@@ -16,7 +16,7 @@ namespace nos
 
 	struct format_visitor
 	{
-		using ftype = int(*)(void*, nos::ostream&, nos::buffer opts);
+		using ftype = int(*)(void*, nos::ostream&, const std::string_view & opts);
 
 		template<typename Object>
 		static void* get_visit()

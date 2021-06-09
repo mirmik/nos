@@ -10,7 +10,7 @@ int nos_print(nos::ostream& out, const char* str)
 	return out.write(str, strlen(str));
 }
 
-int nos_print(nos::ostream& out, nos::buffer buf)
+int nos_print(nos::ostream& out, const std::string_view & buf)
 {
 	return out.write(buf.data(), buf.size());
 }
@@ -59,8 +59,3 @@ int nos_print(nos::ostream& out, double obj)
 	return nos_print(out, buf);
 }
 #endif
-
-int nos_print(nos::ostream& out, const std::string& str)
-{
-	return nos_print(out, nos::buffer(str.data(), str.size()));
-}

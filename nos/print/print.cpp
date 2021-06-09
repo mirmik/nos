@@ -90,7 +90,7 @@ int nos::print_dump(const void* ptr, size_t sz, unsigned int columns)
 	return nos::print_dump_to(*nos::current_ostream, ptr, sz, columns);
 }
 
-int nos::print_dump(nos::buffer buf, unsigned int columns)
+int nos::print_dump(const std::string_view & buf, unsigned int columns)
 {
 	return nos::print_dump_to(*nos::current_ostream, buf.data(), buf.size(), columns);
 }

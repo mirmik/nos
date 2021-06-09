@@ -1,7 +1,7 @@
 #ifndef NOS_LOG_LEVEL_H
 #define NOS_LOG_LEVEL_H
 
-#include <nos/util/buffer.h>
+#include <string_view>
 
 namespace nos
 {
@@ -18,7 +18,7 @@ namespace nos
 		};
 
 		const char* level_to_string(level lvl);
-		level level_from_string(const nos::buffer str);
+		level level_from_string(const std::string_view & str);
 	}
 }
 
