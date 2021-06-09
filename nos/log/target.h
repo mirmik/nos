@@ -15,14 +15,10 @@ namespace nos
 			nos::log::level lvl;
 
 		public:
-			virtual void log(
-				std::shared_ptr<nos::log::logmsg> logmsg) 
-			{
-				nos::println("virtual log function");
-			}
+			virtual void log(std::shared_ptr<nos::log::logmsg> logmsg);
 
-			void set_format(nos::buffer fmt) { this->fmt = (std::string)fmt; }
-			void set_level(nos::log::level lvl) { this->lvl = lvl; }
+			void set_format(nos::buffer fmt);
+			void set_level(nos::log::level lvl);
 		};
 	}
 }

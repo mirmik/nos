@@ -19,7 +19,8 @@ licant.module("nos.io",
 licant.module("nos.log",
 	srcdir="nos/log", 
 	sources=[
-		"level.cpp"
+		"level.cpp",
+		"target.cpp"
 	]
 )
 
