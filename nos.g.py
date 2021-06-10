@@ -20,6 +20,7 @@ licant.module("nos.log",
 	srcdir="nos/log", 
 	sources=[
 		"level.cpp",
+		"tlogger.cpp",
 		"target.cpp",
 		"targets/stdout.cpp",
 		"targets/tcpspam.cpp",

@@ -2,14 +2,16 @@
 #define NOS_LOG_TLOGGER_H
 
 #include <nos/log/logger.h>
-#include <nos/log/target.h>
 
 #include <string>
+#include <memory>
 
 namespace nos
 {
 	namespace log
 	{
+		class target;
+
 		class tlogger : public nos::log::logger
 		{
 		private:
@@ -22,53 +24,20 @@ namespace nos
 			level minlevel = level::trace;
 
 		public:
-			tlogger(const std::string& _name) : name(_name) {}
+			tlogger(const std::string& _name);
 
-			void link(target* tgt)
-			{
-				targets.push_back(tgt);
-			}
+			void link(target* tgt);
 
-			void set_level(level lvl)
-			{
-				minlevel = lvl;
-			}
+			void set_level(level lvl);
 
 			/// Logging method implementation
-			void log(level lvl, std::string&& msg)
-			{
-				time_t current_time;
-				struct tm  local_time;
+			void log(level lvl, std::string&& msg);
 
-				::time(&current_time);
-				::localtime_r(&current_time, &local_time);
+			void clear_targets(); 
 
-				std::shared_ptr<nos::log::logmsg> logmsg
-				    = std::make_shared<nos::log::logmsg>
-				      (
-				          this,
-				          lvl,
-				          std::move(msg),
-				          local_time
-				      );
+			void set_pattern(const char* pattern);
 
-				for (auto * tgt : targets)
-				{
-					tgt->log(logmsg);
-				}
-			}
-
-			void clear_targets() { targets.clear(); } 
-
-			void set_pattern(const char* pattern) 
-			{
-				this->pattern = pattern;
-			}
-
-			void log(level lvl, const char* fmt, const visitable_arglist& arglist) override
-			{
-				log(lvl, nos::format(fmt, arglist));
-			}
+			void log(level lvl, const char* fmt, const visitable_arglist& arglist) override;
 		};
 	};
 }
