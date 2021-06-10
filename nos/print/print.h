@@ -1,14 +1,13 @@
-#ifndef NOS_PRINT_PRINT_H
-#define NOS_PRINT_PRINT_H
-
 /**
 	@file
 */
 
+#ifndef NOS_PRINT_PRINT_H
+#define NOS_PRINT_PRINT_H
+
 #include <stdlib.h>
 #include <iterator>
 #include <string_view>
-
 
 namespace nos
 {
@@ -54,8 +53,7 @@ namespace nos
 template<typename Arg> 			int nos::print_to(nos::ostream& out, const Arg& arg) 	{ return nos::print_implementation<Arg>::print_to(out, arg); }
 template<typename ... Args> 	int nos::print(const Args& ... args) 					{ return print_to(*current_ostream, args ...); }
 template<typename ... Args> 	int nos::println(const Args& ... args) 					{ return println_to(*current_ostream, args ...); }
-template<typename ... Args> 	int nos::printhex(const Args& ... args) 				{ return current_ostream->printhex(args ...); }
-//template<typename ... Args> 	int nos::printptr(const Args& ... args) 				{ return current_ostream->printptr(args ...); }
+template<typename ... Args> 	int nos::printhex(const Args& ... args) 				{ return current_ostream->printptr(args ...); }
 template<typename V> 			int nos::print_list(const V& vec) 						{ return print_list_to(*current_ostream, vec); }
 template<typename M> 			int nos::print_matrix(const M& mat) 					{ return print_matrix_to(*current_ostream, mat); }
 template<typename T>			int nos::printptr_to(nos::ostream& out, const T* arg) 	{ return out.printptr(arg); }
@@ -119,10 +117,10 @@ int nos::print_matrix_to(nos::ostream& out, const M& mat)
 	{
 		for (unsigned int j = 0; j < mat.size2(); ++j) 
 		{
-			nos::print(mat(i,j));
-			nos::print(" ");
+			nos::print_to(out, mat(i,j));
+			nos::print_to(out, " ");
 		}
-		nos::println();
+		nos::println_to(out);
 	}
 
 	return ret;

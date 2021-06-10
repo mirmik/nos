@@ -1,6 +1,8 @@
 #include <nos/fprint/stdtype.h>
 #include <nos/fprint/spec.h>
 
+#include <cstdio>
+
 int nos_fprint(nos::ostream& os,
                    const char* text,
                    int size,

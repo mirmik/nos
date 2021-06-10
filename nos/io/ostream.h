@@ -79,6 +79,8 @@ namespace nos
 	};
 }
 
+// Благодаря позднему включению ostream получает возможность
+// использовать всё, что умеет nos/print.h 
 #include <nos/print/print.h>
 
 template<typename ... Args>
