@@ -64,3 +64,6 @@ ZERO_CHECK.vcxproj.filters
 x64
 Debug
 Release
+
+doxygen/latex
+doxygen/html
