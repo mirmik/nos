@@ -1,3 +1,5 @@
+/** @file */
+
 #ifndef NOS_INPUT_H
 #define NOS_INPUT_H
 

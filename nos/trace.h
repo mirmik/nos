@@ -1,3 +1,5 @@
+/** @file */
+
 #ifndef NOS_TRACE_H
 #define NOS_TRACE_H
 

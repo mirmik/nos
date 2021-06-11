@@ -1,3 +1,5 @@
+/** @file */
+
 #ifndef NOS_TIMESTAMP_H
 #define NOS_TIMESTAMP_H
 
