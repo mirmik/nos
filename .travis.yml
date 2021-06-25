@@ -15,14 +15,6 @@ matrix:
 
 before_install:
   eval ${MATRIX_EVAL}
-
-install: 
-  - git clone https://github.com/mirmik/igris igris/
-  - cd igris
-  - cmake .
-  - make
-  - sudo make install
-  - cd ..
   
 script:
   - echo "SCRIPT"

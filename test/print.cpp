@@ -2,8 +2,6 @@
 #include <nos/io/string_writer.h>
 #include <doctest/doctest.h>
 
-#include <igris/dprint.h>
-
 struct A { int i = 42; ssize_t print_to(nos::ostream& os) const { return os.print(i); }; };
 struct B { int i = 42; };
 struct C { int i = 42; };
