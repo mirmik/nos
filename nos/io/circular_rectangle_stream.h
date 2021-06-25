@@ -2,7 +2,7 @@
 #define CIRCULAR_RECTANGLE_STREAM_H
 
 #include <nos/io/ostream.h>
-#include <string_view>
+#include <nos/util/buffer.h>
 
 namespace nos
 {
@@ -29,6 +29,12 @@ namespace nos
 			while (cursor_row >= rows) { cursor_row -= rows; }
 		}
 
+		void clean_current_row() 
+		{
+			for (char & c : get_string(0)) 
+				c = ' ';		
+		}
+
 		int putbyte(char c)
 		{
 			if (c == '\n') 
@@ -36,13 +42,17 @@ namespace nos
 				cursor_col = 0;
 				cursor_row++;
 				fixup();
+				clean_current_row();
 				return 1;
 			}
 
+			int oldrow = cursor_row;
 			_data[cursor_row * cols + cursor_col] = c;
 			cursor_col++;
-
 			fixup();
+
+			if (cursor_row != oldrow) clean_current_row();
+
 			return 1;
 		}
 
@@ -58,12 +68,17 @@ namespace nos
 			return ret;
 		}
 
-		std::string_view get_string(int i)
+		nos::buffer get_string(int i)
 		{
 			int rowidx = cursor_row - i;
 			while(rowidx < 0) rowidx += rows;
 
-			return std::string_view(_data + rowidx * cols, cols);
+			return nos::buffer(_data + rowidx * cols, cols);
+		}
+
+		char operator()(int col, int row) 
+		{
+			return get_string(row)[col];
 		}
 	};
 }
