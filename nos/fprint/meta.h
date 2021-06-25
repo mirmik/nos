@@ -23,7 +23,7 @@ namespace nos
 	template <typename T, bool HasMtdFPrint> struct fprint_implementation_solver<T, true, HasMtdFPrint> 
 	{
 		static int fprint_to(const T& obj, nos::ostream& os, const std::string_view & opts) {
-			return nos_fprint(adsl_finder(os), obj, opts);
+			return nos_fprint(adl_finder(os), obj, opts);
 		}
 	};	
 

@@ -8,10 +8,10 @@
 #include <nos/meta.h>
 #include <iostream>
 
-struct adsl_finder
+struct adl_finder
 {
 	nos::ostream& o;
-	adsl_finder(nos::ostream& _o) : o(_o) {}
+	adl_finder(nos::ostream& _o) : o(_o) {}
 	operator nos::ostream& () { return o; }
 };
 
@@ -54,7 +54,7 @@ namespace nos
 	{
 		static int print_to(nos::ostream& os, const T& obj)
 		{
-			return nos_print(adsl_finder(os), obj);
+			return nos_print(adl_finder(os), obj);
 		}
 	};
 

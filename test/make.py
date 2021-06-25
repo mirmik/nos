@@ -13,7 +13,8 @@ application("runtests",
 		"print.cpp",
 		"fprint.cpp",
 		"trace.cpp",
-		"log.cpp"
+		"log.cpp",
+		"circular_rectangle.cpp"
 	],
 
 	ld_flags = "-L/usr/local/lib/",
