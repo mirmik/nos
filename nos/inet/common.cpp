@@ -19,23 +19,12 @@
 
 #include <nos/util/osutil.h>
 
-#define NOTRACE 1
-#include <nos/trace.h>
-//#include <nos/warnings.h>
-
-//#include <nos/osutil/fd.h>
-
-/*#if defined(__WIN32__) || defined(__WIN64__)
-using sa_family_t = int;
-#endif*/
-
 #ifndef NOS_WARNINGS
 #define NOS_WARNINGS 0
 #endif
 
 int nos::inet::socket::nonblock(bool en)
 {
-	TRACE();
 	int ret = nos::osutil::nonblock(fd, en);
 	if (NOS_WARNINGS && ret < 0) {
 		perror("warn: socket::nonblock");
@@ -46,7 +35,6 @@ int nos::inet::socket::nonblock(bool en)
 
 int nos::inet::socket::nodelay(bool en)
 {
-	TRACE();
 	int on = en;
 	int rc = setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, (char *) &on, sizeof(on));
 	if (NOS_WARNINGS && rc < 0) {
@@ -57,7 +45,6 @@ int nos::inet::socket::nodelay(bool en)
 
 int nos::inet::socket::reusing(bool en)
 {
-	TRACE();
 	int on = en;
 	int rc = setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (char *) &on, sizeof (on));
 	if (NOS_WARNINGS && rc < 0) {
@@ -68,7 +55,6 @@ int nos::inet::socket::reusing(bool en)
 
 int nos::inet::socket::init(int domain, int type, int proto)
 {
-	TRACE();
 	fd = ::socket(domain, type, proto);
 	if (NOS_WARNINGS && fd < 0) {
 		perror("warn: socket::init");
@@ -79,7 +65,6 @@ int nos::inet::socket::init(int domain, int type, int proto)
 
 int nos::inet::socket::bind(const nos::inet::hostaddr& haddr, uint16_t port, int family)
 {
-	TRACE();
 	int sts;
 	struct sockaddr_in addr;
 	
@@ -99,7 +84,6 @@ int nos::inet::socket::bind(const nos::inet::hostaddr& haddr, uint16_t port, int
 
 int nos::inet::socket::listen(int conn)
 {
-	TRACE();
 	int sts;
 	
 	sts = ::listen(fd, conn);
@@ -112,7 +96,6 @@ int nos::inet::socket::listen(int conn)
 
 int nos::inet::socket::connect(const nos::inet::hostaddr& haddr, uint16_t port, int family)
 {
-	TRACE();
 	int sts;
 	struct sockaddr_in addr;
 	memset(&addr, 0, sizeof(addr));
@@ -131,7 +114,6 @@ int nos::inet::socket::connect(const nos::inet::hostaddr& haddr, uint16_t port, 
 
 int nos::inet::socket::close()
 {
-	TRACE();
 	int sts;
 
 	sts = ::shutdown(fd, SHUT_RDWR);

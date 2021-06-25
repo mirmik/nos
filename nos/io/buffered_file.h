@@ -2,7 +2,7 @@
 #define NOS_IO_BUFFERED_FILE_H
 
 #include <nos/io/iostream.h>
-#include <igris/osutil/fd.h>
+#include <nos/util/fd.h>
 
 namespace nos
 {
@@ -64,7 +64,7 @@ namespace nos
 
 		int nonblock(bool en)
 		{
-			return igris::osutil::nonblock(fd(), en);
+			return nos::osutil::nonblock(fd(), en);
 		}
 
 	};

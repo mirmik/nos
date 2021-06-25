@@ -8,22 +8,10 @@ from licant.libs import include
 licant.execute("../nos.g.py")
 
 application("runtests",
-	sources = [
-		"main.cpp",
-		"print.cpp",
-		"fprint.cpp",
-		"trace.cpp",
-		"log.cpp",
-		"circular_rectangle.cpp"
-	],
-
+	sources = [ "*.cpp" ],
 	ld_flags = "-L/usr/local/lib/",
-
 	include_paths = ["."],
-	mdepends = [
-		"nos",
-	],
-	libs=["igris"],
+	mdepends = [ "nos" ]
 )
 
 licant.ex("runtests")

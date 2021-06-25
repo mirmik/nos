@@ -1,4 +1,4 @@
-#include <nos/trace.h>
+/*#include <nos/trace.h>
 #include <doctest/doctest.h>
 #include <nos/io/string_writer.h>
 
@@ -51,3 +51,4 @@ TEST_CASE("fprint")
 		         "TRACE: 1: <- void foo_a(int)\r\n");
 	}
 }
+*/
