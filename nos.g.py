@@ -98,6 +98,7 @@ licant.module("nos",
 		"nos.io",
 		"nos.log",
 		"nos.timestamp",
+		"nos.serial_port",
 		"nos.current_ostream",
 	],
 	include_paths=["."]
