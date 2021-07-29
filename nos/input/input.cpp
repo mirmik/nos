@@ -1,6 +1,39 @@
 #include <nos/input.h>
 #include <nos/io/istream.h>
 
+std::string nos::readline(nos::istream& is) 
+{
+	char c;
+	std::string ret;
+
+	while(1) 
+	{
+		int readed = is.read(&c, 1);
+
+		if (readed < 0) 
+		{
+			return ret;
+		}
+
+		if (readed == 0)
+		{
+			return ret;
+		}
+
+		if (c == '\r') 
+		{
+			continue;
+		}
+
+		if (c == '\n') 
+		{
+			return ret;
+		}
+
+		ret.push_back(c);
+	}
+}
+
 int nos::read_until(nos::istream& is, char* buf, size_t buflen, char delim)
 {
 	char c;
