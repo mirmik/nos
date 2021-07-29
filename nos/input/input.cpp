@@ -1,16 +1,16 @@
 #include <nos/input.h>
 #include <nos/io/istream.h>
 
-std::string nos::readline(nos::istream& is) 
+std::string nos::readline(nos::istream& is)
 {
 	char c;
 	std::string ret;
 
-	while(1) 
+	while (1)
 	{
 		int readed = is.read(&c, 1);
 
-		if (readed < 0) 
+		if (readed < 0)
 		{
 			return ret;
 		}
@@ -20,17 +20,17 @@ std::string nos::readline(nos::istream& is)
 			return ret;
 		}
 
-		if (c == '\r') 
+		ret.push_back(c);
+
+		if (c == '\r')
 		{
 			continue;
 		}
 
-		if (c == '\n') 
+		if (c == '\n')
 		{
 			return ret;
 		}
-
-		ret.push_back(c);
 	}
 }
 
@@ -44,7 +44,7 @@ int nos::read_until(nos::istream& is, char* buf, size_t buflen, char delim)
 	{
 		int readed = is.read(&c, 1);
 
-		if (readed < 0) 
+		if (readed < 0)
 		{
 			return readed;
 		}
@@ -78,15 +78,18 @@ int nos::read_paired(nos::istream& is, char* buf, size_t buflen, char a, char b,
 
 	int paircount = 0;
 
-	if (ignore) 
-		do {
+	if (ignore)
+		do
+		{
 			int ret = is.read(&c, 1);
 			if (ret <= 0) return ret;
-		} while(c != a);
-	else {
+		}
+		while (c != a);
+	else
+	{
 		is.read(&c, 1);
 		if (c != a) return -1;
-	} 
+	}
 
 
 	paircount = 1;
@@ -103,14 +106,14 @@ int nos::read_paired(nos::istream& is, char* buf, size_t buflen, char a, char b,
 			return count;
 		}
 
-		if (c == a) 
+		if (c == a)
 		{
 			++paircount;
 		}
 
 		if (c == b)
 		{
-			if (--paircount == 0) 
+			if (--paircount == 0)
 			{
 				*buf++ = c;
 				count++;
@@ -127,7 +130,7 @@ int nos::read_paired(nos::istream& is, char* buf, size_t buflen, char a, char b,
 	return count;
 }
 
-std::string nos::readall_from(nos::istream& is) 
+std::string nos::readall_from(nos::istream& is)
 {
 	return is.readall();
 }
