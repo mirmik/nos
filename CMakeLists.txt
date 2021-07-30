@@ -27,6 +27,7 @@ file(GLOB SOURCES
 	nos/meta/*.cpp
 	nos/log/*.cpp
 	nos/inet/*.cpp
+	nos/input/*.cpp
 
 	nos/io/*.cpp
 	nos/io/impls/current_ostream_stdout.cpp
