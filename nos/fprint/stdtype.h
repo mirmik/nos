@@ -13,15 +13,17 @@ int nos_fprint(nos::ostream& os, const char* obj, const std::string_view & opts)
 
 int nos_fprint(nos::ostream& os, bool obj, const std::string_view & opts);
 
-int nos_fprint(nos::ostream& os, int8_t obj, const std::string_view & opts);
-int nos_fprint(nos::ostream& os, int16_t obj, const std::string_view & opts);
-int nos_fprint(nos::ostream& os, int32_t obj, const std::string_view & opts);
-int nos_fprint(nos::ostream& os, int64_t obj, const std::string_view & opts);
+int nos_fprint(nos::ostream& os, signed char obj, const std::string_view & opts);
+int nos_fprint(nos::ostream& os, signed short obj, const std::string_view & opts);
+int nos_fprint(nos::ostream& os, signed int obj, const std::string_view & opts);
+int nos_fprint(nos::ostream& os, signed long obj, const std::string_view & opts);
+int nos_fprint(nos::ostream& os, signed long long obj, const std::string_view & opts);
 
-int nos_fprint(nos::ostream& os, uint8_t obj, const std::string_view & opts);
-int nos_fprint(nos::ostream& os, uint16_t obj, const std::string_view & opts);
-int nos_fprint(nos::ostream& os, uint32_t obj, const std::string_view & opts);
-int nos_fprint(nos::ostream& os, uint64_t obj, const std::string_view & opts);
+int nos_fprint(nos::ostream& os, unsigned char obj, const std::string_view & opts);
+int nos_fprint(nos::ostream& os, unsigned short obj, const std::string_view & opts);
+int nos_fprint(nos::ostream& os, unsigned int obj, const std::string_view & opts);
+int nos_fprint(nos::ostream& os, unsigned long obj, const std::string_view & opts);
+int nos_fprint(nos::ostream& os, unsigned long long obj, const std::string_view & opts);
 
 #include <nos/io/ostream.h>
 
