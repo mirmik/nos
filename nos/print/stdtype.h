@@ -5,9 +5,14 @@
 #include <stdint.h>
 
 #include <complex>
-#include <string_view>
 
+#if __has_include(<string_view>)
 #include <string_view>
+#endif
+
+#if __has_include(<igris/buffer.h>)
+#include <igris/buffer.h>
+#endif
 
 namespace nos { class ostream; }
 
@@ -27,7 +32,13 @@ int nos_print(nos::ostream& out, uint64_t str);
 int nos_print(nos::ostream& out, float str);
 int nos_print(nos::ostream& out, double str);
 
+#if __has_include(<string_view.h>)
 int nos_print(nos::ostream& out, const std::string_view & buf);
+#endif
+
+#if __has_include(<igris/buffer.h>)
+int nos_print(nos::ostream& out, const igris::buffer & buf);
+#endif
 
 #include <nos/print.h>
 #include <vector>

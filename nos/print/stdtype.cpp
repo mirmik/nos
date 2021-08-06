@@ -12,10 +12,19 @@ int nos_print(nos::ostream& out, const char* str)
 	return out.write(str, strlen(str));
 }
 
+#if __has_include(<string_view>)
 int nos_print(nos::ostream& out, const std::string_view & buf)
 {
 	return out.write(buf.data(), buf.size());
 }
+#endif
+
+#if __has_include(<igris/buffer.h>)
+int nos_print(nos::ostream& out, const igris::buffer & buf) 
+{
+	return out.write(buf.data(), buf.size());	
+}
+#endif
 
 int nos_print(nos::ostream& out, bool obj) 		{ return nos_print(out, obj ? "true" : "false"); }
 
