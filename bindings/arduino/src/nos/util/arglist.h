@@ -12,11 +12,8 @@
 //Таким образом visitable_arglist - это средство разграничения во времени многоаргументного
 //вызова и его исполнения.
 
-//#include <memory>
-#include <utility>
-#include <string_view>
+#include <nos/util/buffer.h>
 #include <assert.h>
-#include <string_view>
 
 namespace nos
 {
@@ -41,8 +38,8 @@ namespace nos
 	struct argpair
 	{
 		void* body;
-		std::string_view name;
-		constexpr argpair(const std::string_view& _name, const T& _body) : body((void*)&_body), name(_name) {}
+		nos::buffer name;
+		constexpr argpair(const nos::buffer& _name, const T& _body) : body((void*)&_body), name(_name) {}
 	};
 
 	/**
@@ -51,8 +48,8 @@ namespace nos
 	 */
 	struct argname
 	{
-		std::string_view name;
-		constexpr argname(const std::string_view && _name) : name(_name) {};
+		nos::buffer name;
+		constexpr argname(const nos::buffer && _name) : name(_name) {};
 
 		template<typename T>
 		constexpr argpair<T> operator= (const T& body)
@@ -65,7 +62,7 @@ namespace nos
 	{
 		static inline argname operator"" _a (const char* name, size_t sz)
 		{
-			return argname(std::string_view{name, sz});
+			return argname(nos::buffer{name, sz});
 		}
 	}
 
@@ -77,17 +74,17 @@ namespace nos
 	struct visitable_argument
 	{
 		void* 		ptr;
-		const std::string_view & name;
+		const nos::buffer & name;
 		void* 		visit;
 
-		visitable_argument(void* _ptr, const std::string_view & buf, void* _visit) : 
+		visitable_argument(void* _ptr, const nos::buffer & buf, void* _visit) : 
 			ptr(_ptr), name(buf), visit(_visit) {}
 
 		template <typename Visitor, typename Object>
 		visitable_argument(const Object& obj, const Visitor& visitor)
 			: visitable_argument(
 			      (void*) & obj,
-			      std::string_view{},
+			      nos::buffer{},
 			      Visitor::template get_visit<detail::va_remove_cvref_t<Object>>())
 		{(void)visitor;}
 
@@ -136,7 +133,7 @@ namespace nos
 			return arr[num];
 		}
 
-		const visitable_argument& operator[](const std::string_view & str) const
+		const visitable_argument& operator[](const nos::buffer & str) const
 		{
 			for (uint8_t i = 0; i < N; ++i)
 			{

@@ -3,7 +3,6 @@
 #include <nos/util/arglist.h>
 #include <nos/fprint/visitor.h>
 
-#include <string_view>
 #include <ctype.h>
 
 namespace nos
@@ -57,7 +56,7 @@ namespace nos
 				count_ptr++;
 			}
 
-			varg = &list[std::string_view(fmt, len)];
+			varg = &list[nos::buffer(fmt, len)];
 		}
 		else if (isdigit(*fmt))
 		{
@@ -74,12 +73,12 @@ namespace nos
 		switch (*fmt)
 		{
 			case '}':
-				ret = nos::format_visitor::visit(*varg, out, std::string_view{});
+				ret = nos::format_visitor::visit(*varg, out, nos::buffer{});
 				break;
 
 			case ':':
 				++fmt;
-				ret = nos::format_visitor::visit(*varg, out, std::string_view{fmt, (size_t)(strchr(fmt, '}') - fmt)});
+				ret = nos::format_visitor::visit(*varg, out, nos::buffer{fmt, (size_t)(strchr(fmt, '}') - fmt)});
 				break;
 
 			case 0:

@@ -4,7 +4,9 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#if __has_include(<complex>)
 #include <complex>
+#endif
 
 #if __has_include(<string_view>)
 #include <string_view>
@@ -41,9 +43,18 @@ int nos_print(nos::ostream& out, const igris::buffer & buf);
 #endif
 
 #include <nos/print.h>
+
+#if __has_include(<vector>)
 #include <vector>
+#endif
+
+#if __has_include(<array>)
 #include <array>
+#endif
+
+#if __has_include(<list>)
 #include <list>
+#endif
 
 namespace nos
 {
@@ -63,6 +74,7 @@ namespace nos
 		}
 	};
 
+#if __has_include(<vector>)
 	template <typename T> struct print_implementation<std::vector<T>>
 	{
 		static int print_to(nos::ostream& out, const std::vector<T>& obj)
@@ -70,7 +82,9 @@ namespace nos
 			return nos::print_list_to<std::vector<T>>(out, obj);
 		}
 	};
+#endif
 
+#if __has_include(<list>)
 	template <typename T> struct print_implementation<std::list<T>>
 	{
 		static int print_to(nos::ostream& out, const std::list<T>& obj)
@@ -78,6 +92,7 @@ namespace nos
 			return nos::print_list_to<std::list<T>>(out, obj);
 		}
 	};
+#endif
 
 	template <class T0, class T1> struct print_implementation<std::pair<T0,T1>>
 	{
@@ -93,6 +108,7 @@ namespace nos
 		}
 	};
 
+#if __has_include(<array>)
 	template <typename T, size_t M> struct print_implementation<std::array<T,M>>
 	{
 		static int print_to(nos::ostream& out, const std::array<T,M>& obj)
@@ -100,7 +116,9 @@ namespace nos
 			return nos::print_list_to<std::array<T,M>>(out, obj);
 		}
 	};
+#endif
 
+#if __has_include(<complex>)
 	template <typename T> struct print_implementation<std::complex<T>>
 	{
 		static int print_to(nos::ostream& out, const std::complex<T>& obj)
@@ -117,6 +135,7 @@ namespace nos
 			return ret;
 		}
 	};
+#endif
 }
 
 #endif

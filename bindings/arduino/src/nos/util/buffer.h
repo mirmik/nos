@@ -126,11 +126,11 @@ namespace nos
 
 	};
 
-	std::ostream & operator<<(std::ostream & os, const nos::buffer & buf) 
+	/*std::ostream & operator<<(std::ostream & os, const nos::buffer & buf) 
 	{
 		os.write(buf.data(), buf.size());
 		return os;
-	}
+	}*/
 }
 
 #endif

@@ -5,7 +5,7 @@
 	@file
 */
 
-#include <string_view>
+#include <nos/util/buffer.h>
 
 namespace nos 
 {
@@ -14,7 +14,7 @@ namespace nos
 	template <typename T, bool HasNosFPrint = false, bool HasMtdFPrint = false> 
 	struct fprint_implementation_solver 
 	{
-		static int fprint_to(const T& obj, nos::ostream& os, const std::string_view & opts) {
+		static int fprint_to(const T& obj, nos::ostream& os, const nos::buffer & opts) {
 			(void) opts;
 			return nos::print_to(os, obj);
 		}	
@@ -22,14 +22,14 @@ namespace nos
 
 	template <typename T, bool HasMtdFPrint> struct fprint_implementation_solver<T, true, HasMtdFPrint> 
 	{
-		static int fprint_to(const T& obj, nos::ostream& os, const std::string_view & opts) {
+		static int fprint_to(const T& obj, nos::ostream& os, const nos::buffer & opts) {
 			return nos_fprint(adl_finder(os), obj, opts);
 		}
 	};	
 
 	template <typename T> struct fprint_implementation_solver<T, false, true> 
 	{
-		static int fprint_to(const T& obj, nos::ostream& os, const std::string_view & opts) {
+		static int fprint_to(const T& obj, nos::ostream& os, const nos::buffer & opts) {
 			return obj.fprint_to(os, opts);
 		}
 	};	

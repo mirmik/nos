@@ -112,6 +112,16 @@ namespace nos
 			return _data + _size;
 		}
 
+		const char* begin() const 
+		{
+			return _data;
+		}
+
+		const char* end() const
+		{
+			return _data + _size;
+		}
+
 		bool empty()
 		{
 			return _data == nullptr;
@@ -126,11 +136,11 @@ namespace nos
 
 	};
 
-	std::ostream & operator<<(std::ostream & os, const nos::buffer & buf) 
+	/*std::ostream & operator<<(std::ostream & os, const nos::buffer & buf) 
 	{
 		os.write(buf.data(), buf.size());
 		return os;
-	}
+	}*/
 }
 
 #endif

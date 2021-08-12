@@ -9,9 +9,14 @@ namespace nos
 }
 
 #include <nos/io/ostream.h>
+
+#if __has_include(<string_view>)
 #include <string_view>
+#endif
+
+#if __has_include(<iostream>)
 #include <iostream>
-#include <string_view>
+#endif
 
 class nos_test_ostream : public nos::ostream {};
 class nos_test_std_ostream : public std::ostream {};

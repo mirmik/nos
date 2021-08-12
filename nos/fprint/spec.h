@@ -7,7 +7,7 @@
 
 #include <string.h>
 #include <ctype.h>
-#include <string_view>
+#include <nos/util/buffer.h>
 
 namespace nos
 {
@@ -60,7 +60,7 @@ namespace nos
 
 	struct integer_spec : public basic_spec
 	{
-		integer_spec(const std::string_view & opts)
+		integer_spec(const nos::buffer & opts)
 		{
 			const char* ptr = opts.begin();
 			const char* end = opts.end();
@@ -73,7 +73,7 @@ namespace nos
 
 	struct float_spec : public basic_spec
 	{
-		float_spec(const std::string_view & opts)
+		float_spec(const nos::buffer & opts)
 		{
 			const char* ptr = opts.begin();
 			const char* end = opts.end();
@@ -86,7 +86,7 @@ namespace nos
 
 	struct text_spec : public basic_spec
 	{
-		text_spec(const std::string_view & opts)
+		text_spec(const nos::buffer & opts)
 		{
 			const char* ptr = opts.begin();
 			const char* end = opts.end();

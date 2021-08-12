@@ -6,8 +6,9 @@
 #define NOS_PRINT_PRINT_H
 
 #include <stdlib.h>
-#include <iterator>
+#if __has_include(<string_view>)
 #include <string_view>
+#endif
 
 namespace nos
 {
