@@ -134,3 +134,8 @@ std::string nos::readall_from(nos::istream& is)
 {
 	return is.readall();
 }
+
+std::string nos::readline() 
+{
+	return nos::readline(*nos::current_istream);
+}
