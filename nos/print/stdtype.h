@@ -16,6 +16,10 @@
 #include <igris/buffer.h>
 #endif
 
+#if __has_include(<igris/container/array_view.h>)
+#include <igris/container/array_view.h>
+#endif
+
 namespace nos { class ostream; }
 
 int nos_print(nos::ostream& out, const char* str);
@@ -103,9 +107,9 @@ namespace nos
 	};
 #endif
 
-	template <class T0, class T1> struct print_implementation<std::pair<T0,T1>>
+	template <class T0, class T1> struct print_implementation<std::pair<T0, T1>>
 	{
-		static int print_to(nos::ostream& out, const std::pair<T0,T1>& obj)
+		static int print_to(nos::ostream& out, const std::pair<T0, T1>& obj)
 		{
 			int res = 0;
 			res += nos::print_to(out, "{");
@@ -118,11 +122,11 @@ namespace nos
 	};
 
 #if __has_include(<array>)
-	template <typename T, size_t M> struct print_implementation<std::array<T,M>>
+	template <typename T, size_t M> struct print_implementation<std::array<T, M>>
 	{
-		static int print_to(nos::ostream& out, const std::array<T,M>& obj)
+		static int print_to(nos::ostream& out, const std::array<T, M>& obj)
 		{
-			return nos::print_list_to<std::array<T,M>>(out, obj);
+			return nos::print_list_to<std::array<T, M>>(out, obj);
 		}
 	};
 #endif
@@ -133,15 +137,25 @@ namespace nos
 		static int print_to(nos::ostream& out, const std::complex<T>& obj)
 		{
 			int ret = 0;
-			
+
 			T re = obj.real();
 			T im = obj.imag();
 
 			ret += nos::print_to(out, re);
 			ret += nos::print_to(out, im < 0 ? "-" : "+");
 			ret += nos::print_to(out, ABS(im));
-			ret += nos::print_to(out, "j");			
+			ret += nos::print_to(out, "j");
 			return ret;
+		}
+	};
+#endif
+
+#if __has_include(<igris/container/array_view.h>)
+	template <typename T> struct print_implementation<igris::array_view<T>>
+	{
+		static int print_to(nos::ostream& out, const igris::array_view<T>& obj)
+		{
+			return nos::print_list_to<igris::array_view<T>>(out, obj);
 		}
 	};
 #endif
