@@ -80,6 +80,12 @@ int nos_fprint(nos::ostream& os, const char* obj, const nos::buffer & opts)
 	return nos_fprint(os, obj, strlen(obj), spec);
 }
 
+int nos_fprint(nos::ostream& os, char* obj, const nos::buffer & opts)
+{
+	nos::text_spec spec(opts);
+	return nos_fprint(os, obj, strlen(obj), spec);
+}
+
 int nos_fprint(nos::ostream& os, bool obj, const nos::buffer & opts)
 {
 	return nos_fprint(os, obj ? "true" : "false", opts);

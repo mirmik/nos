@@ -10,6 +10,7 @@
 namespace nos { class ostream; }
 
 int nos_fprint(nos::ostream& os, const char* obj, const nos::buffer & opts);
+int nos_fprint(nos::ostream& os, char* obj, const nos::buffer & opts);
 
 int nos_fprint(nos::ostream& os, bool obj, const nos::buffer & opts);
 
