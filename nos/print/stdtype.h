@@ -19,6 +19,7 @@
 namespace nos { class ostream; }
 
 int nos_print(nos::ostream& out, const char* str);
+int nos_print(nos::ostream& out, char* str);
 int nos_print(nos::ostream& out, bool str);
 
 int nos_print(nos::ostream& out, int8_t str);
@@ -61,6 +62,14 @@ namespace nos
 	template <> struct print_implementation<const char *>
 	{
 		static int print_to(nos::ostream& out, const char* const obj)
+		{
+			return nos_print(out, obj);
+		}
+	};
+
+	template <> struct print_implementation<char *>
+	{
+		static int print_to(nos::ostream& out, char* const obj)
 		{
 			return nos_print(out, obj);
 		}

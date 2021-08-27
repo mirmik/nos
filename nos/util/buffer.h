@@ -1,27 +1,21 @@
 #ifndef NOS_UTIL_BUFFER_H
 #define NOS_UTIL_BUFFER_H
 
-#include <string_view>
-
 #include <stdint.h>
 #include <string.h>
 
-#ifdef __has_include
-	#if __has_include(<string_view>) && (__cplusplus >= 201703L)
-	#include <string_view>
-	#define HAS_STRING_VIEW 1
-	#else
-	#define HAS_STRING_VIEW 0
-	#endif
-	#if __has_include(<string>) && (__cplusplus >= 201703L)
-	#include <string>
-	#define HAS_STRING 1
-	#else
-	#define HAS_STRING 0
-	#endif
-#else
+#if __has_include(<string_view>) && (__cplusplus >= 201703L)
 #include <string_view>
 #define HAS_STRING_VIEW 1
+#else
+#define HAS_STRING_VIEW 0
+#endif
+
+#if __has_include(<string>) && (__cplusplus >= 201703L)
+#include <string>
+#define HAS_STRING 1
+#else
+#define HAS_STRING 0
 #endif
 
 namespace nos
@@ -112,7 +106,7 @@ namespace nos
 			return _data + _size;
 		}
 
-		const char* begin() const 
+		const char* begin() const
 		{
 			return _data;
 		}
@@ -128,7 +122,7 @@ namespace nos
 		}
 
 #if HAS_STRING
-		explicit operator std::string() 
+		explicit operator std::string()
 		{
 			return std::string(_data, _size);
 		}
@@ -136,7 +130,7 @@ namespace nos
 
 	};
 
-	/*std::ostream & operator<<(std::ostream & os, const nos::buffer & buf) 
+	/*std::ostream & operator<<(std::ostream & os, const nos::buffer & buf)
 	{
 		os.write(buf.data(), buf.size());
 		return os;

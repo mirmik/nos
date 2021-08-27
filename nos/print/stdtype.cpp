@@ -12,6 +12,11 @@ int nos_print(nos::ostream& out, const char* str)
 	return out.write(str, strlen(str));
 }
 
+int nos_print(nos::ostream& out, char* str) 
+{
+	return out.write(str, strlen(str));	
+}
+
 #if __has_include(<string_view>)
 int nos_print(nos::ostream& out, const std::string_view & buf)
 {
