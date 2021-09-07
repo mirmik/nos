@@ -17,7 +17,7 @@ namespace nos
 		public:
 			virtual void log(std::shared_ptr<nos::log::logmsg> logmsg);
 
-			void set_format(const std::string_view & fmt);
+			void set_format(const nos::buffer & fmt);
 			void set_level(nos::log::level lvl);
 		};
 	}

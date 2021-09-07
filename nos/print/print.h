@@ -10,6 +10,8 @@
 #include <string_view>
 #endif
 
+#include <nos/util/size.h>
+
 namespace nos
 {
 												class ostream;
@@ -42,7 +44,9 @@ namespace nos
 	template<typename Arg> 						int printptr(const Arg& arg);
 												int print_dump(const void *mem, size_t len, unsigned int columns = 8);
 
+#if __has_include(<string_view>)
 												int print_dump(const std::string_view & buf, unsigned int columns = 8);
+#endif
 
 	static inline int print(void* ptr) { return nos::printptr(ptr); }
 	static inline int print_to(nos::ostream& out, void* ptr) { return nos::printptr_to(out, ptr); }
@@ -91,19 +95,19 @@ int nos::print_list_to(nos::ostream& out, const V& vec)
 {
 	size_t ret = 0;
 	
-	if (std::size(vec) == 0) 
+	if (nos::size(vec) == 0) 
 	{
 		return out.write("{}",2);
 	}
 
 	ret += out.putbyte('{');
 
-	for (unsigned int i = 0; i < std::size(vec) - 1; ++i)
+	for (unsigned int i = 0; i < nos::size(vec) - 1; ++i)
 	{
 		ret += print_to(out, vec[i]);
 		ret += out.putbyte(',');
 	}
-		ret += print_to(out, vec[std::size(vec) - 1]);
+		ret += print_to(out, vec[nos::size(vec) - 1]);
 	ret += out.putbyte('}');
 
 	return ret;

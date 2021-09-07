@@ -14,7 +14,7 @@ const char* nos::log::level_to_string(level lvl)
 	return nullptr;
 }
 
-nos::log::level nos::log::level_from_string(const std::string_view & str)
+nos::log::level nos::log::level_from_string(const nos::buffer & str)
 {
 	if      (str == "fault") return level::fault;
 	else if (str == "error") return level::error;

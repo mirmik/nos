@@ -9,6 +9,7 @@ namespace nos
 }
 
 #include <nos/io/ostream.h>
+#include <nos/util/buffer.h>
 
 #if __has_include(<string_view>)
 #include <string_view>
@@ -44,7 +45,7 @@ namespace nos
 	private:
 		template <typename U>
 		static decltype( nos_fprint(
-				std::declval<nos_test_ostream&>(), std::declval<U>(), std::declval<std::string_view>()
+				std::declval<nos_test_ostream&>(), std::declval<U>(), std::declval<nos::buffer&>()
 			), std::true_type()) test(int);
 
 		template <typename> static std::false_type test(...);
@@ -74,7 +75,7 @@ namespace nos
 	private:
 		template <typename U>
 		static decltype( 
-				std::declval<U>().fprint_to(std::declval<nos_test_ostream&>(), std::declval<std::string_view>())
+				std::declval<U>().fprint_to(std::declval<nos_test_ostream&>(), std::declval<nos::buffer&>())
 			, std::true_type()) test(int);
 
 		template <typename> static std::false_type test(...);
