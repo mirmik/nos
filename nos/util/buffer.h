@@ -11,12 +11,12 @@
 #define HAS_STRING_VIEW 0
 #endif
 
-#if __has_include(<string>) && (__cplusplus >= 201703L)
+//#if __has_include(<string>) && (__cplusplus >= 201703L)
 #include <string>
-#define HAS_STRING 1
-#else
-#define HAS_STRING 0
-#endif
+//#define HAS_STRING 1
+//#else
+//#define HAS_STRING 0
+//#endif
 
 namespace nos
 {
@@ -44,9 +44,9 @@ namespace nos
 
 		size_t   size() const { return _size; }
 
-#if HAS_STRING
+//#if HAS_STRING
 		buffer(const std::string& str) : buffer(str.data(), str.size()) {}
-#endif
+//#endif
 
 #if HAS_STRING_VIEW
 		buffer(const std::string_view& str) : buffer(str.data(), str.size()) {}
