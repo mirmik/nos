@@ -7,15 +7,17 @@
 
 namespace nos { 
 	namespace inet {
-		struct socket : public nos::file
+		class socket : public nos::file
 		{
 			int fd;
 
+		public:
 			bool good() {
 				return fd >= 0;
 			}
 
 			socket() = default;
+			socket(int _fd) : fd(_fd) {}
 			socket(const socket& oth) = default;
 			socket(socket&& oth) = default;
 			socket& operator=(const socket& oth) = default;
@@ -35,6 +37,11 @@ namespace nos {
 			int reusing(bool en);
 			
 			int close();
+
+			bool operator == (const nos::inet::socket & oth) const { return fd == oth.fd; }
+			bool operator != (const nos::inet::socket & oth) const { return fd != oth.fd; }
+			bool operator > (const nos::inet::socket & oth) const { return fd > oth.fd; }
+			bool operator < (const nos::inet::socket & oth) const { return fd < oth.fd; }
 		};
 	}
 }
