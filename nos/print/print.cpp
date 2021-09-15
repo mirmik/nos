@@ -34,6 +34,15 @@ int nos::print_dump_to(nos::ostream& out, const void *mem, size_t len, unsigned 
 	size_t ret = 0;
 	unsigned int i, j;
 
+	if (len == 0)
+	{
+		ret += out.write("0x", 2);
+		ret += out.printptr((void*)((char*)mem));
+		ret += out.putbyte(':');
+		ret += out.println();
+		return ret;
+	}
+
 	for (i = 0; i < len + ((len % columns) ? (columns - len % columns) : 0); i++)
 	{
 		// print offset
