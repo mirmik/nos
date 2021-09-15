@@ -83,10 +83,12 @@ TEST_CASE("fprint")
 		CHECK_EQ(out, "hello");
 	}
 
+#if __has_include(<string_view>)
 	SUBCASE("format_string_view_arg")
 	{
 		std::string str = "hello";
 		std::string out = nos::format("{}", std::string_view(str));
 		CHECK_EQ(out, "hello");
 	}
+#endif
 }

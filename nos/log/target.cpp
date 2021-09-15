@@ -7,5 +7,12 @@ void nos::log::target::log(
 	nos::println("virtual log function");
 }
 
-void nos::log::target::set_format(const std::string_view & fmt) { this->fmt = (std::string)fmt; }
-void nos::log::target::set_level(nos::log::level lvl) { this->lvl = lvl; }
+void nos::log::target::set_format(const nos::buffer & fmt)
+{
+	this->fmt = std::string(fmt.data(), fmt.size());
+}
+
+void nos::log::target::set_level(nos::log::level lvl)
+{
+	this->lvl = lvl;
+}

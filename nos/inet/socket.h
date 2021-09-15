@@ -5,17 +5,23 @@
 #include <nos/io/file.h>
 #include <string.h>
 
-namespace nos { 
-	namespace inet {
-		struct socket : public nos::file
+namespace nos
+{
+	namespace inet
+	{
+		class socket : public nos::file
 		{
+		public:
 			int fd;
 
-			bool good() {
+		public:
+			bool good()
+			{
 				return fd >= 0;
 			}
 
 			socket() = default;
+			socket(int _fd) : fd(_fd) {}
 			socket(const socket& oth) = default;
 			socket(socket&& oth) = default;
 			socket& operator=(const socket& oth) = default;
@@ -33,10 +39,29 @@ namespace nos {
 			int nodelay(bool en);
 			int nonblock(bool en);
 			int reusing(bool en);
-			
+
 			int close();
+
+			bool operator == (const nos::inet::socket & oth) const { return fd == oth.fd; }
+			bool operator != (const nos::inet::socket & oth) const { return fd != oth.fd; }
+			bool operator > (const nos::inet::socket & oth) const { return fd > oth.fd; }
+			bool operator < (const nos::inet::socket & oth) const { return fd < oth.fd; }
 		};
 	}
+}
+
+namespace std
+{
+	template<> 
+	struct hash<nos::inet::socket>
+	{
+		typedef nos::inet::socket argument_type;
+		typedef std::size_t result_type;
+		result_type operator()(argument_type const& s) const
+		{
+			return std::hash<int>()(s.fd);
+		}
+	};
 }
 
 #endif
