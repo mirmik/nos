@@ -15,6 +15,7 @@ namespace nos
 		struct tcp_socket : public nos::inet::socket
 		{
 			tcp_socket() = default;
+			tcp_socket(int fd) : nos::inet::socket(fd) {}
 
 			//Копируется номер файлового дескриптора.
 			tcp_socket(const tcp_socket& oth) = default;
@@ -35,8 +36,27 @@ namespace nos
 			int read(void* data, size_t size) override;
 
 			netaddr getaddr();
+
+			using nos::inet::socket::operator==;
+			using nos::inet::socket::operator!=;
+			using nos::inet::socket::operator>;
+			using nos::inet::socket::operator<;
 		};
 	}
+}
+
+namespace std
+{
+	template<> 
+	struct hash<nos::inet::tcp_socket>
+	{
+		typedef nos::inet::tcp_socket argument_type;
+		typedef std::size_t result_type;
+		result_type operator()(argument_type const& s) const
+		{
+			return std::hash<int>()(s.fd);
+		}
+	};
 }
 
 #endif
