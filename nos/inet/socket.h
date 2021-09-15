@@ -9,6 +9,7 @@ namespace nos {
 	namespace inet {
 		class socket : public nos::file
 		{
+		public:
 			int fd;
 
 		public:
