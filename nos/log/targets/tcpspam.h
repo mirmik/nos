@@ -1,4 +1,4 @@
-#ifndef NOS_LOG_TARGETS_TCPSPAM_H
+/*ifndef NOS_LOG_TARGETS_TCPSPAM_H
 #define NOS_LOG_TARGETS_TCPSPAM_H
 
 #include <nos/log/logmsg.h>
@@ -21,3 +21,4 @@ namespace nos
 }
 
 #endif
+/

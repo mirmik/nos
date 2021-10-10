@@ -46,6 +46,8 @@ namespace nos
 			bool operator != (const nos::inet::socket & oth) const { return fd != oth.fd; }
 			bool operator > (const nos::inet::socket & oth) const { return fd > oth.fd; }
 			bool operator < (const nos::inet::socket & oth) const { return fd < oth.fd; }
+
+			virtual ~socket() = default;
 		};
 	}
 }

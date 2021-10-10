@@ -1,4 +1,4 @@
-#include <nos/log/targets/tcpspam.h>
+/*#include <nos/log/targets/tcpspam.h>
 
 #include <nos/log/tlogger.h>
 #include <nos/fprint.h>
@@ -16,3 +16,4 @@ void nos::log::tcpspam_target::log(std::shared_ptr<nos::log::logmsg> lmsg)
 	              "msg"_a = lmsg->text,
 	              "datetime"_a = buf);
 }
+*/
