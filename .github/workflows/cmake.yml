@@ -20,6 +20,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+          repository: mirmik/igris
+          
+    - name: Install igris library
+      run: |
+        git clone https://github.com/mirmik/igris
+        cd igris
+        cmake .
+        cmake --build .
+        sudo cmake --install .
+        cd ..
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
