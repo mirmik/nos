@@ -3,9 +3,9 @@
 
 //#include <iostream>
 
-#if NOS_USE_IGRIS_NUMCONVERT
+//#if NOS_USE_IGRIS_NUMCONVERT
 #include <igris/util/numconvert.h>
-#endif
+//#endif
 
 int nos_print(nos::ostream& out, const char* str)
 {
@@ -48,11 +48,11 @@ int nos_print(nos::ostream& out, unsigned long long obj){ char buf[48];	sprintf(
 int nos_print(nos::ostream& out, float obj)
 {
 	char buf[48];
-#if NOS_USE_IGRIS_NUMCONVERT
+//#if NOS_USE_IGRIS_NUMCONVERT
 	f32toa(obj, buf, 5);
-#else
-	sprintf(buf, "%f", obj);
-#endif
+//#else
+//	sprintf(buf, "%f", obj);
+//#endif
 	return nos_print(out, buf);
 }
 
@@ -60,11 +60,11 @@ int nos_print(nos::ostream& out, float obj)
 int nos_print(nos::ostream& out, double obj)
 {
 	char buf[48];
-#if NOS_USE_IGRIS_NUMCONVERT
+//#if NOS_USE_IGRIS_NUMCONVERT
 	f64toa(obj, buf, 5);
-#else
-	sprintf(buf, "%lf", obj);
-#endif
+//#else
+//	sprintf(buf, "%lf", obj);
+//#endif
 	return nos_print(out, buf);
 }
 #endif
