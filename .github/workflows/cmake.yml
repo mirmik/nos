@@ -20,11 +20,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with:
-          repository: mirmik/igris
-
+    
     - name: Install igris library
       run: |
+        git clone https://github.com/mirmik/igris
         cd igris
         cmake .
         cmake --build .
