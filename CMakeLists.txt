@@ -45,7 +45,6 @@ add_library(nos SHARED ${SOURCES})
 target_include_directories(nos_test PRIVATE . test)
 target_include_directories(nos PRIVATE .)
 target_link_libraries(nos_test nos igris)
-target_link_libraries(nos_test pthread)
 
 if (UNIX AND NOT APPLE)
 	install(TARGETS ${PROJECT_NAME}
