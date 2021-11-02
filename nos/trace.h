@@ -1,6 +1,6 @@
 /** @file */
 
-/*#ifndef NOS_TRACE_H
+#ifndef NOS_TRACE_H
 #define NOS_TRACE_H
 
 #include <nos/print.h>
@@ -85,4 +85,3 @@ namespace nos
 #endif
 
 #endif
-*/
