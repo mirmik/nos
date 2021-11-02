@@ -17,30 +17,30 @@ file(GLOB HEADERS
 	nos/**/*.h	
 )
 
-file(GLOB SOURCES 
+file(GLOB NOS_SOURCES 
 	nos/print/*.cpp	
 	nos/fprint/*.cpp
-	
 	nos/util/osutil.cpp
 	nos/util/trace.cpp
-
 	nos/meta/*.cpp
 	nos/log/*.cpp
+	nos/log/targets/*.cpp
 	nos/inet/*.cpp
 	nos/input/*.cpp
-
 	nos/io/*.cpp
 	nos/io/impls/current_ostream_stdout.cpp
-
 	nos/convert/*.cpp
 )
+
+file(GLOB NOS_SOURCES_PLUS)
+set(NOS_SOURCES ${NOS_SOURCES} ${NOS_SOURCES_PLUS} PARENT_SCOPE)
 
 file(GLOB SOURCES_TEST 
 	test/*.cpp
 )
 
 add_executable(nos_test ${SOURCES_TEST})
-add_library(nos SHARED ${SOURCES})
+add_library(nos SHARED ${NOS_SOURCES})
 
 target_include_directories(nos_test PRIVATE . test)
 target_include_directories(nos PRIVATE .)
