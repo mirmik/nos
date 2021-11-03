@@ -39,7 +39,7 @@ namespace nos
 
 			void log(level lvl, const char* fmt, const visitable_arglist& arglist) override;
 		};
-	};
+	}
 }
 
 #endif

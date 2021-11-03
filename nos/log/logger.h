@@ -29,7 +29,7 @@ namespace nos
 			template <typename ... Args> inline void error(const Args& ... args) { log(level::error, args ...); }
 			template <typename ... Args> inline void fault(const Args& ... args) { log(level::fault, args ...); }
 		};
-	};
+	}
 }
 
 #endif
