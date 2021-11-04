@@ -45,16 +45,16 @@ std::ostream& operator << ( std::ostream& os, const A& a)
 nos::println(A()); //2aA!!!
 ```
 
-2. Перегрузка функции ```ssize_t nos_print ( nos::ostream& os, const A& a )```.
+2. Перегрузка функции ```int nos_print ( nos::ostream& os, const A& a )```.
 ```c++
 struct A 
 {
 	int a = 42;
 };
 
-ssize_t nos_print ( nos::ostream& os, const A& a ) 
+int nos_print ( nos::ostream& os, const A& a ) 
 {
-	ssize_t ret = 0;
+	int ret = 0;
 	ret += os.print("A(");
 	ret += os.print(a.a); 
 	ret += os.print(")");
@@ -66,15 +66,15 @@ ssize_t nos_print ( nos::ostream& os, const A& a )
 nos::println(A()); //A(42)
 ```
 
-2. Определение метода ```ssize_t print_to (nos::ostream& os)``` const для класса.
+2. Определение метода ```int print_to (nos::ostream& os)``` const для класса.
 ```c++
 struct A 
 {
 	int a = 42;
 
-	ssize_t print_to (nos::ostream& os) const 
+	int print_to (nos::ostream& os) const 
 	{
-		ssize_t ret = 0;
+		int ret = 0;
 		ret += os.print("A(");
 		ret += os.print(a.a); 
 		ret += os.print(")");
@@ -98,9 +98,9 @@ namespace nos
 {
 	template <> struct print_implementation<A>
 	{
-		static ssize_t print_to ( nos::ostream& os, const A& a ) 
+		static int print_to ( nos::ostream& os, const A& a ) 
 		{
-			ssize_t ret = 0;
+			int ret = 0;
 			ret += os.print("A(");
 			ret += os.print(a.a); 
 			ret += os.print(")");
