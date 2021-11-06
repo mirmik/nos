@@ -26,7 +26,6 @@ jobs:
       with:
         name: libigris.so
         repo: mirmik/igris
-        path: /usr/lib/
         workflow: cmake.yml
 
     - name: Install igris library
