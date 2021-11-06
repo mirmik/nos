@@ -27,9 +27,8 @@ jobs:
         id: download
         name: libigris.so
         path: /usr/lib/libigris.so
-        repo: https://github.com/mirmik/igris
+        repo: mirmik/igris
         workflow: cmake.yml
-
 
     - name: 'Echo download path'
       run: echo ${{steps.download.outputs.download-path}}
