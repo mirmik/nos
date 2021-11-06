@@ -25,6 +25,7 @@ jobs:
       with:
         name: libigris.so
         path: /usr/lib/libigris.so
+        repo: https://github.com/mirmik/igris
     
     - name: Install igris library
       run: |
