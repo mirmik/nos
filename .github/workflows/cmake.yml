@@ -20,6 +20,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
+    - uses: actions/download-artifact@v2
+      with:
+        name: libigris.so
+        path: /usr/lib/libigris.so
     
     - name: Install igris library
       run: |
