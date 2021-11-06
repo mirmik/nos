@@ -24,14 +24,11 @@ jobs:
     - name: Download artefact
       uses: dawidd6/action-download-artifact@v2
       with:
-        id: download
         name: libigris.so
         repo: mirmik/igris
+        path: /usr/lib/libigris.so
         workflow: cmake.yml
 
-    - name: 'Echo download path'
-      run: echo ${{steps.download.outputs.download-path}}
-    
     - name: Install igris library
       run: |
         git clone https://github.com/mirmik/igris
