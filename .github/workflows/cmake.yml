@@ -26,7 +26,6 @@ jobs:
       with:
         id: download
         name: libigris.so
-        path: /usr/lib/libigris.so
         repo: mirmik/igris
         workflow: cmake.yml
 
