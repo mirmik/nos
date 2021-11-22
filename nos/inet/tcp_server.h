@@ -16,7 +16,7 @@ namespace nos {
 
             inet::tcp_socket accept();
 
-        private:
+        public:
             int init();
 			int bind(const nos::hostaddr& addr, uint16_t port);
             int listen();
