@@ -26,6 +26,9 @@ namespace nos
 
 	public:
 		serial_port() {}
+		serial_port(int fd)
+			: nos::file(fd)
+		{}
 
 		serial_port(const char * path,
 		            unsigned int baud = 9600,
@@ -46,6 +49,11 @@ namespace nos
 
 		int open(const char * path,
 		         unsigned int baud = 9600,
+		         char parity = UART_PARITY_NONE,
+		         uint8_t bytesize = 8,
+		         uint8_t stopbits = UART_STOPBITS_ONE);
+
+		int setup(unsigned int baud = 9600,
 		         char parity = UART_PARITY_NONE,
 		         uint8_t bytesize = 8,
 		         uint8_t stopbits = UART_STOPBITS_ONE);
