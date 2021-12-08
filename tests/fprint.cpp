@@ -53,6 +53,12 @@ TEST_CASE("fprint")
 		CHECK_EQ(output, "fprint aaa bbb");
 	}
 
+	SUBCASE("format_named_and_numers2")
+	{
+		auto str = nos::format("fprint {a1} {b2}", "a1"_a = "aaa", "b2"_a = "bbb");
+		CHECK_EQ(str, "fprint aaa bbb");
+	}
+
 	SUBCASE("fprint_longstring")
 	{
 		nos::fprint("123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
@@ -64,6 +70,15 @@ TEST_CASE("fprint")
 		std::string out = nos::format("format {} {} {}", "aaa", "bbb", "ccc");
 		CHECK_EQ(out, "format aaa bbb ccc");
 	}
+
+
+	SUBCASE("format cmd")
+	{
+		auto cmd = nos::format("cnc G01 {poses} {speed} {accel}",
+	                       "poses"_a = "Hello", "speed"_a = "World", "accel"_a = "!");
+		CHECK_EQ(cmd, "cnc G01 Hello World !");
+	}
+
 
 	SUBCASE("format_nan")
 	{
