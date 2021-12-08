@@ -26,6 +26,7 @@ namespace nos
 			tcp_socket& operator=(tcp_socket&& oth) = default;
 
 			tcp_socket(nos::inet::hostaddr addr, uint16_t port);
+			tcp_socket(nos::inet::netaddr naddr) : tcp_socket(naddr.addr, naddr.port) {}
 
 			//create and connect
 			int init();

@@ -1,5 +1,5 @@
-#ifndef nos_INET_TCP_SERVER_H
-#define nos_INET_TCP_SERVER_H
+#ifndef NOS_INET_TCP_SERVER_H
+#define NOS_INET_TCP_SERVER_H
 
 #include <nos/inet/tcp_socket.h>
 

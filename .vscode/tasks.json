@@ -5,11 +5,10 @@
     "tasks": [
         {
             "label": "build",
+            "command": "cmake --build .",
             "type": "shell",
-            "options": {
-                "cwd": "${workspaceRoot}/build"
-            },
-            "command": "ninja",
+            "group": "build",
+            "problemMatcher": []
         }
     ]
 }
