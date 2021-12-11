@@ -39,12 +39,14 @@ file(GLOB SOURCES_TEST
 	tests/*.cpp
 )
 
-add_executable(nos_test ${SOURCES_TEST} ${NOS_SOURCES})
 add_library(nos SHARED ${NOS_SOURCES})
+target_include_directories(nos PRIVATE . ${ADDITIONAL_INCLUDES})
 
-target_include_directories(nos_test PRIVATE . tests)
-target_include_directories(nos PRIVATE .)
-target_link_libraries(nos_test igris)
+if (!${WITHOUT_TESTS})
+	add_executable(nos_test ${SOURCES_TEST} ${NOS_SOURCES})
+	target_include_directories(nos_test PRIVATE . tests ${ADDITIONAL_INCLUDES})
+	target_link_libraries(nos_test igris)
+endif()
 
 if (UNIX AND NOT APPLE)
 	install(TARGETS ${PROJECT_NAME}
