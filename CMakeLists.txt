@@ -46,11 +46,11 @@ file(GLOB SOURCES_TEST
 add_library(nos SHARED ${NOS_SOURCES})
 target_include_directories(nos PRIVATE . ${ADDITIONAL_INCLUDES})
 
-#if (!${WITHOUT_TESTS})
+if (NOT DEFINED WITHOUT_TESTS)
 	add_executable(nos_test ${SOURCES_TEST} ${NOS_SOURCES})
 	target_include_directories(nos_test PRIVATE . tests ${ADDITIONAL_INCLUDES})
 	target_link_libraries(nos_test igris)
-#endif()
+endif()
 
 if (UNIX AND NOT APPLE)
 	install(TARGETS ${PROJECT_NAME}
