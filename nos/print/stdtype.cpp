@@ -1,12 +1,6 @@
 #include <nos/print/stdtype.h>
 #include <nos/io/ostream.h>
 
-//#include <iostream>
-
-//#if NOS_USE_IGRIS_NUMCONVERT
-#include <igris/util/numconvert.h>
-//#endif
-
 int nos_print(nos::ostream& out, const char* str)
 {
 	return out.write(str, strlen(str));
@@ -21,13 +15,6 @@ int nos_print(nos::ostream& out, char* str)
 int nos_print(nos::ostream& out, const std::string_view & buf)
 {
 	return out.write(buf.data(), buf.size());
-}
-#endif
-
-#if __has_include(<igris/buffer.h>)
-int nos_print(nos::ostream& out, const igris::buffer & buf) 
-{
-	return out.write(buf.data(), buf.size());	
 }
 #endif
 
@@ -48,11 +35,7 @@ int nos_print(nos::ostream& out, unsigned long long obj){ char buf[48];	sprintf(
 int nos_print(nos::ostream& out, float obj)
 {
 	char buf[48];
-//#if NOS_USE_IGRIS_NUMCONVERT
-	f32toa(obj, buf, 5);
-//#else
-//	sprintf(buf, "%f", obj);
-//#endif
+	sprintf(buf, "%f", obj);
 	return nos_print(out, buf);
 }
 
@@ -60,11 +43,7 @@ int nos_print(nos::ostream& out, float obj)
 int nos_print(nos::ostream& out, double obj)
 {
 	char buf[48];
-//#if NOS_USE_IGRIS_NUMCONVERT
-	f64toa(obj, buf, 5);
-//#else
-//	sprintf(buf, "%lf", obj);
-//#endif
+	sprintf(buf, "%lf", obj);
 	return nos_print(out, buf);
 }
 #endif

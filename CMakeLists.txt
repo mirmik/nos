@@ -49,7 +49,6 @@ target_include_directories(nos PRIVATE . ${ADDITIONAL_INCLUDES})
 if (NOT DEFINED WITHOUT_TESTS)
 	add_executable(nos_test ${SOURCES_TEST} ${NOS_SOURCES})
 	target_include_directories(nos_test PRIVATE . tests ${ADDITIONAL_INCLUDES})
-	target_link_libraries(nos_test igris)
 endif()
 
 if (UNIX AND NOT APPLE)
