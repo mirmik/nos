@@ -47,3 +47,8 @@ int nos_print(nos::ostream& out, double obj)
 	return nos_print(out, buf);
 }
 #endif
+
+int nos_print(nos::ostream& out, const nos::buffer & buf) 
+{
+	return out.write(buf.data(), buf.size());
+}

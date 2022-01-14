@@ -3,13 +3,27 @@
 
 #include <nos/shell/command.h>
 #include <nos/shell/argv.h>
+#include <nos/print.h>
+#include <algorithm>
 
 namespace nos 
 {
-	class executor 
+	class executor_basic 
+	{
+		virtual int execute(const nos::argv& argv, nos::ostream& os) = 0;
+		virtual int help(nos::ostream& os) = 0;  
+
+		int execute(const char * cmd, nos::ostream& os) 
+		{
+			nos::tokens tokens(cmd);
+			return execute(tokens, os);
+		}
+	}
+
+	class executor : public executor_basic 
 	{
 		std::vector<nos::command> commands;
-		std::string_view undefined_error = "Undefined command"; 
+		nos::buffer undefined_error = "Undefined command"; 
 
 	public:
 		executor(std::initializer_list<nos::command> initializer) 
@@ -21,7 +35,7 @@ namespace nos
 			commands.push_back(cmd);
 		}
 
-		int execute(const nos::argv& argv, nos::ostream& os) 
+		int execute(const nos::argv& argv, nos::ostream& os) override
 		{
 			auto it = std::find_if(commands.begin(), commands.end(), [&](const auto& cmd){
 				return cmd.name() == argv[0];
@@ -34,10 +48,12 @@ namespace nos
 			return it->execute(argv.without(1), os); 		
 		}
 
-		int execute(const char * cmd, nos::ostream& os) 
+		void help(nos::ostream& os) 
 		{
-			nos::tokens tokens(cmd);
-			return execute(tokens, os);
+			for (auto & cmd : commands) 
+			{
+				os.println(cmd.name, "-", cmd.help)
+			}
 		}
 	};
 }

@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdint.h>
+#include <nos/util/buffer.h>
 
 #if __has_include(<complex>)
 #include <complex>
@@ -31,6 +32,7 @@ int nos_print(nos::ostream& out, uint64_t str);
 int nos_print(nos::ostream& out, float str);
 int nos_print(nos::ostream& out, double str);
 
+int nos_print(nos::ostream& out, const nos::buffer & buf);
 #if __has_include(<string_view.h>)
 int nos_print(nos::ostream& out, const std::string_view & buf);
 #endif
