@@ -17,8 +17,6 @@ application("runtests",
 	ccstd="c11",
 	cxx_flags = "-g -Werror=all -Werror=pedantic -Wno-gnu-zero-variadic-macro-arguments",
 	cc_flags = "-g -Werror=all -Werror=pedantic -Wno-gnu-zero-variadic-macro-arguments",
-
-	libs = ["igris"]
 )
 
 licant.ex("runtests")

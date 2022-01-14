@@ -1,9 +1,6 @@
 #include <nos/fprint/stdtype.h>
 #include <nos/fprint/spec.h>
 
-#include <igris/util/numconvert.h>
-//#include <cstdio>
-
 int nos_fprint(nos::ostream& os,
                    const char* text,
                    int size,
@@ -107,18 +104,16 @@ int nos_fprint(nos::ostream& os, signed long obj, const nos::buffer & opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64];
-	f64toa(obj, buf, 5);
-	//int len = sprintf(buf, "%ld", obj);
-	return nos_fprint_integer_impl(os, buf, strlen(buf), spec);
+	int len = sprintf(buf, "%ld", obj);
+	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
 int nos_fprint(nos::ostream& os, signed long long obj, const nos::buffer & opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64];
-	f64toa(obj, buf, 5);
-	//int len = sprintf(buf, "%lld", obj);
-	return nos_fprint_integer_impl(os, buf, strlen(buf), spec);
+	int len = sprintf(buf, "%lld", obj);
+	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
 int nos_fprint(nos::ostream& os, unsigned char obj, const nos::buffer & opts) { return nos_fprint(os, (unsigned int)obj, opts); }

@@ -3,6 +3,29 @@
 
 #include <doctest/doctest.h>
 
+struct A { int i = 42; int print_to(nos::ostream& os) const { return os.print(i); }; };
+struct B
+{
+	int i = 42;
+
+	template <class Out>
+	int print_to(Out& os) const
+	{
+		return os.print(i);
+	}
+};
+
+struct C
+{
+	int i = 42;
+
+	template <class Out>
+	size_t print_to(Out& os) const
+	{
+		return os.print(i);
+	}
+};
+
 using namespace nos::argument_literal;
 
 TEST_CASE("fprint")
@@ -10,6 +33,24 @@ TEST_CASE("fprint")
 	std::string output;
 	nos::string_writer writer{output};
 	nos::current_ostream = &writer;
+
+	SUBCASE("fprint(A)")
+	{
+		nos::fprint("{}", A());
+		CHECK_EQ(output, "42");
+	}
+	
+	SUBCASE("fprint(B)")
+	{
+		nos::fprint("{}", B());
+		CHECK_EQ(output, "42");
+	}
+
+	SUBCASE("fprint(C)")
+	{
+		nos::fprint("{}", C());
+		CHECK_EQ(output, "42");
+	}
 
 	SUBCASE("fprint")
 	{
@@ -75,7 +116,7 @@ TEST_CASE("fprint")
 	SUBCASE("format cmd")
 	{
 		auto cmd = nos::format("cnc G01 {poses} {speed} {accel}",
-	                       "poses"_a = "Hello", "speed"_a = "World", "accel"_a = "!");
+		                       "poses"_a = "Hello", "speed"_a = "World", "accel"_a = "!");
 		CHECK_EQ(cmd, "cnc G01 Hello World !");
 	}
 

@@ -12,14 +12,6 @@
 #include <string_view>
 #endif
 
-#if __has_include(<igris/buffer.h>)
-#include <igris/buffer.h>
-#endif
-
-#if __has_include(<igris/container/array_view.h>)
-#include <igris/container/array_view.h>
-#endif
-
 namespace nos { class ostream; }
 
 int nos_print(nos::ostream& out, const char* str);
@@ -41,10 +33,6 @@ int nos_print(nos::ostream& out, double str);
 
 #if __has_include(<string_view.h>)
 int nos_print(nos::ostream& out, const std::string_view & buf);
-#endif
-
-#if __has_include(<igris/buffer.h>)
-int nos_print(nos::ostream& out, const igris::buffer & buf);
 #endif
 
 #include <nos/print.h>
@@ -146,16 +134,6 @@ namespace nos
 			ret += nos::print_to(out, ABS(im));
 			ret += nos::print_to(out, "j");
 			return ret;
-		}
-	};
-#endif
-
-#if __has_include(<igris/container/array_view.h>)
-	template <typename T> struct print_implementation<igris::array_view<T>>
-	{
-		static int print_to(nos::ostream& out, const igris::array_view<T>& obj)
-		{
-			return nos::print_list_to<igris::array_view<T>>(out, obj);
 		}
 	};
 #endif
