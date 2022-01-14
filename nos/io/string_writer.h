@@ -22,6 +22,19 @@ namespace nos {
 		}
 	};
 
+	class string_buffer : public nos::ostream {
+	private:
+		std::string _str;
+
+	public:	
+		int write(const void* ptr, size_t sz) override {
+			_str.append((char*)ptr, sz);
+			return sz;
+		}
+
+		std::string & str() { return _str; }
+	};
+
 	class cstring_writer : public nos::ostream {
 	private:
 		char* str;

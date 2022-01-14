@@ -39,6 +39,10 @@ namespace nos
 			_data((char*)data), _size(size)
 		{}
 
+		buffer(const char * data) :
+			_data((char*)data), _size(strlen(data))
+		{}
+
 		const char *  data() const { return _data; }
 		char *  data()             { return _data; }
 
