@@ -10,22 +10,32 @@ namespace nos
 {
 	class executor_basic 
 	{
+		nos::buffer undefined_error_message = "Undefined command:"; 
+
+	public:
 		virtual int execute(const nos::argv& argv, nos::ostream& os) = 0;
-		virtual int help(nos::ostream& os) = 0;  
+		virtual void help(nos::ostream& os) = 0;  
+		virtual nos::command * find(const nos::buffer& name) = 0;
 
 		int execute(const char * cmd, nos::ostream& os) 
 		{
 			nos::tokens tokens(cmd);
 			return execute(tokens, os);
 		}
-	}
+
+		void print_undefined(nos::ostream& os, const nos::buffer& name) 
+		{
+			os.println(undefined_error_message, name);
+		}
+	};
 
 	class executor : public executor_basic 
 	{
 		std::vector<nos::command> commands;
-		nos::buffer undefined_error = "Undefined command"; 
 
 	public:
+		using executor_basic::execute;
+
 		executor(std::initializer_list<nos::command> initializer) 
 			: commands(initializer.begin(), initializer.end())
 		{}
@@ -42,7 +52,7 @@ namespace nos
 			});
 			if (it == commands.end()) 
 			{
-				os.println(undefined_error);
+				print_undefined(os, argv[0]);
 				return -1;
 			}
 			return it->execute(argv.without(1), os); 		
@@ -52,9 +62,23 @@ namespace nos
 		{
 			for (auto & cmd : commands) 
 			{
-				os.println(cmd.name, "-", cmd.help)
+				os.println(cmd.name(), "-", cmd.help());
 			}
 		}
+
+		nos::command* find(const nos::buffer& name) override
+		{
+			auto it = std::find_if(commands.begin(), commands.end(), [&](const auto& cmd){
+				return name == cmd.name();
+			});
+
+			if (it == commands.end()) 
+			{
+				return nullptr;
+			}
+
+			return &*it;
+		} 
 	};
 }
 

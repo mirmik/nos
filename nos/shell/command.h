@@ -26,6 +26,7 @@ namespace nos
 		{}
 
 		const nos::buffer& name() const { return _name; }
+		const nos::buffer& help() const { return _name; }
 
 		int execute(const nos::argv& argv, nos::ostream& os) const
 		{
