@@ -11,6 +11,7 @@ file(GLOB NOS_SOURCES
 	nos/fprint/*.cpp
 	nos/util/osutil.cpp
 	nos/util/trace.cpp
+	nos/util/numconvert.cpp
 	nos/meta/*.cpp
 	nos/log/*.cpp
 	nos/log/targets/*.cpp
