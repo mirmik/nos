@@ -1,5 +1,6 @@
 #include <nos/print/stdtype.h>
 #include <nos/io/ostream.h>
+#include <nos/util/numconvert.h>
 
 int nos_print(nos::ostream& out, const char* str)
 {
@@ -22,7 +23,11 @@ int nos_print(nos::ostream& out, bool obj) 		{ return nos_print(out, obj ? "true
 
 int nos_print(nos::ostream& out, signed char obj) 	    { char buf[48]; sprintf(buf, "%d", obj);   return nos_print(out, buf); }
 int nos_print(nos::ostream& out, signed short obj) 	    { char buf[48]; sprintf(buf, "%d", obj);   return nos_print(out, buf); }
-int nos_print(nos::ostream& out, signed int obj) 	    { char buf[48];	sprintf(buf, "%d", obj);   return nos_print(out, buf); }
+int nos_print(nos::ostream& out, signed int obj) 	    { 
+	char buf[48];	
+	sprintf(buf, "%d", obj);   
+	return nos_print(out, buf); 
+}
 int nos_print(nos::ostream& out, signed long obj) 	    { char buf[48];	sprintf(buf, "%ld", obj);  return nos_print(out, buf); }
 int nos_print(nos::ostream& out, signed long long obj) 	{ char buf[48];	sprintf(buf, "%lld", obj); return nos_print(out, buf); }
 
@@ -35,18 +40,23 @@ int nos_print(nos::ostream& out, unsigned long long obj){ char buf[48];	sprintf(
 int nos_print(nos::ostream& out, float obj)
 {
 	char buf[48];
-	sprintf(buf, "%f", obj);
+	__nos_ftoa(obj, buf, 5);
 	return nos_print(out, buf);
 }
 
-#ifndef WITHOUT_FLOAT64
 int nos_print(nos::ostream& out, double obj)
 {
 	char buf[48];
-	sprintf(buf, "%lf", obj);
+	__nos_dtoa(obj, buf, 5);
 	return nos_print(out, buf);
 }
-#endif
+
+int nos_print(nos::ostream& out, long double obj)
+{
+	char buf[48];
+	__nos_ldtoa(obj, buf, 5);
+	return nos_print(out, buf);
+}
 
 int nos_print(nos::ostream& out, const nos::buffer & buf) 
 {

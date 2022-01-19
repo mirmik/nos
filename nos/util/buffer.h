@@ -23,13 +23,15 @@ namespace nos
 	class buffer
 	{
 	private:
-		char * _data;
-		size_t _size;
+		char * _data = nullptr;
+		size_t _size = 0;
 
 	public:
-		buffer() :
-			_data(nullptr), _size(0)
-		{}
+		buffer() = default;
+		buffer(const buffer & oth) = default;
+		buffer(buffer && oth) = default;
+		buffer& operator=(const buffer & oth) = default;
+		buffer& operator=(buffer && oth) = default;
 
 		buffer(char * data, size_t size) :
 			_data(data), _size(size)
@@ -124,14 +126,6 @@ namespace nos
 		{
 			return _data == nullptr;
 		}
-
-#if HAS_STRING
-		explicit operator std::string()
-		{
-			return std::string(_data, _size);
-		}
-#endif
-
 	};
 
 	/*std::ostream & operator<<(std::ostream & os, const nos::buffer & buf)

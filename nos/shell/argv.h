@@ -15,10 +15,17 @@ namespace nos
 		int offset = 0;
 
 	public:
+		tokens() = default;
+		tokens(const tokens&) = default;
+		tokens(tokens&&) = default;
+		tokens& operator=(const tokens&) = default;
+		tokens& operator=(tokens&&) = default;
+
 		tokens(nos::buffer buffer) : 
 			data(buffer.data(), buffer.size()) 
 		{
-			parse();
+			if (data.size())
+				parse();
 		}
 		
 		nos::buffer operator[](int i) 
@@ -49,10 +56,10 @@ namespace nos
 		void parse() 
 		{
 			char * rest;
-			char * token = strtok_r((char*)data.data(), delims, &rest);
+			char * token = strtok_r((char*)data.c_str(), delims, &rest);
  
 		    while (token != NULL) {
-		    	list.emplace_back(std::string_view(token));
+		    	list.push_back(nos::buffer(token));
         		token = strtok_r(NULL, delims, &rest);
     		}
 		}		
@@ -64,6 +71,12 @@ namespace nos
 		size_t _size;
 
 	public:
+		argv() = default;
+		argv(const argv&) = default;
+		argv(argv&&) = default;
+		argv& operator=(const argv&) = default;
+		argv& operator=(argv&&) = default;
+
 		argv(const tokens& args) : list(args.first()), _size(args.size()) {}
 		argv(const nos::buffer * buf, size_t sz) : list(buf), _size(sz) {}
 
@@ -79,7 +92,18 @@ namespace nos
 
 		size_t size() const
 		{ 
-			return _size; }
+			return _size; 
+		}
+
+		const nos::buffer * begin() const
+		{
+			return list;
+		}
+
+		const nos::buffer * end() const 
+		{
+			return list + _size;
+		}
 	};
 }
 

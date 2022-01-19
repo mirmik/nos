@@ -8,5 +8,6 @@
 #include <nos/print/stdtype.h>
 
 #define PRINT(arg) nos::println(#arg ":", arg)
+#define PRINTTO(os, arg) nos::println_to(os, #arg ":", arg)
 
 #endif

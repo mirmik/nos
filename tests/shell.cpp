@@ -20,8 +20,8 @@ TEST_CASE("shell")
 int hello(const nos::argv& argv, nos::ostream& os) 
 {
 	os.print("lalala");
-	CHECK_EQ(argv[0], "a");
-	CHECK_EQ(argv.size(), 1);
+	CHECK_EQ(argv[1], "a");
+	CHECK_EQ(argv.size(), 2);
 	return 0;
 }
 
@@ -49,6 +49,15 @@ int df(const nos::argv& argv, nos::ostream& os)
 	return 0;
 }
 
+TEST_CASE("tokens") 
+{
+	char * cmd = strdup("hello a");
+	auto tokens = nos::tokens(cmd);
+	CHECK_EQ(tokens[0], "hello");
+	CHECK_EQ(tokens[1], "a");
+	free(cmd);
+}
+
 TEST_CASE("executor") 
 {
 	char * cmd = strdup("hello a");
@@ -58,8 +67,14 @@ TEST_CASE("executor")
 		{ "hello", "help example", hello }
 	});
 
-	executor.execute(nos::tokens(cmd), answer);
+	auto tokens = nos::tokens(cmd);
+	auto argv = nos::argv(tokens);
+	CHECK_EQ(tokens.size(), 2);
+	CHECK_EQ(argv.size(), 2);
+
+	executor.execute(tokens, answer);
 	CHECK_EQ(answer.str(), "lalala");
+	free(cmd);
 }
 
 
