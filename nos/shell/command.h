@@ -1,7 +1,7 @@
 #ifndef NOS_SHELL_COMMAND_H
 #define NOS_SHELL_COMMAND_H
 
-#include <igris/event/delegate.h>
+#include <nos/util/delegate.h>
 #include <nos/io/ostream.h>
 
 namespace nos 
@@ -12,13 +12,13 @@ namespace nos
 	{
 		nos::buffer _name;
 		nos::buffer _help;
-		igris::delegate<int, const nos::argv&, nos::ostream&> _func;
+		nos::delegate<int, const nos::argv&, nos::ostream&> _func;
 		
 	public:
 		command(
 			nos::buffer name, 
 			nos::buffer help, 
-			igris::delegate<int, const nos::argv&, nos::ostream&> func) 
+			nos::delegate<int, const nos::argv&, nos::ostream&> func) 
 		:
 			_name(name),
 			_help(help),
