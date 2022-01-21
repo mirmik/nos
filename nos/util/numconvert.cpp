@@ -1,5 +1,6 @@
 #include <string.h>
 #include <math.h>
+#include <nos/util/numconvert.h>
 
 #define MAX_PRECISION (10)
 static const double rounders[MAX_PRECISION + 1] = {
