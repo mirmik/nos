@@ -22,6 +22,19 @@ namespace nos {
 		}
 	};
 
+	class string_buffer : public nos::ostream {
+	private:
+		std::string _str;
+
+	public:	
+		int write(const void* ptr, size_t sz) override {
+			_str.append((char*)ptr, sz);
+			return sz;
+		}
+
+		std::string & str() { return _str; }
+	};
+
 	class cstring_writer : public nos::ostream {
 	private:
 		char* str;
@@ -33,6 +46,24 @@ namespace nos {
 			memcpy(str, ptr, sz);
 			str += sz;
 			return sz;
+		}
+	};
+
+	class buffer_writer : public nos::ostream {
+	private:
+		char* str;
+		size_t len;
+
+	public:
+		buffer_writer(char* _str, int _room) : str(_str), len(_room) {}
+		buffer_writer(char* _str, size_t _room) : str(_str), len(_room) {}
+	
+		int write(const void* ptr, size_t sz) override {
+			int l = sz < len ? sz : len;
+			memcpy(str, ptr, l);
+			str += l;
+			len -= l;
+			return l;
 		}
 	};
 }

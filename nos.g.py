@@ -5,6 +5,7 @@ licant.module("nos.util",
 	sources=[
 		"trace.cpp",
 		"osutil.cpp",
+		"numconvert.cpp"
 	],
 )
 

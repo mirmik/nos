@@ -43,7 +43,6 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 
-igris_test
 tests/runtests
 ltest/runtests
 test/runtests_installed

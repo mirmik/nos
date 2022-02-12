@@ -13,12 +13,10 @@ application("runtests",
 	include_paths = ["."],
 	mdepends = [ "nos" ],
 
-	cxxstd="c++20",
+	cxxstd="c++2a",
 	ccstd="c11",
 	cxx_flags = "-g -Werror=all -Werror=pedantic -Wno-gnu-zero-variadic-macro-arguments",
 	cc_flags = "-g -Werror=all -Werror=pedantic -Wno-gnu-zero-variadic-macro-arguments",
-
-	libs = ["igris"]
 )
 
 licant.ex("runtests")

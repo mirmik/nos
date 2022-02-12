@@ -2,14 +2,14 @@
 #include <nos/io/string_writer.h>
 #include <doctest/doctest.h>
 
-struct A { int i = 42; ssize_t print_to(nos::ostream& os) const { return os.print(i); }; };
+struct A { int i = 42; int print_to(nos::ostream& os) const { return os.print(i); }; };
 struct B { int i = 42; };
 struct C { int i = 42; };
 struct D { int i = 42; };
 
-ssize_t nos_print(nos::ostream& os, const B& b) { return os.print(b.i); }
+int nos_print(nos::ostream& os, const B& b) { return os.print(b.i); }
 std::ostream& operator << (std::ostream& os, const C& c) { return os << c.i; }
-namespace nos { template <> struct print_implementation<D> { static ssize_t print_to(nos::ostream& out, const D& d) { return out.print(d.i); } }; }
+namespace nos { template <> struct print_implementation<D> { static int print_to(nos::ostream& out, const D& d) { return out.print(d.i); } }; }
 
 
 TEST_CASE("fprint")
