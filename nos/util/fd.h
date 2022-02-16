@@ -9,7 +9,7 @@ namespace nos
 {
 	namespace osutil
 	{
-		static int nonblock(int fd, bool en)
+		static int nonblock(int, bool)
 		{
                         /*if (fd < 0) return -1;
 			int flags = fcntl(fd, F_GETFL, 0);
