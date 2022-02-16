@@ -5,7 +5,7 @@ licant.module("nos.util",
 	sources=[
 		"trace.cpp",
 		"osutil.cpp",
-		"numconvert.cpp"
+		"nos_numconvert.cpp"
 	],
 )
 
@@ -67,7 +67,7 @@ licant.module("nos.fprint",
 	srcdir="nos/fprint", 
 	sources=[
 		"fprint.cpp",
-		"stdtype.cpp",
+		"fstdtype.cpp",
 	],
 	mdepends=["nos.current_ostream"]
 )
