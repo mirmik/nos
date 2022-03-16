@@ -23,6 +23,9 @@ namespace nos
 			memset(_data, ' ', cols * rows);
 		}
 
+		circular_textframe(const circular_textframe&) = delete;
+		circular_textframe& operator=(const circular_textframe&) = delete;
+
 		void fixup()
 		{
 			while (cursor_col >= cols) { cursor_col -= cols; ++cursor_row; }

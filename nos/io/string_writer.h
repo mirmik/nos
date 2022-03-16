@@ -24,7 +24,7 @@ namespace nos {
 
 	class string_buffer : public nos::ostream {
 	private:
-		std::string _str;
+		std::string _str = {};
 
 	public:	
 		int write(const void* ptr, size_t sz) override {
