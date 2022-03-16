@@ -46,6 +46,8 @@ namespace nos
 	 *	Класс имени аргумента, используется как временный объект,
 	 *  порождающий объект именованного аргумента argpair. 
 	 */
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Weffc++"
 	struct argname
 	{
 		nos::buffer name;
@@ -57,6 +59,7 @@ namespace nos
 			return argpair<T>(name, body);
 		}
 	};
+	#pragma GCC diagnostic pop
 
 	namespace argument_literal
 	{

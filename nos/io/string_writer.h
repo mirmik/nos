@@ -41,7 +41,9 @@ namespace nos {
 
 	public:
 		cstring_writer(char* _str) : str(_str) {}
-	
+		cstring_writer(const cstring_writer& _str) = default;
+		cstring_writer& operator=(const cstring_writer& _str) = default;
+
 		int write(const void* ptr, size_t sz) override {
 			memcpy(str, ptr, sz);
 			str += sz;
@@ -57,6 +59,8 @@ namespace nos {
 	public:
 		buffer_writer(char* _str, int _room) : str(_str), len(_room) {}
 		buffer_writer(char* _str, size_t _room) : str(_str), len(_room) {}
+		buffer_writer(const buffer_writer& _str) = default;
+		buffer_writer& operator=(const buffer_writer&) = default;
 	
 		int write(const void* ptr, size_t sz) override {
 			int l = sz < len ? sz : len;

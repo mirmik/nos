@@ -12,7 +12,7 @@ namespace nos
 	class file : public nos::iostream
 	{
 	protected:
-		int m_fd;
+		int m_fd=-1;
 
 	public:
 		file(int fd) : m_fd(fd) {}
