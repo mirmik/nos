@@ -24,6 +24,7 @@ namespace nos
 			level minlevel = level::trace;
 
 		public:
+			tlogger() = default;
 			tlogger(const std::string& _name);
 
 			void link(target* tgt);
