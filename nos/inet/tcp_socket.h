@@ -89,37 +89,9 @@ namespace nos
 			tcp_client(const tcp_client& oth) = default;
 			tcp_client& operator=(const tcp_client& oth) = default;
 
-			int write(const void* data, size_t size) override 
-			{
-				int sts = tcp_socket::write(data, size);
-				if (sts < 0) 
-				{
-					throw nos::inet::tcp_write_error();
-				}
-				return sts;
-			}
-
-			int read(void* data, size_t size) override 
-			{
-				int sts = tcp_socket::read(data, size);
-				if (sts < 0) 
-				{
-					throw nos::inet::tcp_read_error();
-				}
-				return sts;
-			}
-
-			int connect(nos::inet::hostaddr addr, uint16_t port)
-			{
-				init();
-			
-				int sts = socket::connect(addr, port, PF_INET);
-				if (sts < 0) 
-				{
-					throw nos::inet::tcp_connect_error();
-				}
-				return sts;
-			}
+			int write(const void* data, size_t size) override; 
+			int read(void* data, size_t size) override;
+			int connect(nos::inet::hostaddr addr, uint16_t port);
 		};
 	}
 }
