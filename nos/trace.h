@@ -10,17 +10,21 @@ namespace nos
 {
     extern thread_local unsigned int trace_level;
 
-    struct tracer
+    class tracer
     {
-        const char* func;
-        void* retptr;
-        void* visit;
+    public:
+        const char* func=nullptr;
+        void* retptr=nullptr;
+        void* visit=nullptr;
 
         tracer(const char* func)
         {
             this->func = func;
             ++trace_level;
         }
+
+        tracer(const tracer&) = default;
+        tracer& operator=(const tracer&) = default;       
 
         void print_out()
         {

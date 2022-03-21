@@ -22,7 +22,7 @@ licant.cxx_shared_library(target,
 		"nos.input",
 	],
 
-	cxx_flags = '-fPIC',
+	cxx_flags = '-fPIC -Weffc++',
 	cc_flags = '-fPIC',
 )
 

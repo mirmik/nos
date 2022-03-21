@@ -15,6 +15,7 @@ namespace nos
 		{
 		public:
 			virtual void log(level lvl, const char* fmt, const visitable_arglist& arglist) = 0;
+			virtual ~logger() = default;
 
 			template <typename ... Args>
 			inline void log(level lvl, const char* fmt, const Args& ... args)

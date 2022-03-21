@@ -12,9 +12,10 @@ namespace nos
 		{
 		protected:
 			std::string fmt = "[{level}]{logger}: {msg}";
-			nos::log::level lvl;
+			nos::log::level lvl = {};
 
 		public:
+			virtual ~target() = default;
 			virtual void log(std::shared_ptr<nos::log::logmsg> logmsg);
 
 			void set_format(const nos::buffer & fmt);

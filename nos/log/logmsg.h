@@ -16,10 +16,10 @@ namespace nos
 		class logmsg
 		{
 		public:
-			nos::log::tlogger * logger; 
-			level lvl;
-			std::string text;
-			std::tm timestamp;
+			nos::log::tlogger * logger=nullptr; 
+			level lvl={};
+			std::string text={};
+			std::tm timestamp={};
 
 		public:
 			logmsg(
@@ -33,6 +33,9 @@ namespace nos
 				text(std::move(str)),
 				timestamp(timestamp)
 			{}
+
+			logmsg(const logmsg&) = default;
+			logmsg& operator= (const logmsg&) = default;
 		};
 	}
 }

@@ -9,8 +9,8 @@ namespace nos
 {
 	class tokens 
 	{
-		std::string data;
-		std::vector<nos::buffer> list;
+		std::string data = {};
+		std::vector<nos::buffer> list = {};
 		const char * delims = " \t\n";
 		int offset = 0;
 

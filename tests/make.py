@@ -13,7 +13,7 @@ application("runtests",
 	include_paths = ["."],
 	mdepends = [ "nos" ],
 
-	cxxstd="c++2a",
+	cxxstd="c++2a -Weffc++",
 	ccstd="c11",
 	cxx_flags = "-g -Werror=all -Werror=pedantic -Wno-gnu-zero-variadic-macro-arguments",
 	cc_flags = "-g -Werror=all -Werror=pedantic -Wno-gnu-zero-variadic-macro-arguments",

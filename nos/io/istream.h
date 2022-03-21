@@ -57,6 +57,7 @@ namespace nos
 		}
 
 		virtual int read(void* ptr, size_t sz) = 0;
+		virtual ~istream() = default;
 	};
 }
 

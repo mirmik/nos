@@ -9,7 +9,7 @@ namespace nos
 	class hostaddr
 	{
 	public:
-		uint32_t addr;
+		uint32_t addr=0;
 		hostaddr() : addr(0) {}
 		hostaddr(uint32_t addr_) : addr(addr_) {}
 

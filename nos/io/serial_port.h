@@ -19,10 +19,10 @@ namespace nos
 {
 	class serial_port : public nos::file
 	{
-		unsigned int baud;
-		char parity;
-		uint8_t bytesize;
-		uint8_t stopbits;
+		unsigned int baud=9600;
+		char parity='n';
+		uint8_t bytesize=0;
+		uint8_t stopbits=0;
 
 	public:
 		serial_port() {}
