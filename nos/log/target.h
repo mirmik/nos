@@ -16,7 +16,7 @@ namespace nos
 
 		public:
 			virtual ~target() = default;
-			virtual void log(std::shared_ptr<nos::log::logmsg> logmsg);
+			virtual void log(std::shared_ptr<nos::log::logmsg> logmsg) = 0;
 
 			void set_format(const nos::buffer & fmt);
 			void set_level(nos::log::level lvl);
