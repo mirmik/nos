@@ -12,6 +12,7 @@ file(GLOB NOS_SOURCES
 	nos/util/osutil.cpp
 	nos/util/trace.cpp
 	nos/util/numconvert.cpp
+	nos/util/nos_numconvert.cpp
 	nos/util/string.cpp
 	nos/meta/*.cpp
 	nos/log/*.cpp
