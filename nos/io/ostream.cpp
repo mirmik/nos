@@ -6,7 +6,7 @@ int nos::ostream::fill(char c, size_t len)
 	size_t _len = len;
 	while (_len--)
 	{
-		putchar(c);
+		this->putbyte(c);
 	}
 
 	return len;

@@ -6,6 +6,7 @@
 */
 
 #include <nos/fprint/visitor.h>
+#include <nos/fprint/stdtype.h>
 #include <nos/print/print.h>
 #include <nos/io/string_writer.h>
 

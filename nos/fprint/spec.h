@@ -73,12 +73,20 @@ namespace nos
 
 	struct float_spec : public basic_spec
 	{
+		int after_dot = -1;
+
 		float_spec(const nos::buffer & opts)
 		{
 			const char* ptr = opts.begin();
 			const char* end = opts.end();
 			while (ptr != end)
 			{
+				if (*ptr == '.') 
+				{
+					ptr++;
+					after_dot = strtoul(ptr, (char**)&ptr, 10);		
+					continue;			
+				}
 				ptr = analyze(ptr);
 			}
 		}
