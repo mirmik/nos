@@ -7,13 +7,48 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <exception>
 
 namespace nos
 {
 	namespace inet
 	{
-		struct tcp_socket : public nos::inet::socket
+		class tcp_stream_error : public std::exception
 		{
+		public:
+			const char * what() const noexcept override
+			{
+				return "tcp_stream_error";
+			}
+		};
+
+		class tcp_write_error : public tcp_stream_error 
+		{
+			const char * what() const noexcept override
+			{
+				return "tcp_write_error";
+			}
+		};
+
+		class tcp_read_error : public tcp_stream_error 
+		{
+			const char * what() const noexcept override
+			{
+				return "tcp_read_error";
+			}
+		};
+
+		class tcp_connect_error : public tcp_stream_error 
+		{
+			const char * what() const noexcept override
+			{
+				return "tcp_connect_error";
+			}
+		};
+
+		class tcp_socket : public nos::inet::socket
+		{
+		public:
 			tcp_socket() = default;
 			tcp_socket(int fd) : nos::inet::socket(fd) {}
 
@@ -42,6 +77,21 @@ namespace nos
 			using nos::inet::socket::operator!=;
 			using nos::inet::socket::operator>;
 			using nos::inet::socket::operator<;
+		};
+
+		class tcp_client : public tcp_socket
+		{
+		public:
+			tcp_client() 
+			{}
+			
+			tcp_client(int fd) : tcp_socket(fd) {}
+			tcp_client(const tcp_client& oth) = default;
+			tcp_client& operator=(const tcp_client& oth) = default;
+
+			int write(const void* data, size_t size) override; 
+			int read(void* data, size_t size) override;
+			int connect(nos::inet::hostaddr addr, uint16_t port);
 		};
 	}
 }

@@ -51,7 +51,7 @@ namespace nos
         //Соответствует истине и будет работать только в G++
         union method_union
         {
-            mtd_t method;
+            mtd_t method = {};
             struct
             {
                 union
@@ -70,10 +70,10 @@ namespace nos
     protected:
         union
         {
-            obj_t object;
+            obj_t object = {};
             void *external_object;
         };
-        method_union method;
+        method_union method = {};
 
     public:
         void clean()

@@ -9,6 +9,9 @@ int nos::serial_port::open(const char * path,
                                 uint8_t bytesize,
                                 uint8_t stopbits)
 {
+	(void) bytesize;
+	(void) stopbits;
+
 	int ret;
 
 	int fd = nos::file::open(path, O_RDWR | O_NOCTTY);
@@ -93,6 +96,9 @@ int nos::serial_port::setup(
                                 uint8_t bytesize,
                                 uint8_t stopbits)
 {
+	(void) bytesize;
+	(void) stopbits;
+
 	int ret;
 	int fd = nos::file::fd();
 

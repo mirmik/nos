@@ -74,6 +74,7 @@ namespace nos
 		int printptr(const void* ptr);
 
 		virtual int flush() { return 0; }
+		virtual ~ostream() = default;
 	};
 }
 

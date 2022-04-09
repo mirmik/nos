@@ -15,15 +15,16 @@ namespace nos
 		class tlogger : public nos::log::logger
 		{
 		private:
-			std::vector<nos::log::target*> targets;
+			std::vector<nos::log::target*> targets={};
 
 		public:
-			std::string name;
+			std::string name={};
 
 			std::string pattern = "[{level}]{logger}: {msg}";
 			level minlevel = level::trace;
 
 		public:
+			tlogger() = default;
 			tlogger(const std::string& _name);
 
 			void link(target* tgt);

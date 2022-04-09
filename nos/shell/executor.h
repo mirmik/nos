@@ -15,6 +15,7 @@ namespace nos
 	public:
 		virtual void help(nos::ostream& os) = 0;  
 		virtual nos::command * find(const nos::buffer& name) = 0;
+		virtual ~executor_basic() = default;
 
 		int execute(const char * cmd, nos::ostream& os) 
 		{

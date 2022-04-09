@@ -10,7 +10,7 @@ namespace nos
 	class buffered_file : public nos::iostream
 	{
 	protected:
-		FILE* filp;
+		FILE* filp=nullptr;
 
 	public:
 		buffered_file(FILE* f) : filp(f) {}
@@ -19,6 +19,9 @@ namespace nos
 		{
 			open(path, mode);
 		}
+
+		buffered_file(const buffered_file&) = default;
+		buffered_file& operator= (const buffered_file&) = default;		
 
 		int write(const void* ptr, size_t sz) override
 		{

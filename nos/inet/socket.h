@@ -12,7 +12,7 @@ namespace nos
 		class socket : public nos::file
 		{
 		public:
-			int fd;
+			int fd=-1;
 
 		public:
 			bool good()
