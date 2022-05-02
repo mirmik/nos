@@ -15,17 +15,17 @@ void hexascii_decode(const void *indata, int size, void *out);
 
 __END_DECLS
 
-CONSTEXPR static inline uint8_t hex2half(char c)
+constexpr static inline uint8_t hex2half(char c)
 {
     return (uint8_t)(c <= '9' ? c - '0' : c - 'A' + 10);
 }
 
-CONSTEXPR static inline char half2hex(uint8_t n)
+constexpr static inline char half2hex(uint8_t n)
 {
     return (char)(n < 10 ? '0' + n : 'A' - 10 + n);
 }
 
-CONSTEXPR static inline uint8_t hex2byte(char hi, char lo)
+constexpr static inline uint8_t hex2byte(char hi, char lo)
 {
     return (uint8_t)((hex2half(hi) << 4) + hex2half(lo));
 }
