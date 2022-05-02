@@ -6,10 +6,6 @@
 #define NOS_PRINT_PRINT_H
 
 #include <stdlib.h>
-#if __has_include(<string_view>)
-#include <string_view>
-#endif
-
 #include <nos/util/size.h>
 
 namespace nos
@@ -43,10 +39,6 @@ namespace nos
 	template<typename ... Args> 				int printhexln(const Args& ... args);
 	template<typename Arg> 						int printptr(const Arg& arg);
 												int print_dump(const void *mem, size_t len, unsigned int columns = 8);
-
-#if __has_include(<string_view>)
-												int print_dump(const std::string_view & buf, unsigned int columns = 8);
-#endif
 
 	static inline int print(void* ptr) { return nos::printptr(ptr); }
 	static inline int print_to(nos::ostream& out, void* ptr) { return nos::printptr_to(out, ptr); }

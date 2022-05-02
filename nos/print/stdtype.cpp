@@ -12,13 +12,6 @@ int nos_print(nos::ostream& out, char* str)
 	return out.write(str, strlen(str));	
 }
 
-#if __has_include(<string_view>)
-int nos_print(nos::ostream& out, const std::string_view & buf)
-{
-	return out.write(buf.data(), buf.size());
-}
-#endif
-
 int nos_print(nos::ostream& out, bool obj) 		{ return nos_print(out, obj ? "true" : "false"); }
 
 int nos_print(nos::ostream& out, signed char obj) 	    { char buf[48]; __nos_itoa(obj, buf, 10); return nos_print(out, buf); }
