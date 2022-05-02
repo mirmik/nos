@@ -46,7 +46,7 @@ namespace nos
 	{
 		size_t ret = 0;
 		ret += fprint_to(out, args ...);
-		ret += println_to(*current_ostream);
+		ret += println_to(out);
 		return ret;
 	}
 
