@@ -6,6 +6,7 @@
 */
 
 #include <nos/util/buffer.h>
+#include <nos/meta.h>
 
 namespace nos 
 {

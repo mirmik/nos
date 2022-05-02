@@ -1,6 +1,7 @@
 #ifndef NOS_SHELL_ARGV_H
 #define NOS_SHELL_ARGV_H
 
+#include <nos/util/strtok.h>
 #include <nos/util/buffer.h>
 #include <string.h>
 #include <vector>
@@ -56,11 +57,11 @@ namespace nos
 		void parse() 
 		{
 			char * rest;
-			char * token = strtok_r((char*)data.c_str(), delims, &rest);
+			char * token = nos_strtok_r((char*)data.c_str(), delims, &rest);
  
 		    while (token != NULL) {
 		    	list.push_back(nos::buffer(token));
-        		token = strtok_r(NULL, delims, &rest);
+        		token = nos_strtok_r(NULL, delims, &rest);
     		}
 		}		
 	};

@@ -78,6 +78,12 @@ int nos_fprint(nos::ostream& os, const char* obj, const nos::buffer & opts)
 	return nos_fprint(os, obj, strlen(obj), spec);
 }
 
+int nos_fprint(nos::ostream& os, const std::string& obj, const nos::buffer & opts)
+{
+	nos::text_spec spec(opts);
+	return nos_fprint(os, obj.data(), obj.size(), spec);
+}
+
 int nos_fprint(nos::ostream& os, char* obj, const nos::buffer & opts)
 {
 	nos::text_spec spec(opts);
@@ -140,4 +146,21 @@ int nos_fprint(nos::ostream& os, unsigned long long int obj, const nos::buffer &
 	char buf[64];
 	int len = sprintf(buf, "%llu", obj);
 	return nos_fprint_integer_impl(os, buf, len, spec);
+}
+
+int nos_fprint(nos::ostream& os, double obj, const nos::buffer & opts)
+{
+	int len;
+	nos::float_spec spec(opts);
+	char buf[64];
+	if (spec.after_dot != -1)
+		len = sprintf(buf, "%.*lf", spec.after_dot, obj);
+	else
+		len = sprintf(buf, "%lf", obj);
+	return nos_fprint(os, buf, len, spec);
+}
+
+int nos_fprint(nos::ostream& os, float obj, const nos::buffer & opts)
+{
+	return nos_fprint(os, static_cast<double>(obj), opts);
 }
