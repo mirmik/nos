@@ -5,8 +5,7 @@
 @file
 */
 
-#include <igris/compiler.h>
-#include <igris/util/access.h>
+#include <nos/util/access.h>
 #include <stdint.h>
 
 __BEGIN_DECLS
