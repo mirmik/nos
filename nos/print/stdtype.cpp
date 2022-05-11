@@ -23,11 +23,13 @@ int nos_print(nos::ostream& out, bool obj) 		{ return nos_print(out, obj ? "true
 
 int nos_print(nos::ostream& out, signed char obj) 	    { char buf[48]; __nos_itoa(obj, buf, 10); return nos_print(out, buf); }
 int nos_print(nos::ostream& out, signed short obj) 	    { char buf[48]; __nos_itoa(obj, buf, 10); return nos_print(out, buf); }
-int nos_print(nos::ostream& out, signed int obj) 	    { 
-	char buf[48];	
-	sprintf(buf, "%d", obj);   
-	return nos_print(out, buf); 
+int nos_print(nos::ostream& out, signed int obj) 	    
+{ 
+	char buf[48]; 
+	__nos_itoa(obj, buf, 10); 
+	return nos_print(out, buf);
 }
+
 int nos_print(nos::ostream& out, signed long obj) 	    { char buf[48];	__nos_itoa(obj, buf, 10); return nos_print(out, buf); }
 int nos_print(nos::ostream& out, signed long long obj) 	{ char buf[48];	__nos_itoa(obj, buf, 10); return nos_print(out, buf); }
 
