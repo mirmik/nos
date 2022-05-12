@@ -123,13 +123,13 @@ TEST_CASE("fprint")
 
 	SUBCASE("format_nan")
 	{
-		std::string out = nos::format("{}", std::nan(""));
+		std::string out = nos::format("{}", std::nan("fsdfasf"));
 		CHECK_EQ(out, "nan");
 	}
 
 	SUBCASE("format_nanf")
 	{
-		std::string out = nos::format("{}", std::nanf(""));
+		std::string out = nos::format("{}", std::nanf("afdsfasd"));
 		CHECK_EQ(out, "nan");
 	}
 

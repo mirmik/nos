@@ -28,14 +28,14 @@ char *__nos_ftoa(float f, char *buf, int8_t precision)
     if (isinf(f))
     {
         *buf++ = f > 0 ? '+' : '-';
-        return strcpy(buf, "inf");
-        ;
+        strcpy(buf, "inf");
+        return buf + strlen(buf);
     }
 
     if (isnan(f))
     {
-        return strcpy(buf, "nan");
-        ;
+        strcpy(buf, "nan");
+        return buf + strlen(buf);
     }
 
     // check precision bounds
@@ -123,7 +123,7 @@ char *__nos_ftoa(float f, char *buf, int8_t precision)
     // terminating zero
     *ptr = 0;
 
-    return buf;
+    return ptr;
 }
 
 char *__nos_dtoa(double f, char *buf, int8_t precision)
