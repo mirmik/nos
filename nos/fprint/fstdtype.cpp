@@ -153,10 +153,16 @@ int nos_fprint(nos::ostream& os, double obj, const nos::buffer & opts)
 	int len;
 	nos::float_spec spec(opts);
 	char buf[64+1];
-	if (spec.after_dot != -1)
-		len = snprintf(buf, sizeof(buf)-1, "%.*lf", spec.after_dot, obj);
-	else
-		len = snprintf(buf, sizeof(buf)-1, "%lf", obj);
+	if (spec.after_dot != -1) 
+	{
+//		len = snprintf(buf, sizeof(buf)-1, "%.*lf", spec.after_dot, obj);
+		len = __nos_dtoa(obj, buf, spec.after_dot);
+	}
+	else 
+	{
+//		len = snprintf(buf, sizeof(buf)-1, "%lf", obj);
+		len = __nos_dtoa(obj, buf, 10);
+	}
 	return nos_fprint(os, buf, len, spec);
 }
 
