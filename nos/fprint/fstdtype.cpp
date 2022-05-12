@@ -102,7 +102,7 @@ int nos_fprint(nos::ostream& os, signed int obj, const nos::buffer & opts)
 	nos::integer_spec spec(opts);
 	char buf[64+1];
 	//char * end = i32toa(obj, buf, 10);
-	int len = snprintf(buf, sizeof(buf), "%d", obj);
+	int len = snprintf(buf, sizeof(buf)-1, "%d", obj);
 	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
@@ -110,7 +110,7 @@ int nos_fprint(nos::ostream& os, signed long obj, const nos::buffer & opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64+1];
-	int len = snprintf(buf, sizeof(buf), "%ld", obj);
+	int len = snprintf(buf, sizeof(buf)-1, "%ld", obj);
 	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
@@ -118,7 +118,7 @@ int nos_fprint(nos::ostream& os, signed long long obj, const nos::buffer & opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64+1];
-	int len = snprintf(buf, sizeof(buf), "%lld", obj);
+	int len = snprintf(buf, sizeof(buf)-1, "%lld", obj);
 	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
@@ -128,7 +128,7 @@ int nos_fprint(nos::ostream& os, unsigned int obj, const nos::buffer & opts)
 {
 	nos::integer_spec spec(opts);
 	char buf[64+1];
-	int len = snprintf(buf, sizeof(buf), "%u", obj);
+	int len = snprintf(buf, sizeof(buf)-1, "%u", obj);
 	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
@@ -136,7 +136,7 @@ int nos_fprint(nos::ostream& os, unsigned long int obj, const nos::buffer & opts
 {
 	nos::integer_spec spec(opts);
 	char buf[64+1];
-	int len = snprintf(buf, sizeof(buf), "%lu", obj);
+	int len = snprintf(buf, sizeof(buf)-1, "%lu", obj);
 	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
@@ -144,7 +144,7 @@ int nos_fprint(nos::ostream& os, unsigned long long int obj, const nos::buffer &
 {
 	nos::integer_spec spec(opts);
 	char buf[64+1];
-	int len = snprintf(buf, sizeof(buf), "%llu", obj);
+	int len = snprintf(buf, sizeof(buf)-1, "%llu", obj);
 	return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
@@ -154,9 +154,9 @@ int nos_fprint(nos::ostream& os, double obj, const nos::buffer & opts)
 	nos::float_spec spec(opts);
 	char buf[64+1];
 	if (spec.after_dot != -1)
-		len = snprintf(buf, sizeof(buf), "%.*lf", spec.after_dot, obj);
+		len = snprintf(buf, sizeof(buf)-1, "%.*lf", spec.after_dot, obj);
 	else
-		len = snprintf(buf, sizeof(buf), "%lf", obj);
+		len = snprintf(buf, sizeof(buf)-1, "%lf", obj);
 	return nos_fprint(os, buf, len, spec);
 }
 
