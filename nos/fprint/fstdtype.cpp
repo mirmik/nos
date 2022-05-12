@@ -1,5 +1,6 @@
 #include <nos/fprint/stdtype.h>
 #include <nos/fprint/spec.h>
+#include <nos/util/numconvert.h>
 
 int nos_fprint(nos::ostream& os,
                    const char* text,
@@ -156,12 +157,12 @@ int nos_fprint(nos::ostream& os, double obj, const nos::buffer & opts)
 	if (spec.after_dot != -1) 
 	{
 //		len = snprintf(buf, sizeof(buf)-1, "%.*lf", spec.after_dot, obj);
-		len = __nos_dtoa(obj, buf, spec.after_dot);
+		len = __nos_dtoa(obj, buf, spec.after_dot) - buf;
 	}
 	else 
 	{
 //		len = snprintf(buf, sizeof(buf)-1, "%lf", obj);
-		len = __nos_dtoa(obj, buf, 10);
+		len = __nos_dtoa(obj, buf, 10) - buf;
 	}
 	return nos_fprint(os, buf, len, spec);
 }
