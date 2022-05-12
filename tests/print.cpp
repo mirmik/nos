@@ -62,4 +62,15 @@ TEST_CASE("fprint")
 		nos::print(std::make_pair(33, 55));
 		CHECK_EQ(output, "{33,55}");
 	}
+
+	SUBCASE("print.numeric") 
+	{
+		nos::print(std::numeric_limits<double>::max());
+		nos::print(std::numeric_limits<double>::min());
+		nos::print(std::numeric_limits<double>::lowest());
+
+		nos::print(std::numeric_limits<float>::max());
+		nos::print(std::numeric_limits<float>::min());
+		nos::print(std::numeric_limits<float>::lowest());
+	}
 }
