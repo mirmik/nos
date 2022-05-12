@@ -147,4 +147,23 @@ TEST_CASE("fprint")
 		CHECK_EQ(out, "hello");
 	}
 #endif
+
+	SUBCASE("fprint.numeric") 
+	{
+		nos::fprint("{}", std::numeric_limits<double>::max());
+		nos::fprint("{}", std::numeric_limits<double>::min());
+		nos::fprint("{}", std::numeric_limits<double>::lowest());
+
+		nos::fprint("{}", std::numeric_limits<float>::max());
+		nos::fprint("{}", std::numeric_limits<float>::min());
+		nos::fprint("{}", std::numeric_limits<float>::lowest());
+
+		nos::fprint("{:.3}", std::numeric_limits<double>::max());
+		nos::fprint("{:.3}", std::numeric_limits<double>::min());
+		nos::fprint("{:.3}", std::numeric_limits<double>::lowest());
+
+		nos::fprint("{:.3}", std::numeric_limits<float>::max());
+		nos::fprint("{:.3}", std::numeric_limits<float>::min());
+		nos::fprint("{:.3}", std::numeric_limits<float>::lowest());
+	}
 }
