@@ -1,11 +1,15 @@
 #include <nos/inet/tcp_socket.h>
-
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-
 #include <fcntl.h>
 #include <unistd.h>
+
+#ifdef __WIN32__
+#   include <winsock2.h>
+#   include <ws2tcpip.h>
+#else
+#   include <netinet/in.h>
+#   include <netinet/tcp.h>
+#   include <arpa/inet.h>
+#endif
 
 nos::inet::tcp_socket::tcp_socket(nos::inet::hostaddr addr, uint16_t port)
     : tcp_socket()
@@ -36,7 +40,7 @@ int nos::inet::tcp_socket::read(void *data, size_t size)
 
 int nos::inet::socket::send(const void *data, size_t size, int flags)
 {
-    return ::send(fd, data, size, flags);
+    return ::send(fd, (const char *)data, size, flags);
 }
 
 int nos::inet::socket::recv(char *data, size_t size, int flags)
@@ -57,12 +61,14 @@ nos::inet::netaddr nos::inet::tcp_socket::getaddr()
 
 int nos::inet::socket::clean()
 {
+#ifndef __WIN32__
     char buf[16];
     int ret;
     do
     {
         ret = recv(buf, 16, MSG_DONTWAIT);
     } while (ret > 0);
+#endif
     return 0;
 }
 

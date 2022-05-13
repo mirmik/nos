@@ -1,11 +1,15 @@
 #include <nos/inet/tcp_server.h>
-
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <arpa/inet.h>
-
 #include <unistd.h>
 #include <fcntl.h>
+
+#ifdef __WIN32__
+#	include <winsock2.h>
+#	include <ws2tcpip.h>
+#else
+#	include <netinet/in.h>
+#	include <netinet/tcp.h>
+#	include <arpa/inet.h>
+#endif
 
 nos::inet::tcp_server::tcp_server(const nos::inet::hostaddr& addr, uint16_t port, int conn)
 {

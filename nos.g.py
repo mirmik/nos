@@ -1,12 +1,24 @@
 import licant
 
+licant.module("nos.osutil", "unix", default=sys.platform=="linux",
+	sources = [
+		"nos/util/osutil_unix.cpp"
+	]
+)
+
+licant.module("nos.osutil", "windows", default=sys.platform=="win32",
+	sources = [
+		"nos/util/osutil_windows.cpp"
+	]
+)
+
 licant.module("nos.util",
 	srcdir="nos/util", 
 	sources=[
 		"trace.cpp",
-		"osutil.cpp",
 		"nos_numconvert.cpp"
 	],
+	mdepends=["nos.osutil"]
 )
 
 licant.module("nos.io",
@@ -30,7 +42,7 @@ licant.module("nos.log",
 )
 
 licant.module("nos.serial_port",
-	sources=["nos/io/serial_port.cpp"]
+	sources=["nos/io/serial_port.cpp"] if sys.platform!="win32" else []
 )
 
 licant.module("nos.inet",

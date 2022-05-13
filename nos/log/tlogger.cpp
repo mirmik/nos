@@ -21,7 +21,11 @@ void nos::log::tlogger::log(nos::log::level lvl, std::string&& msg)
 	struct tm  local_time;
 
 	::time(&current_time);
+#ifndef __WIN32__
 	::localtime_r(&current_time, &local_time);
+#else
+	::localtime_s(&local_time, &current_time);
+#endif
 
 	std::shared_ptr<nos::log::logmsg> logmsg
 	    = std::make_shared<nos::log::logmsg>

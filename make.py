@@ -24,6 +24,7 @@ licant.cxx_shared_library(target,
 
 	cxx_flags = '-fPIC -Weffc++ -Wall -Wextra',
 	cc_flags = '-fPIC',
+	libs=["ws2_32"],
 )
 
 licant.install.install_library(tgt="install", libtgt=target, headers="nos", hroot="nos")
