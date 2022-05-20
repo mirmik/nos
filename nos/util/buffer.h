@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <string.h>
+#include <cstring>
 
 #if __has_include(<string_view>) && (__cplusplus >= 201703L)
 #include <string_view>
@@ -125,6 +126,16 @@ namespace nos
 		bool empty()
 		{
 			return _data == nullptr;
+		}
+
+		uint32_t to_uint32(uint8_t base=10) const
+		{
+			return strtoul(_data, nullptr, base);
+		}
+
+		uint64_t to_uint64(uint8_t base=10) const
+		{
+			return strtoull(_data, nullptr, base);
 		}
 	};
 
