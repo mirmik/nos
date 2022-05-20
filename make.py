@@ -5,6 +5,7 @@ import licant
 import licant.install
 import shutil
 import os
+import sys
 
 licant.execute("nos.g.py")
 
@@ -24,6 +25,7 @@ licant.cxx_shared_library(target,
 
 	cxx_flags = '-fPIC -Weffc++ -Wall -Wextra',
 	cc_flags = '-fPIC',
+	libs=["ws2_32"] if sys.platform=="win32" else [],
 )
 
 licant.install.install_library(tgt="install", libtgt=target, headers="nos", hroot="nos")

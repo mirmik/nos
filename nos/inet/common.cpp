@@ -1,14 +1,14 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-//#ifdef _WIN32
-//#	include <winsock2.h>
-//#	include <ws2tcpip.h>
-//#else
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <arpa/inet.h>
-//#endif
+#ifdef __WIN32__
+#	include <winsock2.h>
+#	include <ws2tcpip.h>
+#else
+#	include <netinet/in.h>
+#	include <netinet/tcp.h>
+#	include <arpa/inet.h>
+#endif
 
 #include <errno.h>
 
@@ -23,13 +23,17 @@
 #define NOS_WARNINGS 0
 #endif
 
+#ifdef __WIN32__
+typedef unsigned short sa_family_t;
+#define SHUT_RDWR 2
+#endif
+
 int nos::inet::socket::nonblock(bool en)
 {
 	int ret = nos::osutil::nonblock(fd, en);
 	if (NOS_WARNINGS && ret < 0) {
 		perror("warn: socket::nonblock");
 	}
-
 	return ret;
 }
 
