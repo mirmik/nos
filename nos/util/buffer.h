@@ -126,6 +126,11 @@ namespace nos
 		{
 			return _data == nullptr;
 		}
+
+		std::string to_string() const
+		{
+			return std::string(_data, _size);
+		}
 	};
 
 	/*std::ostream & operator<<(std::ostream & os, const nos::buffer & buf)

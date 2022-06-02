@@ -14,7 +14,7 @@ namespace nos
 {
 	namespace inet
 	{
-		struct tcp_client : public nos::inet::socket, public nos::iostream
+		struct old_tcp_client : public nos::inet::socket, public nos::iostream
 		{
 			hostaddr addr;
 			int port;
