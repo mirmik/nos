@@ -24,6 +24,10 @@ file(GLOB NOS_SOURCES
 	nos/convert/*.cpp
 )
 
+if (UNIX) 
+file(GLOB NOS_SOURCES ${NOS_SOURCES} nos/util/osutil_unix.cpp)
+endif()
+
 file(GLOB NOS_SOURCES_PLUS)
 
 file(GLOB SOURCES_TEST 
