@@ -15,6 +15,7 @@ licant.module("nos.osutil", "windows", default=sys.platform=="win32",
 licant.module("nos.util",
 	srcdir="nos/util", 
 	sources=[
+		"string.cpp",
 		"trace.cpp",
 		"nos_numconvert.cpp"
 	],
