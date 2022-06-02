@@ -13,6 +13,7 @@
 
 //#if __has_include(<string>) && (__cplusplus >= 201703L)
 #include <string>
+#include <nos/util/numconvert.h>
 //#define HAS_STRING 1
 //#else
 //#define HAS_STRING 0
@@ -130,6 +131,11 @@ namespace nos
 		std::string to_string() const
 		{
 			return std::string(_data, _size);
+		}
+
+		int to_int(int base) const 
+		{
+			return std::stoi(std::string(_data, base));
 		}
 	};
 
