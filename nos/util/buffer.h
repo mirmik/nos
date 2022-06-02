@@ -133,9 +133,9 @@ namespace nos
 			return std::string(_data, _size);
 		}
 
-		int to_int(int base) const 
+		int to_int() const 
 		{
-			return std::stoi(std::string(_data, base));
+			return std::stoi(std::string(_data, _size));
 		}
 	};
 
