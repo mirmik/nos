@@ -2,7 +2,7 @@
 #define NOS_IO_BUFFERED_FILE_H
 
 #include <nos/io/iostream.h>
-#include <nos/util/fd.h>
+#include <nos/util/osutil.h>
 
 namespace nos
 {
