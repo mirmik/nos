@@ -77,6 +77,7 @@ int nos::inet::tcp_client::write(const void *data, size_t size)
     int sts = tcp_socket::write(data, size);
     if (sts < 0)
     {
+        _is_connected = false;
         throw nos::inet::tcp_write_error();
     }
     return sts;
@@ -87,6 +88,7 @@ int nos::inet::tcp_client::read(void *data, size_t size)
     int sts = tcp_socket::read(data, size);
     if (sts < 0)
     {
+        _is_connected = false;
         throw nos::inet::tcp_read_error();
     }
     return sts;
@@ -100,6 +102,18 @@ int nos::inet::tcp_client::connect(nos::inet::hostaddr addr, uint16_t port)
     if (sts < 0)
     {
         throw nos::inet::tcp_connect_error();
+    }
+    _is_connected = true;
+    return sts;
+}
+
+int nos::inet::tcp_client::disconnect()
+{
+    int sts = socket::close();
+    _is_connected = false;
+    if (sts < 0)
+    {
+        throw nos::inet::tcp_disconnect_error();
     }
     return sts;
 }

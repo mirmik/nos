@@ -46,6 +46,14 @@ namespace nos
 			}
 		};
 
+		class tcp_disconnect_error : public tcp_stream_error 
+		{
+			const char * what() const noexcept override
+			{
+				return "tcp_disconnect_error";
+			}
+		};
+
 		class tcp_socket : public nos::inet::socket
 		{
 		public:
@@ -79,8 +87,10 @@ namespace nos
 			using nos::inet::socket::operator<;
 		};
 
-		class tcp_client : public tcp_socket
+		class tcp_client : protected tcp_socket
 		{
+			bool _is_connected;
+
 		public:
 			tcp_client() 
 			{}
@@ -92,6 +102,8 @@ namespace nos
 			int write(const void* data, size_t size) override; 
 			int read(void* data, size_t size) override;
 			int connect(nos::inet::hostaddr addr, uint16_t port);
+			int disconnect();
+			bool is_connected() const { return _is_connected; }
 		};
 	}
 }

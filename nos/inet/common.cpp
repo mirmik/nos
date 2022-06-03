@@ -59,6 +59,9 @@ int nos::inet::socket::reusing(bool en)
 
 int nos::inet::socket::init(int domain, int type, int proto)
 {
+	if (fd != -1)
+		close();
+
 	fd = ::socket(domain, type, proto);
 	if (NOS_WARNINGS && fd < 0) {
 		perror("warn: socket::init");
@@ -130,6 +133,7 @@ int nos::inet::socket::close()
 		perror("warn: socket::close");
 	} 
 
+	fd = -1;
 	return sts;
 }
 

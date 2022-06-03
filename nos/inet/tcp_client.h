@@ -1,4 +1,4 @@
-#ifndef NOS_INET_TCPCLIENT_H
+/*#ifndef NOS_INET_TCPCLIENT_H
 #define NOS_INET_TCPCLIENT_H
 
 #include <nos/io/iostream.h>
@@ -55,3 +55,4 @@ namespace nos
 }
 
 #endif
+*/
