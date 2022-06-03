@@ -15,17 +15,21 @@ file(GLOB NOS_SOURCES
 	nos/util/nos_numconvert.cpp
 	nos/util/string.cpp
 	nos/meta/*.cpp
-	nos/log/*.cpp
-	nos/log/targets/*.cpp
-	nos/inet/*.cpp
 	nos/input/*.cpp
-	nos/io/*.cpp
 	nos/io/impls/current_ostream_stdout.cpp
 	nos/convert/*.cpp
+	nos/io/ostream.cpp
+	nos/io/istream.cpp
+	nos/io/stdfile.cpp
 )
 
 if (UNIX) 
-file(GLOB NOS_SOURCES ${NOS_SOURCES} nos/util/osutil_unix.cpp)
+file(GLOB NOS_SOURCES ${NOS_SOURCES} 
+	nos/util/osutil_unix.cpp
+	nos/inet/*.cpp
+	nos/log/*.cpp
+	nos/log/targets/*.cpp
+)
 endif()
 
 file(GLOB NOS_SOURCES_PLUS)
@@ -33,6 +37,12 @@ file(GLOB NOS_SOURCES_PLUS)
 file(GLOB SOURCES_TEST 
 	tests/*.cpp
 )
+
+if (UNIX) 
+file(GLOB SOURCES_TEST ${SOURCES_TEST} 
+	tests/unix/*.cpp
+)
+endif()
 
 if(${CMAKE_PROJECT_NAME} STREQUAL ${PROJECT_NAME})	
 	set( CMAKE_VERBOSE_MAKEFILE on )

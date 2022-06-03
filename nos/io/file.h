@@ -3,8 +3,6 @@
 
 #include <nos/io/iostream.h>
 #include <nos/util/fd.h>
-#include <unistd.h>
-#include <fcntl.h>
 
 namespace nos
 {
@@ -24,12 +22,12 @@ namespace nos
 
 		int write(const void* ptr, size_t sz) override
 		{
-			return ::write(m_fd, ptr, sz);
+			return nos::osutil::write(m_fd, ptr, sz);
 		}
 
 		int read(void* ptr, size_t sz) override
 		{
-			return ::read(m_fd, ptr, sz);
+			return nos::osutil::read(m_fd, ptr, sz);
 		}
 
 		bool good()
@@ -39,7 +37,7 @@ namespace nos
 
 		int open(const char * path, int mode)
 		{
-			m_fd = ::open(path, mode);
+			m_fd = nos::osutil::open(path, mode);
 			return m_fd;
 		}
 
@@ -50,7 +48,7 @@ namespace nos
 
 		int close()
 		{
-			return ::close(m_fd);
+			return nos::osutil::close(m_fd);
 		}
 
 		int fd() const

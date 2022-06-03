@@ -8,12 +8,12 @@
 #include <nos/util/access.h>
 #include <stdint.h>
 
-__BEGIN_DECLS
+/*__BEGIN_DECLS
 
 void hexascii_encode(const void *indata, int size, void *out);
 void hexascii_decode(const void *indata, int size, void *out);
 
-__END_DECLS
+__END_DECLS*/
 
 constexpr static inline uint8_t hex2half(char c)
 {
