@@ -1,3 +1,5 @@
+#warning "Deprecated include: nos/inet/tcp_client.h"
+
 /*#ifndef NOS_INET_TCPCLIENT_H
 #define NOS_INET_TCPCLIENT_H
 
