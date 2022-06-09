@@ -87,7 +87,7 @@ namespace nos
 			using nos::inet::socket::operator<;
 		};
 
-		class tcp_client : protected tcp_socket
+		class tcp_client : public tcp_socket
 		{
 			bool _is_connected;
 
