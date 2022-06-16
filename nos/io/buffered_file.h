@@ -1,6 +1,7 @@
 #ifndef NOS_IO_BUFFERED_FILE_H
 #define NOS_IO_BUFFERED_FILE_H
 
+#include <string>
 #include <nos/io/iostream.h>
 #include <nos/util/fd.h>
 
@@ -15,9 +16,15 @@ namespace nos
 	public:
 		buffered_file(FILE* f) : filp(f) {}
 		buffered_file() : filp(nullptr) {}
+		
 		buffered_file(const char * path, const char * mode)
 		{
 			open(path, mode);
+		}
+
+		buffered_file(const std::string& path, const std::string& mode)
+		{
+			open(path.c_str(), mode.c_str());
 		}
 
 		buffered_file(const buffered_file&) = default;
