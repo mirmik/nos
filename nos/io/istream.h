@@ -56,6 +56,15 @@ namespace nos
 			return nos::read_paired(*this, buf, buflen, a, b, ignore);
 		}
 
+		std::string read(size_t size) 
+		{
+			std::string ret;
+			ret.resize(size);
+			size_t readlen = read(&ret[0], size);
+			ret.resize(readlen);
+			return ret;
+		}
+
 		virtual int read(void* ptr, size_t sz) = 0;
 		virtual ~istream() = default;
 	};
