@@ -28,7 +28,11 @@ licant.module("nos.io",
 		"istream.cpp",
 		"ostream.cpp"
 	],
-	mdepends=["nos.current_ostream"]
+	mdepends=[
+		"nos.current_ostream",
+		"nos.print",
+		"nos.input",
+	]
 )
 
 licant.module("nos.log",
