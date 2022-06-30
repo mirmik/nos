@@ -19,6 +19,8 @@ namespace nos
 		int write_upper(const void* ptr, size_t sz);
 		int write_lower(const void* ptr, size_t sz);
 		
+		int put(uint8_t byte) { return write(&byte, 1); }
+
 		template<typename ... Args>
 		int print(const Args& ... args);
 
@@ -28,7 +30,6 @@ namespace nos
 			print(arg);
 			return *this;
 		}
-
 
 		template<typename ... Args>
 		int println(const Args& ... args);
