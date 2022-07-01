@@ -2,7 +2,6 @@
 #include <nos/serialize/deserialize.h>
 #include <doctest/doctest.h>
 #include <nos/io/sstream.h>
-#include <nos/shell/rpc.h>
 
 class TestSerializeObject 
 {
@@ -24,6 +23,17 @@ public:
 TEST_CASE("serialize") 
 {
     nos::stringstream sstr;
+
+    SUBCASE("A") 
+    {
+        nos::serialize_to<int>(sstr, 12);
+        CHECK_EQ(sstr.str().size(), 4);
+        CHECK_EQ(sstr.str()[0], 12);
+        CHECK_EQ(sstr.str()[1], 0);
+        CHECK_EQ(sstr.str()[2], 0);
+        CHECK_EQ(sstr.str()[3], 0);
+    }
+
     SUBCASE("A") 
     {
         nos::serialize_to<int>(sstr, 12);

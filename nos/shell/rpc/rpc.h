@@ -3,6 +3,8 @@
 
 #include <nos/serialize/serialize.h>
 #include <nos/serialize/deserialize.h>
+#include <nos/binary/bytearray.h>
+#include <nos/io/bytearray_ostream.h>
 #include <tuple>
 #include <functional>
 
@@ -16,37 +18,29 @@ namespace nos
     };
 
     template <class Ret>
-    class remote_call_answer 
+    struct remote_call_answer 
     {
-        uint8_t error;
-        Ret answer;
+        int16_t errorcode;
+        Ret object;
+
+        template <class Reflector>
+        void reflect(Reflector& op) 
+        {
+            op(errorcode);
+            op(object);
+        }
     };
 
     template <class Id, class ... Args>
-    std::string serialize_bind(const Id& id, const Args& ... args) 
+    nos::bytearray serialize_remote_call(const Id& id, const Args& ... args) 
     {
         std::tuple<const Args& ...> tuple_args(args ...);
-        nos::stringstream ret;
-        nos::serialize_to(ret, id);
-        nos::serialize_to(ret, tuple_args);
-        return ret.str();
+        nos::bytearray array;
+        nos::bytearray_ostream writer(array);
+        nos::serialize_to(writer, id);
+        nos::serialize_to(writer, tuple_args);
+        return array;
     }
-
-    template <class R, class ... Args >
-    class serialized_bind_invoker 
-    {
-        std::function<R(Args...)> foo;
-
-    public:
-        serialized_bind_invoker(const std::function<R(Args...)>& foo) : foo(foo) {}
-
-        void operator()(nos::ostream& input, nos::istream& output) 
-        {
-            std::tuple<Args...> args = nos::deserialize_from<std::tuple<Args...>>(input);
-            R ret = std::invoke(foo, args);
-            nos::serialize_to<R>(output, ret);
-        }
-    };
 
     template <class Id>
     class rpc_socket 

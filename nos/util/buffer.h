@@ -14,6 +14,7 @@
 //#if __has_include(<string>) && (__cplusplus >= 201703L)
 #include <string>
 #include <nos/util/numconvert.h>
+#include <nos/binary/bytearray.h>
 //#define HAS_STRING 1
 //#else
 //#define HAS_STRING 0
@@ -51,9 +52,8 @@ namespace nos
 
 		size_t   size() const { return _size; }
 
-//#if HAS_STRING
 		buffer(const std::string& str) : buffer(str.data(), str.size()) {}
-//#endif
+		buffer(const nos::bytearray& str) : buffer((char*)str.data(), str.size()) {}
 
 #if HAS_STRING_VIEW
 		buffer(const std::string_view& str) : buffer(str.data(), str.size()) {}

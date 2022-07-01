@@ -1,9 +1,22 @@
 #ifndef NOS_SERIALIZE_H
 #define NOS_SERIALIZE_H
 
+#include <nos/binary/bytearray.h>
 #include <nos/io/ostream.h>
+#include <nos/io/bytearray_ostream.h>
 #include <cstdint>
 #include <string>
+#include <tuple>
+
+#define SERIALIZE_HELPER_NUMERIC(T)                           \
+template <> struct serialize_helper<T>                        \
+{                                                             \
+    static void serialize_to(nos::ostream& os, T obj)         \
+    {                                                         \
+        os.write(&obj, sizeof(T));                            \
+    }                                                         \
+}
+
 
 namespace nos
 {
@@ -33,15 +46,17 @@ namespace nos
         }    
     };
 
-    template <> struct serialize_helper<uint8_t > { static void serialize_to(nos::ostream& os, const uint8_t & obj) { os.write(&obj, 1); } };
-    template <> struct serialize_helper<uint16_t> { static void serialize_to(nos::ostream& os, const uint16_t& obj) { os.write(&obj, 2); } };
-    template <> struct serialize_helper<uint32_t> { static void serialize_to(nos::ostream& os, const uint32_t& obj) { os.write(&obj, 4); } };
-    template <> struct serialize_helper<uint64_t> { static void serialize_to(nos::ostream& os, const uint64_t& obj) { os.write(&obj, 8); } };
-
-    template <> struct serialize_helper<int8_t > { static void serialize_to(nos::ostream& os, const int8_t & obj) { os.write(&obj, 1); } };
-    template <> struct serialize_helper<int16_t> { static void serialize_to(nos::ostream& os, const int16_t& obj) { os.write(&obj, 2); } };
-    template <> struct serialize_helper<int32_t> { static void serialize_to(nos::ostream& os, const int32_t& obj) { os.write(&obj, 4); } };
-    template <> struct serialize_helper<int64_t> { static void serialize_to(nos::ostream& os, const int64_t& obj) { os.write(&obj, 8); } };
+    SERIALIZE_HELPER_NUMERIC(char);
+    SERIALIZE_HELPER_NUMERIC(signed char);
+    SERIALIZE_HELPER_NUMERIC(signed short);
+    SERIALIZE_HELPER_NUMERIC(signed int);
+    SERIALIZE_HELPER_NUMERIC(signed long);
+    SERIALIZE_HELPER_NUMERIC(signed long long);
+    SERIALIZE_HELPER_NUMERIC(unsigned char);
+    SERIALIZE_HELPER_NUMERIC(unsigned short);
+    SERIALIZE_HELPER_NUMERIC(unsigned int);
+    SERIALIZE_HELPER_NUMERIC(unsigned long);
+    SERIALIZE_HELPER_NUMERIC(unsigned long long);
 
     // TODO: что делать с размерами типов float и double?
     template <> struct serialize_helper<float > { static void serialize_to(nos::ostream& os, const float & obj) { os.write(&obj, sizeof(float)); } };
@@ -59,10 +74,40 @@ namespace nos
         } 
     };
 
+    template <typename... Args>
+    struct serialize_helper<std::tuple<Args...>>
+    {
+        using Tuple = std::tuple<Args...>;
+
+        template <typename std::size_t... I>
+        static void serialize_to(
+            nos::ostream& keeper, 
+            const Tuple &tpl,
+            std::index_sequence<I...>)
+        {
+            int ___[] = {(nos::serialize_to(keeper, std::get<I>(tpl)), 0)...};
+            (void)___;
+        }
+
+        static void serialize_to(nos::ostream& keeper, const Tuple &tpl)
+        {
+            serialize_to(keeper, tpl, std::index_sequence_for<Args...>{});
+        }
+    };
+
     template <class T> 
     void serialize_to(nos::ostream& os, const T& obj) 
     {
         serialize_helper<T>::serialize_to(os, obj);
+    }
+
+    template <class T> 
+    nos::bytearray serialize(const T& obj) 
+    {
+        nos::bytearray array;
+        nos::bytearray_ostream writer(array);
+        serialize_to(writer, obj);
+        return array;
     }
 }
 
