@@ -3,7 +3,7 @@
 
 #include <string>
 #include <nos/io/iostream.h>
-#include <nos/util/fd.h>
+#include <nos/util/osutil.h>
 
 namespace nos
 {
