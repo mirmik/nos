@@ -24,12 +24,19 @@ file(GLOB NOS_SOURCES
 )
 
 if (UNIX) 
-file(GLOB NOS_SOURCES ${NOS_SOURCES} 
-	nos/util/osutil_unix.cpp
-	nos/inet/*.cpp
-	nos/log/*.cpp
-	nos/log/targets/*.cpp
-)
+	file(GLOB NOS_SOURCES ${NOS_SOURCES} 
+		nos/util/osutil_unix.cpp
+		nos/inet/*.cpp
+		nos/log/*.cpp
+		nos/log/targets/*.cpp
+	)
+endif()
+
+if (WIN32) 
+	file(GLOB NOS_SOURCES ${NOS_SOURCES} 
+		nos/util/osutil_windows.cpp
+		nos/inet/*.cpp
+	)
 endif()
 
 file(GLOB NOS_SOURCES_PLUS)
@@ -56,7 +63,7 @@ if(${CMAKE_PROJECT_NAME} STREQUAL ${PROJECT_NAME})
 	
 	if (WIN32 OR WIN64)
 		set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_CRT_SECURE_NO_WARNINGS")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_CRT_SECURE_NO_WARNINGS")		
 	endif()
 
 	add_library(nos SHARED ${NOS_SOURCES})
@@ -68,6 +75,9 @@ if(${CMAKE_PROJECT_NAME} STREQUAL ${PROJECT_NAME})
 	endif()
 	
 	if (WIN32)	
+		target_link_libraries(nos ws2_32)
+		target_link_libraries(nos_test ws2_32)
+
 		install (TARGETS ${PROJECT_NAME}
 		EXPORT ${PROJECT_NAME}
 		LIBRARY DESTINATION /)
