@@ -21,6 +21,7 @@ namespace nos {
 	
 			int start(int port) {
 				inet::tcp_server::init();
+				inet::tcp_server::reusing(true);
 				inet::tcp_server::bind("0.0.0.0", port);
 				inet::tcp_server::listen(10);
 				inet::tcp_server::nonblock(true);

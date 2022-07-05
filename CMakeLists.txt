@@ -67,6 +67,22 @@ if(${CMAKE_PROJECT_NAME} STREQUAL ${PROJECT_NAME})
 		target_include_directories(nos_test PRIVATE . tests ${ADDITIONAL_INCLUDES})
 	endif()
 	
+	if (WIN32)	
+		install (TARGETS ${PROJECT_NAME}
+		EXPORT ${PROJECT_NAME}
+		LIBRARY DESTINATION /)
+
+		install (EXPORT ${PROJECT_NAME}
+			NAMESPACE ${PROJECT_NAME}::
+			FILE ${PROJECT_NAME}-config.cmake
+			DESTINATION lib/cmake/${PROJECT_NAME})
+
+		install(DIRECTORY ${PROJECT_NAME}
+	    	    DESTINATION "C:/Program Files (x86)/${PROJECT_NAME}/include"
+	    	    PATTERN "*HIDE*" EXCLUDE
+	   	)
+	endif()
+
 	if (UNIX AND NOT APPLE)
 		install(TARGETS ${PROJECT_NAME}
 			LIBRARY DESTINATION /usr/lib
@@ -77,7 +93,6 @@ if(${CMAKE_PROJECT_NAME} STREQUAL ${PROJECT_NAME})
 	    	    PATTERN "*HIDE*" EXCLUDE
 	   	)
 	endif()
-	
 	
 	if (APPLE)
 		install(TARGETS ${PROJECT_NAME}

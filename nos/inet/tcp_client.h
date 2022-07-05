@@ -1,4 +1,6 @@
-#ifndef NOS_INET_TCPCLIENT_H
+#warning "Deprecated include: nos/inet/tcp_client.h"
+
+/*#ifndef NOS_INET_TCPCLIENT_H
 #define NOS_INET_TCPCLIENT_H
 
 #include <nos/io/iostream.h>
@@ -55,3 +57,4 @@ namespace nos
 }
 
 #endif
+*/
