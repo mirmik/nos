@@ -94,7 +94,7 @@ namespace nos
 			tcp_client() 
 			{}
 
-			bool is_connect() { return _is_connect; }
+			bool is_connected() { return _is_connect; }
 			
 			tcp_client(int fd) : tcp_socket(fd) {}
 			tcp_client(const tcp_client& oth) = default;
