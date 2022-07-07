@@ -1,7 +1,8 @@
 #include <nos/input.h>
 #include <nos/io/istream.h>
+#include <stdexcept>
 
-std::string nos::readline(nos::istream& is)
+std::string nos::readline_from(nos::istream& is)
 {
 	char c;
 	std::string ret;
@@ -12,7 +13,7 @@ std::string nos::readline(nos::istream& is)
 
 		if (readed < 0)
 		{
-			return ret;
+			throw std::runtime_error("read error");
 		}
 
 		if (readed == 0)
@@ -32,6 +33,11 @@ std::string nos::readline(nos::istream& is)
 			return ret;
 		}
 	}
+}
+
+std::string nos::readline(nos::istream& is)
+{
+	return nos::readline_from(is);
 }
 
 int nos::read_until(nos::istream& is, char* buf, size_t buflen, char delim)
@@ -69,7 +75,8 @@ int nos::read_until(nos::istream& is, char* buf, size_t buflen, char delim)
 	return count;
 }
 
-
+/// Считывает из потока ввода содержимое строки между открывающейся скобкой 'a' и закрывающейся скобкой 'b'
+/// Параметр ignore позволяет отбростить данные перед первой скобкой.
 int nos::read_paired(nos::istream& is, char* buf, size_t buflen, char a, char b, bool ignore)
 {
 	char c;
