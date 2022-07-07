@@ -92,6 +92,7 @@ namespace nos
 			int write(const void* data, size_t size) override; 
 			int read(void* data, size_t size) override;
 			int connect(nos::inet::hostaddr addr, uint16_t port);
+			using istream::read;
 		};
 	}
 }

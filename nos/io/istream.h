@@ -10,24 +10,6 @@ namespace nos
 	class istream
 	{
 	public:
-
-		std::string readline();/*
-		{
-			std::string ret;
-			char c;
-
-			while (1)
-			{
-				read(&c, 1);
-				switch (c)
-				{
-					case '\r': break;
-					case '\n': return ret;
-					default: ret += c;
-				}
-			}
-		}*/
-
 		std::string readall() 
 		{
 			std::string ret;
