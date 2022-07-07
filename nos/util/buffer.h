@@ -1,8 +1,8 @@
 #ifndef NOS_UTIL_BUFFER_H
 #define NOS_UTIL_BUFFER_H
 
-#include <stdint.h>
-#include <string.h>
+#include <cstdint>
+#include <cstring>
 
 #if __has_include(<string_view>) && (__cplusplus >= 201703L)
 #include <string_view>
