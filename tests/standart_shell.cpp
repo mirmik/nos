@@ -26,5 +26,5 @@ TEST_CASE("standart shell")
                     cancel_source.token());
     thr.join();
 
-    CHECK_EQ(os.str(), "$ helloworld\r\n");
+    CHECK_EQ(os.str(), "$ helloworld");
 }
