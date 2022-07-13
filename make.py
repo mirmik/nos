@@ -21,6 +21,7 @@ licant.cxx_shared_library(target,
 		"nos",
 		"nos.inet",
 		"nos.input",
+		"nos.shell.standart",
 	],
 
 	cxx_flags = '-fPIC -Weffc++ -Wall -Wextra',

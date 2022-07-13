@@ -128,3 +128,10 @@ licant.module("nos.include",
 
 licant.module("nos.timestamp", "undefined", sources=["nos/util/timestamp-undefined.cpp"], default=True)
 licant.module("nos.timestamp", "millis", sources=["nos/util/timestamp-millis.cpp"])
+
+licant.module("nos.shell",
+	sources=[]
+)
+licant.module("nos.shell.standart",
+	sources=["nos/shell/standart.cpp"]
+)

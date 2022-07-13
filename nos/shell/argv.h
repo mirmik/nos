@@ -1,111 +1,112 @@
 #ifndef NOS_SHELL_ARGV_H
 #define NOS_SHELL_ARGV_H
 
-#include <nos/util/strtok.h>
 #include <nos/util/buffer.h>
+#include <nos/util/strtok.h>
 #include <string.h>
 #include <vector>
 
-namespace nos 
+namespace nos
 {
-	class tokens 
-	{
-		std::string data = {};
-		std::vector<nos::buffer> list = {};
-		const char * delims = " \t\n";
-		int offset = 0;
+    class tokens
+    {
+        std::string data = {};
+        std::vector<nos::buffer> list = {};
+        const char *delims = " \t\r\n";
+        int offset = 0;
 
-	public:
-		tokens() = default;
-		tokens(const tokens&) = default;
-		tokens(tokens&&) = default;
-		tokens& operator=(const tokens&) = default;
-		tokens& operator=(tokens&&) = default;
+    public:
+        tokens() = default;
+        tokens(const tokens &) = default;
+        tokens(tokens &&) = default;
+        tokens &operator=(const tokens &) = default;
+        tokens &operator=(tokens &&) = default;
 
-		tokens(nos::buffer buffer) : 
-			data(buffer.data(), buffer.size()) 
-		{
-			if (data.size())
-				parse();
-		}
-		
-		nos::buffer operator[](int i) 
-		{
-			return list[offset + i];
-		}
+        tokens(nos::buffer buffer) : data(buffer.data(), buffer.size())
+        {
+            if (data.size())
+                parse();
+        }
 
-		const nos::buffer operator[](int i) const 
-		{
-			return list[offset + i];
-		}
+        nos::buffer operator[](int i)
+        {
+            return list[offset + i];
+        }
 
-		size_t size() const { 
-			return list.size(); 
-		}
+        const nos::buffer operator[](int i) const
+        {
+            return list[offset + i];
+        }
 
-		const nos::buffer * first() const 
-		{ 
-			return &list[0];
-		}
+        size_t size() const
+        {
+            return list.size();
+        }
 
-		nos::buffer * first() 
-		{ 
-			return &list[0];
-		}
+        const nos::buffer *first() const
+        {
+            return &list[0];
+        }
 
-	private:
-		void parse() 
-		{
-			char * rest;
-			char * token = nos_strtok_r((char*)data.c_str(), delims, &rest);
- 
-		    while (token != NULL) {
-		    	list.push_back(nos::buffer(token));
-        		token = nos_strtok_r(NULL, delims, &rest);
-    		}
-		}		
-	};
+        nos::buffer *first()
+        {
+            return &list[0];
+        }
 
-	class argv 
-	{
-		const nos::buffer * list;
-		size_t _size;
+    private:
+        void parse()
+        {
+            char *rest;
+            char *token = nos_strtok_r((char *)data.c_str(), delims, &rest);
 
-	public:
-		argv() = default;
-		argv(const argv&) = default;
-		argv(argv&&) = default;
-		argv& operator=(const argv&) = default;
-		argv& operator=(argv&&) = default;
+            while (token != NULL)
+            {
+                list.push_back(nos::buffer(token));
+                token = nos_strtok_r(NULL, delims, &rest);
+            }
+        }
+    };
 
-		argv(const tokens& args) : list(args.first()), _size(args.size()) {}
-		argv(const nos::buffer * buf, size_t sz) : list(buf), _size(sz) {}
+    class argv
+    {
+        const nos::buffer *list;
+        size_t _size;
 
-		argv without(size_t i) const 
-		{
-			return argv(list+i, _size-i);
-		}
+    public:
+        argv() = default;
+        argv(const argv &) = default;
+        argv(argv &&) = default;
+        argv &operator=(const argv &) = default;
+        argv &operator=(argv &&) = default;
 
-		const nos::buffer& operator[](size_t i) const
-		{ 
-			return list[i]; 
-		}
+        argv(const tokens &args) : list(args.first()), _size(args.size()) {}
+        argv(const nos::buffer *buf, size_t sz) : list(buf), _size(sz) {}
 
-		size_t size() const
-		{ 
-			return _size; 
-		}
+        argv without(size_t i) const
+        {
+            return argv(list + i, _size - i);
+        }
 
-		const nos::buffer * begin() const
-		{
-			return list;
-		}
+        const nos::buffer &operator[](size_t i) const
+        {
+            return list[i];
+        }
 
-		const nos::buffer * end() const 
-		{
-			return list + _size;
-		}
-	};
+        size_t size() const
+        {
+            return _size;
+        }
+
+        const nos::buffer *begin() const
+        {
+            return list;
+        }
+
+        const nos::buffer *end() const
+        {
+            return list + _size;
+        }
+    };
 }
 
 #endif

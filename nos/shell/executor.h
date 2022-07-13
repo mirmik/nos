@@ -53,9 +53,11 @@ namespace nos
 
 	class executor : public executor_basic 
 	{
-		std::vector<nos::command> commands;
+		std::vector<nos::command> commands = {};
 
 	public:
+		executor() = default;
+
 		executor(const std::vector<nos::command>& vec) 
 			: commands(vec)
 		{}
