@@ -87,6 +87,6 @@ void nos::shell_io_thread_function(
         auto sb = execute_tokens(nos::argv(tokens), executor);
         if (sb.size() == 0)
             continue;
-        nos::println_to(os, sb);
+        nos::print_to(os, sb);
     }
 }
