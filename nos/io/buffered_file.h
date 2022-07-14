@@ -1,83 +1,91 @@
 #ifndef NOS_IO_BUFFERED_FILE_H
 #define NOS_IO_BUFFERED_FILE_H
 
-#include <string>
 #include <nos/io/iostream.h>
 #include <nos/util/osutil.h>
+#include <string>
 
 namespace nos
 {
 
-	class buffered_file : public nos::iostream
-	{
-	protected:
-		FILE* filp=nullptr;
+    class buffered_file : public nos::iostream
+    {
+    protected:
+        FILE *filp = nullptr;
+        bool _auto_flush = false;
 
-	public:
-		buffered_file(FILE* f) : filp(f) {}
-		buffered_file() : filp(nullptr) {}
-		
-		buffered_file(const char * path, const char * mode)
-		{
-			open(path, mode);
-		}
+    public:
+        buffered_file(FILE *f) : filp(f) {}
+        buffered_file() : filp(nullptr) {}
 
-		buffered_file(const std::string& path, const std::string& mode)
-		{
-			open(path.c_str(), mode.c_str());
-		}
+        buffered_file(const char *path, const char *mode)
+        {
+            open(path, mode);
+        }
 
-		buffered_file(const buffered_file&) = default;
-		buffered_file& operator= (const buffered_file&) = default;		
+        buffered_file(const std::string &path, const std::string &mode)
+        {
+            open(path.c_str(), mode.c_str());
+        }
 
-		int write(const void* ptr, size_t sz) override
-		{
-			return fwrite(ptr, sizeof(char), sz, filp);
-		}
+        buffered_file(const buffered_file &) = default;
+        buffered_file &operator=(const buffered_file &) = default;
 
-		int read(void* ptr, size_t sz) override
-		{
-			return fread(ptr, sizeof(char), sz, filp);
-		}
+        void flush_on_write(bool b)
+        {
+            _auto_flush = b;
+        }
 
-		bool good()
-		{
-			return filp != nullptr;
-		}
+        int write(const void *ptr, size_t sz) override
+        {
+            int ret = fwrite(ptr, sizeof(char), sz, filp);
+            if (_auto_flush)
+                fflush(filp);
+            return ret;
+        }
 
-		int open(const char * path, const char * mode)
-		{
-			filp = fopen(path, mode);
-			return filp == NULL ? -1 : 0;
-		}
+        int read(void *ptr, size_t sz) override
+        {
+            return fread(ptr, sizeof(char), sz, filp);
+        }
 
-		int fdopen(int fd, const char* mode = "rw")
-		{
-			filp = ::fdopen(fd, mode);
-			return filp == NULL ? -1 : 0;
-		}
+        bool good()
+        {
+            return filp != nullptr;
+        }
 
-		int flush() override
-		{
-			return fflush(filp);
-		}
+        int open(const char *path, const char *mode)
+        {
+            filp = fopen(path, mode);
+            return filp == NULL ? -1 : 0;
+        }
 
-		int close()
-		{
-			return fclose(filp);
-		}
+        int fdopen(int fd, const char *mode = "rw")
+        {
+            filp = ::fdopen(fd, mode);
+            return filp == NULL ? -1 : 0;
+        }
 
-		int fd() const
-		{
-			return fileno(filp);
-		}
+        int flush() override
+        {
+            return fflush(filp);
+        }
 
-		int nonblock(bool en)
-		{
-			return nos::osutil::nonblock(fd(), en);
-		}
+        int close()
+        {
+            return fclose(filp);
+        }
 
-	};
+        int fd() const
+        {
+            return fileno(filp);
+        }
+
+        int nonblock(bool en)
+        {
+            return nos::osutil::nonblock(fd(), en);
+        }
+    };
 
 }
 
