@@ -16,7 +16,8 @@ licant.module("nos.util",
 	srcdir="nos/util", 
 	sources=[
 		"trace.cpp",
-		"nos_numconvert.cpp"
+		"nos_numconvert.cpp",
+		"string.cpp"
 	],
 	mdepends=["nos.osutil"]
 )
