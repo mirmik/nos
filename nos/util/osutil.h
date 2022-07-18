@@ -3,17 +3,21 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <string>
 
 namespace nos
 {
-	namespace osutil
-	{
-		int nonblock(int fd, bool en);
-		int write(int fd, const void * data, size_t size);
-		int read(int fd, void * data, size_t size);
-		int open(const char * data, int mode);
-		int close(int fd);
-	}
+    namespace osutil
+    {
+        int nonblock(int fd, bool en);
+        int write(int fd, const void *data, size_t size);
+        int read(int fd, void *data, size_t size);
+        int open(const char *data, int mode);
+        int close(int fd);
+
+        int access(const std::string &path);
+        int access(const char *path);
+    }
 }
 
 #endif
