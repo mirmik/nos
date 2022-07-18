@@ -17,6 +17,8 @@ namespace nos
 
         int access(const std::string &path);
         int access(const char *path);
+        bool is_accessible(const std::string &path);
+        bool is_accessible(const char *path);
     }
 }
 

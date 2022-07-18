@@ -46,4 +46,14 @@ int nos::osutil::access(const char *path)
     return ::access(path, F_OK);
 }
 
+bool nos::osutil::is_accessible(const std::string &path)
+{
+    return ::access(path.c_str(), F_OK) == 0;
+}
+
+bool nos::osutil::is_accessible(const char *path)
+{
+    return ::access(path, F_OK) == 0;
+}
+
 #endif
