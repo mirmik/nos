@@ -33,6 +33,7 @@ namespace nos
             udp_broadcast_socket(uint16_t port);
             ~udp_broadcast_socket();
 
+            void allow_broadcast();
             void init();
             void bind(uint16_t port);
 
@@ -40,6 +41,8 @@ namespace nos
                         size_t size,
                         std::string ip,
                         uint16_t port);
+
+            void send_broadcast(const void *data, size_t size, uint16_t port);
 
             std::tuple<std::string, std::string, uint16_t>
             recvfrom(size_t maxsize = 1 << 16);

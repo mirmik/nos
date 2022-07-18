@@ -124,6 +124,37 @@ void nos::inet::udp_broadcast_socket::sendto(const void *data,
         ::sendto(fd, data, size, 0, (struct sockaddr *)&saddr, sizeof(saddr));
     if (ret < 0)
     {
+        perror("sendto");
+        throw std::runtime_error("sendto failed");
+    }
+}
+
+void nos::inet::udp_broadcast_socket::allow_broadcast()
+{
+    int broadcast = 1;
+    if (setsockopt(fd,
+                   SOL_SOCKET,
+                   SO_BROADCAST,
+                   (char *)&broadcast,
+                   sizeof(broadcast)) < 0)
+    {
+        throw std::runtime_error("setsockopt failed");
+    }
+}
+
+void nos::inet::udp_broadcast_socket::send_broadcast(const void *data,
+                                                     size_t size,
+                                                     uint16_t port)
+{
+    struct sockaddr_in saddr;
+    saddr.sin_family = AF_INET;
+    saddr.sin_port = htons(port);
+    saddr.sin_addr.s_addr = INADDR_BROADCAST;
+    int ret =
+        ::sendto(fd, data, size, 0, (struct sockaddr *)&saddr, sizeof(saddr));
+    if (ret < 0)
+    {
+        perror("sendto");
         throw std::runtime_error("sendto failed");
     }
 }
@@ -139,6 +170,7 @@ nos::inet::udp_broadcast_socket::recvfrom(size_t maxsize)
         fd, &data[0], maxsize, 0, (struct sockaddr *)&saddr, &saddr_len);
     if (ret < 0)
     {
+        perror("recvfrom");
         throw std::runtime_error("recvfrom failed");
     }
 
