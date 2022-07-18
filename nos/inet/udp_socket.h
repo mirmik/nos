@@ -29,12 +29,20 @@ namespace nos
         class udp_broadcast_socket : public socket
         {
         public:
+            udp_broadcast_socket();
             udp_broadcast_socket(uint16_t port);
             ~udp_broadcast_socket();
 
-            void send(const void *data, size_t size);
+            void init();
+            void bind(uint16_t port);
+
+            void sendto(const void *data,
+                        size_t size,
+                        std::string ip,
+                        uint16_t port);
+
             std::tuple<std::string, std::string, uint16_t>
-            recv(size_t maxsize = 1 << 16);
+            recvfrom(size_t maxsize = 1 << 16);
         };
     }
 }

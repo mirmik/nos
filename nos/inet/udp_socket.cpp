@@ -67,24 +67,43 @@ int udp_socket::recvfrom(int &port, void *data, size_t size)
     return recvfrom("0.0.0.0", port, data, size);
 }*/
 
+nos::inet::udp_broadcast_socket::udp_broadcast_socket()
+{
+    init();
+}
+
 nos::inet::udp_broadcast_socket::udp_broadcast_socket(uint16_t port)
 {
-    fd = init(AF_INET, SOCK_DGRAM, 0);
+    init();
+    bind(port);
+}
+
+void nos::inet::udp_broadcast_socket::init()
+{
+    fd = socket::init(AF_INET, SOCK_DGRAM, 0);
     if (fd < 0)
     {
         throw std::runtime_error("socket failed");
     }
 
+    /*bool broadcast = true;
+    if (setsockopt(fd,
+                   SOL_SOCKET,
+                   SO_BROADCAST,
+                   (char *)&broadcast,
+                   sizeof(broadcast)) < 0)
+    {
+        throw std::runtime_error("setsockopt failed");
+    }*/
+}
+
+void nos::inet::udp_broadcast_socket::bind(uint16_t port)
+{
     struct sockaddr_in saddr;
     saddr.sin_family = AF_INET;
     saddr.sin_port = htons(port);
     saddr.sin_addr.s_addr = INADDR_BROADCAST;
-
-    int retcode = ::bind(fd, (struct sockaddr *)&saddr, sizeof(saddr));
-    if (retcode < 0)
-    {
-        throw std::runtime_error("bind failed");
-    }
+    ::bind(fd, (struct sockaddr *)&saddr, sizeof(saddr));
 }
 
 nos::inet::udp_broadcast_socket::~udp_broadcast_socket()
@@ -92,31 +111,39 @@ nos::inet::udp_broadcast_socket::~udp_broadcast_socket()
     close();
 }
 
-void nos::inet::udp_broadcast_socket::send(const void *data, size_t size)
+void nos::inet::udp_broadcast_socket::sendto(const void *data,
+                                             size_t size,
+                                             std::string ip,
+                                             uint16_t port)
 {
-    int retcode = ::sendto(fd, data, size, 0, NULL, 0);
-    if (retcode < 0)
+    struct sockaddr_in saddr;
+    saddr.sin_family = AF_INET;
+    saddr.sin_port = htons(port);
+    saddr.sin_addr.s_addr = inet_addr(ip.c_str());
+    int ret =
+        ::sendto(fd, data, size, 0, (struct sockaddr *)&saddr, sizeof(saddr));
+    if (ret < 0)
     {
         throw std::runtime_error("sendto failed");
     }
 }
 
 std::tuple<std::string, std::string, uint16_t>
-nos::inet::udp_broadcast_socket::recv(size_t maxsize)
+nos::inet::udp_broadcast_socket::recvfrom(size_t maxsize)
 {
-    std::string data;
     struct sockaddr_in saddr;
-    socklen_t saddrlen = sizeof(saddr);
+    socklen_t saddr_len = sizeof(saddr);
+    std::string data;
     data.resize(maxsize);
-    int retcode = ::recvfrom(
-        fd, &data[0], maxsize, 0, (struct sockaddr *)&saddr, &saddrlen);
-    if (retcode < 0)
+    int ret = ::recvfrom(
+        fd, &data[0], maxsize, 0, (struct sockaddr *)&saddr, &saddr_len);
+    if (ret < 0)
     {
         throw std::runtime_error("recvfrom failed");
     }
 
-    data.resize(retcode);
-
-    return std::make_tuple(
-        data, inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
+    data.resize(ret);
+    std::string addr = inet_ntoa(saddr.sin_addr);
+    uint16_t rport = ntohs(saddr.sin_port);
+    return std::make_tuple(data, addr, rport);
 }
