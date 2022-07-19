@@ -12,7 +12,7 @@ licant.ex("listener")
 
 licant.cxx_application("beam",
     sources=["beam.cpp"],
-    libs = ["nos"]
+    libs = ["nos", "pthread"]
 )
 
 licant.ex("beam")
