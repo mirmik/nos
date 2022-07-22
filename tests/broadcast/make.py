@@ -12,7 +12,8 @@ licant.ex("listener")
 
 licant.cxx_application("beam",
     sources=["beam.cpp"],
-    libs = ["nos", "pthread"]
+    libs = ["nos", "pthread"],
+    builddir="build2"
 )
 
 licant.ex("beam")
