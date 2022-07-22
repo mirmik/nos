@@ -37,12 +37,12 @@ namespace nos
             void init();
             void bind(uint16_t port);
 
-            void sendto(const void *data,
+            int sendto(const void *data,
                         size_t size,
                         std::string ip,
                         uint16_t port);
 
-            void send_broadcast(const void *data, size_t size, uint16_t port);
+            int send_broadcast(const void *data, size_t size, uint16_t port);
 
             std::tuple<std::string, std::string, uint16_t>
             recvfrom(size_t maxsize = 1 << 16);
