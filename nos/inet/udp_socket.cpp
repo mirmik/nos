@@ -102,7 +102,7 @@ void nos::inet::udp_broadcast_socket::bind(uint16_t port)
     struct sockaddr_in saddr;
     saddr.sin_family = AF_INET;
     saddr.sin_port = htons(port);
-    saddr.sin_addr.s_addr = INADDR_BROADCAST;
+    saddr.sin_addr.s_addr = INADDR_ANY;
     ::bind(fd, (struct sockaddr *)&saddr, sizeof(saddr));
 }
 
@@ -111,7 +111,7 @@ nos::inet::udp_broadcast_socket::~udp_broadcast_socket()
     close();
 }
 
-void nos::inet::udp_broadcast_socket::sendto(const void *data,
+int nos::inet::udp_broadcast_socket::sendto(const void *data,
                                              size_t size,
                                              std::string ip,
                                              uint16_t port)
@@ -131,6 +131,7 @@ void nos::inet::udp_broadcast_socket::sendto(const void *data,
         perror("sendto");
         throw std::runtime_error("sendto failed");
     }
+    return ret;
 }
 
 void nos::inet::udp_broadcast_socket::allow_broadcast()
@@ -146,7 +147,7 @@ void nos::inet::udp_broadcast_socket::allow_broadcast()
     }
 }
 
-void nos::inet::udp_broadcast_socket::send_broadcast(const void *data,
+int nos::inet::udp_broadcast_socket::send_broadcast(const void *data,
                                                      size_t size,
                                                      uint16_t port)
 {
@@ -165,6 +166,7 @@ void nos::inet::udp_broadcast_socket::send_broadcast(const void *data,
         perror("sendto");
         throw std::runtime_error("sendto failed");
     }
+    return ret;
 }
 
 std::tuple<std::string, std::string, uint16_t>
