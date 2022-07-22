@@ -120,8 +120,12 @@ void nos::inet::udp_broadcast_socket::sendto(const void *data,
     saddr.sin_family = AF_INET;
     saddr.sin_port = htons(port);
     saddr.sin_addr.s_addr = inet_addr(ip.c_str());
-    int ret =
-        ::sendto(fd, data, size, 0, (struct sockaddr *)&saddr, sizeof(saddr));
+    int ret = ::sendto(fd,
+                       (const char *)data,
+                       size,
+                       0,
+                       (struct sockaddr *)&saddr,
+                       sizeof(saddr));
     if (ret < 0)
     {
         perror("sendto");
@@ -150,8 +154,12 @@ void nos::inet::udp_broadcast_socket::send_broadcast(const void *data,
     saddr.sin_family = AF_INET;
     saddr.sin_port = htons(port);
     saddr.sin_addr.s_addr = INADDR_BROADCAST;
-    int ret =
-        ::sendto(fd, data, size, 0, (struct sockaddr *)&saddr, sizeof(saddr));
+    int ret = ::sendto(fd,
+                       (const char *)data,
+                       size,
+                       0,
+                       (struct sockaddr *)&saddr,
+                       sizeof(saddr));
     if (ret < 0)
     {
         perror("sendto");
@@ -170,7 +178,11 @@ nos::inet::udp_broadcast_socket::recvfrom(size_t maxsize)
         fd, &data[0], maxsize, 0, (struct sockaddr *)&saddr, &saddr_len);
     if (ret < 0)
     {
-        perror("recvfrom");
+        if (errno == EAGAIN || errno == 0)
+        {
+            return std::make_tuple("", "", 0);
+        }
+
         throw std::runtime_error("recvfrom failed");
     }
 
