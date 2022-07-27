@@ -12,7 +12,6 @@ int main(int argc, char *argv[])
     }
 
     int recvport = std::stoi(args[0]);
-
     nos::inet::udp_broadcast_socket sock(recvport);
 
     while (true)
