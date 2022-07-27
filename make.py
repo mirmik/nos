@@ -15,7 +15,9 @@ install_directory_path = '/usr/lib/'
 install_library_path = os.path.join(install_directory_path, target) 
 install_library_link = os.path.join(install_directory_path, 'libnos.so')
 
-licant.cxx_shared_library(target,
+licant.cxx_static_and_shared("libraries",
+	static_lib="libnos.a",
+	shared_lib="libnos.so",
 	mdepends = 
 	[
 		"nos",
@@ -23,12 +25,14 @@ licant.cxx_shared_library(target,
 		"nos.input",
 		"nos.shell.standart",
 	],
-
 	cxx_flags = '-fPIC -Weffc++ -Wall -Wextra',
 	cc_flags = '-fPIC',
 	libs=["ws2_32"] if sys.platform=="win32" else [],
 )
 
-licant.install.install_library(tgt="install", libtgt=target, headers="nos", hroot="nos")
+licant.install.install_library(	tgt="install", 
+								libtgt=["libnos.a", "libnos.so"], 
+								headers="nos", 
+								hroot="nos")
 	
-licant.ex(target)
+licant.ex("libraries")
