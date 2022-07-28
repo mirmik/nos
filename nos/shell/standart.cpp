@@ -1,4 +1,4 @@
-#include <nos/fprint.h>
+/*#include <nos/fprint.h>
 #include <nos/inet/tcp_server.h>
 #include <nos/inet/tcp_socket.h>
 #include <nos/input.h>
@@ -90,3 +90,4 @@ void nos::shell_io_thread_function(
         nos::print_to(os, sb);
     }
 }
+*/

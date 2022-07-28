@@ -1,4 +1,4 @@
-#include <functional>
+/*#include <functional>
 #include <nos/cancel.h>
 #include <nos/io/istream.h>
 #include <nos/io/ostream.h>
@@ -16,4 +16,4 @@ namespace nos
                              std::reference_wrapper<nos::ostream> os,
                              std::reference_wrapper<nos::executor> executor,
                              nos::cancel_token cancel);
-}
+}*/
