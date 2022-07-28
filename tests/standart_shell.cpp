@@ -1,4 +1,4 @@
-#include <doctest/doctest.h>
+/*#include <doctest/doctest.h>
 #include <nos/io/sstream.h>
 #include <nos/shell/standart.h>
 
@@ -27,4 +27,4 @@ TEST_CASE("standart shell")
     thr.join();
 
     CHECK_EQ(os.str(), "$ helloworld");
-}
+}*/
