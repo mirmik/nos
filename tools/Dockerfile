@@ -1,0 +1,11 @@
+FROM netricks-20.04-env
+
+ADD . /root/nos
+
+WORKDIR /root/nos
+RUN ./make.py
+RUN sudo ./make.py install
+
+WORKDIR /root/nos/tests
+RUN ./make.py
+RUN ./runtests
