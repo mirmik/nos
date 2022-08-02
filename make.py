@@ -37,8 +37,8 @@ licant.cxx_application("runtests",
             mdepends=["nos", "nos.shell.standart", "nos.inet"],
             cxxstd="c++2a -Weffc++",
             ccstd="c11",
-            cxx_flags="-g -O0 -Werror=all -Werror=pedantic -Wno-gnu-zero-variadic-macro-arguments",
-            cc_flags="-g -O0 -Werror=all -Werror=pedantic -Wno-gnu-zero-variadic-macro-arguments",
+            cxx_flags="-g -O0 -fPIC -Werror=all -Werror=pedantic -Wno-gnu-zero-variadic-macro-arguments",
+            cc_flags="-g -O0 -fPIC -Werror=all -Werror=pedantic -Wno-gnu-zero-variadic-macro-arguments",
             libs=["pthread"],
             )
 
