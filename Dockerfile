@@ -1,7 +1,9 @@
-FROM testlayer
+ARG ARCH
+FROM netricks/netricks-20.04-env:$ARCH
 
-RUN git clone https://github.com/mirmik/nos
-RUN cd nos && ./make.py
-RUN cd nos && ./make.py install
-RUN cd nos/tests && ./make.py 
-RUN cd nos/tests && ./runtests 
+ADD . /root/nos
+
+WORKDIR /root/nos
+RUN ./make.py
+RUN ./runtests
+RUN sudo ./make.py install
