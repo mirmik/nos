@@ -149,7 +149,7 @@ std::string nos::readline()
     return nos::readline(*nos::current_istream);
 }
 
-std::string read_from(nos::istream &is, size_t sz)
+std::string nos::read_from(nos::istream &is, size_t sz)
 {
     std::string ret;
     ret.resize(sz);
