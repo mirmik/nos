@@ -43,3 +43,5 @@ void nos::log::tlogger::log(level lvl,
 {
     log(lvl, nos::format(fmt, arglist));
 }
+
+nos::log::logger nos::log::stdlogger("default");

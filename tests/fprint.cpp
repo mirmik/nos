@@ -8,7 +8,7 @@ struct A
     int i = 42;
     int print_to(nos::ostream &os) const
     {
-        return os.print(i);
+        return nos::print_to(os, i);
     };
 };
 struct B

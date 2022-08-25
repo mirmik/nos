@@ -7,7 +7,7 @@
 
 #include <nos/io/ostream.h>
 #include <nos/meta.h>
-#include <nos/print.h>
+#include <nos/print/meta.h>
 #include <nos/util/buffer.h>
 
 namespace nos
@@ -21,7 +21,7 @@ namespace nos
         fprint_to(const T &obj, nos::ostream &os, const nos::buffer &opts)
         {
             (void)opts;
-            return nos::print_to(os, obj);
+            return nos::print_implementation<T>::print_to(os, obj);
         }
     };
 

@@ -15,7 +15,7 @@ int nos::writeln_to(nos::ostream &out, const void *buf, size_t sz)
 {
     int ret = 0;
     ret += out.write(buf, sz);
-    ret += out.println();
+    ret += nos::println_to(out);
     return ret;
 }
 
@@ -50,9 +50,9 @@ int nos::print_dump_to(nos::ostream &out,
     if (len == 0)
     {
         ret += out.write("0x", 2);
-        ret += out.printptr((void *)((char *)mem));
+        ret += nos::printptr_to(out, (void *)((char *)mem));
         ret += out.putbyte(':');
-        ret += out.println();
+        ret += nos::println_to(out);
         return ret;
     }
 
@@ -63,14 +63,14 @@ int nos::print_dump_to(nos::ostream &out,
         if (i % columns == 0)
         {
             ret += out.write("0x", 2);
-            ret += out.printptr((void *)((char *)mem + i));
+            ret += nos::printptr_to(out, (void *)((char *)mem + i));
             ret += out.putbyte(':');
         }
 
         // print hex data
         if (i < len)
         {
-            ret += out.printhex(((char *)mem)[i]);
+            ret += nos::printhex_to(out, ((char *)mem)[i]);
             ret += out.putbyte(' ');
         }
         else
@@ -101,7 +101,7 @@ int nos::print_dump_to(nos::ostream &out,
                 }
             }
 
-            ret += out.println();
+            ret += nos::println();
         }
     }
 
@@ -134,4 +134,49 @@ int nos::putbyte(char c)
 int nos::writeln(const void *buf, size_t sz)
 {
     return nos::writeln_to(*nos::current_ostream, buf, sz);
+}
+
+int nos::fill_to(nos::ostream &out, char c, size_t sz)
+{
+    for (size_t i = 0; i < sz; i++)
+        out.putbyte(c);
+    return sz;
+}
+
+int nos::fill_to(nos::ostream &out, std::string_view &c, size_t sz)
+{
+    for (size_t i = 0; i < sz; i++)
+        nos::print_to(out, c);
+    return c.size() * sz;
+}
+
+int nos::fill(char c, size_t sz)
+{
+    return nos::fill_to(*nos::current_ostream, c, sz);
+}
+
+int nos::fill(std::string_view &c, size_t sz)
+{
+    return nos::fill_to(*nos::current_ostream, c, sz);
+}
+
+int nos::printhex_to(nos::ostream &out, char c)
+{
+    char buf[2];
+    buf[0] = __nos_half2hex((uint8_t)((c & 0xF0) >> 4));
+    buf[1] = __nos_half2hex((uint8_t)(c & 0x0F));
+    return out.write(buf, 2);
+}
+
+int nos::printhex_to(nos::ostream &out, void *ptr, size_t sz)
+{
+    size_t ret = 0;
+    char *_ptr = (char *)ptr;
+
+    for (unsigned int i = 0; i < sz; ++i)
+    {
+        ret += printhex_to(out, *_ptr++);
+    }
+
+    return ret;
 }

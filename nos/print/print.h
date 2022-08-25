@@ -52,6 +52,13 @@ namespace nos
     int print_dump(const void *mem, size_t len, unsigned int columns = 8);
     void flush();
     void flush_to(nos::ostream &out);
+    int fill_to(nos::ostream &out, char c, size_t sz);
+    int fill_to(nos::ostream &out, std::string_view &c, size_t sz);
+    int fill(char c, size_t sz);
+    int fill(std::string_view &c, size_t sz);
+
+    int printhex_to(nos::ostream &out, char c);
+    int printhex_to(nos::ostream &out, void *ptr, size_t sz);
 
 #if __has_include(<string_view>)
     int print_dump(const std::string_view &buf, unsigned int columns = 8);
@@ -70,6 +77,11 @@ namespace nos
 #include <nos/io/ostream.h>
 #include <nos/print/meta.h>
 
+template <typename O> int nos::printhex_to(nos::ostream &out, const O &o)
+{
+    return nos::printhex_to(out, (void *)&o, sizeof(O));
+}
+
 template <typename Arg> int nos::print_to(nos::ostream &out, const Arg &arg)
 {
     return nos::print_implementation<Arg>::print_to(out, arg);
@@ -87,7 +99,7 @@ template <typename... Args> int nos::println(const Args &... args)
 
 template <typename... Args> int nos::printhex(const Args &... args)
 {
-    return current_ostream->printptr(args...);
+    return printhex_to(*current_ostream, args...);
 }
 
 template <typename V> int nos::print_list(const V &vec)
@@ -100,15 +112,19 @@ template <typename M> int nos::print_matrix(const M &mat)
     return print_matrix_to(*current_ostream, mat);
 }
 
-template <typename T> int nos::printptr_to(nos::ostream &out, const T *arg)
+template <typename T> int nos::printptr_to(nos::ostream &out, const T *ptr)
 {
-    return out.printptr(arg);
+    char buf[48];
+    snprintf(buf, sizeof(buf), "%p", ptr);
+    size_t len = strlen(buf);
+    int ret = nos::fill_to(out, '0', sizeof(void *) * 2 - len);
+    return ret + nos::print_to(out, (const char *)buf);
 }
 
 template <typename... Args> int nos::printhexln(const Args &... args)
 {
-    int ret = current_ostream->printhex(args...);
-    ret += current_ostream->println();
+    int ret = nos::printhex_to(*current_ostream, args...);
+    ret += nos::println_to(*current_ostream);
     return ret;
 }
 
