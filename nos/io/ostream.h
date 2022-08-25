@@ -1,98 +1,85 @@
 #ifndef NOS_IO_OSTREAM_H
 #define NOS_IO_OSTREAM_H
 
-#include <string.h>
-#include <stdlib.h>
-#include <stdint.h>
 #include <ctype.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 
-static inline char __nos_half2hex(uint8_t n) {
-	return (char)(n < 10 ? '0' + n : 'A' - 10 + n);
+static inline char __nos_half2hex(uint8_t n)
+{
+    return (char)(n < 10 ? '0' + n : 'A' - 10 + n);
 }
 
 namespace nos
 {
-	class ostream
-	{
-	public:
-		virtual int write(const void* ptr, size_t sz) = 0;
-		int write_upper(const void* ptr, size_t sz);
-		int write_lower(const void* ptr, size_t sz);
-		
-		int put(uint8_t byte) { return write(&byte, 1); }
+    class ostream
+    {
+    public:
+        virtual int write(const void *ptr, size_t sz) = 0;
+        int write_upper(const void *ptr, size_t sz);
+        int write_lower(const void *ptr, size_t sz);
 
-		template<typename ... Args>
-		int print(const Args& ... args);
+        int put(uint8_t byte)
+        {
+            return write(&byte, 1);
+        }
 
-		template<typename Arg>
-		ostream& operator << (const Arg& arg) 
-		{
-			print(arg);
-			return *this;
-		}
+        template <typename... Args> int print(const Args &... args);
 
-		template<typename ... Args>
-		int println(const Args& ... args);
+        template <typename Arg> ostream &operator<<(const Arg &arg)
+        {
+            print(arg);
+            return *this;
+        }
 
-		int println()
-		{
-			return write("\r\n", 2);
-		}
+        template <typename... Args> int println(const Args &... args);
 
-		int putbyte(char c)
-		{
-			return write(&c, 1);
-		}
+        int println()
+        {
+            return write("\r\n", 2);
+        }
 
-		int printhex(char c)
-		{
-			char buf[2];
-			buf[0] = __nos_half2hex((uint8_t)((c & 0xF0) >> 4));
-			buf[1] = __nos_half2hex((uint8_t)(c & 0x0F));
-			return write(buf,2);
-		}
+        int putbyte(char c)
+        {
+            return write(&c, 1);
+        }
 
-		int printhex(void* ptr, size_t sz)
-		{
-			size_t ret = 0;
-			char* _ptr = (char*) ptr;
+        int printhex(char c)
+        {
+            char buf[2];
+            buf[0] = __nos_half2hex((uint8_t)((c & 0xF0) >> 4));
+            buf[1] = __nos_half2hex((uint8_t)(c & 0x0F));
+            return write(buf, 2);
+        }
 
-			for (unsigned int i = 0; i < sz; ++i) 
-			{
-				ret += printhex(*_ptr++);
-			}
+        int printhex(void *ptr, size_t sz)
+        {
+            size_t ret = 0;
+            char *_ptr = (char *)ptr;
 
-			return ret;
-		}
+            for (unsigned int i = 0; i < sz; ++i)
+            {
+                ret += printhex(*_ptr++);
+            }
 
-		template <typename O>
-		int printhex(const O& o)
-		{
-			return printhex((void*)&o, sizeof(O));
-		}
+            return ret;
+        }
 
-		int fill(char c, size_t len);
-		int printptr(const void* ptr);
+        template <typename O> int printhex(const O &o)
+        {
+            return printhex((void *)&o, sizeof(O));
+        }
 
-		virtual int flush() { return 0; }
-		virtual ~ostream() = default;
-	};
-}
+        int fill(char c, size_t len);
+        int printptr(const void *ptr);
 
-// Благодаря позднему включению ostream получает возможность
-// использовать всё, что умеет nos/print.h 
-#include <nos/print/print.h>
-
-template<typename ... Args>
-int nos::ostream::print(const Args& ... args)
-{
-	return nos::print_to(*this, args ...);
-}
-
-template<typename ... Args>
-int nos::ostream::println(const Args& ... args)
-{
-	return nos::println_to(*this, args ...);
+        virtual int flush()
+        {
+            return 0;
+        }
+        virtual ~ostream() = default;
+    };
 }
 
 #endif

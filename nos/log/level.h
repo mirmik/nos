@@ -5,21 +5,21 @@
 
 namespace nos
 {
-	namespace log
-	{
-		enum level
-		{
-			trace,
-			debug,
-			info,
-			warn,
-			error,
-			fault,
-		};
+    namespace log
+    {
+        enum level
+        {
+            Trace,
+            Debug,
+            Info,
+            Warn,
+            Error,
+            Fault,
+        };
 
-		const char* level_to_string(level lvl);
-		level level_from_string(const nos::buffer & str);
-	}
+        const char *level_to_string(level lvl);
+        level level_from_string(const nos::buffer &str);
+    }
 }
 
 #endif
