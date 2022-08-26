@@ -1,4 +1,5 @@
 import licant
+import sys
 
 licant.module("nos.osutil", "unix", default=sys.platform == "linux",
               sources=[
