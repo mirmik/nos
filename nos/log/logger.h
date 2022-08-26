@@ -7,53 +7,40 @@
 #include <string>
 #include <string_view>
 
-#define WITHOUT_LOG 1
-
 namespace nos
 {
     namespace log
     {
         class logger
         {
-            std::string pattern = "[{level}] {msg}\n";
-            std::string _name = "";
-            level minlevel = level::Trace;
+        public:
+            level _minlevel = level::Trace;
+            std::string _name = "undefined";
+            std::string _pattern = "[{level}] {msg}\n";
 
         public:
             logger() = default;
+            logger(const logger &) = default;
+            logger(logger &&) = default;
+            logger &operator=(const logger &) = default;
+            logger &operator=(logger &&) = default;
             logger(const std::string &_name) : _name(_name) {}
 
-            std::string name() const
-            {
-                return _name;
-            }
+            std::string name() const;
 
-            logger &set_level(level lvl)
-            {
-                minlevel = lvl;
-                return *this;
-            }
+            std::string pattern() const;
 
-            logger &set_pattern(const std::string_view &pattern)
-            {
-                this->pattern = pattern;
-                return *this;
-            }
+            level minlevel() const;
+
+            logger &set_name(const std::string &_name);
+
+            logger &set_level(level lvl);
+
+            logger &set_pattern(const std::string &pattern);
 
             virtual void log(level lvl,
                              const std::string_view &msgfmt,
-                             const visitable_arglist &arglist)
-            {
-                if (lvl < minlevel)
-                    return;
-
-                using namespace nos::argument_literal;
-                auto msg = nos::format(msgfmt, arglist);
-                nos::fprint(pattern,
-                            "level"_a = nos::log::level_to_string(lvl),
-                            "logger"_a = _name,
-                            "msg"_a = msg);
-            };
+                             const visitable_arglist &arglist);
             virtual ~logger() = default;
 
             template <typename... Args>

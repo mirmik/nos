@@ -44,6 +44,7 @@ licant.module("nos.log",
               sources=[
                   "level.cpp",
                   "tlogger.cpp",
+                  "logger.cpp",
                   "target.cpp",
                   "targets/stdout.cpp",
                   "targets/tcpspam.cpp",

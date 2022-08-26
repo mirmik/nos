@@ -7,14 +7,14 @@ namespace nos
 {
     namespace log
     {
-        enum class level
+        enum class level : uint8_t
         {
-            Trace,
-            Debug,
-            Info,
-            Warn,
-            Error,
-            Fault,
+            Trace = 0,
+            Debug = 1,
+            Info = 2,
+            Warn = 3,
+            Error = 4,
+            Fault = 5,
         };
 
         const char *level_to_string(level lvl);
