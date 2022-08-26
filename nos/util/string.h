@@ -1,5 +1,5 @@
-#ifndef IGRIS_STRING_H
-#define IGRIS_STRING_H
+#ifndef NOS_STRING_H
+#define NOS_STRING_H
 
 #include <cctype>
 #include <cstdint>

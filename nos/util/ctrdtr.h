@@ -1,5 +1,5 @@
-#ifndef IGRIS_UTIL_CTRDTR_H
-#define IGRIS_UTIL_CTRDTR_H
+#ifndef NOS_UTIL_CTRDTR_H
+#define NOS_UTIL_CTRDTR_H
 
 #include <new>
 

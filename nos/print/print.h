@@ -5,12 +5,10 @@
 #ifndef NOS_PRINT_PRINT_H
 #define NOS_PRINT_PRINT_H
 
-#include <stdlib.h>
-#if __has_include(<string_view>)
-#include <string_view>
-#endif
-
+#include <cstdlib>
+#include <cstring>
 #include <nos/util/size.h>
+#include <string_view>
 
 namespace nos
 {
@@ -116,7 +114,7 @@ template <typename T> int nos::printptr_to(nos::ostream &out, const T *ptr)
 {
     char buf[48];
     snprintf(buf, sizeof(buf), "%p", ptr);
-    size_t len = strlen(buf);
+    size_t len = std::strlen(buf);
     int ret = nos::fill_to(out, '0', sizeof(void *) * 2 - len);
     return ret + nos::print_to(out, (const char *)buf);
 }

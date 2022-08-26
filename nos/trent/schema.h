@@ -5,13 +5,12 @@
     @file
 */
 
-#include <nos/trent/trent.h>
-#include <nos/util/string.h>
-#include <set>
-
-#include <nos/result.h>
 #include <nos/fprint.h>
 #include <nos/print.h>
+#include <nos/trent/trent.h>
+#include <nos/util/result.h>
+#include <nos/util/string.h>
+#include <set>
 
 using namespace nos::result_type;
 
@@ -39,7 +38,7 @@ namespace nos
             schema_node &merge(const schema_node &oth)
             {
                 if (type != dict_checker_type || oth.type != dict_checker_type)
-                    BUG_ON("SCHEMA: no dictionary merge");
+                    throw std::runtime_error("Can't merge non-dict schemas");
                 nodes.insert(oth.nodes.begin(), oth.nodes.end());
                 return *this;
             }
@@ -51,7 +50,7 @@ namespace nos
             }
 
             schema_node() = default;
-            schema_node& operator=(const schema_node&) = delete;
+            schema_node &operator=(const schema_node &) = delete;
 
             schema_node(checker_type type) : type(type) {}
 
@@ -110,8 +109,6 @@ namespace nos
                     if (!tr.is_numer() && !tr.is_string())
                         return error("should be numer or string");
                     break;
-                default:
-                    BUG();
                 }
 
                 if (type == any_checker_type)
@@ -279,7 +276,10 @@ namespace nos
             bool check_dict = true;
             bool _ifexist = false;
             bool _optional = false;
-            schema_node &operator[](std::string str) { return nodes.at(str); }
+            schema_node &operator[](std::string str)
+            {
+                return nodes.at(str);
+            }
 
             schema_node &optional(bool par)
             {
@@ -290,8 +290,8 @@ namespace nos
 
         struct schema_dict_pair
         {
-            std::string str={};
-            schema_node node={};
+            std::string str = {};
+            schema_node node = {};
         };
 
         struct dict : public schema_node
@@ -306,7 +306,10 @@ namespace nos
                 check_dict = true;
             }
 
-            dict() : schema_node(dict_checker_type) { check_dict = false; }
+            dict() : schema_node(dict_checker_type)
+            {
+                check_dict = false;
+            }
         };
 
         struct any : public schema_node
@@ -351,13 +354,9 @@ namespace nos
             if (ret.is_error())
             {
                 std::string path = nos::join(strvec, '/');
-                std::string errtxt = nos::format("SCHEMA: trent {} {}", path,
-                                                 ret.error().what());
-
-                nos::println(tr);
-
-                dprln("schema: error: ", errtxt.c_str());
-                BUG();
+                std::string errtxt = nos::format(
+                    "SCHEMA: trent {} {}", path, ret.error().what());
+                throw std::runtime_error("schema: error:" + errtxt);
             }
         }
 
@@ -370,7 +369,10 @@ namespace nos
         schema_node root;
         schema(const schema_node &root) : root(root) {}
 
-        void merge(const schema &oth) { root.merge(oth.root); }
+        void merge(const schema &oth)
+        {
+            root.merge(oth.root);
+        }
     };
 }
 

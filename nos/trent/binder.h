@@ -18,7 +18,7 @@ namespace nos
     {
         static Integer from_trent(const nos::trent &tr)
         {
-            return tr.as_integer();
+            return tr.as_integer_except();
         }
         static void set_trent(nos::trent &tr, const Integer &val)
         {
@@ -30,9 +30,12 @@ namespace nos
     {
         static Float from_trent(const nos::trent &tr)
         {
-            return tr.as_numer();
+            return tr.as_numer_except();
         }
-        static void set_trent(nos::trent &tr, const Float &val) { tr = val; }
+        static void set_trent(nos::trent &tr, const Float &val)
+        {
+            tr = val;
+        }
     };
 
     template <>
@@ -57,7 +60,7 @@ namespace nos
     {
         static std::string from_trent(const nos::trent &tr)
         {
-            return tr.as_string();
+            return tr.as_string_except();
         }
         static void set_trent(nos::trent &tr, const std::string &val)
         {

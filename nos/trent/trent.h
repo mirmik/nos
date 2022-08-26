@@ -9,6 +9,7 @@
 #include <cstdint>
 #include <map>
 #include <nos/buffer.h>
+#include <nos/print.h>
 #include <nos/trent/trent_path.h>
 #include <nos/util/ctrdtr.h>
 #include <nos/util/flat_map.h>
@@ -265,18 +266,40 @@ namespace nos
             return m_dct[std::string(key.data(), key.size())];
         }
 
-        const trent_basic &operator[](const trent_path &path) const
+        template <typename T> const trent_basic &operator[](const T &obj) const
+        {
+            return at(obj);
+        }
+
+        const trent_basic &at(const trent_path &path) const
         {
             const trent_basic *tr = this;
             for (const auto &p : path)
             {
                 if (p.is_string)
                 {
-                    tr = &tr->operator[](p.str);
+                    tr = &tr->at(p.str);
                 }
                 else
                 {
-                    tr = &tr->operator[](p.i32);
+                    tr = &tr->at(p.i32);
+                }
+            }
+            return *tr;
+        }
+
+        trent_basic &at(const trent_path &path)
+        {
+            trent_basic *tr = this;
+            for (auto &p : path)
+            {
+                if (p.is_string)
+                {
+                    tr = &tr->at(p.str);
+                }
+                else
+                {
+                    tr = &tr->at(p.i32);
                 }
             }
             return *tr;
@@ -289,14 +312,45 @@ namespace nos
             {
                 if (p.is_string)
                 {
-                    tr = &tr->operator[](p.str);
+                    tr = &((*tr)[p.str]);
                 }
                 else
                 {
-                    tr = &tr->operator[](p.i32);
+                    tr = &((*tr)[p.i32]);
                 }
             }
             return *tr;
+        }
+
+        trent_basic &operator[](const trent_path &path) const
+        {
+            trent_basic *tr = this;
+            for (auto &p : path)
+            {
+                if (p.is_string)
+                {
+                    tr = &((*tr)[p.str]);
+                }
+                else
+                {
+                    tr = &((*tr)[p.i32]);
+                }
+            }
+            return *tr;
+        }
+
+        bool have(std::string key) const
+        {
+            if (m_type != type::dict)
+                return false;
+            return m_dct.find(key) != m_dct.end();
+        }
+
+        bool have(const char *key) const
+        {
+            if (m_type != type::dict)
+                return false;
+            return m_dct.find(std::string(key)) != m_dct.end();
         }
 
         const trent_basic &at(int i) const
@@ -308,6 +362,22 @@ namespace nos
                 throw std::runtime_error(std::string("trent:wrong_index: ") +
                                          std::to_string(i));
             return m_arr[i];
+        }
+
+        const trent_basic &at(const std::string &key) const
+        {
+            if (m_type != type::dict)
+                throw std::runtime_error(std::string("trent: is not a dict: ") +
+                                         nos::typestr(m_type));
+            return m_dct.at(key);
+        }
+
+        const trent_basic &at(const char *key) const
+        {
+            if (m_type != type::dict)
+                throw std::runtime_error(std::string("trent: is not a dict: ") +
+                                         nos::typestr(m_type));
+            return m_dct.at(std::string(key));
         }
 
         void push_back(const trent_basic &tr)
@@ -436,24 +506,37 @@ namespace nos
                 return def;
             return tr->m_bool;
         }
+
         string_type &as_string()
         {
             if (!is_string())
                 init(type::string);
             return m_str;
         }
+
+        const string_type &as_string() const
+        {
+            if (!is_string())
+                throw std::runtime_error(
+                    std::string("trent: is not a string: ") +
+                    nos::typestr(m_type));
+            return m_str;
+        }
+
         result<string_type &> as_string_critical()
         {
             if (!is_string())
                 return error("is't string");
             return m_str;
         }
+
         result<const string_type &> as_string_critical() const
         {
             if (!is_string())
                 return error("is't string");
             return m_str;
         }
+
         string_type &as_string_except();
         const string_type &as_string_except() const;
         const string_type &as_string_default(const string_type &def) const
@@ -500,6 +583,14 @@ namespace nos
                 init(type::list);
             return m_arr;
         }
+
+        const list_type &as_list() const
+        {
+            if (!is_list())
+                throw std::runtime_error("is't list");
+            return m_arr;
+        }
+
         result<list_type &> as_list_critical()
         {
             if (!is_list())
@@ -533,6 +624,16 @@ namespace nos
                 init(type::numer);
             return m_num;
         }
+
+        numer_type as_numer() const
+        {
+            if (is_bool())
+                return (int)m_bool;
+            if (!is_numer())
+                throw std::runtime_error("is't numer");
+            return m_num;
+        }
+
         result<numer_type> as_numer_critical() const
         {
             if (is_bool())
@@ -559,10 +660,6 @@ namespace nos
             return m_num;
         }
 
-        int64_t as_integer() const
-        {
-            return as_numer();
-        }
         int64_t as_integer_default(int64_t def) const
         {
             return as_numer_default(def);
@@ -803,16 +900,16 @@ namespace nos
         switch (get_type())
         {
         case type::boolean:
-            os.print(unsafe_bool_const() ? "true" : "false");
+            nos::print_to(os, unsafe_bool_const() ? "true" : "false");
             return 0;
 
         case type::numer:
-            os.print(unsafe_numer_const());
+            nos::print_to(os, unsafe_numer_const());
             return 0;
 
         case type::string:
             os.putbyte('"');
-            os.print(unsafe_string_const());
+            nos::print_to(os, unsafe_string_const());
             os.putbyte('"');
             return 0;
 
@@ -840,7 +937,7 @@ namespace nos
                     os.putbyte(',');
 
                 os.putbyte('"');
-                os.print(p.first);
+                nos::print_to(os, p.first);
                 os.putbyte('"');
                 os.putbyte(':');
                 p.second.print_to(os);
@@ -851,7 +948,7 @@ namespace nos
             return 0;
 
         case type::nil:
-            os.print("nil");
+            nos::print_to(os, "nil");
             return 0;
         }
     }

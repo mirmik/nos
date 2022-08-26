@@ -1,5 +1,5 @@
-#ifndef IGRIS_RESULT_H
-#define IGRIS_RESULT_H
+#ifndef NOS_RESULT_H
+#define NOS_RESULT_H
 
 #include <cassert>
 #include <cstdlib>

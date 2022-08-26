@@ -28,6 +28,11 @@ namespace nos
                 return _name;
             }
 
+            void set_level(level lvl)
+            {
+                minlevel = lvl;
+            }
+
             void set_pattern(const std::string_view &pattern)
             {
                 this->pattern = pattern;

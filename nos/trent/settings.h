@@ -10,7 +10,6 @@
 
 namespace nos
 {
-
     class trent_syncer
     {
     public:
@@ -26,15 +25,14 @@ namespace nos
         nos::trent_syncer *syncer = nullptr;
         nos::trent_path path = {};
 
-        trent_syncer_slice(nos::trent_syncer &stgs,
-                           const nos::trent_path &path)
+        trent_syncer_slice(nos::trent_syncer &stgs, const nos::trent_path &path)
             : syncer(&stgs), path(path)
         {
         }
 
-        trent_syncer_slice()=default;
-        trent_syncer_slice(const trent_syncer_slice&)=default;
-        trent_syncer_slice& operator=(const trent_syncer_slice&)=default;
+        trent_syncer_slice() = default;
+        trent_syncer_slice(const trent_syncer_slice &) = default;
+        trent_syncer_slice &operator=(const trent_syncer_slice &) = default;
 
         void init(nos::trent_syncer &stgs, const nos::trent_path &path)
         {
@@ -42,11 +40,20 @@ namespace nos
             this->path = path;
         }
 
-        int sync() override { return syncer->sync(); }
+        int sync() override
+        {
+            return syncer->sync();
+        }
 
-        int save() override { return syncer->save(); }
+        int save() override
+        {
+            return syncer->save();
+        }
 
-        nos::trent &node() override { return syncer->node()[path]; }
+        nos::trent &node() override
+        {
+            return syncer->node()[path];
+        }
     };
 
     class trent_settings
@@ -58,8 +65,14 @@ namespace nos
         virtual void sync() = 0;
         virtual void save() = 0;
 
-        nos::trent &node() { return tr; }
-        const nos::trent &node() const { return tr; }
+        nos::trent &node()
+        {
+            return tr;
+        }
+        const nos::trent &node() const
+        {
+            return tr;
+        }
         virtual ~trent_settings() = default;
     };
 
@@ -113,7 +126,10 @@ namespace nos
             return *this;
         }
 
-        operator int64_t() const { return node().as_integer(); }
+        operator int64_t() const
+        {
+            return node().as_integer_except();
+        }
     };
 
     class settings_binder_int32 : public trent_settings_slice
@@ -137,7 +153,10 @@ namespace nos
             return *this;
         }
 
-        operator int32_t() const { return node().as_integer(); }
+        operator int32_t() const
+        {
+            return node().as_integer_except();
+        }
     };
 
 }
