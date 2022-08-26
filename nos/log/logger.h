@@ -28,20 +28,25 @@ namespace nos
                 return _name;
             }
 
-            void set_level(level lvl)
+            logger &set_level(level lvl)
             {
                 minlevel = lvl;
+                return *this;
             }
 
-            void set_pattern(const std::string_view &pattern)
+            logger &set_pattern(const std::string_view &pattern)
             {
                 this->pattern = pattern;
+                return *this;
             }
 
             virtual void log(level lvl,
                              const std::string_view &msgfmt,
                              const visitable_arglist &arglist)
             {
+                if (lvl < minlevel)
+                    return;
+
                 using namespace nos::argument_literal;
                 auto msg = nos::format(msgfmt, arglist);
                 nos::fprint(pattern,

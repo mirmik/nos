@@ -7,7 +7,7 @@ namespace nos
 {
     namespace log
     {
-        enum level
+        enum class level
         {
             Trace,
             Debug,
