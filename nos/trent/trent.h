@@ -616,16 +616,16 @@ namespace nos
             return m_arr;
         }
 
-        numer_type as_numer()
+        numer_type as_numer() const
         {
             if (is_bool())
                 return (int)m_bool;
             if (!is_numer())
-                init(type::numer);
+                throw std::runtime_error("is't numer");
             return m_num;
         }
 
-        numer_type as_numer() const
+        integer_type as_integer() const
         {
             if (is_bool())
                 return (int)m_bool;
