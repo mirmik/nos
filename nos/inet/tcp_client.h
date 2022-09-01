@@ -1,60 +1,63 @@
-#warning "Deprecated include: nos/inet/tcp_client.h"
+#ifndef TCP_CLIENT_H
+#define TCP_CLIENT_H
 
-/*#ifndef NOS_INET_TCPCLIENT_H
-#define NOS_INET_TCPCLIENT_H
-
-#include <nos/io/iostream.h>
-#include <nos/inet/socket.h>
-#include <stdio.h>
-
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <arpa/inet.h>
-
+#include <chrono>
+#include <nos/inet/tcp_socket.h>
+#include <string_view>
 
 namespace nos
 {
-	namespace inet
-	{
-		struct old_tcp_client : public nos::inet::socket, public nos::iostream
-		{
-			hostaddr addr;
-			int port;
+    namespace inet
+    {
+        class tcp_client : public tcp_socket
+        {
+            bool _is_connect = false;
 
-			bool connected;
+        public:
+            tcp_client() {}
+            tcp_client(int fd) : tcp_socket(fd) {}
+            tcp_client(const tcp_client &oth) = default;
+            tcp_client &operator=(const tcp_client &oth) = default;
 
-			tcp_client(const hostaddr& addr, int port) : addr(addr), port(port) {}
+            [[deprecated("use connected() instead")]] bool is_connected()
+            {
+                return _is_connect;
+            }
 
-			bool is_connected() { return connected; }
-			bool is_disconnected() { return !connected; }
+            bool connected()
+            {
+                return _is_connect;
+            }
 
-			int connect() 
-			{
-				socket::init(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-				return socket::connect(addr, port, PF_INET);
-			}
+            int write(const void *data, size_t size) override;
+            int read(void *data, size_t size) override;
 
-			int disconnect() 
-			{
-				return socket::close();
-			}
+            int connect(nos::inet::hostaddr addr,
+                        uint16_t port,
+                        std::chrono::milliseconds timeout);
+            int connect(nos::inet::hostaddr addr, uint16_t port);
+            int disconnect();
+            using istream::read;
 
-			int write(const void* data, size_t size) override 
-			{
-				int ret = socket::send(data, size, 0);
-				if (ret == -1) connected = false;
-				return ret;
-			}
+            int send(const void *data, size_t size)
+            {
+                return write(data, size);
+            }
+            int recv(void *data, size_t size)
+            {
+                return read(data, size);
+            }
 
-			int read(void* data, size_t size) override 
-			{
-				int ret = socket::recv((char*)data, size, 0);
-				if (ret == -1) connected = false;
-				return ret;
-			}
-		};
-	}
+            int send(const std::string_view &data)
+            {
+                return send(data.data(), data.size());
+            }
+
+            static tcp_client dial(nos::inet::hostaddr addr,
+                                   uint16_t port,
+                                   std::chrono::milliseconds timeout);
+        };
+    }
 }
 
-#endif
-*/
+#endif // TCP_CLIENT_H
