@@ -53,7 +53,6 @@ int nos::inet::tcp_client::connect(nos::inet::hostaddr addr,
     init();
     nonblock(true);
     int sts = tcp_socket::connect(addr, port);
-    nos::println("connect sts = ", sts);
 
     fd_set writefds;
     FD_ZERO(&writefds);
@@ -66,7 +65,6 @@ int nos::inet::tcp_client::connect(nos::inet::hostaddr addr,
     sts = select(_fd + 1, NULL, &writefds, NULL, &tv);
     if (sts < 0)
     {
-        nos::println("tcp_client::connect: select error");
         throw nos::inet::tcp_connect_error();
     }
     else if (sts == 0)
@@ -82,11 +80,12 @@ int nos::inet::tcp_client::connect(nos::inet::hostaddr addr,
 
         if (so_error != 0)
         {
-            nos::println("so_error = ", so_error);
             throw nos::inet::tcp_connect_error();
         }
     }
     nonblock(false);
+    _is_connect = true;
+    return sts;
 }
 
 int nos::inet::tcp_client::disconnect()

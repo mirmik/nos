@@ -61,6 +61,7 @@ licant.module("nos.inet",
                   "common.cpp",
                   "tcp_server.cpp",
                   "tcp_socket.cpp",
+                  "tcp_client.cpp",
                   "udp_socket.cpp",
               ],
               mdepends=["nos.current_ostream"]

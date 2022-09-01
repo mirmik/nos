@@ -11,6 +11,7 @@ namespace nos
     public:
         uint32_t addr = 0;
         hostaddr() : addr(0) {}
+        hostaddr(int32_t addr_) : addr((uint32_t)addr_) {}
         hostaddr(uint32_t addr_) : addr(addr_) {}
 
         hostaddr(const char *ip_addr_str)
@@ -38,6 +39,16 @@ namespace nos
             if (addr < oth.addr)
                 return true;
             return false;
+        }
+
+        static hostaddr any()
+        {
+            return hostaddr(0);
+        }
+
+        static hostaddr loopback()
+        {
+            return hostaddr(0x7f000001);
         }
     };
 
