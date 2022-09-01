@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-
 namespace nos
 {
     namespace inet
@@ -52,6 +51,14 @@ namespace nos
             const char *what() const noexcept override
             {
                 return "tcp_disconnect_error";
+            }
+        };
+
+        class tcp_timeout_error : public tcp_stream_error
+        {
+            const char *what() const noexcept override
+            {
+                return "tcp_timeout_error";
             }
         };
 
@@ -101,7 +108,7 @@ namespace std
         typedef std::size_t result_type;
         result_type operator()(argument_type const &s) const
         {
-            return std::hash<int>()(s.fd);
+            return std::hash<int>()(s.fd());
         }
     };
 }

@@ -1,6 +1,7 @@
 #ifndef TCP_CLIENT_H
 #define TCP_CLIENT_H
 
+#include <chrono>
 #include <nos/inet/tcp_socket.h>
 #include <string_view>
 
@@ -18,12 +19,22 @@ namespace nos
             tcp_client(const tcp_client &oth) = default;
             tcp_client &operator=(const tcp_client &oth) = default;
 
-            bool is_connected()
+            [[deprecated("use connected() instead")]] bool is_connected()
             {
                 return _is_connect;
             }
+
+            bool connected()
+            {
+                return _is_connect;
+            }
+
             int write(const void *data, size_t size) override;
             int read(void *data, size_t size) override;
+
+            int connect(nos::inet::hostaddr addr,
+                        uint16_t port,
+                        std::chrono::milliseconds timeout);
             int connect(nos::inet::hostaddr addr, uint16_t port);
             int disconnect();
             using istream::read;
@@ -42,7 +53,9 @@ namespace nos
                 return send(data.data(), data.size());
             }
 
-            static tcp_client dial(nos::inet::hostaddr addr, uint16_t port);
+            static tcp_client dial(nos::inet::hostaddr addr,
+                                   uint16_t port,
+                                   std::chrono::milliseconds timeout);
         };
     }
 }

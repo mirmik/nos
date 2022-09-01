@@ -12,16 +12,21 @@ namespace nos
         class socket : public nos::file
         {
         public:
-            int fd = -1;
+            int _fd = -1;
 
         public:
             bool good()
             {
-                return fd >= 0;
+                return fd() >= 0;
+            }
+
+            int fd() const
+            {
+                return _fd;
             }
 
             socket() = default;
-            socket(int _fd) : fd(_fd) {}
+            socket(int fd) : _fd(fd) {}
             socket(const socket &oth) = default;
             socket(socket &&oth) = default;
             socket &operator=(const socket &oth) = default;
@@ -45,19 +50,19 @@ namespace nos
 
             bool operator==(const nos::inet::socket &oth) const
             {
-                return fd == oth.fd;
+                return fd() == oth.fd();
             }
             bool operator!=(const nos::inet::socket &oth) const
             {
-                return fd != oth.fd;
+                return fd() != oth.fd();
             }
             bool operator>(const nos::inet::socket &oth) const
             {
-                return fd > oth.fd;
+                return fd() > oth.fd();
             }
             bool operator<(const nos::inet::socket &oth) const
             {
-                return fd < oth.fd;
+                return fd() < oth.fd();
             }
 
             virtual ~socket() = default;
@@ -73,7 +78,7 @@ namespace std
         typedef std::size_t result_type;
         result_type operator()(argument_type const &s) const
         {
-            return std::hash<int>()(s.fd);
+            return std::hash<int>()(s.fd());
         }
     };
 }

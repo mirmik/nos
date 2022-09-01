@@ -1,3 +1,4 @@
+#include <fcntl.h>
 #include <nos/inet/tcp_client.h>
 #include <unistd.h>
 
@@ -35,8 +36,7 @@ int nos::inet::tcp_client::read(void *data, size_t size)
 int nos::inet::tcp_client::connect(nos::inet::hostaddr addr, uint16_t port)
 {
     init();
-
-    int sts = socket::connect(addr, port, PF_INET);
+    int sts = tcp_socket::connect(addr, port);
     if (sts < 0)
     {
         _is_connect = false;
@@ -44,6 +44,49 @@ int nos::inet::tcp_client::connect(nos::inet::hostaddr addr, uint16_t port)
     }
     _is_connect = true;
     return sts;
+}
+
+int nos::inet::tcp_client::connect(nos::inet::hostaddr addr,
+                                   uint16_t port,
+                                   std::chrono::milliseconds timeout)
+{
+    init();
+    nonblock(true);
+    int sts = tcp_socket::connect(addr, port);
+    nos::println("connect sts = ", sts);
+
+    fd_set writefds;
+    FD_ZERO(&writefds);
+    FD_SET(_fd, &writefds);
+
+    struct timeval tv;
+    tv.tv_sec = timeout.count() / 1000;
+    tv.tv_usec = (timeout.count() % 1000) * 1000;
+
+    sts = select(_fd + 1, NULL, &writefds, NULL, &tv);
+    if (sts < 0)
+    {
+        nos::println("tcp_client::connect: select error");
+        throw nos::inet::tcp_connect_error();
+    }
+    else if (sts == 0)
+    {
+        throw nos::inet::tcp_timeout_error();
+    }
+    else
+    {
+        int so_error;
+        socklen_t len = sizeof(so_error);
+
+        getsockopt(_fd, SOL_SOCKET, SO_ERROR, (char *)&so_error, &len);
+
+        if (so_error != 0)
+        {
+            nos::println("so_error = ", so_error);
+            throw nos::inet::tcp_connect_error();
+        }
+    }
+    nonblock(false);
 }
 
 int nos::inet::tcp_client::disconnect()
@@ -57,10 +100,10 @@ int nos::inet::tcp_client::disconnect()
     return sts;
 }
 
-nos::inet::tcp_client nos::inet::tcp_client::dial(nos::inet::hostaddr addr,
-                                                  uint16_t port)
+nos::inet::tcp_client nos::inet::tcp_client::dial(
+    nos::inet::hostaddr addr, uint16_t port, std::chrono::milliseconds timeout)
 {
     tcp_client client;
-    client.connect(addr, port);
+    client.connect(addr, port, timeout);
     return client;
 }

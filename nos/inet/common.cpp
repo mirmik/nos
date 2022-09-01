@@ -30,7 +30,7 @@ typedef unsigned short sa_family_t;
 
 int nos::inet::socket::nonblock(bool en)
 {
-    int ret = nos::osutil::nonblock(fd, en);
+    int ret = nos::osutil::nonblock(fd(), en);
     if (NOS_WARNINGS && ret < 0)
     {
         perror("warn: socket::nonblock");
@@ -41,7 +41,8 @@ int nos::inet::socket::nonblock(bool en)
 int nos::inet::socket::nodelay(bool en)
 {
     int on = en;
-    int rc = setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, (char *)&on, sizeof(on));
+    int rc =
+        setsockopt(fd(), IPPROTO_TCP, TCP_NODELAY, (char *)&on, sizeof(on));
     if (NOS_WARNINGS && rc < 0)
     {
         perror("warn: socket::nodelay");
@@ -52,7 +53,8 @@ int nos::inet::socket::nodelay(bool en)
 int nos::inet::socket::dontroute(bool en)
 {
     int on = en;
-    int rc = setsockopt(fd, SOL_SOCKET, SO_DONTROUTE, (char *)&on, sizeof(on));
+    int rc =
+        setsockopt(fd(), SOL_SOCKET, SO_DONTROUTE, (char *)&on, sizeof(on));
     if (NOS_WARNINGS && rc < 0)
     {
         perror("warn: socket::dontroute");
@@ -63,7 +65,8 @@ int nos::inet::socket::dontroute(bool en)
 int nos::inet::socket::reusing(bool en)
 {
     int on = en;
-    int rc = setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (char *)&on, sizeof(on));
+    int rc =
+        setsockopt(fd(), SOL_SOCKET, SO_REUSEADDR, (char *)&on, sizeof(on));
     if (NOS_WARNINGS && rc < 0)
     {
         perror("warn: socket::reusing");
@@ -73,13 +76,13 @@ int nos::inet::socket::reusing(bool en)
 
 int nos::inet::socket::init(int domain, int type, int proto)
 {
-    fd = ::socket(domain, type, proto);
-    if (NOS_WARNINGS && fd < 0)
+    _fd = ::socket(domain, type, proto);
+    if (NOS_WARNINGS && fd() < 0)
     {
         perror("warn: socket::init");
     }
 
-    return fd;
+    return fd();
 }
 
 int nos::inet::socket::bind(const nos::inet::hostaddr &haddr,
@@ -95,7 +98,7 @@ int nos::inet::socket::bind(const nos::inet::hostaddr &haddr,
     addr.sin_addr.s_addr = htonl(haddr.addr); // INADDR_ANY = 0.0.0.0
     addr.sin_port = htons(port);
 
-    sts = ::bind(fd, (sockaddr *)&addr, sizeof(struct sockaddr_in));
+    sts = ::bind(fd(), (sockaddr *)&addr, sizeof(struct sockaddr_in));
     if (NOS_WARNINGS && sts < 0)
     {
         perror("warn: socket::bind");
@@ -108,7 +111,7 @@ int nos::inet::socket::listen(int conn)
 {
     int sts;
 
-    sts = ::listen(fd, conn);
+    sts = ::listen(fd(), conn);
     if (NOS_WARNINGS && sts < 0)
     {
         perror("warn: socket::listen");
@@ -129,7 +132,7 @@ int nos::inet::socket::connect(const nos::inet::hostaddr &haddr,
     addr.sin_port = htons(port);
     addr.sin_addr.s_addr = htonl(haddr.addr);
 
-    sts = ::connect(fd, (struct sockaddr *)&addr, sizeof(addr));
+    sts = ::connect(fd(), (struct sockaddr *)&addr, sizeof(addr));
     if (NOS_WARNINGS && sts < 0)
     {
         perror("warn: socket::connect");
@@ -142,13 +145,13 @@ int nos::inet::socket::close()
 {
     int sts;
 
-    sts = ::shutdown(fd, SHUT_RDWR);
+    sts = ::shutdown(fd(), SHUT_RDWR);
     if (NOS_WARNINGS && sts < 0)
     {
         perror("warn: socket::shutdown");
     }
 
-    sts = ::close(fd);
+    sts = ::close(fd());
     if (NOS_WARNINGS && sts < 0)
     {
         perror("warn: socket::close");
@@ -174,7 +177,8 @@ int nos::inet::datagramm_socket::sendto(nos::inet::hostaddr haddr,
     addr.sin_addr.s_addr = htonl(haddr.addr); // INADDR_ANY = 0.0.0.0
     addr.sin_port = htons(port);
 
-    return ::sendto(fd, data, size, 0, (sockaddr *)&addr, sizeof(sockaddr_in));
+    return ::sendto(
+        fd(), data, size, 0, (sockaddr *)&addr, sizeof(sockaddr_in));
 }
 
 int nos::inet::datagramm_socket::ne_sendto(uint32_t ipaddr,
@@ -189,7 +193,8 @@ int nos::inet::datagramm_socket::ne_sendto(uint32_t ipaddr,
     addr.sin_addr.s_addr = ipaddr; // INADDR_ANY = 0.0.0.0
     addr.sin_port = port;
 
-    return ::sendto(fd, data, size, 0, (sockaddr *)&addr, sizeof(sockaddr_in));
+    return ::sendto(
+        fd(), data, size, 0, (sockaddr *)&addr, sizeof(sockaddr_in));
 }
 
 int nos::inet::datagramm_socket::recvfrom(char *data,
@@ -198,7 +203,7 @@ int nos::inet::datagramm_socket::recvfrom(char *data,
 {
     struct sockaddr_in si_other;
     socklen_t sz = sizeof(sockaddr_in);
-    int ret = ::recvfrom(fd, data, maxsize, 0, (sockaddr *)&si_other, &sz);
+    int ret = ::recvfrom(fd(), data, maxsize, 0, (sockaddr *)&si_other, &sz);
 
     if (ret < 0)
     {

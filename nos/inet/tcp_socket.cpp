@@ -41,12 +41,12 @@ int nos::inet::tcp_socket::read(void *data, size_t size)
 
 int nos::inet::socket::send(const void *data, size_t size, int flags)
 {
-    return ::send(fd, (const char *)data, size, flags);
+    return ::send(fd(), (const char *)data, size, flags);
 }
 
 int nos::inet::socket::recv(char *data, size_t size, int flags)
 {
-    return ::recv(fd, data, size, flags);
+    return ::recv(fd(), data, size, flags);
 }
 
 nos::inet::netaddr nos::inet::tcp_socket::getaddr()
@@ -55,7 +55,7 @@ nos::inet::netaddr nos::inet::tcp_socket::getaddr()
     socklen_t socklen = sizeof(sin);
     memset(&sin, 0, sizeof(sin));
 
-    getpeername(fd, (struct sockaddr *)&sin, &socklen); // read binding
+    getpeername(fd(), (struct sockaddr *)&sin, &socklen); // read binding
 
     return nos::inet::netaddr{sin.sin_addr.s_addr, sin.sin_port};
 }
