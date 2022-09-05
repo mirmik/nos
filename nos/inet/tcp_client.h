@@ -24,7 +24,7 @@ namespace nos
                 return _is_connect;
             }
 
-            bool connected()
+            bool connected() const
             {
                 return _is_connect;
             }
