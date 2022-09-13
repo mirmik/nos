@@ -21,6 +21,7 @@ file(GLOB NOS_SOURCES
 	nos/io/ostream.cpp
 	nos/io/istream.cpp
 	nos/io/stdfile.cpp
+	nos/trent/*.cpp
 )
 
 if (UNIX) 

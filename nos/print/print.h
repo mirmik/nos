@@ -58,6 +58,8 @@ namespace nos
     int printhex_to(nos::ostream &out, char c);
     int printhex_to(nos::ostream &out, void *ptr, size_t sz);
 
+    template <typename O> int printhex_to(nos::ostream &out, const O &o);
+
 #if __has_include(<string_view>)
     int print_dump(const std::string_view &buf, unsigned int columns = 8);
 #endif
