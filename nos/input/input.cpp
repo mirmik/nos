@@ -21,8 +21,6 @@ std::string nos::readline_from(nos::istream &is)
             return ret;
         }
 
-        ret.push_back(c);
-
         if (c == '\r')
         {
             continue;
@@ -32,6 +30,51 @@ std::string nos::readline_from(nos::istream &is)
         {
             return ret;
         }
+
+        ret.push_back(c);
+    }
+}
+
+std::pair<std::string, bool>
+nos::timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is)
+{
+    std::string ret;
+    auto curtime = std::chrono::system_clock::now();
+    auto endtime = curtime + ms;
+
+    while (true)
+    {
+        char c;
+        auto ellapsed = endtime - curtime;
+        auto [sts, is_timeout] = is.timeouted_read(&c, 1, ellapsed);
+
+        if (is_timeout)
+        {
+            return {ret, true};
+        }
+
+        if (sts < 0)
+        {
+            throw std::runtime_error("read error");
+        }
+
+        if (sts == 0)
+        {
+            // eof
+            return {ret, false};
+        }
+
+        if (c == '\r')
+        {
+            continue;
+        }
+
+        if (c == '\n')
+        {
+            return {ret, false};
+        }
+
+        ret.push_back(c);
     }
 }
 
@@ -146,7 +189,7 @@ std::string nos::readall_from(nos::istream &is)
 
 std::string nos::readline()
 {
-    return nos::readline(*nos::current_istream);
+    return nos::readline_from(*nos::current_istream);
 }
 
 std::string nos::read_from(nos::istream &is, size_t sz)

@@ -3,6 +3,7 @@
 #ifndef NOS_INPUT_H
 #define NOS_INPUT_H
 
+#include <chrono>
 #include <stdlib.h>
 #include <string>
 
@@ -27,6 +28,9 @@ namespace nos
                              int timeout_ms);
     std::string readall_from(nos::istream &is);
     std::string readline();
+
+    std::pair<std::string, bool>
+    timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is);
 
     [[deprecated]] std::string readline(nos::istream &is);
 }

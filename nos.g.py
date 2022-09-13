@@ -27,7 +27,8 @@ licant.module("nos.io",
               srcdir="nos/io",
               sources=[
                   "istream.cpp",
-                  "ostream.cpp"
+                  "ostream.cpp",
+                  "file.cpp"
               ],
               mdepends=[
                   "nos.current_ostream",
