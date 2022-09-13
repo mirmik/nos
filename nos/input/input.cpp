@@ -78,6 +78,74 @@ nos::timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is)
     }
 }
 
+std::pair<std::string, bool>
+nos::timeouted_read_until(std::chrono::nanoseconds ms,
+                          nos::istream &is,
+                          const std::string_view delimiters)
+{
+    std::string ret;
+    auto curtime = std::chrono::system_clock::now();
+    auto endtime = curtime + ms;
+
+    while (true)
+    {
+        char c;
+        auto ellapsed = endtime - curtime;
+        auto [sts, is_timeout] = is.timeouted_read(&c, 1, ellapsed);
+
+        if (is_timeout)
+        {
+            return {ret, true};
+        }
+
+        if (sts < 0)
+        {
+            throw std::runtime_error("read error");
+        }
+
+        if (sts == 0)
+        {
+            // eof
+            return {ret, false};
+        }
+
+        ret.push_back(c);
+
+        if (delimiters.find(c) != std::string::npos)
+        {
+            return {ret, false};
+        }
+    }
+}
+std::string nos::read_until(nos::istream &is, const std::string_view delimiters)
+{
+    std::string ret;
+
+    while (true)
+    {
+        char c;
+        auto sts = is.read(&c, 1);
+
+        if (sts < 0)
+        {
+            throw std::runtime_error("read error");
+        }
+
+        if (sts == 0)
+        {
+            // eof
+            return {ret, false};
+        }
+
+        ret.push_back(c);
+
+        if (delimiters.find(c) != std::string::npos)
+        {
+            return {ret, false};
+        }
+    }
+}
+
 std::string nos::readline(nos::istream &is)
 {
     return nos::readline_from(is);

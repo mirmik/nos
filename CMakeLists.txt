@@ -20,6 +20,7 @@ file(GLOB NOS_SOURCES
 	nos/convert/*.cpp
 	nos/io/ostream.cpp
 	nos/io/istream.cpp
+	nos/io/file.cpp
 	nos/io/stdfile.cpp
 	nos/trent/*.cpp
 )
