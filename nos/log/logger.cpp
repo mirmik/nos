@@ -46,4 +46,4 @@ void nos::log::logger::log(level lvl,
                 "level"_a = nos::log::level_to_string(lvl),
                 "logger"_a = _name,
                 "msg"_a = msg);
-};
+}
