@@ -70,3 +70,21 @@ TEST_CASE("nos::timeouted_readline_from")
     CHECK_EQ(line, "hello");
     CHECK_EQ(is_timeout, false);
 }
+
+TEST_CASE("nos::timeouted_read_until_from")
+{
+    int fds[2];
+    pipe(fds);
+
+    nos::file f(fds[0]);
+    nos::file i(fds[1]);
+
+    nos::println_to(i, "hello");
+    nos::println_to(i, "world");
+
+    auto [line, is_timeout] =
+        nos::timeouted_read_until_from(std::chrono::milliseconds(10), f, "o");
+
+    CHECK_EQ(line, "hello");
+    CHECK_EQ(is_timeout, false);
+}

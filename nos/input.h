@@ -32,12 +32,13 @@ namespace nos
     std::pair<std::string, bool>
     timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is);
 
-    std::string read_until(nos::istream &is, const std::string_view delimiters);
+    std::string read_until_from(nos::istream &is,
+                                const std::string_view &delimiters);
 
     std::pair<std::string, bool>
-    timeouted_read_until(std::chrono::nanoseconds ms,
-                         nos::istream &is,
-                         const std::string_view delimiters);
+    timeouted_read_until_from(std::chrono::nanoseconds ms,
+                              nos::istream &is,
+                              const std::string_view &delimiters);
 
     [[deprecated]] std::string readline(nos::istream &is);
 }

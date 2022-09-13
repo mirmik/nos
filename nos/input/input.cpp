@@ -79,9 +79,9 @@ nos::timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is)
 }
 
 std::pair<std::string, bool>
-nos::timeouted_read_until(std::chrono::nanoseconds ms,
-                          nos::istream &is,
-                          const std::string_view delimiters)
+nos::timeouted_read_until_from(std::chrono::nanoseconds ms,
+                               nos::istream &is,
+                               const std::string_view &delimiters)
 {
     std::string ret;
     auto curtime = std::chrono::system_clock::now();
@@ -117,7 +117,8 @@ nos::timeouted_read_until(std::chrono::nanoseconds ms,
         }
     }
 }
-std::string nos::read_until(nos::istream &is, const std::string_view delimiters)
+std::string nos::read_until_from(nos::istream &is,
+                                 const std::string_view &delimiters)
 {
     std::string ret;
 
