@@ -88,3 +88,24 @@ TEST_CASE("nos::timeouted_read_until_from")
     CHECK_EQ(line, "hello");
     CHECK_EQ(is_timeout, false);
 }
+
+TEST_CASE("nos::timeouted_read_until_from")
+{
+    int fds[2];
+    pipe(fds);
+
+    nos::file f(fds[0]);
+    nos::file i(fds[1]);
+
+    nos::print_to(i, "hell");
+    nos::print_to(i, "wrld");
+
+    auto curtime = std::chrono::system_clock::now();
+    auto [line, is_timeout] =
+        nos::timeouted_read_until_from(std::chrono::milliseconds(10), f, "o");
+    auto endtime = std::chrono::system_clock::now();
+
+    CHECK_EQ(line, "hellwrld");
+    CHECK_EQ(is_timeout, true);
+    CHECK_GT(endtime - curtime, std::chrono::milliseconds(10));
+}
