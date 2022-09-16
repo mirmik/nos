@@ -125,8 +125,11 @@ TEST_CASE("nos::timeouted_read_until_from")
         i.write("h", 1);
         std::this_thread::sleep_for(1ms);
 
-        i.write("e", 1);
-        std::this_thread::sleep_for(1ms);
+        for (int j = 0; j < 100; ++j)
+        {
+            i.write("e", 1);
+            std::this_thread::sleep_for(1ms);
+        }
 
         i.write("l", 1);
         std::this_thread::sleep_for(1ms);
@@ -146,12 +149,14 @@ TEST_CASE("nos::timeouted_read_until_from")
 
     auto curtime = std::chrono::system_clock::now();
     auto [line, is_timeout] =
-        nos::timeouted_read_until_from(std::chrono::milliseconds(100), f, "o");
+        nos::timeouted_read_until_from(std::chrono::milliseconds(200), f, "o");
     auto endtime = std::chrono::system_clock::now();
 
     thr.join();
 
-    CHECK_EQ(line, "hello");
+    CHECK_EQ(line,
+             std::string("h") + std::string(100, 'e') + std::string("llo"));
     CHECK_EQ(is_timeout, false);
-    CHECK_GT(endtime - curtime, std::chrono::milliseconds(4));
+    CHECK_GT(endtime - curtime, std::chrono::milliseconds(104));
+    CHECK_LT(endtime - curtime, std::chrono::milliseconds(150));
 }
