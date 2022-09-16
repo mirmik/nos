@@ -178,3 +178,28 @@ TEST_CASE("fprint")
         nos::fprint("{:.3}", std::numeric_limits<float>::lowest());
     }
 }
+
+TEST_CASE("__nos_dtoa")
+{
+    char buf[100];
+    double obj = 123.456789;
+    __nos_dtoa(obj, buf, 6);
+    CHECK_EQ(std::string(buf), "123.456789");
+}
+
+TEST_CASE("big double")
+{
+    {
+        char buf[128];
+        sprintf(buf, "%f", (double)213241278.499228);
+        CHECK_EQ(std::string(buf), "213241278.499228");
+    }
+    {
+        std::string out = nos::format("{}", (double)213241278.499228);
+        CHECK_EQ(out, "213241278.499228");
+    }
+    {
+        std::string out = nos::format("{}", 10213241278.499228);
+        CHECK_EQ(out, "10213241278.499228");
+    }
+}

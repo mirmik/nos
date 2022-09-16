@@ -1,29 +1,33 @@
-#include <string.h>
 #include <math.h>
 #include <nos/util/numconvert.h>
+#include <string.h>
 
-#define MAX_PRECISION (10)
-static const double rounders[MAX_PRECISION + 1] = {
-    0.5,          // 0
-    0.05,         // 1
-    0.005,        // 2
-    0.0005,       // 3
-    0.00005,      // 4
-    0.000005,     // 5
-    0.0000005,    // 6
-    0.00000005,   // 7
-    0.000000005,  // 8
-    0.0000000005, // 9
-    0.00000000005 // 10
+#define MAX_PRECISION (14)
+static const long double rounders[MAX_PRECISION + 1] = {
+    0.5,               // 0
+    0.05,              // 1
+    0.005,             // 2
+    0.0005,            // 3
+    0.00005,           // 4
+    0.000005,          // 5
+    0.0000005,         // 6
+    0.00000005,        // 7
+    0.000000005,       // 8
+    0.0000000005,      // 9
+    0.00000000005,     // 10
+    0.000000000005,    // 11
+    0.0000000000005,   // 12
+    0.00000000000005,  // 13
+    0.000000000000005, // 14
 };
 
-char *__nos_ftoa(float f, char *buf, int8_t precision)
+char *__nos_ldtoa(long double f, char *buf, int8_t precision)
 {
     char *ptr = buf;
     char *p = ptr;
     char *p1;
     char c;
-    int32_t intPart;
+    int64_t intPart;
 
     if (isinf(f))
     {
@@ -126,14 +130,14 @@ char *__nos_ftoa(float f, char *buf, int8_t precision)
     return ptr;
 }
 
-char *__nos_dtoa(double f, char *buf, int8_t precision)
+char *__nos_ftoa(float f, char *buf, int8_t precision)
 {
-    return __nos_ftoa(f, buf, precision);
+    return __nos_ldtoa(f, buf, precision);
 }
 
-char *__nos_ldtoa(long double f, char *buf, int8_t precision)
+char *__nos_dtoa(double f, char *buf, int8_t precision)
 {
-    return __nos_ftoa(f, buf, precision);
+    return __nos_ldtoa(f, buf, precision);
 }
 
 char *__nos_itoa(int64_t num, char *buf, uint8_t base)
