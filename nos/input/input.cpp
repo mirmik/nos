@@ -1,5 +1,6 @@
 #include <nos/input.h>
 #include <nos/io/istream.h>
+#include <nos/print.h>
 #include <stdexcept>
 
 std::string nos::readline_from(nos::istream &is)
@@ -90,8 +91,13 @@ nos::timeouted_read_until_from(std::chrono::nanoseconds ms,
     while (true)
     {
         char c;
+        auto curtime = std::chrono::system_clock::now();
         auto ellapsed = endtime - curtime;
         auto [sts, is_timeout] = is.timeouted_read(&c, 1, ellapsed);
+
+        // nos::current_ostream->write(&c, 1);
+        // nos::print(" ");
+        // nos::println((uint8_t)c);
 
         if (is_timeout)
         {
@@ -105,8 +111,8 @@ nos::timeouted_read_until_from(std::chrono::nanoseconds ms,
 
         if (sts == 0)
         {
-            // eof
-            return {ret, false};
+            // pass
+            continue;
         }
 
         ret.push_back(c);

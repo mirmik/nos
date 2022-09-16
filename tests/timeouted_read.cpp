@@ -4,7 +4,10 @@
 #include <nos/input.h>
 #include <nos/io/file.h>
 #include <nos/print.h>
+#include <thread>
 #include <unistd.h>
+
+using namespace std::chrono_literals;
 
 TEST_CASE("nos::file::timeouted_read")
 {
@@ -108,4 +111,47 @@ TEST_CASE("nos::timeouted_read_until_from")
     CHECK_EQ(line, "hellwrld");
     CHECK_EQ(is_timeout, true);
     CHECK_GT(endtime - curtime, std::chrono::milliseconds(10));
+}
+
+TEST_CASE("nos::timeouted_read_until_from")
+{
+    int fds[2];
+    pipe(fds);
+
+    nos::file f(fds[0]);
+    nos::file i(fds[1]);
+
+    auto thr = std::thread([&]() {
+        i.write("h", 1);
+        std::this_thread::sleep_for(1ms);
+
+        i.write("e", 1);
+        std::this_thread::sleep_for(1ms);
+
+        i.write("l", 1);
+        std::this_thread::sleep_for(1ms);
+
+        i.write("l", 1);
+        std::this_thread::sleep_for(1ms);
+
+        i.write("o", 1);
+        std::this_thread::sleep_for(1ms);
+
+        i.write("l", 1);
+        std::this_thread::sleep_for(1ms);
+
+        i.write("l", 1);
+        std::this_thread::sleep_for(1ms);
+    });
+
+    auto curtime = std::chrono::system_clock::now();
+    auto [line, is_timeout] =
+        nos::timeouted_read_until_from(std::chrono::milliseconds(100), f, "o");
+    auto endtime = std::chrono::system_clock::now();
+
+    thr.join();
+
+    CHECK_EQ(line, "hello");
+    CHECK_EQ(is_timeout, false);
+    CHECK_GT(endtime - curtime, std::chrono::milliseconds(4));
 }
