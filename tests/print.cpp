@@ -103,4 +103,10 @@ TEST_CASE("fprint")
         nos::print(std::numeric_limits<float>::min());
         nos::print(std::numeric_limits<float>::lowest());
     }
+
+    SUBCASE("printhex")
+    {
+        nos::printhex(16);
+        CHECK_EQ(output, "10");
+    }
 }
