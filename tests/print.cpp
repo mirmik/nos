@@ -106,7 +106,7 @@ TEST_CASE("fprint")
 
     SUBCASE("printhex")
     {
-        nos::printhex(16);
+        nos::printhex((char)16);
         CHECK_EQ(output, "10");
     }
 }
