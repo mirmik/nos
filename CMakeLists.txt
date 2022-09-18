@@ -78,7 +78,7 @@ if(${CMAKE_PROJECT_NAME} STREQUAL ${PROJECT_NAME})
 	
 	if (WIN32)	
 		target_link_libraries(nos ws2_32)
-		target_link_libraries(nos_test ws2_32)
+		target_link_libraries(nos_test ws2_32 pthread)
 
 		install (TARGETS ${PROJECT_NAME}
 		EXPORT ${PROJECT_NAME}
