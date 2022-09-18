@@ -96,6 +96,8 @@ if(${CMAKE_PROJECT_NAME} STREQUAL ${PROJECT_NAME})
 	endif()
 
 	if (UNIX AND NOT APPLE)
+		target_link_libraries(nos_test pthread)
+
 		install(TARGETS ${PROJECT_NAME}
 			LIBRARY DESTINATION /usr/lib
 		)
