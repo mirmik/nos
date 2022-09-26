@@ -23,18 +23,24 @@ namespace nos
     };
 }
 
+std::string nos_location_part(struct nos_location loc)
+{
+    return nos::format("Error checked in location \n"
+                       "\tline:{}\n"
+                       "\tfile:{}\n"
+                       "\tfunc:{}\n",
+                       loc.line,
+                       loc.file,
+                       loc.func);
+}
+
 #define NOS_CHECK(...)                                                         \
     if (!(__VA_ARGS__))                                                        \
     {                                                                          \
         NOS_CURRENT_LOCATION(loc);                                             \
-        std::string str = nos::format("Error checked in location \n"           \
-                                      "\tline:{}\n"                            \
-                                      "\tfile:{}\n"                            \
-                                      "\tfunc:{}\n"                            \
+        std::string str = nos::format("{}"                                     \
                                       "\tcond:{}\n\f",                         \
-                                      loc.line,                                \
-                                      loc.file,                                \
-                                      loc.func,                                \
+                                      nos_location_part(loc),                  \
                                       NOS_STRINGIFY(__VA_ARGS__));             \
         throw nos::check_error(str);                                           \
     }
@@ -44,19 +50,44 @@ namespace nos
     {                                                                          \
         NOS_CURRENT_LOCATION(loc);                                             \
         std::string str =                                                      \
-            nos::format("Error checked in location \n"                         \
-                        "\tline:{}\n"                                          \
-                        "\tfile:{}\n"                                          \
-                        "\tfunc:{}\n"                                          \
+            nos::format("{}"                                                   \
                         "\tcond:{}\n"                                          \
                         "\tleft: {}\n"                                         \
                         "\tright: {}\n",                                       \
-                        loc.line,                                              \
-                        loc.file,                                              \
-                        loc.func,                                              \
+                        nos_location_part(loc),                                \
                         NOS_STRINGIFY(a) " == " NOS_STRINGIFY(b),              \
                         a,                                                     \
                         b);                                                    \
+        throw nos::check_error(str);                                           \
+    }
+
+#define NOS_CHECK_LT(a, b)                                                     \
+    if (a >= b)                                                                \
+    {                                                                          \
+        NOS_CURRENT_LOCATION(loc);                                             \
+        std::string str = nos::format("{}"                                     \
+                                      "\tcond:{}\n"                            \
+                                      "\tleft: {}\n"                           \
+                                      "\tright: {}\n",                         \
+                                      nos_location_part(loc),                  \
+                                      NOS_STRINGIFY(a) " < " NOS_STRINGIFY(b), \
+                                      a,                                       \
+                                      b);                                      \
+        throw nos::check_error(str);                                           \
+    }
+
+#define NOS_CHECK_GT(a, b)                                                     \
+    if (a <= b)                                                                \
+    {                                                                          \
+        NOS_CURRENT_LOCATION(loc);                                             \
+        std::string str = nos::format("{}"                                     \
+                                      "\tcond:{}\n"                            \
+                                      "\tleft: {}\n"                           \
+                                      "\tright: {}\n",                         \
+                                      nos_location_part(loc),                  \
+                                      NOS_STRINGIFY(a) " > " NOS_STRINGIFY(b), \
+                                      a,                                       \
+                                      b);                                      \
         throw nos::check_error(str);                                           \
     }
 
