@@ -39,4 +39,25 @@ namespace nos
         throw nos::check_error(str);                                           \
     }
 
+#define NOS_CHECK_EQ(a, b)                                                     \
+    if (a != b)                                                                \
+    {                                                                          \
+        NOS_CURRENT_LOCATION(loc);                                             \
+        std::string str =                                                      \
+            nos::format("Error checked in location \n"                         \
+                        "\tline:{}\n"                                          \
+                        "\tfile:{}\n"                                          \
+                        "\tfunc:{}\n"                                          \
+                        "\tcond:{}\n"                                          \
+                        "\tleft: {}\n"                                         \
+                        "\tright: {}\n",                                       \
+                        loc.line,                                              \
+                        loc.file,                                              \
+                        loc.func,                                              \
+                        NOS_STRINGIFY(a) " == " NOS_STRINGIFY(b),              \
+                        a,                                                     \
+                        b);                                                    \
+        throw nos::check_error(str);                                           \
+    }
+
 #endif
