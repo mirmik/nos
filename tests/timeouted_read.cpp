@@ -160,3 +160,35 @@ TEST_CASE("nos::timeouted_read_until_from")
     CHECK_GT(endtime - curtime, std::chrono::milliseconds(104));
     CHECK_LT(endtime - curtime, std::chrono::milliseconds(150));
 }
+
+TEST_CASE("onebyte read")
+{
+    int fds[2];
+    pipe(fds);
+
+    nos::file f(fds[0]);
+    nos::file i(fds[1]);
+
+    auto thr = std::thread([&]() {
+        for (int j = 0; j < 20; ++j)
+        {
+            i.write("helloworld", 10);
+            std::this_thread::sleep_for(1ms);
+        }
+
+        i.write(".", 1);
+        std::this_thread::sleep_for(1ms);
+    });
+
+    auto [line, is_timeout] =
+        nos::timeouted_read_until_from(std::chrono::milliseconds(200), f, ".");
+    thr.join();
+
+    std::string str;
+    for (int j = 0; j < 20; ++j)
+        str += "helloworld";
+    str += ".";
+
+    CHECK_EQ(line, str);
+    CHECK_EQ(is_timeout, false);
+}

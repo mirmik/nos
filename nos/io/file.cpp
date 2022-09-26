@@ -8,6 +8,8 @@ using socklen_t = int32_t;
 #include <sys/select.h>
 #endif
 
+#include <nos/fprint.h>
+
 std::pair<int, bool>
 nos::file::timeouted_read(void *ptr, size_t sz, std::chrono::nanoseconds ms)
 {
@@ -19,7 +21,8 @@ nos::file::timeouted_read(void *ptr, size_t sz, std::chrono::nanoseconds ms)
     tv.tv_sec = ms.count() / 1000000000;
     tv.tv_usec = (ms.count() % 1000000000) / 1000;
 
-    int ret = select(fd() + 1, &fds, NULL, NULL, &tv);
+    nonblock(true);
+    int ret = select(fd() + 1, &fds, nullptr, nullptr, &tv);
 
     if (ret < 0)
     {
@@ -31,5 +34,10 @@ nos::file::timeouted_read(void *ptr, size_t sz, std::chrono::nanoseconds ms)
         return {0, true};
     }
 
-    return {read(ptr, sz), false};
+    auto read_sts = read(ptr, sz);
+
+    if (read_sts < 0)
+        return {read_sts, false};
+
+    return {read_sts, false};
 }
