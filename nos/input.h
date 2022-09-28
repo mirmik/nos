@@ -6,6 +6,7 @@
 #include <chrono>
 #include <stdlib.h>
 #include <string>
+#include <string_view>
 
 namespace nos
 {

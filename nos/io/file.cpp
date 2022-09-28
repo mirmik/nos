@@ -6,6 +6,7 @@ using suseconds_t = int32_t;
 using socklen_t = int32_t;
 #else
 #include <sys/select.h>
+#include <sys/time.h>
 #endif
 
 #include <nos/fprint.h>

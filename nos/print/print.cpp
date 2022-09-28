@@ -1,5 +1,8 @@
 #include <nos/io/ostream.h>
 #include <nos/print/print.h>
+#include <nos/print/stdtype.h>
+#include <string>
+#include <string_view>
 
 int nos::write_to(nos::ostream &out, const void *buf, size_t sz)
 {
@@ -113,13 +116,11 @@ int nos::print_dump(const void *ptr, size_t sz, unsigned int columns)
     return nos::print_dump_to(*nos::current_ostream, ptr, sz, columns);
 }
 
-#if __has_include(<string_view>)
 int nos::print_dump(const std::string_view &buf, unsigned int columns)
 {
     return nos::print_dump_to(
         *nos::current_ostream, buf.data(), buf.size(), columns);
 }
-#endif
 
 int nos::write(const void *buf, size_t sz)
 {

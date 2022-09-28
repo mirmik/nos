@@ -141,14 +141,14 @@ std::string nos::read_until_from(nos::istream &is,
         if (sts == 0)
         {
             // eof
-            return {ret, false};
+            return ret;
         }
 
         ret.push_back(c);
 
         if (delimiters.find(c) != std::string::npos)
         {
-            return {ret, false};
+            return ret;
         }
     }
 }

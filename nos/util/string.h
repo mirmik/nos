@@ -6,6 +6,7 @@
 #include <cstring>
 #include <list>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace nos
