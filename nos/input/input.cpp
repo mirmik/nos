@@ -1,9 +1,10 @@
 #include <nos/input.h>
 #include <nos/io/istream.h>
 #include <nos/print.h>
+#include <nos/util/expected.h>
 #include <stdexcept>
 
-std::string nos::readline_from(nos::istream &is)
+nos::expected<std::string, nos::errstring> nos::readline_from(nos::istream &is)
 {
     char c;
     std::string ret;
@@ -14,7 +15,7 @@ std::string nos::readline_from(nos::istream &is)
 
         if (readed < 0)
         {
-            throw std::runtime_error("read error");
+            return nos::errstring("read error");
         }
 
         if (readed == 0)
@@ -36,7 +37,7 @@ std::string nos::readline_from(nos::istream &is)
     }
 }
 
-std::pair<std::string, bool>
+/*std::pair<std::string, bool>
 nos::timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is)
 {
     std::string ret;
@@ -77,9 +78,9 @@ nos::timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is)
 
         ret.push_back(c);
     }
-}
+}*/
 
-std::pair<std::string, bool>
+/*std::pair<std::string, bool>
 nos::timeouted_read_until_from(std::chrono::nanoseconds ms,
                                nos::istream &is,
                                const std::string_view &delimiters)
@@ -122,9 +123,10 @@ nos::timeouted_read_until_from(std::chrono::nanoseconds ms,
             return {ret, false};
         }
     }
-}
-std::string nos::read_until_from(nos::istream &is,
-                                 const std::string_view &delimiters)
+}*/
+
+nos::expected<std::string, nos::errstring>
+nos::read_until_from(nos::istream &is, const std::string_view &delimiters)
 {
     std::string ret;
 
@@ -135,7 +137,7 @@ std::string nos::read_until_from(nos::istream &is,
 
         if (sts < 0)
         {
-            throw std::runtime_error("read error");
+            return nos::errstring("read error");
         }
 
         if (sts == 0)
@@ -153,7 +155,7 @@ std::string nos::read_until_from(nos::istream &is,
     }
 }
 
-std::string nos::readline(nos::istream &is)
+nos::expected<std::string, nos::errstring> nos::readline(nos::istream &is)
 {
     return nos::readline_from(is);
 }
@@ -262,18 +264,19 @@ std::string nos::readall_from(nos::istream &is)
     return is.readall();
 }
 
-std::string nos::readline()
+nos::expected<std::string, nos::errstring> nos::readline()
 {
     return nos::readline_from(*nos::current_istream);
 }
 
-std::string nos::read_from(nos::istream &is, size_t sz)
+nos::expected<std::string, nos::errstring> nos::read_from(nos::istream &is,
+                                                          size_t sz)
 {
     std::string ret;
     ret.resize(sz);
     int size = is.read(&ret[0], sz);
     if (size < 0)
-        throw std::runtime_error("read error");
+        return nos::errstring("read error");
     ret.resize(size);
     return ret;
 }

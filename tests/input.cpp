@@ -5,7 +5,7 @@
 TEST_CASE("read_from")
 {
     nos::stringstream ss("Hello World!");
-    CHECK(nos::read_from(ss, 5) == "Hello");
-    CHECK(nos::read_from(ss, 6) == " World");
-    CHECK(nos::read_from(ss, 5) == "!");
+    CHECK(*nos::read_from(ss, 5) == "Hello");
+    CHECK(*nos::read_from(ss, 6) == " World");
+    CHECK(*nos::read_from(ss, 5) == "!");
 }

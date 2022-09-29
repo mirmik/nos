@@ -24,7 +24,7 @@ licant.cxx_static_and_shared("libraries",
                                  "nos.input",
                                  "nos.shell.standart",
                              ],
-                             cxx_flags='-fPIC -Weffc++ -Wall -Wextra',
+                             cxx_flags='-fmax-errors=1 -fPIC -Weffc++ -Wall -Wextra',
                              cc_flags='-fPIC',
                              libs=["ws2_32"] if sys.platform == "win32" else [],
                              )
@@ -36,15 +36,15 @@ licant.cxx_application("runtests",
                        include_paths=["tests/.", "."],
                        cxxstd="c++2a -Weffc++",
                        ccstd="c11",
-                       cxx_flags="-g -O0 -fPIC -Werror=all -Werror=pedantic -Wno-gnu-zero-variadic-macro-arguments",
+                       cxx_flags="-fmax-errors=1 -g -O0 -fPIC -Werror=all -Werror=pedantic -Wno-gnu-zero-variadic-macro-arguments",
                        cc_flags="-g -O0 -fPIC -Werror=all -Werror=pedantic -Wno-gnu-zero-variadic-macro-arguments",
                        libs=["pthread"],
                        )
 
-licant.install.install_library(	tgt="install",
-                                libtgt=["libnos.a", "libnos.so"],
-                                headers="nos",
-                                hroot="nos")
+licant.install.install_library(tgt="install",
+                               libtgt=["libnos.a", "libnos.so"],
+                               headers="nos",
+                               hroot="nos")
 
 licant.fileset("all", targets=["runtests", "libnos.a", "libnos.so"])
 

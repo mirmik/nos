@@ -4,6 +4,8 @@
 #define NOS_INPUT_H
 
 #include <chrono>
+#include <nos/util/error.h>
+#include <nos/util/expected.h>
 #include <stdlib.h>
 #include <string>
 #include <string_view>
@@ -13,8 +15,12 @@ namespace nos
     class istream;
     extern istream *current_istream;
 
-    std::string read_from(nos::istream &is, size_t sz);
-    std::string readline_from(nos::istream &is);
+    nos::expected<std::string, nos::errstring> read_from(nos::istream &is,
+                                                         size_t sz);
+
+    // std::string readline_from(nos::istream &is);
+    nos::expected<std::string, nos::errstring> readline_from(nos::istream &is);
+
     int read_until(nos::istream &is, char *buf, size_t buflen, char delim);
     int read_paired(nos::istream &is,
                     char *buf,
@@ -27,21 +33,23 @@ namespace nos
                              char *buf,
                              size_t buflen,
                              int timeout_ms);
+
     std::string readall_from(nos::istream &is);
-    std::string readline();
+    nos::expected<std::string, nos::errstring> readline();
 
-    std::pair<std::string, bool>
-    timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is);
+    // std::pair<std::string, bool>
+    // timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is);
 
-    std::string read_until_from(nos::istream &is,
-                                const std::string_view &delimiters);
+    nos::expected<std::string, nos::errstring>
+    read_until_from(nos::istream &is, const std::string_view &delimiters);
 
-    std::pair<std::string, bool>
+    /*std::pair<std::string, bool>
     timeouted_read_until_from(std::chrono::nanoseconds ms,
                               nos::istream &is,
-                              const std::string_view &delimiters);
+                              const std::string_view &delimiters);*/
 
-    [[deprecated]] std::string readline(nos::istream &is);
+    [[deprecated]] nos::expected<std::string, nos::errstring>
+    readline(nos::istream &is);
 }
 
 #include <nos/io/istream.h>

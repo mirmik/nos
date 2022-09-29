@@ -61,8 +61,8 @@ namespace nos
             return nos::osutil::nonblock(fd(), en);
         }
 
-        std::pair<int, bool> timeouted_read(
-            void *ptr, size_t sz, std::chrono::nanoseconds ms) override;
+        /*std::pair<int, bool> timeouted_read(
+            void *ptr, size_t sz, std::chrono::nanoseconds ms) override;*/
     };
 }
 

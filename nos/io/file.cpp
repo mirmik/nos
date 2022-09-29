@@ -11,7 +11,7 @@ using socklen_t = int32_t;
 
 #include <nos/fprint.h>
 
-std::pair<int, bool>
+/*std::pair<int, bool>
 nos::file::timeouted_read(void *ptr, size_t sz, std::chrono::nanoseconds ms)
 {
     fd_set fds;
@@ -41,4 +41,4 @@ nos::file::timeouted_read(void *ptr, size_t sz, std::chrono::nanoseconds ms)
         return {read_sts, false};
 
     return {read_sts, false};
-}
+}*/
