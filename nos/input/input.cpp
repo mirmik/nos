@@ -1,6 +1,7 @@
 #include <nos/input.h>
 #include <nos/io/istream.h>
 #include <nos/print.h>
+#include <nos/util/error.h>
 #include <nos/util/expected.h>
 #include <stdexcept>
 

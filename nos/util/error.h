@@ -12,6 +12,7 @@ namespace nos
     public:
         errstring(const char *msg) : std::string(msg) {}
         errstring(const std::string &msg) : std::string(msg) {}
+        ~errstring() = default;
     };
 }
 
