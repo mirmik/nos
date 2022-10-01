@@ -13,6 +13,12 @@ licant.module("nos.osutil", "windows", default=sys.platform == "win32",
               ]
               )
 
+licant.module("nos.check",
+              sources=[
+                  "nos/check/env.cpp"
+              ]
+              )
+
 licant.module("nos.util",
               srcdir="nos/util",
               sources=[
