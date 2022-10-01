@@ -9,6 +9,7 @@ file(GLOB HEADERS
 file(GLOB NOS_SOURCES 
 	nos/print/*.cpp	
 	nos/fprint/*.cpp
+	nos/check/*.cpp
 	nos/util/osutil.cpp
 	nos/util/trace.cpp
 	nos/util/numconvert.cpp
