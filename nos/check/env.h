@@ -12,10 +12,6 @@ extern std::string nos_check_error_msg;
 
 #define NOS_CHECK_ENV_ERROR_HANDLER() else
 
-#define NOS_CHECK_ENV_RAISE(msg)                                               \
-    {                                                                          \
-        nos_check_error_msg = msg;                                             \
-        longjmp(nos_check_start_point, 1);                                     \
-    }
+void NOS_CHECK_ENV_RAISE(std::string msg);
 
 #endif
