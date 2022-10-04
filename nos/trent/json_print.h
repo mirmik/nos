@@ -1,5 +1,5 @@
-#include <nos/trent/json.h>
 #include <iostream>
+#include <nos/trent/json.h>
 #include <sstream>
 #include <string>
 
@@ -68,10 +68,12 @@ namespace nos
                             os.put(',');
 
                         if (pretty)
+                        {
                             os << "\r\n";
 
-                        for (int i = 0; i < tab + 1; i++)
-                            os.put('\t');
+                            for (int i = 0; i < tab + 1; i++)
+                                os.put('\t');
+                        }
 
                         json::print_to(v, os, pretty, tab + 1);
                         sep = true;
