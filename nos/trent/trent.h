@@ -161,7 +161,7 @@ namespace nos
         void init_str(const char *data, size_t size);
 
         void init(type t);
-        void init(const trent_basic &oth);
+        // void init(const trent_basic &oth);
 
         void init(const char *ptr)
         {
@@ -1066,7 +1066,7 @@ namespace nos
         return m_str;
     }
 
-    template <template <class Allocator> class TAlloc>
+    /*template <template <class Allocator> class TAlloc>
     void trent_basic<TAlloc>::init(const trent_basic<TAlloc> &other)
     {
         if (m_type != trent_basic::type::nil)
@@ -1099,7 +1099,7 @@ namespace nos
         case trent_basic::type::nil:
             return;
         }
-    }
+    }*/
 }
 
 #endif
