@@ -1065,6 +1065,41 @@ namespace nos
 
         return m_str;
     }
+
+    template <template <class Allocator> class TAlloc>
+    void trent_basic<TAlloc>::init(const trent_basic<TAlloc> &other)
+    {
+        if (m_type != trent_basic::type::nil)
+            invalidate();
+
+        m_type = other.m_type;
+
+        switch (m_type)
+        {
+        case trent_basic::type::string:
+            nos::constructor(&m_str, other.m_str);
+            return;
+
+        case trent_basic::type::list:
+            nos::constructor(&m_arr, other.m_arr);
+            return;
+
+        case trent_basic::type::dict:
+            nos::constructor(&m_dct, other.m_dct);
+            return;
+
+        case trent_basic::type::numer:
+            m_num = other.m_num;
+            return;
+
+        case trent_basic::type::boolean:
+            m_bool = other.m_bool;
+            return;
+
+        case trent_basic::type::nil:
+            return;
+        }
+    }
 }
 
 #endif
