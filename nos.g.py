@@ -44,7 +44,7 @@ licant.module("nos.io",
               )
 
 licant.module("nos.trent",
-              sources=["nos/trent/*.cpp"])
+              sources=["nos/trent/json.cpp", "nos/trent/trent.cpp"],])
 
 licant.module("nos.log",
               srcdir="nos/log",
