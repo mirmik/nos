@@ -10,11 +10,11 @@ namespace nos
         bool _is_ok = false;
         union storage_u
         {
-            T _ok;
+            T _ok = {};
             E _err;
             storage_u() {}
             ~storage_u() {}
-        } u;
+        } u = {};
 
     public:
         expected() : _is_ok(false) {}

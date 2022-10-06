@@ -9,7 +9,7 @@
 
 using namespace std::chrono_literals;
 
-/*TEST_CASE("nos::file::timeouted_read")
+TEST_CASE("nos::file::timeouted_read")
 {
     int fds[2];
     pipe(fds);
@@ -121,31 +121,33 @@ TEST_CASE("nos::timeouted_read_until_from")
     nos::file f(fds[0]);
     nos::file i(fds[1]);
 
-    auto thr = std::thread([&]() {
-        i.write("h", 1);
-        std::this_thread::sleep_for(1ms);
-
-        for (int j = 0; j < 100; ++j)
+    auto thr = std::thread(
+        [&]()
         {
-            i.write("e", 1);
+            i.write("h", 1);
             std::this_thread::sleep_for(1ms);
-        }
 
-        i.write("l", 1);
-        std::this_thread::sleep_for(1ms);
+            for (int j = 0; j < 100; ++j)
+            {
+                i.write("e", 1);
+                std::this_thread::sleep_for(1ms);
+            }
 
-        i.write("l", 1);
-        std::this_thread::sleep_for(1ms);
+            i.write("l", 1);
+            std::this_thread::sleep_for(1ms);
 
-        i.write("o", 1);
-        std::this_thread::sleep_for(1ms);
+            i.write("l", 1);
+            std::this_thread::sleep_for(1ms);
 
-        i.write("l", 1);
-        std::this_thread::sleep_for(1ms);
+            i.write("o", 1);
+            std::this_thread::sleep_for(1ms);
 
-        i.write("l", 1);
-        std::this_thread::sleep_for(1ms);
-    });
+            i.write("l", 1);
+            std::this_thread::sleep_for(1ms);
+
+            i.write("l", 1);
+            std::this_thread::sleep_for(1ms);
+        });
 
     auto curtime = std::chrono::system_clock::now();
     auto [line, is_timeout] =
@@ -169,16 +171,18 @@ TEST_CASE("onebyte read")
     nos::file f(fds[0]);
     nos::file i(fds[1]);
 
-    auto thr = std::thread([&]() {
-        for (int j = 0; j < 20; ++j)
+    auto thr = std::thread(
+        [&]()
         {
-            i.write("helloworld", 10);
-            std::this_thread::sleep_for(1ms);
-        }
+            for (int j = 0; j < 20; ++j)
+            {
+                i.write("helloworld", 10);
+                std::this_thread::sleep_for(1ms);
+            }
 
-        i.write(".", 1);
-        std::this_thread::sleep_for(1ms);
-    });
+            i.write(".", 1);
+            std::this_thread::sleep_for(1ms);
+        });
 
     auto [line, is_timeout] =
         nos::timeouted_read_until_from(std::chrono::milliseconds(200), f, ".");
@@ -191,4 +195,4 @@ TEST_CASE("onebyte read")
 
     CHECK_EQ(line, str);
     CHECK_EQ(is_timeout, false);
-}*/
+}

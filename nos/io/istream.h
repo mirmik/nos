@@ -66,14 +66,12 @@ namespace nos
 
         // @return1 - количество прочитанных байт
         // @return2 - случился ли таймаут
-        /*virtual std::pair<int, bool>
+        virtual std::pair<int, bool>
         timeouted_read(void *ptr, size_t sz, std::chrono::nanoseconds ms)
         {
-            (void)ptr;
-            (void)sz;
             (void)ms;
-            // throw std::runtime_error("not implemented");
-        }*/
+            return {read(ptr, sz), false};
+        }
     };
 }
 

@@ -38,7 +38,7 @@ nos::expected<std::string, nos::errstring> nos::readline_from(nos::istream &is)
     }
 }
 
-/*std::pair<std::string, bool>
+std::pair<std::string, bool>
 nos::timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is)
 {
     std::string ret;
@@ -79,9 +79,9 @@ nos::timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is)
 
         ret.push_back(c);
     }
-}*/
+}
 
-/*std::pair<std::string, bool>
+std::pair<std::string, bool>
 nos::timeouted_read_until_from(std::chrono::nanoseconds ms,
                                nos::istream &is,
                                const std::string_view &delimiters)
@@ -124,7 +124,7 @@ nos::timeouted_read_until_from(std::chrono::nanoseconds ms,
             return {ret, false};
         }
     }
-}*/
+}
 
 nos::expected<std::string, nos::errstring>
 nos::read_until_from(nos::istream &is, const std::string_view &delimiters)

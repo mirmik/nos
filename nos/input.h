@@ -37,16 +37,16 @@ namespace nos
     std::string readall_from(nos::istream &is);
     nos::expected<std::string, nos::errstring> readline();
 
-    // std::pair<std::string, bool>
-    // timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is);
+    std::pair<std::string, bool>
+    timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is);
 
     nos::expected<std::string, nos::errstring>
     read_until_from(nos::istream &is, const std::string_view &delimiters);
 
-    /*std::pair<std::string, bool>
+    std::pair<std::string, bool>
     timeouted_read_until_from(std::chrono::nanoseconds ms,
                               nos::istream &is,
-                              const std::string_view &delimiters);*/
+                              const std::string_view &delimiters);
 
     [[deprecated]] nos::expected<std::string, nos::errstring>
     readline(nos::istream &is);
