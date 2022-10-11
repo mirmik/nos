@@ -49,7 +49,9 @@ nos::timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is)
     {
         char c;
         auto ellapsed = endtime - curtime;
-        auto [sts, is_timeout] = is.timeouted_read(&c, 1, ellapsed);
+        auto pair = is.timeouted_read(&c, 1, ellapsed);
+        auto sts = pair.first;
+        auto is_timeout = pair.second;
 
         if (is_timeout)
         {
@@ -95,7 +97,9 @@ nos::timeouted_read_until_from(std::chrono::nanoseconds ms,
         char c;
         auto curtime = std::chrono::system_clock::now();
         auto ellapsed = endtime - curtime;
-        auto [sts, is_timeout] = is.timeouted_read(&c, 1, ellapsed);
+        auto pair = is.timeouted_read(&c, 1, ellapsed);
+        auto sts = pair.first;
+        auto is_timeout = pair.second;
 
         // nos::current_ostream->write(&c, 1);
         // nos::print(" ");
