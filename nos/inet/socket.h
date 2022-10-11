@@ -12,21 +12,13 @@ namespace nos
         class socket : public nos::file
         {
         public:
-            int _fd = -1;
-
-        public:
             bool good()
             {
                 return fd() >= 0;
             }
 
-            int fd() const
-            {
-                return _fd;
-            }
-
             socket() = default;
-            socket(int fd) : _fd(fd) {}
+            socket(int fd) : file(fd) {}
             socket(const socket &oth) = default;
             socket(socket &&oth) = default;
             socket &operator=(const socket &oth) = default;

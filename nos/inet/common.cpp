@@ -76,7 +76,7 @@ int nos::inet::socket::reusing(bool en)
 
 int nos::inet::socket::init(int domain, int type, int proto)
 {
-    _fd = ::socket(domain, type, proto);
+    set_fd(::socket(domain, type, proto));
     if (NOS_WARNINGS && fd() < 0)
     {
         perror("warn: socket::init");

@@ -56,13 +56,13 @@ int nos::inet::tcp_client::connect(nos::inet::hostaddr addr,
 
     fd_set writefds;
     FD_ZERO(&writefds);
-    FD_SET(_fd, &writefds);
+    FD_SET(fd(), &writefds);
 
     struct timeval tv;
     tv.tv_sec = timeout.count() / 1000;
     tv.tv_usec = (timeout.count() % 1000) * 1000;
 
-    sts = select(_fd + 1, NULL, &writefds, NULL, &tv);
+    sts = select(fd() + 1, NULL, &writefds, NULL, &tv);
     if (sts < 0)
     {
         throw nos::inet::tcp_connect_error();
@@ -76,7 +76,7 @@ int nos::inet::tcp_client::connect(nos::inet::hostaddr addr,
         int so_error;
         socklen_t len = sizeof(so_error);
 
-        getsockopt(_fd, SOL_SOCKET, SO_ERROR, (char *)&so_error, &len);
+        getsockopt(fd(), SOL_SOCKET, SO_ERROR, (char *)&so_error, &len);
 
         if (so_error != 0)
         {

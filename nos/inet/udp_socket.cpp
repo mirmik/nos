@@ -20,7 +20,7 @@ nos::inet::udp_broadcast_socket::udp_broadcast_socket(uint16_t port)
 
 void nos::inet::udp_broadcast_socket::init()
 {
-    _fd = socket::init(AF_INET, SOCK_DGRAM, 0);
+    set_fd(socket::init(AF_INET, SOCK_DGRAM, 0));
     if (fd() < 0)
     {
         throw std::runtime_error("socket failed");
@@ -50,7 +50,7 @@ int nos::inet::udp_broadcast_socket::sendto(const void *data,
     saddr.sin_family = AF_INET;
     saddr.sin_port = htons(port);
     saddr.sin_addr.s_addr = inet_addr(ip.c_str());
-    int ret = ::sendto(_fd,
+    int ret = ::sendto(fd(),
                        (const char *)data,
                        size,
                        0,
@@ -67,7 +67,7 @@ int nos::inet::udp_broadcast_socket::sendto(const void *data,
 void nos::inet::udp_broadcast_socket::allow_broadcast()
 {
     int broadcast = 1;
-    if (setsockopt(_fd,
+    if (setsockopt(fd(),
                    SOL_SOCKET,
                    SO_BROADCAST,
                    (char *)&broadcast,
@@ -107,7 +107,7 @@ nos::inet::udp_broadcast_socket::recvfrom(size_t maxsize)
     std::string data;
     data.resize(maxsize);
     int ret = ::recvfrom(
-        _fd, &data[0], maxsize, 0, (struct sockaddr *)&saddr, &saddr_len);
+        fd(), &data[0], maxsize, 0, (struct sockaddr *)&saddr, &saddr_len);
     if (ret < 0)
     {
         if (errno == EAGAIN || errno == 0)

@@ -9,7 +9,7 @@ namespace nos
 
     class file : public nos::iostream
     {
-    protected:
+    private:
         int m_fd = -1;
 
     public:
@@ -18,6 +18,11 @@ namespace nos
         file(const char *path, int flags)
         {
             open(path, flags);
+        }
+
+        void set_fd(int fd)
+        {
+            m_fd = fd;
         }
 
         int write(const void *ptr, size_t sz) override
