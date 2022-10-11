@@ -48,6 +48,6 @@ nos::inet::tcp_socket nos::inet::tcp_server::accept()
     int cfd = ::accept(fd(), (sockaddr *)&caddr, (socklen_t *)&c);
 
     nos::inet::tcp_socket sock;
-    sock._fd = cfd;
+    sock.set_fd(cfd);
     return sock;
 }
