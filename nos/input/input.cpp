@@ -58,7 +58,7 @@ nos::timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is)
 
         if (sts < 0)
         {
-            throw std::runtime_error("read error");
+            return {ret, false};
         }
 
         if (sts == 0)
@@ -108,13 +108,12 @@ nos::timeouted_read_until_from(std::chrono::nanoseconds ms,
 
         if (sts < 0)
         {
-            throw std::runtime_error("read error");
+            return {ret, false};
         }
 
         if (sts == 0)
         {
-            // pass
-            continue;
+            return {ret, false};
         }
 
         ret.push_back(c);
