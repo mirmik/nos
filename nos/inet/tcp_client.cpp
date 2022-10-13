@@ -36,7 +36,9 @@ int nos::inet::tcp_client::read(void *data, size_t size)
 int nos::inet::tcp_client::connect(nos::inet::hostaddr addr, uint16_t port)
 {
     init();
+    reusing(true);
     int sts = tcp_socket::connect(addr, port);
+    reusing(true);
     if (sts < 0)
     {
         _is_connect = false;
@@ -52,7 +54,9 @@ int nos::inet::tcp_client::connect(nos::inet::hostaddr addr,
 {
     init();
     nonblock(true);
+    reusing(true);
     int sts = tcp_socket::connect(addr, port);
+    reusing(true);
 
     fd_set writefds;
     FD_ZERO(&writefds);
