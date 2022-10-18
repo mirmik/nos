@@ -1,3 +1,4 @@
+#include <nos/fprint.h>
 #include <nos/log/logger.h>
 
 std::string nos::log::logger::name() const

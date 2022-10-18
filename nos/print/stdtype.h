@@ -1,6 +1,7 @@
 #ifndef NOS_PRINT_STDTYPE_H
 #define NOS_PRINT_STDTYPE_H
 
+#include <nos/ilist.h>
 #include <nos/util/buffer.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -160,6 +161,26 @@ namespace nos
         }
     };
 #endif
+
+    template <typename T> struct print_implementation<nos::ilist_adapter<T>>
+    {
+        static int print_to(nos::ostream &out, const nos::ilist_adapter<T> &obj)
+        {
+            int ret = 0;
+            ret += nos::print_to(out, "[");
+            for (size_t i = 0; i < obj.size() - 1; i++)
+            {
+                ret += nos::print_to(out, obj[i]);
+                if (i != obj.size() - 1)
+                {
+                    ret += nos::print_to(out, ",");
+                }
+            }
+            ret += nos::print_to(out, obj[obj.size() - 1]);
+            ret += nos::print_to(out, "]");
+            return ret;
+        }
+    };
 }
 
 #endif

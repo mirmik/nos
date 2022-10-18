@@ -106,6 +106,18 @@ namespace nos
         {
             return list + _size;
         }
+
+        std::string to_string() const
+        {
+            std::string str = "";
+            for (size_t i = 0; i < _size; i++)
+            {
+                str += list[i].to_string();
+                if (i < _size - 1)
+                    str += " ";
+            }
+            return str;
+        }
     };
 }
 
