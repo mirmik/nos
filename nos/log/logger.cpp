@@ -1,6 +1,8 @@
 #include <nos/fprint.h>
 #include <nos/log/logger.h>
 
+nos::log::logger nos::log::stdlogger("std");
+
 std::string nos::log::logger::name() const
 {
     return _name;

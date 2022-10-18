@@ -31,7 +31,6 @@ if (UNIX)
 		nos/util/osutil_unix.cpp
 		nos/inet/*.cpp
 		nos/log/*.cpp
-		nos/log/targets/*.cpp
 	)
 endif()
 

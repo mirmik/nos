@@ -24,6 +24,7 @@ licant.cxx_static_and_shared("libraries",
                                  "nos.input",
                                  "nos.shell.standart",
                                  "nos.check",
+                                 "nos.log"
                              ],
                              cxx_flags='-fmax-errors=1 -fPIC -Weffc++ -Wall -Wextra',
                              cc_flags='-fPIC',
