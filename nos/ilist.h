@@ -1,6 +1,8 @@
 #ifndef NOS_ILIST_H
 #define NOS_ILIST_H
 
+#include <cstddef>
+
 namespace nos
 {
     template <typename T> class ilist_adapter
@@ -30,6 +32,11 @@ namespace nos
         auto size() const
         {
             return list.size();
+        }
+
+        const auto &operator[](size_t index) const
+        {
+            return list[index];
         }
     };
 
