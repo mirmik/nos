@@ -63,6 +63,33 @@ namespace nos
         return ibin_adapter<T>(bin);
     }
 
+    template <typename T> class ibinmap_adapter
+    {
+        T &binmap;
+        bool _print_if_one;
+
+    public:
+        ibinmap_adapter(T &binmap, bool print_if_one)
+            : binmap(binmap), _print_if_one(print_if_one)
+        {
+        }
+
+        const T &ref() const
+        {
+            return binmap;
+        }
+
+        bool print_if_one() const
+        {
+            return _print_if_one;
+        }
+    };
+
+    template <typename T> ibinmap_adapter<T> ibinmap(T &bin, bool print_if_one)
+    {
+        return ibinmap_adapter<T>(bin, print_if_one);
+    }
+
     template <typename T> class ihex_adapter
     {
         T &hex;
@@ -80,6 +107,7 @@ namespace nos
     {
         return ihex_adapter<T>(hex);
     }
+
 }
 
 #endif

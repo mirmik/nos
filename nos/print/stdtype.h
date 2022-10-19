@@ -193,6 +193,36 @@ namespace nos
         }
     };
 
+    template <typename T> struct print_implementation<nos::ibinmap_adapter<T>>
+    {
+        static int print_to(nos::ostream &out,
+                            const nos::ibinmap_adapter<T> &obj)
+        {
+            int ret = 0;
+            auto bytesize = sizeof(obj.ref());
+            ret += nos::print_to(out, "{");
+            for (int i = bytesize - 1; i >= 0; i--)
+            {
+                uint8_t *ptr = (uint8_t *)(&obj.ref()) + i;
+                for (int j = 7; j >= 0; j--)
+                {
+                    int bitno = i * 8 + j;
+                    int bitval = *ptr & (1 << j);
+
+                    bool print_if_one = obj.print_if_one();
+
+                    if ((bool)bitval == print_if_one)
+                        ret += nos::print_to(
+                            out,
+                            std::to_string(bitno) + std::string(":") +
+                                std::string(bitval ? "1" : "0") + ",");
+                }
+            }
+            ret += nos::print_to(out, "}");
+            return ret;
+        }
+    };
+
     template <typename T> struct print_implementation<nos::ihex_adapter<T>>
     {
         static int print_to(nos::ostream &out, const nos::ihex_adapter<T> &obj)

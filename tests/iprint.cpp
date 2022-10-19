@@ -23,6 +23,14 @@ TEST_CASE("ibin")
     }
 }
 
+TEST_CASE("ibinmap")
+{
+    nos::stringstream ss;
+    uint16_t u16 = 0b0000000000010100;
+    nos::print_to(ss, nos::ibinmap(u16, 1));
+    CHECK_EQ(ss.str(), "{4:1,2:1,}");
+}
+
 TEST_CASE("ihex")
 {
     nos::stringstream ss;
