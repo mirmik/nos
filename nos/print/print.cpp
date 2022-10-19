@@ -169,7 +169,7 @@ int nos::printhex_to(nos::ostream &out, char c)
     return out.write(buf, 2);
 }
 
-int nos::printhex_to(nos::ostream &out, void *ptr, size_t sz)
+int nos::printhex_to(nos::ostream &out, const void *ptr, size_t sz)
 {
     size_t ret = 0;
     char *_ptr = (char *)ptr;
@@ -177,6 +177,29 @@ int nos::printhex_to(nos::ostream &out, void *ptr, size_t sz)
     for (unsigned int i = 0; i < sz; ++i)
     {
         ret += printhex_to(out, *_ptr++);
+    }
+
+    return ret;
+}
+
+int nos::printbin_to(nos::ostream &out, char c)
+{
+    size_t ret = 0;
+    for (int j = 7; j >= 0; --j)
+    {
+        ret += out.putbyte((c & (1 << j)) ? '1' : '0');
+    }
+    return ret;
+}
+
+int nos::printbin_to(nos::ostream &out, const void *ptr, size_t sz)
+{
+    size_t ret = 0;
+    char *_ptr = (char *)ptr;
+
+    for (unsigned int i = 0; i < sz; ++i)
+    {
+        ret += printbin_to(out, *_ptr++);
     }
 
     return ret;

@@ -56,7 +56,9 @@ namespace nos
     int fill(std::string_view &c, size_t sz);
 
     int printhex_to(nos::ostream &out, char c);
-    int printhex_to(nos::ostream &out, void *ptr, size_t sz);
+    int printhex_to(nos::ostream &out, const void *ptr, size_t sz);
+    int printbin_to(nos::ostream &out, char c);
+    int printbin_to(nos::ostream &out, const void *ptr, size_t size);
 
     template <typename O> int printhex_to(nos::ostream &out, const O &o);
 

@@ -181,6 +181,30 @@ namespace nos
             return ret;
         }
     };
+
+    template <typename T> struct print_implementation<nos::ibin_adapter<T>>
+    {
+        static int print_to(nos::ostream &out, const nos::ibin_adapter<T> &obj)
+        {
+            int ret = 0;
+            ret += nos::print_to(out, "0b");
+            ret += nos::printbin_to(out, &obj.ref(), sizeof(obj.ref()));
+            return ret;
+        }
+    };
+
+    template <typename T> struct print_implementation<nos::ihex_adapter<T>>
+    {
+        static int print_to(nos::ostream &out, const nos::ihex_adapter<T> &obj)
+        {
+            int ret = 0;
+            ret += nos::print_to(out, "0x");
+            ret += nos::printhex_to(
+                out, (const void *)&obj.ref(), (size_t)sizeof(obj.ref()));
+            return ret;
+        }
+    };
+
 }
 
 #endif

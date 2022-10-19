@@ -44,6 +44,42 @@ namespace nos
     {
         return ilist_adapter<T>(list);
     }
+
+    template <typename T> class ibin_adapter
+    {
+        T &bin;
+
+    public:
+        ibin_adapter(T &bin) : bin(bin) {}
+
+        const T &ref() const
+        {
+            return bin;
+        }
+    };
+
+    template <typename T> ibin_adapter<T> ibin(T &bin)
+    {
+        return ibin_adapter<T>(bin);
+    }
+
+    template <typename T> class ihex_adapter
+    {
+        T &hex;
+
+    public:
+        ihex_adapter(T &hex) : hex(hex) {}
+
+        const T &ref() const
+        {
+            return hex;
+        }
+    };
+
+    template <typename T> ihex_adapter<T> ihex(T &hex)
+    {
+        return ihex_adapter<T>(hex);
+    }
 }
 
 #endif
