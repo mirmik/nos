@@ -174,10 +174,8 @@ int nos::printhex_to(nos::ostream &out, const void *ptr, size_t sz)
     size_t ret = 0;
     char *_ptr = (char *)ptr;
 
-    for (unsigned int i = 0; i < sz; ++i)
-    {
-        ret += printhex_to(out, *_ptr++);
-    }
+    for (int i = sz - 1; i >= 0; i--)
+        ret += nos::printhex_to(out, _ptr[i]);
 
     return ret;
 }
@@ -197,10 +195,8 @@ int nos::printbin_to(nos::ostream &out, const void *ptr, size_t sz)
     size_t ret = 0;
     char *_ptr = (char *)ptr;
 
-    for (unsigned int i = 0; i < sz; ++i)
-    {
-        ret += printbin_to(out, *_ptr++);
-    }
+    for (int i = sz - 1; i >= 0; --i)
+        ret += printbin_to(out, _ptr[i]);
 
     return ret;
 }

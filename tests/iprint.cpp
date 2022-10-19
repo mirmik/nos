@@ -2,6 +2,7 @@
 #include <doctest/doctest.h>
 #include <nos/io/sstream.h>
 #include <nos/print.h>
+#include <random>
 
 TEST_CASE("ibin")
 {
@@ -9,16 +10,16 @@ TEST_CASE("ibin")
 
     SUBCASE("u8")
     {
-        uint8_t u8 = 0b10101010;
+        uint8_t u8 = 0x1C;
         nos::print_to(ss, nos::ibin(u8));
-        CHECK_EQ(ss.str(), "0b10101010");
+        CHECK_EQ(ss.str(), "0b00011100");
     }
 
     SUBCASE("u16")
     {
-        uint16_t u16 = 0b1010101010101010;
+        uint16_t u16 = 0x1CB4;
         nos::print_to(ss, nos::ibin(u16));
-        CHECK_EQ(ss.str(), "0b1010101010101010");
+        CHECK_EQ(ss.str(), "0b0001110010110100");
     }
 }
 
@@ -28,15 +29,15 @@ TEST_CASE("ihex")
 
     SUBCASE("u8")
     {
-        uint8_t u8 = 0b10101010;
+        uint8_t u8 = 0b10101100;
         nos::print_to(ss, nos::ihex(u8));
-        CHECK_EQ(ss.str(), "0xAA");
+        CHECK_EQ(ss.str(), "0xAC");
     }
 
     SUBCASE("u16")
     {
-        uint16_t u16 = 0b1010101010101010;
+        uint16_t u16 = 0b1010101010101100;
         nos::print_to(ss, nos::ihex(u16));
-        CHECK_EQ(ss.str(), "0xAAAA");
+        CHECK_EQ(ss.str(), "0xAAAC");
     }
 }
