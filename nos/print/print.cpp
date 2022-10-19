@@ -204,3 +204,13 @@ int nos::printbin_to(nos::ostream &out, const void *ptr, size_t sz)
 
     return ret;
 }
+
+int nos::printhex_to(nos::ostream &out, void *ptr, size_t sz)
+{
+    return nos::printhex_to(out, (const void *)ptr, sz);
+}
+
+int nos::printbin_to(nos::ostream &out, void *ptr, size_t size)
+{
+    return nos::printbin_to(out, (const void *)ptr, size);
+}

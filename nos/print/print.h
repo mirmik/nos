@@ -59,6 +59,8 @@ namespace nos
     int printhex_to(nos::ostream &out, const void *ptr, size_t sz);
     int printbin_to(nos::ostream &out, char c);
     int printbin_to(nos::ostream &out, const void *ptr, size_t size);
+    int printhex_to(nos::ostream &out, void *ptr, size_t sz);
+    int printbin_to(nos::ostream &out, void *ptr, size_t size);
 
     template <typename O> int printhex_to(nos::ostream &out, const O &o);
 
@@ -81,7 +83,7 @@ namespace nos
 
 template <typename O> int nos::printhex_to(nos::ostream &out, const O &o)
 {
-    return nos::printhex_to(out, (void *)&o, sizeof(O));
+    return nos::printhex_to(out, (const void *)&o, sizeof(O));
 }
 
 template <typename Arg> int nos::print_to(nos::ostream &out, const Arg &arg)
