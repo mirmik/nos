@@ -133,6 +133,21 @@ namespace nos
         {
             return std::stoi(std::string(_data, _size));
         }
+
+        double to_double() const
+        {
+            return std::stod(std::string(_data, _size));
+        }
+
+        operator std::string_view() const
+        {
+            return std::string_view(_data, _size);
+        }
+
+        operator std::string() const
+        {
+            return std::string(_data, _size);
+        }
     };
 }
 
