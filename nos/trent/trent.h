@@ -353,6 +353,26 @@ namespace nos
             return m_dct.find(std::string(key)) != m_dct.end();
         }
 
+        void init_from_list(const std::initializer_list<double> l)
+        {
+            init(type::list);
+            m_arr.reserve(l.size());
+            for (auto &i : l)
+            {
+                m_arr.emplace_back(i);
+            }
+        }
+
+        void init_from_list(const std::initializer_list<std::string> l)
+        {
+            init(type::list);
+            m_arr.reserve(l.size());
+            for (auto &i : l)
+            {
+                m_arr.emplace_back(i);
+            }
+        }
+
         const trent_basic &at(int i) const
         {
             if (m_type != type::list)
