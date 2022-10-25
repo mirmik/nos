@@ -14,8 +14,8 @@ namespace nos
             // type  located in the first 3 bits
             // length located in the last 5 bits
             uint8_t type_and_length = buf[pos];
-            int type = type_and_length >> 5;
-            int length = type_and_length & 0x1F;
+            uint8_t type = type & 0b11100000 >> 4;
+            uint8_t length = type_and_length & 0x1F; // todo length more than 15
             buf = {buf.data() + 1, buf.size() - 1};
             return {type, length};
         }
