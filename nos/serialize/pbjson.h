@@ -2,6 +2,7 @@
 #define PBJSON_SERIALIZE_H
 
 #include <cstdint>
+#include <nos/util/buffer.h>
 
 namespace nos
 {
@@ -9,12 +10,12 @@ namespace nos
     {
         nos::buffer buf;
 
-        std::pair<int, int> get_type_and_length(int pos)
+        std::pair<int, int> get_type_and_length()
         {
             // type  located in the first 3 bits
             // length located in the last 5 bits
-            uint8_t type_and_length = buf[pos];
-            uint8_t type = type & 0b11100000 >> 4;
+            uint8_t type_and_length = buf[0];
+            uint8_t type = (type_and_length & 0b11100000) >> 4;
             uint8_t length = type_and_length & 0x1F; // todo length more than 15
             buf = {buf.data() + 1, buf.size() - 1};
             return {type, length};
@@ -25,7 +26,7 @@ namespace nos
 
         template <std::integral T> bool reflect(const char *name, T &value)
         {
-            auto [type, length] = get_type_and_length(pos);
+            auto [type, length] = get_type_and_length();
             if (type != 2 && type != 4)
                 return false;
             if (length == 0)
@@ -39,12 +40,14 @@ namespace nos
             if (type == 4)
                 v = -v;
             buf = {buf.data() + length, buf.size() - length};
+            value = v;
             return true;
         }
 
         template <std::floating_point T>
+        bool reflect(const char *name, T &value)
         {
-            auto [type, length] = get_type_and_length(pos);
+            auto [type, length] = get_type_and_length();
             if (type != 6)
                 return false;
             if (length == 0)
@@ -59,9 +62,9 @@ namespace nos
             return true;
         }
 
-        bool reflect(const char *name, const std::string &value)
+        bool reflect(const char *name, std::string &value)
         {
-            auto [type, length] = get_type_and_length(pos);
+            auto [type, length] = get_type_and_length();
             if (type != 8)
                 return false;
             if (length == 0)
