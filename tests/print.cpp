@@ -109,4 +109,10 @@ TEST_CASE("fprint")
         nos::printhex((char)16);
         CHECK_EQ(output, "10");
     }
+
+    SUBCASE("print_int64_t")
+    {
+        nos::print((int64_t)16);
+        CHECK_EQ(output, "16");
+    }
 }

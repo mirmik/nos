@@ -44,12 +44,16 @@ namespace nos
 
             double parse_double(size_t length)
             {
-                double value = 0; /// WHAT???
-                /*for (size_t i = 0; i < length; i++)
+                union
                 {
-                    value = (value << 8) | buf[i];
+                    uint8_t bits[8];
+                    double value;
+                };
+
+                for (size_t i = 0; i < length; i++)
+                {
+                    bits[8 - length + i] = buf[i];
                 }
-                buf = {buf.data() + length, buf.size() - length};*/
                 return value;
             }
 

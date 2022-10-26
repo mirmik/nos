@@ -150,6 +150,12 @@ TEST_CASE("fprint")
         CHECK_EQ(out, "hello");
     }
 
+    SUBCASE("format_int64")
+    {
+        std::string out = nos::format("{}", int64_t(42));
+        CHECK_EQ(out, "42");
+    }
+
 #if __has_include(<string_view>)
     SUBCASE("format_string_view_arg")
     {

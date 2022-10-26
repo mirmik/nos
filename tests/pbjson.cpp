@@ -41,6 +41,22 @@ TEST_CASE("pbjson_test_int")
     CHECK_EQ(tr.as_numer(), 10);
 }
 
+/*TEST_CASE("pbjson_test_double")
+{
+    std::string data("\x62\x4d\x5d");
+    nos::pbjson::parser parser({(char *)data.data(), data.size()});
+    nos::trent tr = parser.parse();
+    CHECK_EQ(tr.as_numer(), 4.5);
+}*/
+
+TEST_CASE("pbjson_test_int_two_byte")
+{
+    std::string data("\x22\x01\x0A");
+    nos::pbjson::parser parser({(char *)data.data(), data.size()});
+    nos::trent tr = parser.parse();
+    CHECK_EQ(tr.as_numer(), 266);
+}
+
 TEST_CASE("pbjson_test_string")
 {
     std::string data("\x85hello");
@@ -68,12 +84,12 @@ TEST_CASE("pbjson_test_array")
 
 TEST_CASE("pbjson_test_object")
 {
-    std::string data("\x21\x0A\x41\x0A\x85hello");
+    std::string data("\x22\x01\x0A\x41\x0A\x85hello");
     nos::pbjson_deserializer deserializer({(char *)data.data(), data.size()});
     PbjsonTestObject a;
     bool success = a.reflect(deserializer);
     CHECK_EQ(success, true);
-    CHECK_EQ(a.a, 10);
+    CHECK_EQ(a.a, 266);
     CHECK_EQ(a.b, -10);
     CHECK_EQ(a.c, "hello");
 }
