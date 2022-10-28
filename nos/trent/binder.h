@@ -92,6 +92,9 @@ namespace nos
 
         void sync() const
         {
+            if (!saver.good())
+                return;
+
             saver.sync();
             _local = ops.from_trent(saver.node());
             synced = true;
@@ -99,6 +102,9 @@ namespace nos
 
         void sync_default(T defa)
         {
+            if (!saver.good())
+                return;
+
             saver.sync();
 
             if (saver.node().is_nil())
@@ -121,6 +127,9 @@ namespace nos
 
         T get() const
         {
+            if (!saver.good())
+                return _local;
+
             if (!synced)
             {
                 sync();

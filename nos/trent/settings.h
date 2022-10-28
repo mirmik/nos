@@ -16,6 +16,7 @@ namespace nos
         virtual int sync() = 0;
         virtual int save() = 0;
         virtual nos::trent &node() = 0;
+        virtual bool good() const = 0;
         virtual ~trent_syncer() = default;
     };
 
@@ -38,6 +39,11 @@ namespace nos
         {
             syncer = &stgs;
             this->path = path;
+        }
+
+        bool good() const
+        {
+            return (syncer != nullptr) && syncer->good();
         }
 
         int sync() override
@@ -65,6 +71,8 @@ namespace nos
         virtual void sync() = 0;
         virtual void save() = 0;
 
+        virtual bool good() const = 0;
+
         nos::trent &node()
         {
             return tr;
@@ -86,6 +94,11 @@ namespace nos
                              const nos::trent_path &path)
             : settings(stgs), path(path)
         {
+        }
+
+        operator bool() const
+        {
+            return good();
         }
 
         void sync() override

@@ -55,6 +55,10 @@ namespace nos
         {
             load();
         }
+        bool good() const override
+        {
+            return synced;
+        }
 
         void save() override
         {
@@ -81,6 +85,11 @@ namespace nos
 
         json_syncer() = default;
         json_syncer(const std::string &str) : pathstr(str) {}
+
+        bool good() const override
+        {
+            return synced;
+        }
 
     private:
         void load()
