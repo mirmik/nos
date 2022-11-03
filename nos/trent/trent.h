@@ -640,6 +640,8 @@ namespace nos
         {
             if (is_bool())
                 return (int)m_bool;
+            if (is_string())
+                return std::stod(m_str);
             if (!is_numer())
                 throw std::runtime_error("is't numer");
             return m_num;

@@ -41,6 +41,12 @@ namespace nos
             : body((void *)&_body), name(_name)
         {
         }
+
+        using type = T;
+        const T &value() const
+        {
+            return *(T *)body;
+        }
     };
 
 /**
