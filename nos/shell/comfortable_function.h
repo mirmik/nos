@@ -52,8 +52,7 @@ namespace nos
 
     template <class T> concept ArgPair = is_specialization<T, nos::argpair>;
 
-    template <class F, class TypeConvertor = nos::type_convertor>
-    class comfortable_function
+    template <class F> class comfortable_function
     {
         std::function<F> func;
         constexpr static size_t count = signature<F>::count;
