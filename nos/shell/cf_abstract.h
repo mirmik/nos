@@ -51,6 +51,10 @@ namespace nos
             {};
 
     public:
+        cf_abstract_collection() = default;
+        cf_abstract_collection(const cf_abstract_collection &) = delete;
+        cf_abstract_collection(cf_abstract_collection &&) = delete;
+
         template <class R, class... Args>
         void add(const std::string &name, std::function<R(Args...)> f)
         {

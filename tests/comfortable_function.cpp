@@ -58,10 +58,12 @@ TEST_CASE("kwargs")
 TEST_CASE("make_cf_abstract")
 {
     nos::cf_abstract_collection collection;
-
     collection.add("sum", std::function<int(int, int)>(sum));
     collection.add("sub", std::function<int(int, int)>([](int a, int b) {
                        return a - b;
+                   }));
+    collection.add("pow", std::function<int(int, int)>([](int a, int b) {
+                       return std::pow(a, b);
                    }));
 
     CHECK_EQ(
@@ -74,6 +76,11 @@ TEST_CASE("make_cf_abstract")
             .execute("sub", {nos::trent_argument{3}, nos::trent_argument{7}})
             .as_numer(),
         -4);
+    CHECK_EQ(
+        collection
+            .execute("pow", {nos::trent_argument{3}, nos::trent_argument{7}})
+            .as_numer(),
+        2187);
 
     TestComfortableFunction tcf(2, 3);
     collection.add(
