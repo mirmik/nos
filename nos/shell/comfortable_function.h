@@ -129,22 +129,7 @@ namespace nos
 
         template <class T> static T trent_to_type(const nos::trent &t)
         {
-            if constexpr (std::is_same_v<T, nos::trent>)
-            {
-                return t;
-            }
-            else if constexpr (std::is_same_v<T, std::string>)
-            {
-                return t.as_string();
-            }
-            else if constexpr (std::is_same_v<T, bool>)
-            {
-                return t.as_bool();
-            }
-            else
-            {
-                return t.as_numer();
-            }
+            return t.get<T>();
         }
 
         template <class... Args2, size_t... I>
