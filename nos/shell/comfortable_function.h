@@ -9,59 +9,83 @@
 
 namespace nos
 {
+    /// @brief Класс именованного аргумента.
+    /// Используется вместе с классом cf_abstract, для запуска
+    /// comfortable_function Непосредственно через trent. Для применения с
+    /// механизмами rpc.
+    class trent_argument
+    {
+        std::string name;
+        nos::trent value;
+
+    public:
+        trent_argument(const nos::trent &value, const std::string &name = "")
+            : name(name), value(value)
+        {
+        }
+
+        const std::string &get_name() const
+        {
+            return name;
+        }
+
+        const nos::trent &get_value() const
+        {
+            return value;
+        }
+    };
+
+    /// @brief Класс для внутреннего использования в comfortable_function.
+    /// Создаёт временное хранилище для аргументов, в trent виде.
+    /// Являясь промежуточным хранилищем, упорядочивает конверсию аргументов,
+    /// заменяя N*M на 2*N+M необходимых методов конверсий.
     struct runtime_argument
     {
         bool inited;
         nos::trent value;
     };
 
-    struct type_convertor
+    namespace detail
     {
-        template <class From, class To> static To convert(const From &from)
+        template <class F> class signature
         {
-            return (To)from;
-        }
-    };
-
-    template <class F> class signature
-    {
-    };
-
-    template <class R, class... Args> struct signature<R(Args...)>
-    {
-        constexpr static size_t count = sizeof...(Args);
-        using result_type = R;
-
-        template <template <class> class T>
-        struct argument_template_parametrization
-        {
-            using type = T<Args...>;
         };
 
-        template <size_t I>
-        using nth_argtype =
-            typename std::tuple_element_t<I, std::tuple<Args...>>;
+        template <class R, class... Args> struct signature<R(Args...)>
+        {
+            constexpr static size_t count = sizeof...(Args);
+            using result_type = R;
 
-        using args_tuple = std::tuple<Args...>;
-    };
+            template <size_t I>
+            using nth_argtype =
+                typename std::tuple_element_t<I, std::tuple<Args...>>;
+        };
+    }
 
     template <class, template <class...> class>
     inline constexpr bool is_specialization = false;
     template <template <class...> class T, class... Args>
     inline constexpr bool is_specialization<T<Args...>, T> = true;
 
+    /// @brief Является ли тип инстансом nos::argpair?
     template <class T> concept ArgPair = is_specialization<T, nos::argpair>;
 
+    /// @brief Обёртка для std::function, которая позволяет вызывать функцию,
+    /// используя аргументы в trent виде. Позволяет использовать функции с
+    /// именованными аргументами. При прямом использовании осуществляет
+    /// конверсию аргументов в trent, в соответствии с типами аргументов
     template <class F> class comfortable_function
     {
         std::function<F> func;
-        constexpr static size_t count = signature<F>::count;
+        constexpr static size_t count = detail::signature<F>::count;
         std::array<std::string, count> argument_names;
 
     public:
-        comfortable_function(std::function<F> &&f,
+        comfortable_function(auto &&f,
                              const std::array<std::string, count> &names)
             : func(f), argument_names(names){};
+
+        comfortable_function(auto &&f) : func(f), argument_names() {}
 
         template <class... Args2> auto operator()(Args2 &&... args) const
         {
@@ -76,8 +100,16 @@ namespace nos
             return call(rarguments, std::make_index_sequence<count>{});
         }
 
+        nos::detail::signature<F>::result_type
+        call_with_args(const std::vector<nos::trent_argument> &args)
+        {
+            std::array<runtime_argument, count> rarguments = {};
+            parse_arguments(rarguments, args);
+            return call(rarguments, std::make_index_sequence<count>{});
+        }
+
         template <size_t... I>
-        nos::signature<F>::result_type
+        nos::detail::signature<F>::result_type
         call(const std::array<runtime_argument, count> &arr,
              std::index_sequence<I...>) const
         {
@@ -90,9 +122,9 @@ namespace nos
                 }
             }
 
-            return func(
-                trent_to_type<typename nos::signature<F>::nth_argtype<I>>(
-                    arr[I].value)...);
+            return func(trent_to_type<
+                        typename nos::detail::signature<F>::nth_argtype<I>>(
+                arr[I].value)...);
         }
 
         template <class T> static T trent_to_type(const nos::trent &t)
@@ -154,6 +186,42 @@ namespace nos
         {
             rarguments[index].inited = true;
             rarguments[index].value = arg;
+        }
+
+        void parse_arguments(std::array<runtime_argument, count> &rarguments,
+                             const std::vector<nos::trent_argument> &args)
+        {
+            size_t index = 0;
+            size_t len = std::max(args.size(), count);
+            for (size_t i = 0; i < len; i++)
+            {
+                if (args[i].get_name().empty())
+                {
+                    rarguments[index].inited = true;
+                    rarguments[index].value = args[i].get_value();
+                    index++;
+                }
+                else
+                {
+                    int index2 = -1;
+                    for (size_t i = 0; i < count; i++)
+                    {
+                        if (argument_names[i] == args[i].get_name())
+                        {
+                            index2 = i;
+                            break;
+                        }
+                    }
+
+                    if (index2 == -1)
+                    {
+                        throw std::runtime_error("Argument is not found");
+                    }
+
+                    rarguments[index2].inited = true;
+                    rarguments[index2].value = args[i].get_value();
+                }
+            }
         }
     };
 }

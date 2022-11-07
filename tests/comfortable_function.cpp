@@ -1,6 +1,28 @@
 #include <cmath>
 #include <doctest/doctest.h>
+#include <nos/shell/cf_abstract.h>
 #include <nos/shell/comfortable_function.h>
+
+class TestComfortableFunction
+{
+public:
+    int a = 0;
+    int b = 0;
+
+    TestComfortableFunction() = default;
+    TestComfortableFunction(int a, int b) : a(a), b(b) {}
+
+public:
+    int sum(int c)
+    {
+        return a + b + c;
+    }
+};
+
+int sum(int a, int b)
+{
+    return a + b;
+}
 
 TEST_CASE("kwargs")
 {
@@ -25,4 +47,36 @@ TEST_CASE("kwargs")
     t.push_back(2);
     t.push_back("3");
     CHECK_EQ(bar(t), 6);
+
+    TestComfortableFunction tcf(1, 2);
+    nos::comfortable_function<int(int)> test_func(
+        [&tcf](int c) { return tcf.sum(c); }, {"c"});
+
+    CHECK_EQ(test_func(3), 6);
+}
+
+TEST_CASE("make_cf_abstract")
+{
+    nos::cf_abstract_collection collection;
+
+    collection.add("sum", std::function<int(int, int)>(sum));
+    collection.add("sub", std::function<int(int, int)>([](int a, int b) {
+                       return a - b;
+                   }));
+
+    CHECK_EQ(
+        collection
+            .execute("sum", {nos::trent_argument{3}, nos::trent_argument{7}})
+            .as_numer(),
+        10);
+    CHECK_EQ(
+        collection
+            .execute("sub", {nos::trent_argument{3}, nos::trent_argument{7}})
+            .as_numer(),
+        -4);
+
+    TestComfortableFunction tcf(2, 3);
+    collection.add(
+        "tcf", std::function<int(int)>([&tcf](int c) { return tcf.sum(c); }));
+    CHECK_EQ(collection.execute("tcf", {nos::trent_argument{4}}).as_numer(), 9);
 }
