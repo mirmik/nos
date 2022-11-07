@@ -27,7 +27,11 @@ namespace nos
             return nos::trent(value);
         }
 
-        cf_abstract(std::function<R(Args...)> f) : _cf(f) {}
+        cf_abstract(std::function<R(Args...)> f,
+                    const std::array<std::string, sizeof...(Args)> &names = {})
+            : _cf(f, names)
+        {
+        }
 
         cf_type &cf()
         {
@@ -39,10 +43,10 @@ namespace nos
 
     template <class R, class... Args>
     std::unique_ptr<cf_abstract_basic>
-    make_cf_abstract(std::function<R(Args...)> f)
+    make_cf_abstract(std::function<R(Args...)> f,
+                     std::array<std::string, sizeof...(Args)> names = {})
     {
-        return std::make_unique<cf_abstract<R, Args...>>(
-            std::forward<decltype(f)>(f));
+        return std::make_unique<cf_abstract<R, Args...>>(f, names);
     }
 
     class cf_abstract_collection
@@ -56,9 +60,11 @@ namespace nos
         cf_abstract_collection(cf_abstract_collection &&) = delete;
 
         template <class R, class... Args>
-        void add(const std::string &name, std::function<R(Args...)> f)
+        void add(const std::string &name,
+                 std::function<R(Args...)> f,
+                 const std::array<std::string, sizeof...(Args)> &names = {})
         {
-            collection.emplace(name, make_cf_abstract(f));
+            collection.emplace(name, make_cf_abstract(f, names));
         }
 
         nos::trent execute(const std::string &name,
