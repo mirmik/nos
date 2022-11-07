@@ -62,9 +62,10 @@ TEST_CASE("make_cf_abstract")
     collection.add("sub", std::function<int(int, int)>([](int a, int b) {
                        return a - b;
                    }));
-    collection.add("pow", std::function<int(int, int)>([](int a, int b) {
-                       return std::pow(a, b);
-                   }));
+    collection.add("pow",
+                   std::function<int(int, int)>(
+                       [](int a, int b) { return std::pow(a, b); }),
+                   {"a", "b"});
 
     CHECK_EQ(
         collection
@@ -78,7 +79,8 @@ TEST_CASE("make_cf_abstract")
         -4);
     CHECK_EQ(
         collection
-            .execute("pow", {nos::trent_argument{3}, nos::trent_argument{7}})
+            .execute("pow",
+                     {nos::trent_argument{7, "b"}, nos::trent_argument{3, "a"}})
             .as_numer(),
         2187);
 

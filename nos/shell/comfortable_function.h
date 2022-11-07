@@ -82,10 +82,8 @@ namespace nos
 
     public:
         comfortable_function(auto &&f,
-                             const std::array<std::string, count> &names)
+                             const std::array<std::string, count> &names = {})
             : func(f), argument_names(names){};
-
-        comfortable_function(auto &&f) : func(f), argument_names() {}
 
         template <class... Args2> auto operator()(Args2 &&... args) const
         {
@@ -176,35 +174,32 @@ namespace nos
         void parse_arguments(std::array<runtime_argument, count> &rarguments,
                              const std::vector<nos::trent_argument> &args)
         {
-            size_t index = 0;
             size_t len = std::max(args.size(), count);
-            for (size_t i = 0; i < len; i++)
+            for (size_t index = 0; index < len; index++)
             {
-                if (args[i].get_name().empty())
+                if (args[index].get_name().empty())
                 {
                     rarguments[index].inited = true;
-                    rarguments[index].value = args[i].get_value();
-                    index++;
+                    rarguments[index].value = args[index].get_value();
                 }
                 else
                 {
-                    int index2 = -1;
-                    for (size_t i = 0; i < count; i++)
+                    bool found = false;
+                    for (size_t index2 = 0; index2 < count; index2++)
                     {
-                        if (argument_names[i] == args[i].get_name())
+                        if (argument_names[index2] == args[index].get_name())
                         {
-                            index2 = i;
+                            rarguments[index2].inited = true;
+                            rarguments[index2].value = args[index].get_value();
+                            found = true;
                             break;
                         }
                     }
 
-                    if (index2 == -1)
+                    if (found == false)
                     {
                         throw std::runtime_error("Argument is not found");
                     }
-
-                    rarguments[index2].inited = true;
-                    rarguments[index2].value = args[i].get_value();
                 }
             }
         }
