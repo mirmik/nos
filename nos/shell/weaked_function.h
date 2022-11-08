@@ -1,5 +1,5 @@
-#ifndef NOS_KWARGS_FUNCTIONS_H
-#define NOS_KWARGS_FUNCTIONS_H
+#ifndef NOS_WEAKED_FUNCTIONS_H
+#define NOS_WEAKED_FUNCTIONS_H
 
 #include <functional>
 #include <nos/trent/trent.h>
@@ -112,7 +112,18 @@ namespace nos
         {
             std::array<runtime_argument, count> rarguments = {};
             parse_arguments(rarguments, args);
-            return call(rarguments, std::make_index_sequence<count>{});
+
+            if constexpr (std::is_same_v<
+                              void,
+                              typename detail::signature<F>::result_type>)
+            {
+                call(rarguments, std::make_index_sequence<count>{});
+                return nos::trent();
+            }
+            else
+            {
+                return call(rarguments, std::make_index_sequence<count>{});
+            }
         }
 
         template <size_t... I>

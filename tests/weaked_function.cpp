@@ -1,6 +1,5 @@
 #include <cmath>
 #include <doctest/doctest.h>
-#include <nos/shell/cf_abstract.h>
 #include <nos/shell/weaked_function.h>
 
 class TestComfortableFunction
@@ -66,6 +65,8 @@ TEST_CASE("make_cf_abstract")
                    std::function<int(int, int)>(
                        [](int a, int b) { return std::pow(a, b); }),
                    {"a", "b"});
+    collection.add(
+        "stub", std::function<void(int, int)>([](int a, int b) {}), {"a", "b"});
 
     CHECK_EQ(
         collection
