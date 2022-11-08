@@ -1,7 +1,7 @@
 #include <cmath>
 #include <doctest/doctest.h>
 #include <nos/shell/cf_abstract.h>
-#include <nos/shell/comfortable_function.h>
+#include <nos/shell/weaked_function.h>
 
 class TestComfortableFunction
 {
@@ -26,10 +26,10 @@ int sum(int a, int b)
 
 TEST_CASE("kwargs")
 {
-    nos::comfortable_function<int(int, int)> func(
+    nos::weaked_function<int(int, int)> func(
         [](int a, int b) { return std::pow(a, b); }, {"a", "b"});
 
-    nos::comfortable_function<int(nos::trent)> bar(
+    nos::weaked_function<int(nos::trent)> bar(
         [](nos::trent a) { return a[0].as_numer() * a[1].as_numer(); }, {"a"});
 
     CHECK_EQ(func(2, 3), 8);
@@ -49,7 +49,7 @@ TEST_CASE("kwargs")
     CHECK_EQ(bar(t), 6);
 
     TestComfortableFunction tcf(1, 2);
-    nos::comfortable_function<int(int)> test_func(
+    nos::weaked_function<int(int)> test_func(
         [&tcf](int c) { return tcf.sum(c); }, {"c"});
 
     CHECK_EQ(test_func(3), 6);
@@ -57,7 +57,7 @@ TEST_CASE("kwargs")
 
 TEST_CASE("make_cf_abstract")
 {
-    nos::cf_abstract_collection collection;
+    nos::wf_collection collection;
     collection.add("sum", std::function<int(int, int)>(sum));
     collection.add("sub", std::function<int(int, int)>([](int a, int b) {
                        return a - b;
