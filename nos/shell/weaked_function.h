@@ -6,6 +6,7 @@
 #include <nos/util/arglist.h>
 #include <stdexcept>
 #include <string>
+#include <concepts>
 
 namespace nos
 {
