@@ -128,7 +128,7 @@ namespace nos
         }
 
         template <size_t... I>
-        nos::detail::signature<F>::result_type
+        typename nos::detail::signature<F>::result_type
         call(const std::array<runtime_argument, count> &arr,
              std::index_sequence<I...>) const
         {
