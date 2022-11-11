@@ -142,7 +142,7 @@ namespace nos
             }
 
             return func(trent_to_type<
-                        typename nos::detail::signature<F>::nth_argtype<I>>(
+                        typename nos::detail::signature<F>::template nth_argtype<I>>(
                 arr[I].value)...);
         }
 
