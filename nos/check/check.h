@@ -45,6 +45,22 @@ static inline std::string nos_location_part(struct nos_location loc)
         NOS_CHECK_ENV_RAISE(str);                                              \
     }
 
+#define NOS_CHECK_NEQ(a, b)                                                    \
+    if (a == b)                                                                \
+    {                                                                          \
+        NOS_CURRENT_LOCATION(loc);                                             \
+        std::string str =                                                      \
+            nos::format("{}"                                                   \
+                        "\tcond:{}\n"                                          \
+                        "\tleft: {}\n"                                         \
+                        "\tright: {}\n",                                       \
+                        nos_location_part(loc),                                \
+                        NOS_STRINGIFY(a) " != " NOS_STRINGIFY(b),              \
+                        a,                                                     \
+                        b);                                                    \
+        NOS_CHECK_ENV_RAISE(str);                                              \
+    }
+
 #define NOS_CHECK_LT(a, b)                                                     \
     if (a >= b)                                                                \
     {                                                                          \
