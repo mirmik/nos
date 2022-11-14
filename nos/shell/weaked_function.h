@@ -6,6 +6,7 @@
 #include <nos/util/arglist.h>
 #include <stdexcept>
 #include <string>
+#include <concepts>
 
 namespace nos
 {
@@ -127,7 +128,7 @@ namespace nos
         }
 
         template <size_t... I>
-        nos::detail::signature<F>::result_type
+        typename nos::detail::signature<F>::result_type
         call(const std::array<runtime_argument, count> &arr,
              std::index_sequence<I...>) const
         {
@@ -141,7 +142,7 @@ namespace nos
             }
 
             return func(trent_to_type<
-                        typename nos::detail::signature<F>::nth_argtype<I>>(
+                        typename nos::detail::signature<F>::template nth_argtype<I>>(
                 arr[I].value)...);
         }
 
