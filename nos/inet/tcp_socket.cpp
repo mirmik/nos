@@ -34,7 +34,8 @@ int nos::inet::tcp_socket::write(const void *data, size_t size)
     return socket::send(data, size, 0);
 }
 
-int nos::inet::tcp_socket::read(void *data, size_t size)
+nos::expected<int, nos::input_error> nos::inet::tcp_socket::read(void *data,
+                                                                 size_t size)
 {
     return socket::recv((char *)data, size, 0);
 }

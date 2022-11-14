@@ -88,7 +88,8 @@ namespace nos
 
             // io api implementation
             int write(const void *data, size_t size) override;
-            int read(void *data, size_t size) override;
+            nos::expected<int, nos::input_error> read(void *data,
+                                                      size_t size) override;
 
             netaddr getaddr();
 

@@ -4,26 +4,25 @@
 #include <nos/binary/bytearray.h>
 #include <stdexcept>
 
-namespace nos 
+namespace nos
 {
     class buffer;
 
-    template <class Source>
-    class bytearray_istream : public nos::istream
+    template <class Source> class bytearray_istream : public nos::istream
     {
-        Source& arr;
+        Source &arr;
         size_t read_counter = 0;
 
     public:
-        bytearray_istream(Source& arr) : arr(arr) {}
+        bytearray_istream(Source &arr) : arr(arr) {}
 
-        int read(void* data, size_t size) 
+        nos::expected<int, nos::input_error> read(void *data, size_t size)
         {
             size_t read_counter_new = read_counter + size;
-            if (read_counter_new > arr.size()) 
+            if (read_counter_new > arr.size())
             {
                 throw std::length_error("deserialize");
-            } 
+            }
             memcpy(data, arr.data() + read_counter, size);
             read_counter = read_counter_new;
             return size;
@@ -36,9 +35,9 @@ namespace nos
 #include <nos/util/buffer.h>
 
 template <class Source>
-nos::buffer nos::bytearray_istream<Source>::remaining_buffer() 
+nos::buffer nos::bytearray_istream<Source>::remaining_buffer()
 {
-    return { arr.data() + read_counter, arr.size() - read_counter };
+    return {arr.data() + read_counter, arr.size() - read_counter};
 }
 
 #endif

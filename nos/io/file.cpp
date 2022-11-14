@@ -10,35 +10,42 @@ using socklen_t = int32_t;
 #endif
 
 #include <nos/fprint.h>
+#include <nos/util/osutil.h>
 
-std::pair<int, bool>
-nos::file::timeouted_read(void *ptr, size_t sz, std::chrono::nanoseconds ms)
+nos::expected<int, nos::input_error> nos::file::read(void *ptr, size_t sz)
 {
+    if (input_timeout() == 0ns)
+    {
+        return nos::osutil::read(fd(), ptr, sz);
+    }
+
+    auto ns = input_timeout().count();
+
     fd_set fds;
     FD_ZERO(&fds);
     FD_SET(fd(), &fds);
 
     struct timeval tv;
-    tv.tv_sec = ms.count() / 1000000000;
-    tv.tv_usec = (ms.count() % 1000000000) / 1000;
+    tv.tv_sec = ns / 1000000000;
+    tv.tv_usec = (ns % 1000000000) / 1000;
 
-    nonblock(true);
+    // nonblock(true);
     int ret = select(fd() + 1, &fds, nullptr, nullptr, &tv);
 
     if (ret < 0)
     {
-        return {ret, false};
+        return nos::input_error::closed();
     }
 
     if (ret == 0)
     {
-        return {0, true};
+        return nos::input_error::timeout();
     }
 
-    auto read_sts = read(ptr, sz);
+    auto read_sts = nos::osutil::read(fd(), ptr, sz);
 
     if (read_sts < 0)
-        return {read_sts, false};
+        return input_error::closed();
 
-    return {read_sts, false};
+    return read_sts;
 }

@@ -44,7 +44,7 @@ namespace nos
             return ret;
         }
 
-        int read(void *ptr, size_t sz) override
+        nos::expected<int, nos::input_error> read(void *ptr, size_t sz) override
         {
             return fread(ptr, sizeof(char), sz, filp);
         }
