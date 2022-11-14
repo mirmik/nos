@@ -38,8 +38,8 @@ nos::expected<std::string, nos::errstring> nos::readline_from(nos::istream &is)
     }
 }
 
-std::pair<std::string, bool>
-nos::timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is)
+nos::expected<std::string, nos::read_error>
+nos::timeouted_readline_from(nos::istream &is, std::chrono::nanoseconds ms)
 {
     std::string ret;
     auto curtime = std::chrono::system_clock::now();
@@ -55,18 +55,17 @@ nos::timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is)
 
         if (is_timeout)
         {
-            return {ret, true};
+            return read_error::timeout();
         }
 
         if (sts < 0)
         {
-            return {ret, false};
+            return read_error::closed();
         }
 
         if (sts == 0)
         {
-            // eof
-            return {ret, false};
+            return read_error::closed();
         }
 
         if (c == '\r')
@@ -76,14 +75,14 @@ nos::timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is)
 
         if (c == '\n')
         {
-            return {ret, false};
+            return ret;
         }
 
         ret.push_back(c);
     }
 }
 
-std::pair<std::string, bool>
+/*std::pair<std::string, bool>
 nos::timeouted_read_until_from(std::chrono::nanoseconds ms,
                                nos::istream &is,
                                const std::string_view &delimiters)
@@ -157,12 +156,7 @@ nos::read_until_from(nos::istream &is, const std::string_view &delimiters)
             return ret;
         }
     }
-}
-
-nos::expected<std::string, nos::errstring> nos::readline(nos::istream &is)
-{
-    return nos::readline_from(is);
-}
+}*/
 
 int nos::read_until(nos::istream &is, char *buf, size_t buflen, char delim)
 {

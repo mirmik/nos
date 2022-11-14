@@ -12,6 +12,47 @@
 
 namespace nos
 {
+    struct read_error
+    {
+        bool _is_timeout = false;
+        bool _is_closed = false;
+
+        static read_error timeout()
+        {
+            return {true, false};
+        }
+
+        static read_error closed()
+        {
+            return {false, true};
+        }
+
+        static read_error ok()
+        {
+            return {false, false};
+        }
+
+        bool is_timeout() const
+        {
+            return _is_timeout;
+        }
+
+        bool is_closed() const
+        {
+            return _is_closed;
+        }
+
+        bool is_ok() const
+        {
+            return !(_is_timeout || _is_closed);
+        }
+
+        operator bool() const
+        {
+            return is_ok();
+        }
+    };
+
     class istream;
     extern istream *current_istream;
 
@@ -37,19 +78,17 @@ namespace nos
     std::string readall_from(nos::istream &is);
     nos::expected<std::string, nos::errstring> readline();
 
-    std::pair<std::string, bool>
-    timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is);
-
     nos::expected<std::string, nos::errstring>
     read_until_from(nos::istream &is, const std::string_view &delimiters);
 
-    std::pair<std::string, bool>
+    /*std::pair<std::string, bool>
     timeouted_read_until_from(std::chrono::nanoseconds ms,
                               nos::istream &is,
-                              const std::string_view &delimiters);
+                              const std::string_view &delimiters);*/
 
-    [[deprecated]] nos::expected<std::string, nos::errstring>
-    readline(nos::istream &is);
+    nos::expected<std::string, read_error>
+    timeouted_readline_from(nos::istream &is, std::chrono::nanoseconds ms);
+
 }
 
 #include <nos/io/istream.h>
