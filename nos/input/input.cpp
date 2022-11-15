@@ -5,24 +5,18 @@
 #include <nos/util/expected.h>
 #include <stdexcept>
 
-nos::expected<std::string, nos::errstring> nos::readline_from(nos::istream &is)
+nos::expected<std::string, nos::input_error>
+nos::readline_from(nos::istream &is)
 {
     char c;
-    std::string ret;
+    std::string str;
 
     while (1)
     {
-        int readed = is.read(&c, 1);
+        auto ret = is.read(&c, 1);
 
-        if (readed < 0)
-        {
-            return nos::errstring("read error");
-        }
-
-        if (readed == 0)
-        {
-            return ret;
-        }
+        if (!ret)
+            return ret.error();
 
         if (c == '\r')
         {
@@ -31,105 +25,14 @@ nos::expected<std::string, nos::errstring> nos::readline_from(nos::istream &is)
 
         if (c == '\n')
         {
-            return ret;
+            return str;
         }
 
-        ret.push_back(c);
+        str.push_back(c);
     }
 }
 
-std::pair<std::string, bool>
-nos::timeouted_readline_from(std::chrono::nanoseconds ms, nos::istream &is)
-{
-    std::string ret;
-    auto curtime = std::chrono::system_clock::now();
-    auto endtime = curtime + ms;
-
-    while (true)
-    {
-        char c;
-        auto ellapsed = endtime - curtime;
-        auto pair = is.timeouted_read(&c, 1, ellapsed);
-        auto sts = pair.first;
-        auto is_timeout = pair.second;
-
-        if (is_timeout)
-        {
-            return {ret, true};
-        }
-
-        if (sts < 0)
-        {
-            return {ret, false};
-        }
-
-        if (sts == 0)
-        {
-            // eof
-            return {ret, false};
-        }
-
-        if (c == '\r')
-        {
-            continue;
-        }
-
-        if (c == '\n')
-        {
-            return {ret, false};
-        }
-
-        ret.push_back(c);
-    }
-}
-
-std::pair<std::string, bool>
-nos::timeouted_read_until_from(std::chrono::nanoseconds ms,
-                               nos::istream &is,
-                               const std::string_view &delimiters)
-{
-    std::string ret;
-    auto curtime = std::chrono::system_clock::now();
-    auto endtime = curtime + ms;
-
-    while (true)
-    {
-        char c;
-        auto curtime = std::chrono::system_clock::now();
-        auto ellapsed = endtime - curtime;
-        auto pair = is.timeouted_read(&c, 1, ellapsed);
-        auto sts = pair.first;
-        auto is_timeout = pair.second;
-
-        // nos::current_ostream->write(&c, 1);
-        // nos::print(" ");
-        // nos::println((uint8_t)c);
-
-        if (is_timeout)
-        {
-            return {ret, true};
-        }
-
-        if (sts < 0)
-        {
-            return {ret, false};
-        }
-
-        if (sts == 0)
-        {
-            return {ret, false};
-        }
-
-        ret.push_back(c);
-
-        if (delimiters.find(c) != std::string::npos)
-        {
-            return {ret, false};
-        }
-    }
-}
-
-nos::expected<std::string, nos::errstring>
+nos::expected<std::string, nos::input_error>
 nos::read_until_from(nos::istream &is, const std::string_view &delimiters)
 {
     std::string ret;
@@ -139,15 +42,9 @@ nos::read_until_from(nos::istream &is, const std::string_view &delimiters)
         char c;
         auto sts = is.read(&c, 1);
 
-        if (sts < 0)
+        if (!sts)
         {
-            return nos::errstring("read error");
-        }
-
-        if (sts == 0)
-        {
-            // eof
-            return ret;
+            return sts.error();
         }
 
         ret.push_back(c);
@@ -157,11 +54,6 @@ nos::read_until_from(nos::istream &is, const std::string_view &delimiters)
             return ret;
         }
     }
-}
-
-nos::expected<std::string, nos::errstring> nos::readline(nos::istream &is)
-{
-    return nos::readline_from(is);
 }
 
 int nos::read_until(nos::istream &is, char *buf, size_t buflen, char delim)
@@ -268,19 +160,21 @@ std::string nos::readall_from(nos::istream &is)
     return is.readall();
 }
 
-nos::expected<std::string, nos::errstring> nos::readline()
+nos::expected<std::string, nos::input_error> nos::readline()
 {
     return nos::readline_from(*nos::current_istream);
 }
 
-nos::expected<std::string, nos::errstring> nos::read_from(nos::istream &is,
-                                                          size_t sz)
+nos::expected<std::string, nos::input_error> nos::read_from(nos::istream &is,
+                                                            size_t sz)
 {
-    std::string ret;
-    ret.resize(sz);
-    int size = is.read(&ret[0], sz);
-    if (size < 0)
-        return nos::errstring("read error");
-    ret.resize(size);
+    return is.read(sz);
+}
+
+nos::expected<std::string, nos::input_error>
+nos::timeouted_readline_from(nos::istream &is, std::chrono::nanoseconds ms)
+{
+    is.set_input_timeout(ms);
+    auto ret = nos::readline_from(is);
     return ret;
 }

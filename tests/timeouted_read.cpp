@@ -9,8 +9,7 @@
 
 using namespace std::chrono_literals;
 
-#warning TODO: timeouted_read
-/*TEST_CASE("nos::file::timeouted_read")
+TEST_CASE("nos::file::timeouted_read")
 {
     int fds[2];
     pipe(fds);
@@ -18,11 +17,9 @@ using namespace std::chrono_literals;
     nos::file f(fds[0]);
 
     char buf[10];
-    auto [sts, is_timeout] =
-        f.timeouted_read(buf, 10, std::chrono::milliseconds(10));
+    auto ans = f.timeouted_read(buf, 10, std::chrono::milliseconds(10));
 
-    CHECK_EQ(sts, 0);
-    CHECK_EQ(is_timeout, true);
+    CHECK_EQ(ans, nos::input_error::timeout());
 }
 
 TEST_CASE("nos::file::timeouted_read")
@@ -35,12 +32,13 @@ TEST_CASE("nos::file::timeouted_read")
 
     i.write("hello", 5);
 
-    char buf[10];
-    auto [sts, is_timeout] =
-        f.timeouted_read(buf, 10, std::chrono::milliseconds(10));
+    std::this_thread::sleep_for(10ms);
 
-    CHECK_EQ(sts, 5);
-    CHECK_EQ(is_timeout, false);
+    char buf[10];
+    auto ans = f.timeouted_read(buf, 10, std::chrono::milliseconds(10));
+
+    CHECK_EQ(*ans, 5);
+    CHECK_EQ(std::string(buf, 5), "hello");
 }
 
 TEST_CASE("nos::timeouted_readline_from")
@@ -50,11 +48,11 @@ TEST_CASE("nos::timeouted_readline_from")
 
     nos::file f(fds[0]);
 
-    auto [line, is_timeout] =
-        nos::timeouted_readline_from(std::chrono::milliseconds(10), f);
+    auto result =
+        nos::timeouted_readline_from(f, std::chrono::milliseconds(10));
 
-    CHECK_EQ(line, std::string());
-    CHECK_EQ(is_timeout, true);
+    CHECK_EQ(bool(result), false);
+    CHECK_EQ(result.error().is_timeout(), true);
 }
 
 TEST_CASE("nos::timeouted_readline_from")
@@ -68,13 +66,13 @@ TEST_CASE("nos::timeouted_readline_from")
     nos::println_to(i, "hello");
     nos::println_to(i, "world");
 
-    auto [line, is_timeout] =
-        nos::timeouted_readline_from(std::chrono::milliseconds(10), f);
+    auto result =
+        nos::timeouted_readline_from(f, std::chrono::milliseconds(10));
 
-    CHECK_EQ(line, "hello");
-    CHECK_EQ(is_timeout, false);
+    CHECK_EQ(*result, "hello");
 }
 
+/*
 TEST_CASE("nos::timeouted_read_until_from")
 {
     int fds[2];
@@ -192,4 +190,5 @@ TEST_CASE("onebyte read")
 
     CHECK_EQ(line, str);
     CHECK_EQ(is_timeout, false);
-}*/
+}
+*/

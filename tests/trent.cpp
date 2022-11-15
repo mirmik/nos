@@ -202,3 +202,10 @@ TEST_CASE("trent_order_saving_check")
     json = nos::json::to_string(tr);
     CHECK_EQ(json, R"({"a":1,"c":2,"b":3})");
 }
+
+TEST_CASE("trent_get")
+{
+    nos::trent tr = 3;
+    CHECK_EQ(tr.get<int>(), 3);
+    CHECK_EQ(std::stod(tr.get<std::string>()), 3);
+}

@@ -24,7 +24,7 @@ namespace nos
             return _str.size() - read_marker;
         }
 
-        int read(void *ptr, size_t sz) override
+        nos::expected<int, nos::input_error> read(void *ptr, size_t sz) override
         {
             int readed = room() - (int)sz > 0 ? sz : room();
             memcpy(ptr, _str.data() + read_marker, readed);

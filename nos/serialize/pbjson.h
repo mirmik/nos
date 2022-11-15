@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <nos/util/buffer.h>
+#include <concepts>
 
 namespace nos
 {

@@ -30,10 +30,8 @@ namespace nos
             return nos::osutil::write(m_fd, ptr, sz);
         }
 
-        int read(void *ptr, size_t sz) override
-        {
-            return nos::osutil::read(m_fd, ptr, sz);
-        }
+        nos::expected<int, nos::input_error> read(void *ptr,
+                                                  size_t sz) override;
 
         bool good()
         {
@@ -65,9 +63,6 @@ namespace nos
         {
             return nos::osutil::nonblock(fd(), en);
         }
-
-        std::pair<int, bool> timeouted_read(
-            void *ptr, size_t sz, std::chrono::nanoseconds ms) override;
     };
 }
 

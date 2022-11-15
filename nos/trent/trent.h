@@ -866,10 +866,33 @@ namespace nos
             return *this;
         }
 
-        /*          ssize_t size();
+        template <class T> T get() const
+        {
+            using DT = typename std::decay<T>::type;
 
-                    bool contains(nos::buffer buf);
-        */
+            if constexpr (std::is_same_v<DT, trent_basic>)
+            {
+                return *this;
+            }
+            else if constexpr (std::is_same_v<DT, std::string>)
+            {
+                if (is_string())
+                    return as_string();
+                else
+                    return std::to_string(as_numer_except());
+            }
+            else if constexpr (std::is_same_v<DT, bool>)
+            {
+                return as_bool();
+            }
+            else
+            {
+                if (is_numer())
+                    return as_numer();
+                else
+                    return std::stod(as_string());
+            }
+        }
     };
 
     using trent = trent_basic<std::allocator>;

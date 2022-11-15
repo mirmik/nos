@@ -3,15 +3,30 @@
 
 #include <chrono>
 #include <nos/input.h>
+#include <nos/input/input_error.h>
 #include <stdexcept>
 #include <stdlib.h>
 #include <string>
+
+using namespace std::chrono_literals;
 
 namespace nos
 {
     class istream
     {
+        std::chrono::nanoseconds _input_timeout = 0ns;
+
     public:
+        void set_input_timeout(std::chrono::nanoseconds timeout)
+        {
+            this->_input_timeout = timeout;
+        }
+
+        std::chrono::nanoseconds input_timeout() const
+        {
+            return this->_input_timeout;
+        }
+
         std::string readall()
         {
             std::string ret;
@@ -52,25 +67,34 @@ namespace nos
             return nos::read_paired(*this, buf, buflen, a, b, ignore);
         }
 
-        std::string read(size_t size)
+        nos::expected<std::string, nos::input_error> read(size_t size)
         {
             std::string ret;
             ret.resize(size);
-            size_t readlen = read(&ret[0], size);
-            ret.resize(readlen);
-            return ret;
+            auto result = read(&ret[0], size);
+            if (result)
+            {
+                ret.resize(*result);
+                return ret;
+            }
+            else
+            {
+                return result.error();
+            }
         }
 
-        virtual int read(void *ptr, size_t sz) = 0;
+        virtual nos::expected<int, nos::input_error> read(void *ptr,
+                                                          size_t sz) = 0;
+
         virtual ~istream() = default;
 
         // @return1 - количество прочитанных байт
         // @return2 - случился ли таймаут
-        virtual std::pair<int, bool>
+        virtual nos::expected<int, nos::input_error>
         timeouted_read(void *ptr, size_t sz, std::chrono::nanoseconds ms)
         {
-            (void)ms;
-            return {read(ptr, sz), false};
+            set_input_timeout(ms);
+            return read(ptr, sz);
         }
     };
 }

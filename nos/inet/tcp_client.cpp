@@ -22,7 +22,8 @@ int nos::inet::tcp_client::write(const void *data, size_t size)
     return sts;
 }
 
-int nos::inet::tcp_client::read(void *data, size_t size)
+nos::expected<int, nos::input_error> nos::inet::tcp_client::read(void *data,
+                                                                 size_t size)
 {
     int sts = tcp_socket::read(data, size);
     if (sts < 0)
