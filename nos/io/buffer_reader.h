@@ -3,27 +3,31 @@
 
 #include <iostream>
 
-namespace nos {
-	class buffer_reader : public nos::istream {
-	private:
-		char* buf;
-		size_t len;
+namespace nos
+{
+    class buffer_reader : public nos::istream
+    {
+    private:
+        char *buf;
+        size_t len;
 
-	public:
-		buffer_reader(char* buf, size_t len) : buf(buf), len(len) {}
-	
-		int read(void* ptr, size_t sz) override {
-			if (len == 0) return 0;
+    public:
+        buffer_reader(char *buf, size_t len) : buf(buf), len(len) {}
 
-			int rd = len > sz ? sz : len;
-			len -= rd;
+        nos::expected<int, nos::input_error> read(void *ptr, size_t sz) override
+        {
+            if (len == 0)
+                return nos::input_error::eof();
 
-			memcpy(ptr, buf, rd);
-			buf += rd;
+            int rd = len > sz ? sz : len;
+            len -= rd;
 
-			return rd;
-		}
-	};
+            memcpy(ptr, buf, rd);
+            buf += rd;
+
+            return rd;
+        }
+    };
 }
 
 #endif
