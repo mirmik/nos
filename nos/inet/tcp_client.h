@@ -5,6 +5,8 @@
 #include <nos/inet/tcp_socket.h>
 #include <string_view>
 
+using namespace std::chrono_literals;
+
 namespace nos
 {
     namespace inet
@@ -55,7 +57,7 @@ namespace nos
 
             static tcp_client dial(nos::inet::hostaddr addr,
                                    uint16_t port,
-                                   std::chrono::milliseconds timeout);
+                                   std::chrono::milliseconds timeout = 3250ms);
         };
     }
 }
