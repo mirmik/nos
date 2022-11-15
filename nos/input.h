@@ -21,8 +21,8 @@ namespace nos
     nos::expected<std::string, nos::input_error> read_from(nos::istream &is,
                                                            size_t sz);
 
-    nos::expected<std::string, nos::input_error>
-    readline_from(nos::istream &is, size_t maxsz, bool include_newline);
+    nos::expected<std::string, nos::input_error> readline_from(
+        nos::istream &is, size_t maxsz = 1024, bool include_newline = true);
 
     nos::expected<std::string, nos::input_error> readall_from(nos::istream &is);
 
@@ -47,8 +47,8 @@ namespace nos
                     bool include_delimiter);
 
     // std stream api
-    nos::expected<std::string, nos::input_error> readline(size_t maxsz,
-                                                          bool include_newline);
+    nos::expected<std::string, nos::input_error>
+    readline(size_t maxsz = 1024, bool include_newline = true);
 
 }
 

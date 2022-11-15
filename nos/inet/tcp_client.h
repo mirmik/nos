@@ -65,6 +65,11 @@ namespace nos
             static tcp_client dial(nos::inet::hostaddr addr,
                                    uint16_t port,
                                    std::chrono::milliseconds timeout = 3250ms);
+
+            netaddr getaddr()
+            {
+                return tcp_socket::getaddr();
+            }
         };
     }
 }
