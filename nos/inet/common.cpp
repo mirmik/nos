@@ -82,6 +82,7 @@ int nos::inet::socket::init(int domain, int type, int proto)
         perror("warn: socket::init");
     }
 
+    reusing(true);
     return fd();
 }
 
