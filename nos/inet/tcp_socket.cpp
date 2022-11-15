@@ -29,17 +29,6 @@ int nos::inet::tcp_socket::connect(nos::inet::hostaddr addr, uint16_t port)
     return socket::connect(addr, port, PF_INET);
 }
 
-int nos::inet::tcp_socket::write(const void *data, size_t size)
-{
-    return socket::send(data, size, 0);
-}
-
-nos::expected<int, nos::input_error> nos::inet::tcp_socket::read(void *data,
-                                                                 size_t size)
-{
-    return socket::recv((char *)data, size, 0);
-}
-
 int nos::inet::socket::send(const void *data, size_t size, int flags)
 {
     return ::send(fd(), (const char *)data, size, flags);

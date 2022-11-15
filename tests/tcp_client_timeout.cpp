@@ -26,7 +26,7 @@ TEST_CASE("tcp client connect without timeout")
     sock.write("hello", 5);
     char buf[6];
     buf[5] = 0;
-    client.recv(buf, 5);
+    client.recv(buf, 5, 0);
     CHECK_EQ(std::string(buf), std::string("hello"));
 }
 
@@ -54,7 +54,9 @@ TEST_CASE("tcp client connect with timeout")
     sock.write("hello", 5);
     char buf[6];
     buf[5] = 0;
-    client.recv(buf, 5);
+    auto ans = client.read(buf, 5);
+    CHECK_EQ(bool(ans), true);
+    CHECK_EQ(*ans, 5);
     CHECK_EQ(std::string(buf), std::string("hello"));
 }
 

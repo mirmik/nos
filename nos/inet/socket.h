@@ -12,17 +12,17 @@ namespace nos
         class socket : public nos::file
         {
         public:
-            bool good()
-            {
-                return fd() >= 0;
-            }
-
             socket() = default;
             socket(int fd) : file(fd) {}
             socket(const socket &oth) = default;
             socket(socket &&oth) = default;
             socket &operator=(const socket &oth) = default;
             socket &operator=(socket &&oth) = default;
+
+            bool good()
+            {
+                return fd() >= 0;
+            }
 
             int send(const void *data, size_t size, int flags);
             int recv(char *data, size_t size, int flags);

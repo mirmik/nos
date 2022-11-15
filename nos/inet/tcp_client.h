@@ -11,12 +11,12 @@ namespace nos
 {
     namespace inet
     {
-        class tcp_client : public tcp_socket
+        class tcp_client : public nos::inet::tcp_socket
         {
             bool _is_connect = false;
 
         public:
-            tcp_client() {}
+            tcp_client() = default;
             tcp_client(int fd) : tcp_socket(fd) {}
             tcp_client(const tcp_client &oth) = default;
             tcp_client &operator=(const tcp_client &oth) = default;
@@ -32,8 +32,6 @@ namespace nos
             }
 
             int write(const void *data, size_t size) override;
-            nos::expected<int, nos::input_error> read(void *data,
-                                                      size_t size) override;
 
             int connect(nos::inet::hostaddr addr,
                         uint16_t port,
@@ -45,10 +43,6 @@ namespace nos
             int send(const void *data, size_t size)
             {
                 return write(data, size);
-            }
-            int recv(void *data, size_t size)
-            {
-                return read(data, size);
             }
 
             int send(const std::string_view &data)

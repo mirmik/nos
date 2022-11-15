@@ -6,7 +6,7 @@
 #include <stdexcept>
 
 nos::expected<std::string, nos::input_error>
-nos::readline_from(nos::istream &is)
+nos::readline_from(nos::istream &is, size_t maxsz, bool include_newline)
 {
     char c;
     std::string str;
@@ -20,20 +20,29 @@ nos::readline_from(nos::istream &is)
 
         if (c == '\r')
         {
+            if (include_newline)
+                str += c;
             continue;
         }
 
         if (c == '\n')
         {
+            if (include_newline)
+                str += c;
             return str;
         }
 
         str.push_back(c);
+        if (str.size() >= maxsz)
+            return str;
     }
 }
 
 nos::expected<std::string, nos::input_error>
-nos::read_until_from(nos::istream &is, const std::string_view &delimiters)
+nos::read_until_from(nos::istream &is,
+                     std::size_t max_size,
+                     const std::string_view &delimiters,
+                     bool include_delimiter)
 {
     std::string ret;
 
@@ -47,54 +56,67 @@ nos::read_until_from(nos::istream &is, const std::string_view &delimiters)
             return sts.error();
         }
 
+        if (delimiters.find(c) != std::string::npos)
+        {
+            if (include_delimiter)
+            {
+                ret.push_back(c);
+            }
+            return ret;
+        }
+
         ret.push_back(c);
 
-        if (delimiters.find(c) != std::string::npos)
+        if (ret.size() >= max_size)
         {
             return ret;
         }
     }
 }
 
-int nos::read_until(nos::istream &is, char *buf, size_t buflen, char delim)
+nos::expected<int, nos::input_error>
+nos::read_until_from(nos::istream &is,
+                     nos::buffer buf,
+                     const std::string_view &delimiters,
+                     bool include_delimiter)
 {
     char c;
     int count = 0;
-    char *last = buf + buflen - 1;
+    char *it = buf.data();
+    char *eit = buf.data() + buf.size() - 1; // -1 for null terminator
 
-    while (buf != last)
+    while (it != eit)
     {
-        int readed = is.read(&c, 1);
+        auto readed = is.read(&c, 1);
 
-        if (readed < 0)
+        if (!readed)
         {
-            return readed;
+            return readed.error();
         }
 
-        if (readed == 0)
+        if (delimiters.find(c) != std::string::npos)
         {
-            *buf = 0;
+            if (include_delimiter)
+            {
+                *it++ = c;
+            }
+
+            *it = '\0';
             return count;
         }
 
-        *buf++ = c;
+        *it++ = c;
         count++;
-
-        if (c == delim)
-        {
-            *buf = 0;
-            return count;
-        }
     }
 
-    //*buf = 0;
+    *it = 0;
     return count;
 }
 
 /// Считывает из потока ввода содержимое строки между открывающейся скобкой 'a'
 /// и закрывающейся скобкой 'b' Параметр ignore позволяет отбростить данные
 /// перед первой скобкой.
-int nos::read_paired(
+nos::expected<int, nos::input_error> nos::read_paired(
     nos::istream &is, char *buf, size_t buflen, char a, char b, bool ignore)
 {
     char c;
@@ -123,12 +145,11 @@ int nos::read_paired(
 
     while (paircount != 0 && buf != last)
     {
-        int readed = is.read(&c, 1);
+        auto ret = is.read(&c, 1);
 
-        if (readed <= 0)
+        if (!ret)
         {
-            *buf = 0;
-            return count;
+            return ret.error();
         }
 
         if (c == a)
@@ -155,26 +176,41 @@ int nos::read_paired(
     return count;
 }
 
-std::string nos::readall_from(nos::istream &is)
+nos::expected<std::string, nos::input_error> nos::readall_from(nos::istream &is)
 {
-    return is.readall();
+    std::string ret;
+    char buf[1024];
+    while (true)
+    {
+        auto ans = is.read(buf, sizeof(buf));
+        if (!ans)
+        {
+            return ret;
+        }
+        ret.append(buf, ans.value());
+    }
+    return ret;
 }
 
-nos::expected<std::string, nos::input_error> nos::readline()
+nos::expected<std::string, nos::input_error> nos::readline(size_t maxsz,
+                                                           bool include_newline)
 {
-    return nos::readline_from(*nos::current_istream);
+    return nos::readline_from(*nos::current_istream, maxsz, include_newline);
 }
 
 nos::expected<std::string, nos::input_error> nos::read_from(nos::istream &is,
-                                                            size_t sz)
+                                                            size_t size)
 {
-    return is.read(sz);
-}
-
-nos::expected<std::string, nos::input_error>
-nos::timeouted_readline_from(nos::istream &is, std::chrono::nanoseconds ms)
-{
-    is.set_input_timeout(ms);
-    auto ret = nos::readline_from(is);
-    return ret;
+    std::string ret;
+    ret.resize(size);
+    auto result = is.read(&ret[0], size);
+    if (result)
+    {
+        ret.resize(*result);
+        return ret;
+    }
+    else
+    {
+        return result.error();
+    }
 }

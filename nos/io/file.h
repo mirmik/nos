@@ -6,15 +6,14 @@
 
 namespace nos
 {
-
     class file : public nos::iostream
     {
     private:
         int m_fd = -1;
 
     public:
+        file() = default;
         file(int fd) : m_fd(fd) {}
-        file() {}
         file(const char *path, int flags)
         {
             open(path, flags);

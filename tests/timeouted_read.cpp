@@ -15,9 +15,10 @@ TEST_CASE("nos::file::timeouted_read")
     pipe(fds);
 
     nos::file f(fds[0]);
+    f.set_input_timeout(10ms);
 
     char buf[10];
-    auto ans = f.timeouted_read(buf, 10, std::chrono::milliseconds(10));
+    auto ans = f.read(buf, 10);
 
     CHECK_EQ(ans, nos::input_error::timeout());
 }
@@ -29,13 +30,13 @@ TEST_CASE("nos::file::timeouted_read")
 
     nos::file f(fds[0]);
     nos::file i(fds[1]);
-
+    f.set_input_timeout(10ms);
     i.write("hello", 5);
 
     std::this_thread::sleep_for(10ms);
 
     char buf[10];
-    auto ans = f.timeouted_read(buf, 10, std::chrono::milliseconds(10));
+    auto ans = f.read(buf, 10);
 
     CHECK_EQ(*ans, 5);
     CHECK_EQ(std::string(buf, 5), "hello");
@@ -48,8 +49,8 @@ TEST_CASE("nos::timeouted_readline_from")
 
     nos::file f(fds[0]);
 
-    auto result =
-        nos::timeouted_readline_from(f, std::chrono::milliseconds(10));
+    f.set_input_timeout(10ms);
+    auto result = nos::readline_from(f, 100, false);
 
     CHECK_EQ(bool(result), false);
     CHECK_EQ(result.error().is_timeout(), true);
@@ -66,8 +67,8 @@ TEST_CASE("nos::timeouted_readline_from")
     nos::println_to(i, "hello");
     nos::println_to(i, "world");
 
-    auto result =
-        nos::timeouted_readline_from(f, std::chrono::milliseconds(10));
+    f.set_input_timeout(10ms);
+    auto result = nos::readline_from(f, 100, false);
 
     CHECK_EQ(*result, "hello");
 }

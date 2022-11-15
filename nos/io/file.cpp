@@ -14,9 +14,20 @@ using socklen_t = int32_t;
 
 nos::expected<int, nos::input_error> nos::file::read(void *ptr, size_t sz)
 {
+    assert(m_fd >= 0);
+    assert(fd() >= 0);
+
     if (input_timeout() == 0ns)
     {
-        return nos::osutil::read(fd(), ptr, sz);
+        int sts = nos::osutil::read(fd(), ptr, sz);
+
+        if (sts < 0)
+        {
+            perror("read");
+            return nos::input_error::eof();
+        }
+
+        return sts;
     }
 
     auto ns = input_timeout().count();

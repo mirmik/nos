@@ -86,11 +86,6 @@ namespace nos
             int init();
             int connect(nos::inet::hostaddr addr, uint16_t port);
 
-            // io api implementation
-            int write(const void *data, size_t size) override;
-            nos::expected<int, nos::input_error> read(void *data,
-                                                      size_t size) override;
-
             netaddr getaddr();
 
             using nos::inet::socket::operator==;

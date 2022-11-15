@@ -8,12 +8,17 @@ namespace nos
         bool _is_timeout = false;
         bool _is_closed = false;
 
-        static input_error timeout()
+        static constexpr input_error timeout()
         {
             return {true, false};
         }
 
-        static input_error closed()
+        static constexpr input_error closed()
+        {
+            return {false, true};
+        }
+
+        static constexpr input_error eof()
         {
             return {false, true};
         }

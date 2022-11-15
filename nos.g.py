@@ -88,9 +88,6 @@ licant.module("nos.input",
               mdepends=["nos.util"]
               )
 
-licant.module("nos.input_timeout", "posix", sources=[
-              "nos/input/input-timeout-posix.cpp", ], default=True)
-
 licant.module("nos.fprint",
               srcdir="nos/fprint",
               sources=[
@@ -124,7 +121,6 @@ licant.module("nos",
                   "nos.util",
                   "nos.print",
                   "nos.input",
-                  "nos.input_timeout",
                   "nos.fprint",
                   "nos.io",
                   "nos.log",

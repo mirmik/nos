@@ -1,11 +1,17 @@
 #ifndef NOS_IO_IOSTREAM_H
 #define NOS_IO_IOSTREAM_H
 
-#include <nos/io/ostream.h>
 #include <nos/io/istream.h>
+#include <nos/io/ostream.h>
 
-namespace nos {
-	class iostream : public ostream, public istream {};
+namespace nos
+{
+    class iostream : public istream, public ostream
+    {
+    public:
+        virtual ~iostream() = default;
+        iostream() : istream(), ostream() {}
+    };
 }
 
 #endif
