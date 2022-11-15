@@ -21,9 +21,8 @@ nos::expected<int, nos::input_error> nos::file::read(void *ptr, size_t sz)
     {
         int sts = nos::osutil::read(fd(), ptr, sz);
 
-        if (sts < 0)
+        if (sts <= 0)
         {
-            perror("read");
             return nos::input_error::eof();
         }
 

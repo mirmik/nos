@@ -25,9 +25,7 @@ int nos::inet::tcp_client::write(const void *data, size_t size)
 int nos::inet::tcp_client::connect(nos::inet::hostaddr addr, uint16_t port)
 {
     init();
-    reusing(true);
     int sts = tcp_socket::connect(addr, port);
-    reusing(true);
     if (sts < 0)
     {
         _is_connect = false;
@@ -43,9 +41,7 @@ int nos::inet::tcp_client::connect(nos::inet::hostaddr addr,
 {
     init();
     nonblock(true);
-    reusing(true);
     int sts = tcp_socket::connect(addr, port);
-    reusing(true);
 
     fd_set writefds;
     FD_ZERO(&writefds);
@@ -83,6 +79,11 @@ int nos::inet::tcp_client::connect(nos::inet::hostaddr addr,
 
 int nos::inet::tcp_client::disconnect()
 {
+    if (!_is_connect)
+    {
+        return 0;
+    }
+
     int sts = socket::close();
     _is_connect = false;
     if (sts < 0)
@@ -98,4 +99,10 @@ nos::inet::tcp_client nos::inet::tcp_client::dial(
     tcp_client client;
     client.connect(addr, port, timeout);
     return client;
+}
+
+nos::inet::tcp_client::tcp_client(nos::inet::hostaddr addr, uint16_t port)
+    : tcp_client()
+{
+    connect(addr, port);
 }

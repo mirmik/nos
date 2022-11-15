@@ -1,4 +1,5 @@
 #include <fcntl.h>
+#include <nos/inet/tcp_client.h>
 #include <nos/inet/tcp_server.h>
 #include <unistd.h>
 
@@ -27,6 +28,7 @@ int nos::inet::tcp_server::init()
 
 int nos::inet::tcp_server::bind(const nos::hostaddr &addr, uint16_t port)
 {
+    reusing(true);
     return socket::bind(addr, port, PF_INET);
 }
 
@@ -38,18 +40,16 @@ int nos::inet::tcp_server::listen(int conn)
 int nos::inet::tcp_server::listen()
 {
     auto sts = inet::socket::listen(10);
-    reusing(true);
     return sts;
 }
 
-nos::inet::tcp_socket nos::inet::tcp_server::accept()
+nos::inet::tcp_client nos::inet::tcp_server::accept()
 {
     int c = sizeof(sockaddr_in);
     sockaddr_in caddr;
     memset(&caddr, 0, sizeof(caddr));
     int cfd = ::accept(fd(), (sockaddr *)&caddr, (socklen_t *)&c);
-
-    nos::inet::tcp_socket sock;
-    sock.set_fd(cfd);
+    nos::inet::tcp_client sock;
+    sock.init_from_socket(cfd, true);
     return sock;
 }

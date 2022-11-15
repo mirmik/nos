@@ -21,9 +21,21 @@ namespace nos
             tcp_client(const tcp_client &oth) = default;
             tcp_client &operator=(const tcp_client &oth) = default;
 
+            tcp_client(nos::inet::netaddr naddr)
+                : tcp_client(naddr.addr, naddr.port)
+            {
+            }
+            tcp_client(nos::inet::hostaddr addr, uint16_t port);
+
             [[deprecated("use connected() instead")]] bool is_connected()
             {
                 return _is_connect;
+            }
+
+            void init_from_socket(int fd, bool connected)
+            {
+                set_fd(fd);
+                this->_is_connect = connected;
             }
 
             bool connected() const

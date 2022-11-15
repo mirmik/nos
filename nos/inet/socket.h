@@ -38,7 +38,11 @@ namespace nos
             int dontroute(bool en);
             int reusing(bool en);
 
-            int close();
+            int close_socket();
+            int close() override
+            {
+                return close_socket();
+            }
 
             bool operator==(const nos::inet::socket &oth) const
             {

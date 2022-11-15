@@ -144,6 +144,3 @@ licant.module("nos.timestamp", "millis", sources=[
 licant.module("nos.shell",
               sources=[]
               )
-licant.module("nos.shell.standart",
-              sources=["nos/shell/standart.cpp"]
-              )

@@ -22,7 +22,7 @@ TEST_CASE("tcp client connect without timeout")
 
     nos::inet::tcp_client client;
     client.connect(nos::inet::hostaddr::loopback(), port);
-    nos::inet::tcp_socket sock = server.accept();
+    nos::inet::tcp_client sock = server.accept();
     sock.write("hello", 5);
     char buf[6];
     buf[5] = 0;
@@ -50,7 +50,7 @@ TEST_CASE("tcp client connect with timeout")
     nos::inet::tcp_client client;
     client.connect(
         nos::inet::hostaddr::loopback(), port, std::chrono::milliseconds(100));
-    nos::inet::tcp_socket sock = server.accept();
+    nos::inet::tcp_client sock = server.accept();
     sock.write("hello", 5);
     char buf[6];
     buf[5] = 0;

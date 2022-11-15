@@ -19,10 +19,6 @@
 
 #include <nos/util/osutil.h>
 
-#ifndef NOS_WARNINGS
-#define NOS_WARNINGS 0
-#endif
-
 #ifdef __WIN32__
 typedef unsigned short sa_family_t;
 #define SHUT_RDWR 2
@@ -31,10 +27,6 @@ typedef unsigned short sa_family_t;
 int nos::inet::socket::nonblock(bool en)
 {
     int ret = nos::osutil::nonblock(fd(), en);
-    if (NOS_WARNINGS && ret < 0)
-    {
-        perror("warn: socket::nonblock");
-    }
     return ret;
 }
 
@@ -43,10 +35,6 @@ int nos::inet::socket::nodelay(bool en)
     int on = en;
     int rc =
         setsockopt(fd(), IPPROTO_TCP, TCP_NODELAY, (char *)&on, sizeof(on));
-    if (NOS_WARNINGS && rc < 0)
-    {
-        perror("warn: socket::nodelay");
-    }
     return rc;
 }
 
@@ -55,10 +43,6 @@ int nos::inet::socket::dontroute(bool en)
     int on = en;
     int rc =
         setsockopt(fd(), SOL_SOCKET, SO_DONTROUTE, (char *)&on, sizeof(on));
-    if (NOS_WARNINGS && rc < 0)
-    {
-        perror("warn: socket::dontroute");
-    }
     return rc;
 }
 
@@ -67,22 +51,12 @@ int nos::inet::socket::reusing(bool en)
     int on = en;
     int rc =
         setsockopt(fd(), SOL_SOCKET, SO_REUSEADDR, (char *)&on, sizeof(on));
-    if (NOS_WARNINGS && rc < 0)
-    {
-        perror("warn: socket::reusing");
-    }
     return rc;
 }
 
 int nos::inet::socket::init(int domain, int type, int proto)
 {
     set_fd(::socket(domain, type, proto));
-    if (NOS_WARNINGS && fd() < 0)
-    {
-        perror("warn: socket::init");
-    }
-
-    reusing(true);
     return fd();
 }
 
@@ -100,11 +74,6 @@ int nos::inet::socket::bind(const nos::inet::hostaddr &haddr,
     addr.sin_port = htons(port);
 
     sts = ::bind(fd(), (sockaddr *)&addr, sizeof(struct sockaddr_in));
-    if (NOS_WARNINGS && sts < 0)
-    {
-        perror("warn: socket::bind");
-    }
-
     return sts;
 }
 
@@ -113,11 +82,6 @@ int nos::inet::socket::listen(int conn)
     int sts;
 
     sts = ::listen(fd(), conn);
-    if (NOS_WARNINGS && sts < 0)
-    {
-        perror("warn: socket::listen");
-    }
-
     return sts;
 }
 
@@ -134,30 +98,15 @@ int nos::inet::socket::connect(const nos::inet::hostaddr &haddr,
     addr.sin_addr.s_addr = htonl(haddr.addr);
 
     sts = ::connect(fd(), (struct sockaddr *)&addr, sizeof(addr));
-    if (NOS_WARNINGS && sts < 0)
-    {
-        perror("warn: socket::connect");
-    }
-
     return sts;
 }
 
-int nos::inet::socket::close()
+int nos::inet::socket::close_socket()
 {
     int sts;
 
     sts = ::shutdown(fd(), SHUT_RDWR);
-    if (NOS_WARNINGS && sts < 0)
-    {
-        perror("warn: socket::shutdown");
-    }
-
     sts = ::close(fd());
-    if (NOS_WARNINGS && sts < 0)
-    {
-        perror("warn: socket::close");
-    }
-
     return sts;
 }
 
@@ -209,7 +158,6 @@ int nos::inet::datagramm_socket::recvfrom(char *data,
     if (ret < 0)
     {
         return ret;
-        // nos::println(strerror(errno));
     }
 
     if (inaddr)

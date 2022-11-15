@@ -22,7 +22,6 @@ licant.cxx_static_and_shared("libraries",
                                  "nos",
                                  "nos.inet",
                                  "nos.input",
-                                 "nos.shell.standart",
                                  "nos.check",
                                  "nos.log"
                              ],

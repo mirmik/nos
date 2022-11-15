@@ -48,7 +48,7 @@ namespace nos
             return 0;
         }
 
-        int close()
+        virtual int close()
         {
             return nos::osutil::close(m_fd);
         }
