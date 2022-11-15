@@ -30,7 +30,7 @@ namespace nos
     read_until_from(nos::istream &is,
                     size_t maxsz,
                     const std::string_view &delimiters,
-                    bool include_delimiter);
+                    bool include_delimiter = true);
 
     // buffer api
     nos::expected<int, nos::input_error> read_paired(nos::istream &is,
@@ -44,7 +44,7 @@ namespace nos
     read_until_from(nos::istream &is,
                     nos::buffer buf,
                     const std::string_view &delimiters,
-                    bool include_delimiter);
+                    bool include_delimiter = true);
 
     // std stream api
     nos::expected<std::string, nos::input_error>
