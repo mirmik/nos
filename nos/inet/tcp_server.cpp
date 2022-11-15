@@ -37,7 +37,9 @@ int nos::inet::tcp_server::listen(int conn)
 
 int nos::inet::tcp_server::listen()
 {
-    return inet::socket::listen(10);
+    auto sts = inet::socket::listen(10);
+    reusing(true);
+    return sts;
 }
 
 nos::inet::tcp_socket nos::inet::tcp_server::accept()

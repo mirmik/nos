@@ -26,7 +26,9 @@ int nos::inet::tcp_socket::init()
 
 int nos::inet::tcp_socket::connect(nos::inet::hostaddr addr, uint16_t port)
 {
-    return socket::connect(addr, port, PF_INET);
+    auto sts = socket::connect(addr, port, PF_INET);
+    reusing(true);
+    return sts;
 }
 
 int nos::inet::socket::send(const void *data, size_t size, int flags)
