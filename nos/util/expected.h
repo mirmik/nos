@@ -2,6 +2,7 @@
 #define NOS_UTIL_EXPECTED_H
 
 #include <nos/util/error.h>
+#include <nos/util/unexpected.h>
 
 namespace nos
 {
@@ -21,6 +22,11 @@ namespace nos
         expected(const T &val) : _is_ok(true)
         {
             new (&u._ok) T(val);
+        }
+
+        bool operator == (const nos::unexpected<E>& u) const
+        {
+            return _is_ok ? false : u.error() == error();
         }
 
         expected(const E &err) : _is_ok(false)

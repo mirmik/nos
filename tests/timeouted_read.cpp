@@ -20,7 +20,8 @@ TEST_CASE("nos::file::timeouted_read")
     char buf[10];
     auto ans = f.read(buf, 10);
 
-    CHECK_EQ(ans, nos::input_error::timeout());
+    CHECK_EQ(ans, 
+         nos::unexpected(nos::input_error::timeout()));
 }
 
 TEST_CASE("nos::file::timeouted_read")

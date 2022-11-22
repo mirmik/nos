@@ -43,9 +43,15 @@ namespace nos
             return !(_is_timeout || _is_closed);
         }
 
-        operator bool() const
+        explicit operator bool() const
         {
             return is_ok();
+        }
+
+        bool operator == (const input_error& oth) 
+        {
+            return _is_timeout == oth._is_timeout && 
+                   _is_closed == oth._is_closed;
         }
     };
 }
