@@ -1,5 +1,5 @@
 #include <doctest/doctest.h>
-#include <nos/io/string_writer.h>
+#include <nos/io/sstream.h>
 #include <nos/shell/aggregate_executor.h>
 #include <nos/shell/argv.h>
 #include <nos/shell/executor.h>
@@ -25,25 +25,25 @@ int hello(const nos::argv &argv, nos::ostream &os)
     return 0;
 }
 
-int af(const nos::argv &argv, nos::ostream &os)
+int af(const nos::argv &, nos::ostream &os)
 {
     nos::print_to(os, "a");
     return 0;
 }
 
-int bf(const nos::argv &argv, nos::ostream &os)
+int bf(const nos::argv &, nos::ostream &os)
 {
     nos::print_to(os, "b");
     return 0;
 }
 
-int cf(const nos::argv &argv, nos::ostream &os)
+int cf(const nos::argv &, nos::ostream &os)
 {
     nos::print_to(os, "c");
     return 0;
 }
 
-int df(const nos::argv &argv, nos::ostream &os)
+int df(const nos::argv &, nos::ostream &os)
 {
     nos::print_to(os, "d");
     return 0;
@@ -61,8 +61,7 @@ TEST_CASE("tokens")
 TEST_CASE("executor")
 {
     char *cmd = strdup("hello a");
-    nos::string_buffer answer;
-
+    nos::stringstream answer;
     nos::executor executor({{"hello", "help example", hello}});
 
     auto tokens = nos::tokens(cmd);
@@ -77,7 +76,7 @@ TEST_CASE("executor")
 
 TEST_CASE("aggregate_executor")
 {
-    nos::string_buffer answer;
+    nos::stringstream answer;
 
     nos::executor abexecutor({
         {"af", "", af},

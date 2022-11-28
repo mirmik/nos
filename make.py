@@ -27,8 +27,8 @@ licant.cxx_static_and_shared("libraries",
                              ],
                              cxxstd="c++2a",
                              ccstd="c11",
-                             cxx_flags='-fmax-errors=1 -fPIC -Weffc++ -Wall -Wextra',
-                             cc_flags='-fPIC',
+                             cxx_flags='-fmax-errors=1 -fPIC  -Werror=extra -Weffc++ -Wall -Wextra',
+                             cc_flags='-fPIC  -Werror=extra',
                              libs=["ws2_32"] if sys.platform == "win32" else [],
                              )
 
@@ -39,8 +39,8 @@ licant.cxx_application("runtests",
                        include_paths=["tests/.", "."],
                        cxxstd="c++2a",
                        ccstd="c11",
-                       cxx_flags="-fmax-errors=1 -Weffc++ -g -O0 -fPIC -Werror=all -Werror=pedantic -Wno-gnu-zero-variadic-macro-arguments",
-                       cc_flags="-g -O0 -fPIC -Werror=all -Werror=pedantic -Wno-gnu-zero-variadic-macro-arguments",
+                       cxx_flags="-fmax-errors=1 -Weffc++ -g -O0 -fPIC -Werror=all -Werror=extra -Werror=pedantic -Wno-gnu-zero-variadic-macro-arguments",
+                       cc_flags="-g -O0 -fPIC -Werror=all -Werror=pedantic -Werror=extra -Wno-gnu-zero-variadic-macro-arguments",
                        libs=["pthread"],
                        )
 

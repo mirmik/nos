@@ -1,7 +1,9 @@
-#include <nos/fprint.h>
-#include <nos/print.h>
-
+#include <charconv>
 #include <doctest/doctest.h>
+#include <nos/fprint.h>
+#include <nos/io/sstream.h>
+#include <nos/io/string_writer.h>
+#include <nos/print.h>
 
 struct A
 {
@@ -35,8 +37,8 @@ using namespace nos::argument_literal;
 
 TEST_CASE("fprint")
 {
-    std::string output;
-    nos::string_writer writer{output};
+    nos::stringstream writer;
+    std::string &output = writer.str();
     nos::current_ostream = &writer;
 
     SUBCASE("fprint(A)")
@@ -209,6 +211,7 @@ TEST_CASE("big double")
 {
     {
         char buf[128];
+        memset(buf, 0, sizeof(buf));
         sprintf(buf, "%f", (double)213241278.499228);
         CHECK_EQ(std::string(buf), "213241278.499228");
     }
@@ -217,7 +220,18 @@ TEST_CASE("big double")
         CHECK_EQ(out, "213241278.499228");
     }
     {
+        char buf[128];
         std::string out = nos::format("{}", 10213241278.499228);
+        auto [eptr, err] =
+            std::to_chars(std::begin(buf), std::end(buf), 10213241278.499228);
+        std::string out_control(buf, eptr);
         CHECK_EQ(out, "10213241278.499228");
+        CHECK_EQ(out_control, "10213241278.499228");
     }
+}
+
+TEST_CASE("format string with string")
+{
+    auto s = nos::format("{} {}", std::string("Hello"), std::string("World"));
+    CHECK_EQ(s, "Hello World");
 }

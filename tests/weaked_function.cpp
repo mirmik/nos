@@ -58,15 +58,15 @@ TEST_CASE("make_cf_abstract")
 {
     nos::wf_collection collection;
     collection.add("sum", std::function<int(int, int)>(sum));
-    collection.add("sub", std::function<int(int, int)>([](int a, int b) {
-                       return a - b;
-                   }));
+    collection.add(
+        "sub",
+        std::function<int(int, int)>([](int a, int b) { return a - b; }));
     collection.add("pow",
-                   std::function<int(int, int)>(
-                       [](int a, int b) { return std::pow(a, b); }),
+                   std::function<int(int, int)>([](int a, int b)
+                                                { return std::pow(a, b); }),
                    {"a", "b"});
     collection.add(
-        "stub", std::function<void(int, int)>([](int a, int b) {}), {"a", "b"});
+        "stub", std::function<void(int, int)>([](int, int) {}), {"a", "b"});
 
     CHECK_EQ(
         collection

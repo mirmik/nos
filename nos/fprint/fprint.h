@@ -19,7 +19,7 @@ namespace nos
     template <typename... Args>
     int fprint_to(nos::ostream &out,
                   const std::string_view &fmt,
-                  const Args &... args)
+                  const Args &...args)
     {
         return fprint_impl(out,
                            fmt,
@@ -28,12 +28,12 @@ namespace nos
     }
 
     template <typename... Args>
-    int fprint(const std::string_view &fmt, const Args &... args)
+    int fprint(const std::string_view &fmt, const Args &...args)
     {
         return nos::fprint_to(*current_ostream, fmt, args...);
     }
 
-    template <typename... Args> int fprintln(const Args &... args)
+    template <typename... Args> int fprintln(const Args &...args)
     {
         size_t ret = 0;
         ret += fprint_to(*current_ostream, args...);
@@ -42,7 +42,7 @@ namespace nos
     }
 
     template <typename... Args>
-    int fprintln_to(nos::ostream &out, const Args &... args)
+    int fprintln_to(nos::ostream &out, const Args &...args)
     {
         size_t ret = 0;
         ret += fprint_to(out, args...);
@@ -68,7 +68,7 @@ namespace nos
     }
 
     template <typename... Args>
-    std::string format(const std::string_view &fmt, const Args &... args)
+    std::string format(const std::string_view &fmt, const Args &...args)
     {
         std::string ret;
         nos::string_writer writer(ret);
@@ -88,7 +88,7 @@ namespace nos
 
     template <typename... Args>
     int
-    format_buffer(char *buf, const std::string_view &fmt, const Args &... args)
+    format_buffer(char *buf, const std::string_view &fmt, const Args &...args)
     {
         nos::cstring_writer writer(buf);
         int ret = nos::fprint_to(writer, fmt, args...);

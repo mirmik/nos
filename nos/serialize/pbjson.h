@@ -1,9 +1,9 @@
 #ifndef PBJSON_SERIALIZE_H
 #define PBJSON_SERIALIZE_H
 
+#include <concepts>
 #include <cstdint>
 #include <nos/util/buffer.h>
-#include <concepts>
 
 namespace nos
 {
@@ -25,7 +25,7 @@ namespace nos
     public:
         pbjson_deserializer(nos::buffer buf) : buf(buf) {}
 
-        template <std::integral T> bool reflect(const char *name, T &value)
+        template <std::integral T> bool reflect(const char *, T &value)
         {
             auto [type, length] = get_type_and_length();
             if (type != 2 && type != 4)
@@ -45,8 +45,7 @@ namespace nos
             return true;
         }
 
-        template <std::floating_point T>
-        bool reflect(const char *name, T &value)
+        template <std::floating_point T> bool reflect(const char *, T &value)
         {
             auto [type, length] = get_type_and_length();
             if (type != 6)
@@ -63,7 +62,7 @@ namespace nos
             return true;
         }
 
-        bool reflect(const char *name, std::string &value)
+        bool reflect(const char *, std::string &value)
         {
             auto [type, length] = get_type_and_length();
             if (type != 8)

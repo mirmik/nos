@@ -1,5 +1,5 @@
 #include <doctest/doctest.h>
-#include <nos/io/string_writer.h>
+#include <nos/io/sstream.h>
 #include <nos/print.h>
 
 struct A
@@ -44,29 +44,29 @@ namespace nos
 
 TEST_CASE("fprint")
 {
-    std::string output;
-    nos::string_writer writer{output};
+    nos::stringstream writer;
     nos::current_ostream = &writer;
+    std::string &output = writer.str();
 
     SUBCASE("print")
     {
         nos::print("print");
-        CHECK_EQ(output, "print");
+        CHECK_EQ(writer.str(), "print");
     }
 
     SUBCASE("integer")
     {
         nos::print(88);
-        CHECK_EQ(output, "88");
+        CHECK_EQ(writer.str(), "88");
     }
 
     SUBCASE("number")
     {
         nos::print(0.88);
-        CHECK_EQ(output[0], '0');
-        CHECK_EQ(output[1], '.');
-        CHECK_EQ(output[2], '8');
-        CHECK_EQ(output[3], '8');
+        CHECK_EQ(writer.str()[0], '0');
+        CHECK_EQ(writer.str()[1], '.');
+        CHECK_EQ(writer.str()[2], '8');
+        CHECK_EQ(writer.str()[3], '8');
     }
 
     SUBCASE("method")

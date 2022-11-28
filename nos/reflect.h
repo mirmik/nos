@@ -9,7 +9,7 @@ namespace nos
     class empty_reflect_operator
     {
     public:
-        template <class T> bool reflect(const char *name, T &value)
+        template <class T> bool reflect(const char *, T &)
         {
             return true;
         }
@@ -19,9 +19,9 @@ namespace nos
     {
     private:
         template <typename U>
-        static decltype(
-            std::declval<U>().reflect(std::declval<empty_reflect_operator &>()),
-            std::true_type())
+        static decltype(std::declval<U>().reflect(
+                            std::declval<empty_reflect_operator &>()),
+                        std::true_type())
         test(int);
 
         template <typename> static std::false_type test(...);

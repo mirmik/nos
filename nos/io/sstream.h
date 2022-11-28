@@ -1,3 +1,6 @@
+#ifndef NOS_STRING_STREAM_H
+#define NOS_STRING_STREAM_H
+
 #include <nos/io/istream.h>
 #include <nos/io/ostream.h>
 
@@ -40,3 +43,5 @@ namespace nos
         }
     };
 }
+
+#endif

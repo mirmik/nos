@@ -1,12 +1,12 @@
 #ifndef NOS_WEAKED_FUNCTIONS_H
 #define NOS_WEAKED_FUNCTIONS_H
 
+#include <concepts>
 #include <functional>
 #include <nos/trent/trent.h>
 #include <nos/util/arglist.h>
 #include <stdexcept>
 #include <string>
-#include <concepts>
 
 namespace nos
 {
@@ -69,7 +69,8 @@ namespace nos
     inline constexpr bool is_specialization<T<Args...>, T> = true;
 
     /// @brief Является ли тип инстансом nos::argpair?
-    template <class T> concept ArgPair = is_specialization<T, nos::argpair>;
+    template <class T>
+    concept ArgPair = is_specialization<T, nos::argpair>;
 
     class weaked_function_basic
     {
@@ -96,7 +97,7 @@ namespace nos
 
         ~weaked_function() override = default;
 
-        template <class... Args2> auto operator()(Args2 &&... args) const
+        template <class... Args2> auto operator()(Args2 &&...args) const
         {
             std::tuple<Args2...> args_tuple{(args)...};
             std::array<runtime_argument, count> rarguments = {};
@@ -141,9 +142,8 @@ namespace nos
                 }
             }
 
-            return func(trent_to_type<
-                        typename nos::detail::signature<F>::template nth_argtype<I>>(
-                arr[I].value)...);
+            return func(trent_to_type<typename nos::detail::signature<
+                            F>::template nth_argtype<I>>(arr[I].value)...);
         }
 
         template <class T> static T trent_to_type(const nos::trent &t)
@@ -160,7 +160,7 @@ namespace nos
         }
 
         template <ArgPair Arg>
-        void parse_argument(size_t index,
+        void parse_argument(size_t,
                             std::array<runtime_argument, count> &rarguments,
                             const Arg &arg) const
         {

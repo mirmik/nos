@@ -25,9 +25,9 @@ char *__nos_ldtoa(long double f, char *buf, int8_t precision)
 {
     char *ptr = buf;
     char *p = ptr;
-    char *p1;
-    char c;
-    int64_t intPart;
+    char *p1 = nullptr;
+    char c = 0;
+    int64_t intPart = 0;
 
     if (isinf(f))
     {

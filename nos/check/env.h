@@ -12,6 +12,7 @@ extern std::string nos_check_error_msg;
 
 #define NOS_CHECK_ENV_ERROR_HANDLER() else
 
-void NOS_CHECK_ENV_RAISE(std::string msg);
+void NOS_CHECK_ENV_RAISE_SET(std::string &msg);
+void NOS_CHECK_ENV_RAISE_IMPL();
 
 #endif

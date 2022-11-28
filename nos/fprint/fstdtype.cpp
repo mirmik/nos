@@ -1,3 +1,4 @@
+#include <charconv>
 #include <nos/fprint/spec.h>
 #include <nos/fprint/stdtype.h>
 #include <nos/util/numconvert.h>
@@ -168,12 +169,19 @@ int nos_fprint(nos::ostream &os, double obj, const nos::buffer &opts)
     {
         //		len = snprintf(buf, sizeof(buf)-1, "%.*lf", spec.after_dot,
         // obj);
-        len = __nos_dtoa(obj, buf, spec.after_dot) - buf;
+        // len = __nos_dtoa(obj, buf, spec.after_dot) - buf;
+        auto [eptr, err] = std::to_chars(std::begin(buf),
+                                         std::end(buf),
+                                         obj,
+                                         std::chars_format::fixed,
+                                         spec.after_dot);
+        len = eptr - buf;
     }
     else
     {
-        //		len = snprintf(buf, sizeof(buf)-1, "%lf", obj);
-        len = __nos_dtoa(obj, buf, 6) - buf;
+        auto [eptr, err] = std::to_chars(
+            std::begin(buf), std::end(buf), obj, std::chars_format::fixed);
+        len = eptr - buf;
     }
     return nos_fprint(os, buf, len, spec);
 }

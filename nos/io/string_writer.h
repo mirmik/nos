@@ -1,75 +1,83 @@
 #ifndef NOS_IO_STRING_WRITER_H
 #define NOS_IO_STRING_WRITER_H
 
-/**
-	@file
-*/
-
-#include <string>
 #include <nos/io/ostream.h>
+#include <string>
 
-namespace nos {
-	class string_writer : public nos::ostream {
-	private:
-		std::string& str;
+namespace nos
+{
+    class string_writer : public nos::ostream
+    {
+    private:
+        std::string &str;
 
-	public:
-		string_writer(std::string& _str) : str(_str) {}
-	
-		int write(const void* ptr, size_t sz) override {
-			str.append((char*)ptr, sz);
-			return sz;
-		}
-	};
+    public:
+        string_writer(std::string &_str) : str(_str) {}
 
-	class string_buffer : public nos::ostream {
-	private:
-		std::string _str = {};
+        int write(const void *ptr, size_t sz) override
+        {
+            str.append((char *)ptr, sz);
+            return sz;
+        }
+    };
 
-	public:	
-		int write(const void* ptr, size_t sz) override {
-			_str.append((char*)ptr, sz);
-			return sz;
-		}
+    class string_buffer : public nos::ostream
+    {
+    private:
+        std::string _str = {};
 
-		std::string & str() { return _str; }
-	};
+    public:
+        int write(const void *ptr, size_t sz) override
+        {
+            _str.append((char *)ptr, sz);
+            return sz;
+        }
 
-	class cstring_writer : public nos::ostream {
-	private:
-		char* str;
+        std::string &str()
+        {
+            return _str;
+        }
+    };
 
-	public:
-		cstring_writer(char* _str) : str(_str) {}
-		cstring_writer(const cstring_writer& _str) = default;
-		cstring_writer& operator=(const cstring_writer& _str) = default;
+    class cstring_writer : public nos::ostream
+    {
+    private:
+        char *str;
 
-		int write(const void* ptr, size_t sz) override {
-			memcpy(str, ptr, sz);
-			str += sz;
-			return sz;
-		}
-	};
+    public:
+        cstring_writer(char *_str) : str(_str) {}
+        cstring_writer(const cstring_writer &_str) = default;
+        cstring_writer &operator=(const cstring_writer &_str) = default;
 
-	class buffer_writer : public nos::ostream {
-	private:
-		char* str;
-		size_t len;
+        int write(const void *ptr, size_t sz) override
+        {
+            memcpy(str, ptr, sz);
+            str += sz;
+            return sz;
+        }
+    };
+    /*
+    class buffer_writer : public nos::ostream
+    {
+    private:
+        char *str;
+        size_t len;
 
-	public:
-		buffer_writer(char* _str, int _room) : str(_str), len(_room) {}
-		buffer_writer(char* _str, size_t _room) : str(_str), len(_room) {}
-		buffer_writer(const buffer_writer& _str) = default;
-		buffer_writer& operator=(const buffer_writer&) = default;
-	
-		int write(const void* ptr, size_t sz) override {
-			int l = sz < len ? sz : len;
-			memcpy(str, ptr, l);
-			str += l;
-			len -= l;
-			return l;
-		}
-	};
+    public:
+        buffer_writer(char *_str, int _room) : str(_str), len(_room) {}
+        buffer_writer(char *_str, size_t _room) : str(_str), len(_room) {}
+        buffer_writer(const buffer_writer &_str) = default;
+        buffer_writer &operator=(const buffer_writer &) = default;
+
+        int write(const void *ptr, size_t sz) override
+        {
+            int l = sz < len ? sz : len;
+            memcpy(str, ptr, l);
+            str += l;
+            len -= l;
+            return l;
+        }
+    };*/
 }
 
 #endif
