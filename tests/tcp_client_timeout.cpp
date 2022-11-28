@@ -86,7 +86,7 @@ TEST_CASE("tcp client connect miss port!")
                     nos::inet::tcp_connect_error);
 }
 
-/*std::string UNKNOWN_HOST = "10.127.0.253";
+std::string UNKNOWN_HOST = "10.127.0.253";
 TEST_CASE("tcp client connect without accept")
 {
     srand(time(NULL) + 444);
@@ -108,4 +108,4 @@ TEST_CASE("tcp client connect without accept")
     CHECK_THROWS_AS(
         client.connect(UNKNOWN_HOST, port, std::chrono::milliseconds(100)),
         nos::inet::tcp_timeout_error);
-}*/
+}

@@ -13,22 +13,10 @@ namespace nos
 {
     class istream
     {
-        std::chrono::nanoseconds _input_timeout = 0ns;
-
     public:
         virtual ~istream() = default;
         virtual nos::expected<int, nos::input_error> read(void *ptr,
                                                           size_t sz) = 0;
-
-        void set_input_timeout(std::chrono::nanoseconds timeout)
-        {
-            this->_input_timeout = timeout;
-        }
-
-        std::chrono::nanoseconds input_timeout() const
-        {
-            return this->_input_timeout;
-        }
 
         int ignore()
         {

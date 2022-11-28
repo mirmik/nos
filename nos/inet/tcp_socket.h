@@ -64,6 +64,8 @@ namespace nos
 
         class tcp_socket : public nos::inet::socket
         {
+            // cannot be created explicit
+
         protected:
             tcp_socket() = default;
             tcp_socket(int fd) : nos::inet::socket(fd) {}

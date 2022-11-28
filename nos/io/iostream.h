@@ -8,9 +8,6 @@ namespace nos
 {
     class iostream : public istream, public ostream
     {
-    public:
-        virtual ~iostream() = default;
-        iostream() : istream(), ostream() {}
     };
 }
 

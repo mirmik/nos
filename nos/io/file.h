@@ -10,6 +10,7 @@ namespace nos
     {
     private:
         int m_fd = -1;
+        std::chrono::nanoseconds _input_timeout = 0ns;
 
     public:
         file() = default;
@@ -35,6 +36,16 @@ namespace nos
         bool good()
         {
             return m_fd >= 0;
+        }
+
+        void set_input_timeout(std::chrono::nanoseconds timeout)
+        {
+            this->_input_timeout = timeout;
+        }
+
+        std::chrono::nanoseconds input_timeout() const
+        {
+            return this->_input_timeout;
         }
 
         int open(const char *path, int mode)
