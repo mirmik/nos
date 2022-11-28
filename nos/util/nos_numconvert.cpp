@@ -193,3 +193,48 @@ char *__nos_itoa(int64_t num, char *buf, uint8_t base)
     }
     return p;
 }
+
+char *__nos_utoa(uint64_t num, char *buf, uint8_t base)
+{
+
+    char *p = buf;
+    char *p1, *p2;
+    uint64_t ud = 0;
+
+    *buf = '\0'; /* initialize buffer. In the case of an error, this will
+                    already be in the buffer, indicating that the result is
+                    invalid (NULL). */
+    p1 = buf;    /* start of buffer */
+
+    // check base
+    if (base < 2 || base > 36)
+    {
+        return buf;
+    }
+
+    ud = num;
+
+    /* Divide ud by base until ud == 0.  */
+    int16_t remainder = 0;
+    do
+    {
+        remainder = ud % base;
+        *(p++) = (remainder < 10) ? remainder + '0' : remainder + 'a' - 10;
+    } while (ud /= base);
+
+    /* Terminate buf.  */
+    *p = '\0';
+
+    /* Reverse buffer.  */
+    p2 = p - 1; /* end of buffer */
+    char tmp;
+    while (p1 < p2)
+    {
+        tmp = *p1;
+        *p1 = *p2;
+        *p2 = tmp;
+        p1++;
+        p2--;
+    }
+    return p;
+}

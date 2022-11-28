@@ -17,7 +17,7 @@ int nos::ostream::write_upper(const void *_ptr, size_t sz)
     char *ptr = (char *)_ptr;
     size_t _sz = sz;
     while (_sz--)
-        putchar(toupper(*ptr++));
+        putbyte(toupper(*ptr++));
     return sz;
 }
 
@@ -26,6 +26,6 @@ int nos::ostream::write_lower(const void *_ptr, size_t sz)
     char *ptr = (char *)_ptr;
     size_t _sz = sz;
     while (_sz--)
-        putchar(tolower(*ptr++));
+        putbyte(tolower(*ptr++));
     return sz;
 }

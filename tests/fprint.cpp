@@ -193,6 +193,18 @@ TEST_CASE("__nos_dtoa")
     CHECK_EQ(std::string(buf), "123.456789");
 }
 
+TEST_CASE("format hex")
+{
+    auto ret = nos::format("{:X}", 42);
+    CHECK_EQ(ret, "2A");
+}
+
+TEST_CASE("format hex")
+{
+    auto ret = nos::format("{:x}", 42);
+    CHECK_EQ(ret, "2a");
+}
+
 TEST_CASE("big double")
 {
     {

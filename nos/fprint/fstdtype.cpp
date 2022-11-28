@@ -111,60 +111,51 @@ int nos_fprint(nos::ostream &os, signed short obj, const nos::buffer &opts)
 }
 int nos_fprint(nos::ostream &os, signed int obj, const nos::buffer &opts)
 {
-    nos::integer_spec spec(opts);
-    char buf[64 + 1];
-    // char * end = i32toa(obj, buf, 10);
-    int len = snprintf(buf, sizeof(buf) - 1, "%d", obj);
-    return nos_fprint_integer_impl(os, buf, len, spec);
+    return nos_fprint(os, (signed long long)obj, opts);
 }
-
 int nos_fprint(nos::ostream &os, signed long obj, const nos::buffer &opts)
 {
-    nos::integer_spec spec(opts);
-    char buf[64 + 1];
-    int len = snprintf(buf, sizeof(buf) - 1, "%ld", obj);
-    return nos_fprint_integer_impl(os, buf, len, spec);
+    return nos_fprint(os, (signed long long)obj, opts);
 }
-
 int nos_fprint(nos::ostream &os, signed long long obj, const nos::buffer &opts)
 {
     nos::integer_spec spec(opts);
     char buf[64 + 1];
-    int len = snprintf(buf, sizeof(buf) - 1, "%lld", obj);
+    int base = 10;
+    if (spec.hexmode)
+        base = 16;
+    char *endptr = __nos_itoa(obj, buf, base);
+    int len = endptr - buf;
     return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
 int nos_fprint(nos::ostream &os, unsigned char obj, const nos::buffer &opts)
 {
-    return nos_fprint(os, (unsigned int)obj, opts);
+    return nos_fprint(os, (unsigned long long)obj, opts);
 }
 int nos_fprint(nos::ostream &os, unsigned short obj, const nos::buffer &opts)
 {
-    return nos_fprint(os, (unsigned int)obj, opts);
+    return nos_fprint(os, (unsigned long long)obj, opts);
 }
 int nos_fprint(nos::ostream &os, unsigned int obj, const nos::buffer &opts)
 {
-    nos::integer_spec spec(opts);
-    char buf[64 + 1];
-    int len = snprintf(buf, sizeof(buf) - 1, "%u", obj);
-    return nos_fprint_integer_impl(os, buf, len, spec);
+    return nos_fprint(os, (unsigned long long)obj, opts);
 }
-
 int nos_fprint(nos::ostream &os, unsigned long int obj, const nos::buffer &opts)
 {
-    nos::integer_spec spec(opts);
-    char buf[64 + 1];
-    int len = snprintf(buf, sizeof(buf) - 1, "%lu", obj);
-    return nos_fprint_integer_impl(os, buf, len, spec);
+    return nos_fprint(os, (unsigned long long)obj, opts);
 }
-
 int nos_fprint(nos::ostream &os,
                unsigned long long int obj,
                const nos::buffer &opts)
 {
     nos::integer_spec spec(opts);
     char buf[64 + 1];
-    int len = snprintf(buf, sizeof(buf) - 1, "%llu", obj);
+    int base = 10;
+    if (spec.hexmode)
+        base = 16;
+    char *endptr = __nos_utoa(obj, buf, base);
+    int len = endptr - buf;
     return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
@@ -176,7 +167,7 @@ int nos_fprint(nos::ostream &os, double obj, const nos::buffer &opts)
     if (spec.after_dot != -1)
     {
         //		len = snprintf(buf, sizeof(buf)-1, "%.*lf", spec.after_dot,
-        //obj);
+        // obj);
         len = __nos_dtoa(obj, buf, spec.after_dot) - buf;
     }
     else
