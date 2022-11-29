@@ -182,7 +182,7 @@ int nos_fprint(nos::ostream &os, double obj, const nos::buffer &opts)
     else
     {
 #if __cplusplus < 201900L
-        len = __nos_dtoa(obj, buf, -1) - buf;
+        len = __nos_dtoa(obj, buf, 6) - buf;
 #else
         auto [eptr, err] = std::to_chars(
             std::begin(buf), std::end(buf), obj, std::chars_format::fixed);

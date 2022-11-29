@@ -220,13 +220,8 @@ TEST_CASE("big double")
         CHECK_EQ(out, "213241278.499228");
     }
     {
-        char buf[128];
         std::string out = nos::format("{}", 10213241278.499228);
-        auto [eptr, err] =
-            std::to_chars(std::begin(buf), std::end(buf), 10213241278.499228);
-        std::string out_control(buf, eptr);
         CHECK_EQ(out, "10213241278.499228");
-        CHECK_EQ(out_control, "10213241278.499228");
     }
 }
 
