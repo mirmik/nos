@@ -56,8 +56,14 @@ int nos::inet::socket::reusing(bool en)
 
 int nos::inet::socket::init(int domain, int type, int proto)
 {
-    set_fd(::socket(domain, type, proto));
-    return fd();
+    int fd = ::socket(domain, type, proto);
+    if (fd < 0)
+    {
+        perror("socket::init");
+        throw std::runtime_error("socket::init");
+    }
+    set_fd(fd);
+    return this->fd();
 }
 
 int nos::inet::socket::bind(const nos::inet::hostaddr &haddr,

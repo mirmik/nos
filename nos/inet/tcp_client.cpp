@@ -13,11 +13,26 @@
 
 int nos::inet::tcp_client::write(const void *data, size_t size)
 {
-    int sts = file::write(data, size);
+    int sts =
+        ::send(fd(), (const char *)data, size, 0); // file::write(data, size);
     if (sts < 0)
     {
         _is_connect = false;
+        perror("tcp_client::write");
         throw nos::inet::tcp_write_error();
+    }
+    return sts;
+}
+
+nos::expected<int, nos::input_error> nos::inet::tcp_client::read(void *data,
+                                                                 size_t size)
+{
+    int sts = ::recv(fd(), (char *)data, size, 0);
+    if (sts < 0)
+    {
+        _is_connect = false;
+        perror("tcp_client::read");
+        throw nos::inet::tcp_read_error();
     }
     return sts;
 }
@@ -29,6 +44,7 @@ int nos::inet::tcp_client::connect(nos::inet::hostaddr addr, uint16_t port)
     if (sts < 0)
     {
         _is_connect = false;
+        perror("tcp_client::connect");
         throw nos::inet::tcp_connect_error();
     }
     _is_connect = true;
@@ -54,6 +70,7 @@ int nos::inet::tcp_client::connect(nos::inet::hostaddr addr,
     sts = select(fd() + 1, NULL, &writefds, NULL, &tv);
     if (sts < 0)
     {
+        perror("tcp_client::connect");
         throw nos::inet::tcp_connect_error();
     }
     else if (sts == 0)
