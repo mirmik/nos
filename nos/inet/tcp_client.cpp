@@ -28,11 +28,10 @@ nos::expected<int, nos::input_error> nos::inet::tcp_client::read(void *data,
                                                                  size_t size)
 {
     int sts = ::recv(fd(), (char *)data, size, 0);
-    if (sts < 0)
+    if (sts <= 0)
     {
         _is_connect = false;
-        perror("tcp_client::read");
-        throw nos::inet::tcp_read_error();
+        return nos::input_error::eof();
     }
     return sts;
 }
