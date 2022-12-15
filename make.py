@@ -29,6 +29,7 @@ licant.cxx_static_and_shared("libraries",
                              ccstd="c11",
                              cxx_flags='-fmax-errors=1 -fPIC  -Weffc++ -Wall -Wextra',
                              cc_flags='-fPIC ',
+                             ld_flags='-fPIC ',
                              libs=["ws2_32"] if sys.platform == "win32" else [],
                              )
 
