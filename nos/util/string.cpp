@@ -1,5 +1,7 @@
+#include <chrono>
 #include <nos/util/hexascii.h>
 #include <nos/util/string.h>
+
 
 std::string nos::trim(const std::string_view &view)
 {
