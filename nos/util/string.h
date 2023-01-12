@@ -5,12 +5,16 @@
 #include <cstdint>
 #include <cstring>
 #include <list>
+#include <random>
 #include <string>
 #include <string_view>
+#include <unistd.h>
 #include <vector>
 
 namespace nos
 {
+    std::string random_string(int len);
+
     std::string replace(const std::string &src,
                         const std::string &oldsub,
                         const std::string &newsub);
