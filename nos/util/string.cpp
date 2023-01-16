@@ -1,7 +1,5 @@
-#include <chrono>
 #include <nos/util/hexascii.h>
 #include <nos/util/string.h>
-
 
 std::string nos::trim(const std::string_view &view)
 {
@@ -121,15 +119,18 @@ std::string nos::join(const std::vector<std::string> &vec, char delim)
     return ret;
 }
 
-std::string nos::random_string(int len)
+std::string nos::random_string(int len, uint64_t seed)
 {
     std::string tmp_s;
     static const char alphanum[] = "0123456789"
                                    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                    "abcdefghijklmnopqrstuvwxyz";
 
-    srand((unsigned)time(NULL) * getpid());
-
+    std::linear_congruential_engine<uint64_t,
+                                    6364136223846793005,
+                                    1442695040888963407,
+                                    0>
+        rand(seed);
     tmp_s.reserve(len);
 
     for (int i = 0; i < len; ++i)

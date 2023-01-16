@@ -13,7 +13,7 @@
 
 namespace nos
 {
-    std::string random_string(int len);
+    std::string random_string(int len, uint64_t seed = 0);
 
     std::string replace(const std::string &src,
                         const std::string &oldsub,
