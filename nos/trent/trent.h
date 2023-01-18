@@ -339,18 +339,28 @@ namespace nos
             return *tr;
         }
 
-        bool have(std::string key) const
+        bool contains(const char *key) const
         {
             if (m_type != type::dict)
                 return false;
             return m_dct.find(key) != m_dct.end();
         }
 
-        bool have(const char *key) const
+        bool contains(std::string key) const
         {
             if (m_type != type::dict)
                 return false;
             return m_dct.find(std::string(key)) != m_dct.end();
+        }
+
+        __attribute__((deprecated)) bool have(std::string key) const
+        {
+            return contains(key);
+        }
+
+        __attribute__((deprecated)) bool have(const char *key) const
+        {
+            return contains(key);
         }
 
         void init_from_list(const std::initializer_list<double> l)
@@ -570,6 +580,12 @@ namespace nos
         {
             if (!is_dict())
                 init(type::dict);
+            return m_dct;
+        }
+        const dict_type &as_dict() const
+        {
+            if (!is_dict())
+                throw std::runtime_error("is't dict");
             return m_dct;
         }
         result<dict_type &> as_dict_critical()

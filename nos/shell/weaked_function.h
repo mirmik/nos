@@ -3,6 +3,7 @@
 
 #include <concepts>
 #include <functional>
+#include <nos/trent/json.h>
 #include <nos/trent/trent.h>
 #include <nos/util/arglist.h>
 #include <stdexcept>
@@ -16,8 +17,8 @@ namespace nos
     /// механизмами rpc.
     class trent_argument
     {
-        std::string name;
-        nos::trent value;
+        std::string name = {};
+        nos::trent value = {};
 
     public:
         trent_argument(const nos::trent &value, const std::string &name = "")
@@ -195,7 +196,7 @@ namespace nos
         void parse_arguments(std::array<runtime_argument, count> &rarguments,
                              const std::vector<nos::trent_argument> &args)
         {
-            size_t len = std::max(args.size(), count);
+            size_t len = std::min(args.size(), count);
             for (size_t index = 0; index < len; index++)
             {
                 if (args[index].get_name().empty())
@@ -250,6 +251,37 @@ namespace nos
                  const std::array<std::string, sizeof...(Args)> &names = {})
         {
             collection.emplace(name, make_wf_unique(f, names));
+        }
+
+        nos::trent execute_json(const std::string &json)
+        {
+            auto trent = nos::json::parse(json);
+            return execute_trent(trent);
+        }
+
+        nos::trent execute_trent(const nos::trent &trent)
+        {
+            std::vector<nos::trent_argument> targs;
+            auto name = trent["cmd"].as_string();
+
+            if (trent.contains("args") && trent["args"].is_list())
+            {
+                auto &args = trent["args"].as_list();
+                for (auto &arg : args)
+                {
+                    targs.emplace_back(arg);
+                }
+            }
+
+            if (trent.contains("kwargs") && trent["kwargs"].is_dict())
+            {
+                auto &kwargs = trent["kwargs"].as_dict();
+                for (auto &arg : kwargs)
+                {
+                    targs.emplace_back(arg.second, arg.first);
+                }
+            }
+            return execute(name, targs);
         }
 
         nos::trent execute(const std::string &name,
