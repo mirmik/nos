@@ -1,22 +1,30 @@
 #ifndef NOS_TRANSLATOR_H
 #define NOS_TRANSLATOR_H
 
+#include <memory>
 #include <string>
+#include <unordered_map>
 
 namespace nos
 {
-    class ITranslator
+    class ITranslate
     {
     public:
-        virtual ~Translator() = default;
+        virtual ~ITranslate() = default;
         virtual std::string translate(const std::string &text) = 0;
     };
 
-    class Translator : public ITranslator
+    class Translate : public ITranslate
     {
         std::unordered_map<std::string, std::string> translations;
 
     public:
+        Translate(
+            const std::unordered_map<std::string, std::string> &translations)
+            : translations(translations)
+        {
+        }
+
         std::string translate(const std::string &text) override
         {
             auto it = translations.find(text);
@@ -28,17 +36,16 @@ namespace nos
         }
     };
 
-    class TranslateManager
+    class Translator
     {
-        std::unordered_map<std::string, std::unique_ptr<ITranslator>>
-            translators;
+        std::unordered_map<std::string, std::unique_ptr<ITranslate>> translates;
         std::string currentLanguage;
 
     public:
-        void addTranslator(const std::string &language,
-                           std::unique_ptr<ITranslator> translator)
+        void addTranslate(const std::string &language,
+                          std::unique_ptr<ITranslate> translator)
         {
-            translators[language] = std::move(translator);
+            translates[language] = std::move(translator);
         }
 
         void setLanguage(const std::string &language)
@@ -48,17 +55,17 @@ namespace nos
 
         std::string translate(const std::string &text)
         {
-            auto it = translators.find(currentLanguage);
-            if (it != translators.end())
+            auto it = translates.find(currentLanguage);
+            if (it != translates.end())
             {
                 return it->second->translate(text);
             }
             return text;
         }
 
-        static TranslateManager &instance()
+        static Translator &instance()
         {
-            static TranslateManager instance;
+            static Translator instance;
             return instance;
         }
     };
