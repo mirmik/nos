@@ -1,48 +1,68 @@
 #ifndef NOS_UTIL_EXPECTED_H
 #define NOS_UTIL_EXPECTED_H
 
+#include <algorithm>
+#include <array>
+#include <functional>
 #include <nos/util/error.h>
 #include <nos/util/unexpected.h>
+#include <type_traits>
 
 namespace nos
 {
     template <typename T, typename E> class expected
     {
-        bool _is_ok = false;
-        union storage_u
+        template <typename U> struct ok_type_helper
         {
-            T _ok = {};
-            E _err;
-            storage_u() {}
-            ~storage_u() {}
-        } u = {};
+            using type = U;
+        };
+
+        template <typename U> struct ok_type_helper<U &>
+        {
+            using type = std::reference_wrapper<U>;
+        };
+
+        template <typename U> struct ok_type_helper<const U &>
+        {
+            using type = std::reference_wrapper<U>;
+        };
+
+        using ok_type = typename ok_type_helper<T>::type;
+        using err_type = E;
+        static constexpr size_t Size = sizeof(ok_type) > sizeof(err_type)
+                                           ? sizeof(ok_type)
+                                           : sizeof(err_type);
+
+        bool _is_ok = false;
+        std::array<uint8_t, Size> u = {};
 
     public:
         expected() : _is_ok(false) {}
+
         expected(const T &val) : _is_ok(true)
         {
-            new (&u._ok) T(val);
+            new (as_T_ptr()) ok_type(val);
         }
 
-        bool operator == (const nos::unexpected<E>& u) const
+        bool operator==(const nos::unexpected<err_type> &u) const
         {
             return _is_ok ? false : u.error() == error();
         }
 
-        expected(const E &err) : _is_ok(false)
+        expected(const err_type &err) : _is_ok(false)
         {
-            new (&u._err) E(err);
+            new (as_E_ptr()) err_type(err);
         }
 
         expected(const expected &other) : _is_ok(other._is_ok)
         {
             if (_is_ok)
             {
-                new (&u._ok) T(other.u._ok);
+                new (&u._ok) ok_type(other.u._ok);
             }
             else
             {
-                new (&u._err) E(other.u._err);
+                new (&u._err) err_type(other.u._err);
             }
         }
 
@@ -50,45 +70,65 @@ namespace nos
         {
             if (_is_ok)
             {
-                new (&u._ok) T(std::move(other.u._ok));
+                new (&u._ok) ok_type(std::move(other.u._ok));
             }
             else
             {
-                new (&u._err) E(std::move(other.u._err));
+                new (&u._err) err_type(std::move(other.u._err));
             }
+        }
+
+        ok_type *as_T_ptr()
+        {
+            return (ok_type *)u.data();
+        }
+
+        const ok_type *as_T_ptr() const
+        {
+            return (const ok_type *)u.data();
+        }
+
+        err_type *as_E_ptr()
+        {
+            return (err_type *)u.data();
+        }
+
+        const err_type *as_E_ptr() const
+        {
+            return (const err_type *)u.data();
         }
 
         ~expected()
         {
             if (_is_ok)
-                u._ok.~T();
+                as_T_ptr()->~ok_type();
             else
-                u._err.~E();
+                as_E_ptr()->~err_type();
         }
 
-        T &value()
+        ok_type &value()
         {
-            return u._ok;
+            return *as_T_ptr();
         }
 
-        const T &value() const
+        const ok_type &value() const
         {
-            return u._ok;
+            return *as_T_ptr();
         }
 
-        T value_or(const T &defval) const
+        ok_type value_or(const ok_type &defval) const
         {
-            return _is_ok ? u._ok : defval;
+            return _is_ok ? value() : defval;
         }
 
-        E &error()
+        err_type &error()
         {
-            return u._err;
+            return *as_E_ptr();
         }
 
-        const E &error() const
+        const err_type &error() const
         {
-            return u._err;
+            return *as_E_ptr();
         }
 
         operator bool() const
@@ -96,24 +136,81 @@ namespace nos
             return _is_ok;
         }
 
-        T &operator*()
+        ok_type &operator*()
         {
-            return u._ok;
+            return value();
         }
 
-        const T &operator*() const
+        const ok_type &operator*() const
         {
-            return u._ok;
+            return value();
         }
 
-        T *operator->()
+        ok_type *operator->()
         {
-            return &u._ok;
+            return as_T_ptr();
         }
 
-        const T *operator->() const
+        const ok_type *operator->() const
         {
-            return &u._ok;
+            return as_T_ptr();
+        }
+
+        bool is_ok() const
+        {
+            return _is_ok;
+        }
+
+        bool is_error() const
+        {
+            return !_is_ok;
+        }
+    };
+
+    template <class E> class expected<void, E>
+    {
+        using err_type = E;
+        static constexpr size_t Size = sizeof(err_type);
+
+        bool _is_ok = false;
+        std::array<uint8_t, Size> u = {};
+
+    public:
+        expected() : _is_ok(true) {}
+
+        expected(const err_type &err) : _is_ok(false)
+        {
+            new (as_E_ptr()) err_type(err);
+        }
+
+        err_type &error()
+        {
+            return *as_E_ptr();
+        }
+
+        const err_type &error() const
+        {
+            return *as_E_ptr();
+        }
+
+        err_type *as_E_ptr()
+        {
+            return (err_type *)u.data();
+        }
+
+        const err_type *as_E_ptr() const
+        {
+            return (const err_type *)u.data();
+        }
+
+        bool is_ok() const
+        {
+            return _is_ok;
+        }
+
+        bool is_error() const
+        {
+            return !_is_ok;
         }
     };
 }

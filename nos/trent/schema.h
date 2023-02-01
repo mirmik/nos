@@ -8,11 +8,8 @@
 #include <nos/fprint.h>
 #include <nos/print.h>
 #include <nos/trent/trent.h>
-#include <nos/util/result.h>
 #include <nos/util/string.h>
 #include <set>
-
-using namespace nos::result_type;
 
 namespace nos
 {
@@ -73,8 +70,8 @@ namespace nos
                 oth._content = nullptr;
             }
 
-            result<void> check(const trent &tr,
-                               std::vector<std::string> &strvec) const
+            nos::expected<void, nos::errstring>
+            check(const trent &tr, std::vector<std::string> &strvec) const
             {
                 switch (type)
                 {
@@ -82,32 +79,33 @@ namespace nos
                     break;
                 case dict_checker_type:
                     if (!tr.is_dict())
-                        return error("should be dictionary");
+                        return errstring("should be dictionary");
                     break;
                 case list_checker_type:
                     if (!tr.is_list())
-                        return error(nos::format("trent {} should be list",
-                                                 strvec[strvec.size() - 1]));
+                        return errstring(
+                            nos::format("trent {} should be list",
+                                        strvec[strvec.size() - 1]));
                     if (len != -1 && tr.as_list().size() != (unsigned int)len)
-                        return error(
+                        return errstring(
                             nos::format("array size should be {}", len));
                     break;
                 case string_checker_type:
                     if (!tr.is_string())
-                        return error("should be string");
+                        return errstring("should be string");
                     break;
                 case bool_checker_type:
                     if (!tr.is_bool())
-                        return error("should be boolean");
+                        return errstring("should be boolean");
                     break;
                 case numer_checker_type:
                     if (!tr.is_numer())
-                        return error("should be numer");
+                        return errstring("should be numer");
                     break;
 
                 case numer_or_string_checker_type:
                     if (!tr.is_numer() && !tr.is_string())
-                        return error("should be numer or string");
+                        return errstring("should be numer or string");
                     break;
                 }
 
@@ -132,7 +130,7 @@ namespace nos
                                 }
                             }
                             if (!flag)
-                                return error(nos::format(
+                                return errstring(nos::format(
                                     "subopt {} not in validation set",
                                     tp.first));
                         }
@@ -162,14 +160,14 @@ namespace nos
                     for (const auto &n : nodes)
                     {
                         strvec.push_back(n.first);
-                        if (!tr.have(n.first))
+                        if (!tr.contains(n.first))
                         {
                             // nos::println("check_dict doesn't have",
                             // strvec);
                             if (n.second._optional == false)
                             {
                                 if (!_ifexist)
-                                    return error(nos::format(
+                                    return errstring(nos::format(
                                         "subopt {} isn't exist", n.first));
                             }
                             else
@@ -192,7 +190,7 @@ namespace nos
                         for (auto &tp : tr.unsafe_dict_const())
                         {
                             if (nodes.count(tp.first) == 0)
-                                return error(nos::format(
+                                return errstring(nos::format(
                                     "unresolved options {}", tp.first));
                         }
                     }
@@ -210,8 +208,8 @@ namespace nos
                         }
                     }
                     if (!flag)
-                        return error(nos::format("{} not in validation set",
-                                                 tr.unsafe_string_const()));
+                        return errstring(nos::format("{} not in validation set",
+                                                     tr.unsafe_string_const()));
                 }
 
                 if (type == list_checker_type && _content)
@@ -229,7 +227,7 @@ namespace nos
                     }
                 }
 
-                return result<void>();
+                return nos::expected<void, nos::errstring>();
             }
 
             schema_node &length(int n)
@@ -354,13 +352,14 @@ namespace nos
             if (ret.is_error())
             {
                 std::string path = nos::join(strvec, '/');
-                std::string errtxt = nos::format(
-                    "SCHEMA: trent {} {}", path, ret.error().what());
-                throw std::runtime_error("schema: error:" + errtxt);
+                std::string errtxt =
+                    nos::format("SCHEMA: trent {} {}", path, ret.error());
+                throw std::runtime_error("schema: errstring:" + errtxt);
             }
         }
 
-        result<void> check(const trent &tr, std::string rootname)
+        nos::expected<void, nos::errstring> check(const trent &tr,
+                                                  std::string rootname)
         {
             std::vector<std::string> strvec{rootname};
             return root.check(tr, strvec);

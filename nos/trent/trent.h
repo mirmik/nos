@@ -12,13 +12,14 @@
 #include <nos/print.h>
 #include <nos/trent/trent_path.h>
 #include <nos/util/ctrdtr.h>
+#include <nos/util/error.h>
+#include <nos/util/expected.h>
 #include <nos/util/flat_map.h>
-#include <nos/util/result.h>
 #include <string>
 #include <utility>
 #include <vector>
 
-using namespace nos::result_type;
+// using namespace nos::nos::expected_type;
 
 namespace nos
 {
@@ -353,16 +354,6 @@ namespace nos
             return m_dct.find(std::string(key)) != m_dct.end();
         }
 
-        __attribute__((deprecated)) bool have(std::string key) const
-        {
-            return contains(key);
-        }
-
-        __attribute__((deprecated)) bool have(const char *key) const
-        {
-            return contains(key);
-        }
-
         void init_from_list(const std::initializer_list<double> l)
         {
             init(type::list);
@@ -553,17 +544,18 @@ namespace nos
             return m_str;
         }
 
-        result<string_type &> as_string_critical()
+        nos::expected<string_type &, nos::errstring> as_string_critical()
         {
             if (!is_string())
-                return error("is't string");
+                return errstring("is't string");
             return m_str;
         }
 
-        result<const string_type &> as_string_critical() const
+        nos::expected<const string_type &, nos::errstring>
+        as_string_critical() const
         {
             if (!is_string())
-                return error("is't string");
+                return errstring("is't string");
             return m_str;
         }
 
@@ -588,16 +580,17 @@ namespace nos
                 throw std::runtime_error("is't dict");
             return m_dct;
         }
-        result<dict_type &> as_dict_critical()
+        nos::expected<dict_type &, nos::errstring> as_dict_critical()
         {
             if (!is_dict())
-                return error("is't list");
+                return errstring("is't list");
             return m_dct;
         }
-        result<const dict_type &> as_dict_critical() const
+        nos::expected<const dict_type &, nos::errstring>
+        as_dict_critical() const
         {
             if (!is_dict())
-                return error("is't list");
+                return errstring("is't list");
             return m_dct;
         }
         dict_type &as_dict_except()
@@ -627,16 +620,17 @@ namespace nos
             return m_arr;
         }
 
-        result<list_type &> as_list_critical()
+        nos::expected<list_type &, nos::errstring> as_list_critical()
         {
             if (!is_list())
-                return error("is't list");
+                return errstring("is't list");
             return m_arr;
         }
-        result<const list_type &> as_list_critical() const
+        nos::expected<const list_type &, nos::errstring>
+        as_list_critical() const
         {
             if (!is_list())
-                return error("is't list");
+                return errstring("is't list");
             return m_arr;
         }
         list_type &as_list_except()
@@ -672,13 +666,13 @@ namespace nos
             return m_num;
         }
 
-        result<numer_type> as_numer_critical() const
+        nos::expected<numer_type, nos::errstring> as_numer_critical() const
         {
             if (is_bool())
                 return (int)m_bool;
 
             if (!is_numer())
-                return error("is't numer");
+                return errstring("is't numer");
             return m_num;
         }
         numer_type as_numer_except() const
@@ -704,10 +698,10 @@ namespace nos
         }
 
         // TODO добавить проверку на целое.
-        result<int64_t> as_integer_critical() const
+        nos::expected<int64_t, nos::errstring> as_integer_critical() const
         {
             if (!is_numer())
-                return error("is't numer");
+                return errstring("is't numer");
             return m_num;
         }
         int64_t as_integer_except() const
@@ -729,10 +723,10 @@ namespace nos
         }
 
         // TODO добавить проверку на целое.
-        result<bool> as_bool_critical() const
+        nos::expected<bool, nos::errstring> as_bool_critical() const
         {
             if (!is_bool())
-                return error("is't bool");
+                return errstring("is't bool");
             return m_bool;
         }
 

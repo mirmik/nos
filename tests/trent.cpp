@@ -2,6 +2,7 @@
 #include <doctest/doctest.h>
 #include <nos/trent/json.h>
 #include <nos/trent/json_print.h>
+#include <nos/trent/schema.h>
 
 TEST_CASE("json_test.to_string")
 {
