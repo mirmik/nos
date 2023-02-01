@@ -58,11 +58,11 @@ namespace nos
         {
             if (_is_ok)
             {
-                new (as_T_ptr()) ok_type(other.u._ok);
+                new (as_T_ptr()) ok_type(*other.as_T_ptr());
             }
             else
             {
-                new (as_E_ptr()) err_type(other.u._err);
+                new (as_E_ptr()) err_type(*other.as_E_ptr());
             }
         }
 
@@ -70,11 +70,11 @@ namespace nos
         {
             if (_is_ok)
             {
-                new (as_T_ptr()) ok_type(std::move(other.u._ok));
+                new (as_T_ptr()) ok_type(std::move(*other.as_T_ptr()));
             }
             else
             {
-                new (as_E_ptr()) err_type(std::move(other.u._err));
+                new (as_E_ptr()) err_type(std::move(*other.as_E_ptr()));
             }
         }
 
