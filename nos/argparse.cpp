@@ -22,6 +22,15 @@ void nos::argparse::add_argument(const std::string &name,
 
 void nos::argparse::add_argument(const std::string &name,
                                  char letter,
+                                 const std::string &description,
+                                 const std::string &value,
+                                 bool required)
+{
+    add_argument(name, letter, description, value, required, false);
+}
+
+void nos::argparse::add_argument(const std::string &name,
+                                 char letter,
                                  const std::string &description)
 {
     add_argument(name, letter, description, "false", false, true);

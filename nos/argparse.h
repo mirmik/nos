@@ -129,6 +129,12 @@ namespace nos
 
         void add_argument(const std::string &name,
                           char letter,
+                          const std::string &description,
+                          const std::string &value,
+                          bool required);
+
+        void add_argument(const std::string &name,
+                          char letter,
                           const std::string &description);
 
         void add_free_argument(const std::string &name,
