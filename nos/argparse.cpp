@@ -83,7 +83,7 @@ nos::argparse_namespace nos::argparse::parse_args(int argc, const char *argv[])
     nos::argparse_namespace ns;
     const char **it = argv + 1;
     const char **eit = argv + argc;
-    ns.set_first(*it);
+    ns.set_first(argv[0]);
 
     auto current_free_node = std::begin(freenodes);
 
@@ -114,7 +114,8 @@ nos::argparse_namespace nos::argparse::parse_args(int argc, const char *argv[])
 
         if (arg.starts_with("--"))
         {
-            std::string_view name = arg.substr(2);
+            std::string name = arg.substr(2);
+            bool found = false;
             for (auto &node : nodes)
             {
                 if (node.name == name)
@@ -128,12 +129,23 @@ nos::argparse_namespace nos::argparse::parse_args(int argc, const char *argv[])
                         wait_for_value = true;
                         wait_for_name = node.name;
                     }
+                    found = true;
+                    break;
                 }
+            }
+            if (!found)
+            {
+                ns.unknown_keys.push_back(name);
+            }
+            else
+            {
+                continue;
             }
         }
         else if (arg.starts_with("-"))
         {
-            std::string_view name = arg.substr(1);
+            std::string name = arg.substr(1);
+            bool found = false;
             for (auto &node : nodes)
             {
                 if (node.letter == name[0])
@@ -147,14 +159,28 @@ nos::argparse_namespace nos::argparse::parse_args(int argc, const char *argv[])
                         wait_for_value = true;
                         wait_for_name = node.name;
                     }
+                    found = true;
+                    break;
                 }
+            }
+            if (!found)
+            {
+                ns.unknown_keys.push_back(name);
+            }
+            else
+            {
+                continue;
             }
         }
         else
         {
         __add_free_value__:
-            nos::fprint("free: {}\n", arg);
-            nos::fprint("current_free_node: {}\n", current_free_node->name);
+            if (current_free_node == std::end(freenodes))
+            {
+                ns.unknown_keys.push_back(arg);
+                continue;
+            }
+
             auto freevalues = ns.freeargs(current_free_node->name);
             if (current_free_node->count == "*")
             {
@@ -194,7 +220,7 @@ void nos::argparse_namespace::add_value(const std::string &name,
 
 bool nos::argparse_namespace::is_valid_namespace() const
 {
-    return is_valid;
+    return unknown_keys.empty();
 }
 
 void nos::argparse::add_free_argument(const std::string &name,

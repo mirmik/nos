@@ -53,19 +53,15 @@ namespace nos
     {
         std::string first = {};
         std::unordered_map<std::string, std::string> values = {};
-        bool is_valid = false;
         std::unordered_map<std::string, std::vector<std::string>> _freeargs =
             {};
+
+        std::vector<std::string> unknown_keys = {};
 
     private:
         void set_first(const std::string &first);
         void add_value(const std::string &name, const std::string &value);
         bool is_valid_namespace() const;
-
-        operator bool() const
-        {
-            return is_valid_namespace();
-        }
 
         void add_freearg(const std::string &name, const std::string &arg)
         {
@@ -81,6 +77,11 @@ namespace nos
         const std::vector<std::string> &freeargs(std::string name)
         {
             return _freeargs[name];
+        }
+
+        operator bool() const
+        {
+            return is_valid_namespace();
         }
 
         void init_freearg(std::string name)
@@ -142,6 +143,10 @@ namespace nos
                                const std::string &count);
 
         argparse_namespace parse_args(int argc, const char *argv[]);
+        argparse_namespace parse_args(int argc, char *argv[])
+        {
+            return parse_args(argc, const_cast<const char **>(argv));
+        }
 
         void print_help();
         std::string help();
