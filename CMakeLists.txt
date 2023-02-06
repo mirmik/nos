@@ -7,6 +7,7 @@ file(GLOB HEADERS
 )
 
 file(GLOB NOS_SOURCES 
+	nos/*.cpp	
 	nos/print/*.cpp	
 	nos/fprint/*.cpp
 	nos/check/*.cpp
