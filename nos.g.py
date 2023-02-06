@@ -19,6 +19,12 @@ licant.module("nos.check",
               ]
               )
 
+licant.module("nos.argparse",
+              sources=[
+                  "nos/argparse.cpp",
+              ]
+              )
+
 licant.module("nos.util",
               srcdir="nos/util",
               sources=[
@@ -127,7 +133,8 @@ licant.module("nos",
                   "nos.timestamp",
                   "nos.serial_port",
                   "nos.current_ostream",
-                  "nos.trent"
+                  "nos.trent",
+                  "nos.argparse",
               ],
               include_paths=["."]
               )
