@@ -76,6 +76,11 @@ namespace nos
             return fclose(filp);
         }
 
+        void seekg(size_t pos)
+        {
+            fseek(filp, pos, SEEK_SET);
+        }
+
         int fd() const
         {
             return fileno(filp);
