@@ -49,6 +49,37 @@ namespace nos
             return _is_ok ? false : u.error() == error();
         }
 
+        expected &operator=(const expected &other)
+        {
+            if (_is_ok)
+            {
+                if (other._is_ok)
+                {
+                    *as_T_ptr() = *other.as_T_ptr();
+                }
+                else
+                {
+                    as_T_ptr()->~ok_type();
+                    new (as_E_ptr()) err_type(*other.as_E_ptr());
+                    _is_ok = false;
+                }
+            }
+            else
+            {
+                if (other._is_ok)
+                {
+                    as_E_ptr()->~err_type();
+                    new (as_T_ptr()) ok_type(*other.as_T_ptr());
+                    _is_ok = true;
+                }
+                else
+                {
+                    *as_E_ptr() = *other.as_E_ptr();
+                }
+            }
+            return *this;
+        }
+
         expected(const err_type &err) : _is_ok(false)
         {
             new (as_E_ptr()) err_type(err);

@@ -1,10 +1,8 @@
-#include <nos/util/osutil.h>
-
-#ifndef _MSC_VER
 #include <fcntl.h>
+#include <nos/util/osutil.h>
 #include <unistd.h>
 
-int nos::osutil::nonblock(int fd, bool en)
+int nos::osutil::nonblock(int64_t fd, bool en)
 {
     if (fd < 0)
         return -1;
@@ -15,22 +13,22 @@ int nos::osutil::nonblock(int fd, bool en)
     return fcntl(fd, F_SETFL, flags) == 0;
 }
 
-int nos::osutil::write(int fd, const void *data, size_t size)
+int nos::osutil::write(int64_t fd, const void *data, size_t size)
 {
     return ::write(fd, data, size);
 }
 
-int nos::osutil::read(int fd, void *data, size_t size)
+int nos::osutil::read(int64_t fd, void *data, size_t size)
 {
     return ::read(fd, data, size);
 }
 
-int nos::osutil::open(const char *data, int mode)
+int64_t nos::osutil::open(const char *data, int mode)
 {
     return ::open(data, mode);
 }
 
-int nos::osutil::close(int fd)
+int nos::osutil::close(int64_t fd)
 {
     return ::close(fd);
 }
@@ -56,4 +54,7 @@ bool nos::osutil::is_accessible(const char *path)
     return ::access(path, F_OK) == 0;
 }
 
-#endif
+FILE *nos::osutil::fdopen(int64_t fd, const char *mode)
+{
+    return ::fdopen(fd, mode);
+}

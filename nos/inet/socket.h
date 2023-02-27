@@ -24,8 +24,10 @@ namespace nos
                 return fd() >= 0;
             }
 
-            int send(const void *data, size_t size, int flags);
-            int recv(char *data, size_t size, int flags);
+            nos::expected<size_t, nos::output_error>
+            send(const void *data, size_t size, int flags);
+            nos::expected<size_t, nos::input_error>
+            recv(char *data, size_t size, int flags);
 
             int init(int domain, int type, int proto); // posix ::socket
             int bind(const hostaddr &haddr, uint16_t port, int family);

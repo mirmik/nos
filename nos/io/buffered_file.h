@@ -64,7 +64,7 @@ namespace nos
 
         int fdopen(int fd, const char *mode = "rw")
         {
-            filp = ::_fdopen(fd, mode);
+            filp = nos::osutil::fdopen(fd, mode);
             return filp == NULL ? -1 : 0;
         }
 

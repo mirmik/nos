@@ -14,7 +14,8 @@
 #include <netinet/tcp.h>
 #endif
 
-int nos::inet::tcp_client::write(const void *data, size_t size)
+nos::expected<size_t, nos::output_error>
+nos::inet::tcp_client::write(const void *data, size_t size)
 {
     int sts =
         ::send(fd(), (const char *)data, size, 0); // file::write(data, size);

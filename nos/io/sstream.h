@@ -31,7 +31,7 @@ namespace nos
         nos::expected<size_t, nos::input_error> read(void *ptr,
                                                      size_t sz) override
         {
-            size_t readed = room() - sz > 0 ? sz : room();
+            size_t readed = room() > sz ? sz : room();
             if (readed <= 0)
                 return nos::input_error::eof();
             memcpy(ptr, _str.data() + read_marker, readed);
