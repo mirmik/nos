@@ -78,7 +78,7 @@ namespace nos
             return fclose(filp);
         }
 
-        int fd() const
+        int64_t fd() const
         {
             return fileno(filp);
         }

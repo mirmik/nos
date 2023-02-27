@@ -11,7 +11,10 @@ public:
 
 public:
     PbjsonTestObject() : a(0), b(0), c("initial"){};
-    PbjsonTestObject(int a, float b, const std::string &c) : a(a), b(b), c(c) {}
+    PbjsonTestObject(int a, float b, const std::string &c)
+        : a(a), b((int)b), c(c)
+    {
+    }
 
     template <class Reflect> auto reflect(Reflect &r)
     {

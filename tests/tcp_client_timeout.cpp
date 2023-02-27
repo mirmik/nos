@@ -5,7 +5,7 @@
 
 TEST_CASE("tcp client connect without timeout")
 {
-    srand(time(NULL));
+    srand((unsigned int)time(NULL));
     nos::inet::tcp_server server;
     server.init();
 
@@ -32,7 +32,7 @@ TEST_CASE("tcp client connect without timeout")
 
 TEST_CASE("tcp client connect with timeout")
 {
-    srand(time(NULL) + 132123);
+    srand((unsigned int)time(NULL) + 132123);
     nos::inet::tcp_server server;
     server.init();
 
@@ -62,7 +62,7 @@ TEST_CASE("tcp client connect with timeout")
 
 TEST_CASE("tcp client connect miss port!")
 {
-    srand(time(NULL) + 132343);
+    srand((unsigned int)time(NULL) + 132343);
     nos::inet::tcp_server server;
     server.init();
 
@@ -89,7 +89,7 @@ TEST_CASE("tcp client connect miss port!")
 std::string UNKNOWN_HOST = "10.127.0.253";
 TEST_CASE("tcp client connect without accept")
 {
-    srand(time(NULL) + 444);
+    srand((unsigned int)time(NULL) + 444);
     nos::inet::tcp_server server;
     server.init();
 

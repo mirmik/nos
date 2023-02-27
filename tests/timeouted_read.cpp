@@ -5,10 +5,11 @@
 #include <nos/io/file.h>
 #include <nos/print.h>
 #include <thread>
-#include <unistd.h>
+//#include <unistd.h>
 
 using namespace std::chrono_literals;
 
+#ifndef _MSC_VER
 TEST_CASE("nos::file::timeouted_read")
 {
     int fds[2];
@@ -20,10 +21,11 @@ TEST_CASE("nos::file::timeouted_read")
     char buf[10];
     auto ans = f.read(buf, 10);
 
-    CHECK_EQ(ans, 
-         nos::unexpected(nos::input_error::timeout()));
+    CHECK_EQ(ans, nos::unexpected(nos::input_error::timeout()));
 }
+#endif
 
+#ifndef _MSC_VER
 TEST_CASE("nos::file::timeouted_read")
 {
     int fds[2];
@@ -42,7 +44,9 @@ TEST_CASE("nos::file::timeouted_read")
     CHECK_EQ(*ans, 5);
     CHECK_EQ(std::string(buf, 5), "hello");
 }
+#endif
 
+#ifndef _MSC_VER
 TEST_CASE("nos::timeouted_readline_from")
 {
     int fds[2];
@@ -56,7 +60,9 @@ TEST_CASE("nos::timeouted_readline_from")
     CHECK_EQ(bool(result), false);
     CHECK_EQ(result.error().is_timeout(), true);
 }
+#endif
 
+#ifndef _MSC_VER
 TEST_CASE("nos::timeouted_readline_from")
 {
     int fds[2];
@@ -73,6 +79,7 @@ TEST_CASE("nos::timeouted_readline_from")
 
     CHECK_EQ(*result, "hello");
 }
+#endif
 
 /*
 TEST_CASE("nos::timeouted_read_until_from")

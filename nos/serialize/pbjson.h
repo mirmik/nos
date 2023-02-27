@@ -41,7 +41,7 @@ namespace nos
             if (type == 4)
                 v = -v;
             buf = {buf.data() + length, buf.size() - length};
-            value = v;
+            value = static_cast<T>(v);
             return true;
         }
 

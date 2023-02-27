@@ -147,7 +147,7 @@ namespace nos
         void init_sint(const int64_t &i)
         {
             m_type = type::numer;
-            m_num = i;
+            m_num = static_cast<numer_type>(i);
         }
         void init_uint(const uint64_t &i)
         {
@@ -899,9 +899,9 @@ namespace nos
             else
             {
                 if (is_numer())
-                    return as_numer();
+                    return static_cast<T>(as_numer());
                 else
-                    return std::stod(as_string());
+                    return static_cast<T>(std::stod(as_string()));
             }
         }
     };

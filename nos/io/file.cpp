@@ -45,7 +45,7 @@ nos::expected<size_t, nos::input_error> nos::file::read(void *ptr, size_t sz)
     tv.tv_usec = (ns % 1000000000) / 1000;
 
     // nonblock(true);
-    int ret = select(fd() + 1, &fds, nullptr, nullptr, &tv);
+    int ret = select((int)(fd() + 1), &fds, nullptr, nullptr, &tv);
 
     if (ret < 0)
     {

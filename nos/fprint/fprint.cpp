@@ -6,30 +6,33 @@
 
 namespace nos
 {
-    int fprint(const char *arg)
+    nos::expected<size_t, nos::output_error> fprint(const char *arg)
     {
         return print(arg);
     }
 
-    int fprintln(const char *arg)
+    nos::expected<size_t, nos::output_error> fprintln(const char *arg)
     {
         return println(arg);
     }
 
-    int fprint_to(nos::ostream &out, const char *arg)
+    nos::expected<size_t, nos::output_error> fprint_to(nos::ostream &out,
+                                                       const char *arg)
     {
         return print_to(out, arg);
     }
 
-    int fprintln_to(nos::ostream &out, const char *arg)
+    nos::expected<size_t, nos::output_error> fprintln_to(nos::ostream &out,
+                                                         const char *arg)
     {
         return println_to(out, arg);
     }
 
-    static int fprint_format_argument(nos::ostream &out,
-                                      const char *&fmt,
-                                      const nos::visitable_arglist &list,
-                                      uint8_t &argnum)
+    static nos::expected<size_t, nos::output_error>
+    fprint_format_argument(nos::ostream &out,
+                           const char *&fmt,
+                           const nos::visitable_arglist &list,
+                           uint8_t &argnum)
     {
         int ret;
         char *pend;
@@ -100,9 +103,10 @@ namespace nos
         return ret;
     }
 
-    int fprint_impl(nos::ostream &out,
-                    const std::string_view &fmt,
-                    const visitable_arglist &args)
+    nos::expected<size_t, nos::output_error>
+    fprint_impl(nos::ostream &out,
+                const std::string_view &fmt,
+                const visitable_arglist &args)
     {
         uint8_t argnum = 0;
         const char *fmtptr = fmt.data();

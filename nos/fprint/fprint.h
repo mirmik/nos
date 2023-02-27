@@ -12,14 +12,14 @@
 
 namespace nos
 {
-    int fprint_impl(nos::ostream &out,
-                    const std::string_view &fmt,
-                    const visitable_arglist &args);
+    nos::expected<size_t, nos::output_error>
+    fprint_impl(nos::ostream &out,
+                const std::string_view &fmt,
+                const visitable_arglist &args);
 
     template <typename... Args>
-    int fprint_to(nos::ostream &out,
-                  const std::string_view &fmt,
-                  const Args &...args)
+    nos::expected<size_t, nos::output_error> fprint_to(
+        nos::ostream &out, const std::string_view &fmt, const Args &...args)
     {
         return fprint_impl(out,
                            fmt,
@@ -28,12 +28,14 @@ namespace nos
     }
 
     template <typename... Args>
-    int fprint(const std::string_view &fmt, const Args &...args)
+    nos::expected<size_t, nos::output_error> fprint(const std::string_view &fmt,
+                                                    const Args &...args)
     {
         return nos::fprint_to(*current_ostream, fmt, args...);
     }
 
-    template <typename... Args> int fprintln(const Args &...args)
+    template <typename... Args>
+    nos::expected<size_t, nos::output_error> fprintln(const Args &...args)
     {
         size_t ret = 0;
         ret += fprint_to(*current_ostream, args...);
@@ -42,7 +44,8 @@ namespace nos
     }
 
     template <typename... Args>
-    int fprintln_to(nos::ostream &out, const Args &...args)
+    nos::expected<size_t, nos::output_error> fprintln_to(nos::ostream &out,
+                                                         const Args &...args)
     {
         size_t ret = 0;
         ret += fprint_to(out, args...);
@@ -50,13 +53,15 @@ namespace nos
         return ret;
     }
 
-    int fprint(const char *arg);
+    nos::expected<size_t, nos::output_error> fprint(const char *arg);
 
-    int fprintln(const char *arg);
+    nos::expected<size_t, nos::output_error> fprintln(const char *arg);
 
-    int fprint_to(nos::ostream &out, const char *arg);
+    nos::expected<size_t, nos::output_error> fprint_to(nos::ostream &out,
+                                                       const char *arg);
 
-    int fprintln_to(nos::ostream &out, const char *arg);
+    nos::expected<size_t, nos::output_error> fprintln_to(nos::ostream &out,
+                                                         const char *arg);
 
     inline std::string format(const std::string_view &fmt,
                               const visitable_arglist &args)

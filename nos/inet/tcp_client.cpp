@@ -70,7 +70,7 @@ int nos::inet::tcp_client::connect(nos::inet::hostaddr addr,
     tv.tv_sec = timeout.count() / 1000;
     tv.tv_usec = (timeout.count() % 1000) * 1000;
 
-    sts = select(fd() + 1, NULL, &writefds, NULL, &tv);
+    sts = select((int)(fd() + 1), NULL, &writefds, NULL, &tv);
     if (sts < 0)
     {
         perror("tcp_client::connect");

@@ -1,30 +1,31 @@
-#include <nos/util/osutil.h>
 #include <fcntl.h>
+#include <io.h>
+#include <nos/util/osutil.h>
 #include <stdio.h>
 #include <winsock2.h>
 
-int nos::osutil::nonblock(int fd, bool en)
+int nos::osutil::nonblock(int64_t fd, bool en)
 {
     unsigned long mode = en;
     return (ioctlsocket(fd, FIONBIO, &mode) == 0) ? true : false;
 }
 
-int nos::osutil::write(int fd, const void * data, size_t size) 
+int nos::osutil::write(int64_t fd, const void *data, size_t size)
 {
-	return ::write(fd, data, size);	
+    return ::_write((int)fd, data, size);
 }
 
-int nos::osutil::read(int fd, void * data, size_t size) 
+int nos::osutil::read(int64_t fd, void *data, size_t size)
 {
-	return ::read(fd, data, size);
+    return ::_read((int)fd, data, size);
 }
 
-int nos::osutil::open(const char * data, int mode) 
+int64_t nos::osutil::open(const char *data, int mode)
 {
-	return ::open(data, mode);
+    return ::_open(data, mode);
 }
 
-int nos::osutil::close(int fd) 
+int nos::osutil::close(int64_t fd)
 {
-	return ::close(fd);
+    return ::_close((int)fd);
 }

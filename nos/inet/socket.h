@@ -32,7 +32,7 @@ namespace nos
             int init(int domain, int type, int proto); // posix ::socket
             int bind(const hostaddr &haddr, uint16_t port, int family);
             int connect(const hostaddr &haddr, uint16_t port, int family);
-            int clean();
+            // int clean();
             int listen(int conn);
 
             int nodelay(bool en);

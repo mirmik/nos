@@ -1,9 +1,11 @@
 #include <fcntl.h>
+#include <stdio.h>
 
 #ifdef __WIN32__
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #elif defined(_MSC_VER)
+#include <io.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #else
@@ -59,14 +61,14 @@ int nos::inet::socket::reusing(bool en)
 
 int nos::inet::socket::init(int domain, int type, int proto)
 {
-    int fd = ::socket(domain, type, proto);
+    int64_t fd = ::socket(domain, type, proto);
     if (fd < 0)
     {
         perror("socket::init");
         throw std::runtime_error("socket::init");
     }
     set_fd(fd);
-    return this->fd();
+    return (int)this->fd();
 }
 
 int nos::inet::socket::bind(const nos::inet::hostaddr &haddr,
@@ -78,7 +80,7 @@ int nos::inet::socket::bind(const nos::inet::hostaddr &haddr,
 
     memset(&addr, 0, sizeof(addr));
 
-    addr.sin_family = (sa_family_t)family;
+    addr.sin_family = (int)family;
     addr.sin_addr.s_addr = htonl(haddr.addr); // INADDR_ANY = 0.0.0.0
     addr.sin_port = htons(port);
 
@@ -102,7 +104,7 @@ int nos::inet::socket::connect(const nos::inet::hostaddr &haddr,
     struct sockaddr_in addr;
     memset(&addr, 0, sizeof(addr));
 
-    addr.sin_family = (sa_family_t)family;
+    addr.sin_family = (int)family;
     addr.sin_port = htons(port);
     addr.sin_addr.s_addr = htonl(haddr.addr);
 
@@ -113,8 +115,12 @@ int nos::inet::socket::connect(const nos::inet::hostaddr &haddr,
 int nos::inet::socket::close_socket()
 {
     int sts;
-    sts = ::shutdown(fd(), SHUT_RDWR);
-    sts = ::close(fd());
+#ifdef _MSC_VER
+    sts = ::shutdown((int)fd(), SD_BOTH);
+#else
+    sts = ::shutdown((int)fd(), SHUT_RDWR);
+#endif
+    sts = ::_close((int)fd());
     return sts;
 }
 
@@ -130,13 +136,11 @@ int nos::inet::datagramm_socket::sendto(nos::inet::hostaddr haddr,
 {
     struct sockaddr_in addr;
     memset(&addr, 0, sizeof(addr));
-
     addr.sin_family = PF_INET;
     addr.sin_addr.s_addr = htonl(haddr.addr); // INADDR_ANY = 0.0.0.0
     addr.sin_port = htons(port);
-
     return ::sendto(
-        fd(), data, size, 0, (sockaddr *)&addr, sizeof(sockaddr_in));
+        (int)fd(), data, (int)size, 0, (sockaddr *)&addr, sizeof(sockaddr_in));
 }
 
 int nos::inet::datagramm_socket::ne_sendto(uint32_t ipaddr,
@@ -146,13 +150,11 @@ int nos::inet::datagramm_socket::ne_sendto(uint32_t ipaddr,
 {
     struct sockaddr_in addr;
     memset(&addr, 0, sizeof(addr));
-
     addr.sin_family = PF_INET;
     addr.sin_addr.s_addr = ipaddr; // INADDR_ANY = 0.0.0.0
     addr.sin_port = port;
-
     return ::sendto(
-        fd(), data, size, 0, (sockaddr *)&addr, sizeof(sockaddr_in));
+        (int)fd(), data, (int)size, 0, (sockaddr *)&addr, sizeof(sockaddr_in));
 }
 
 int nos::inet::datagramm_socket::recvfrom(char *data,
@@ -161,7 +163,8 @@ int nos::inet::datagramm_socket::recvfrom(char *data,
 {
     struct sockaddr_in si_other;
     socklen_t sz = sizeof(sockaddr_in);
-    int ret = ::recvfrom(fd(), data, maxsize, 0, (sockaddr *)&si_other, &sz);
+    int ret = ::recvfrom(
+        (int)fd(), data, (int)maxsize, 0, (sockaddr *)&si_other, &sz);
 
     if (ret < 0)
     {

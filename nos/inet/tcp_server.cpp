@@ -1,7 +1,6 @@
 #include <fcntl.h>
 #include <nos/inet/tcp_client.h>
 #include <nos/inet/tcp_server.h>
-#include <unistd.h>
 
 #ifdef __WIN32__
 #include <winsock2.h>
@@ -51,7 +50,7 @@ nos::inet::tcp_client nos::inet::tcp_server::accept()
     int c = sizeof(sockaddr_in);
     sockaddr_in caddr;
     memset(&caddr, 0, sizeof(caddr));
-    int cfd = ::accept(fd(), (sockaddr *)&caddr, (socklen_t *)&c);
+    int64_t cfd = ::accept((int)fd(), (sockaddr *)&caddr, (socklen_t *)&c);
     nos::inet::tcp_client sock;
     sock.init_from_socket(cfd, true);
     return sock;
