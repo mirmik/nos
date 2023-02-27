@@ -7,7 +7,7 @@
 #include <nos/io/iostream.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+//#include <unistd.h>
 
 namespace nos
 {
@@ -106,7 +106,7 @@ namespace std
         typedef std::size_t result_type;
         result_type operator()(argument_type const &s) const
         {
-            return std::hash<int>()(s.fd());
+            return std::hash<int64_t>()(s.fd());
         }
     };
 }

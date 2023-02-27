@@ -36,15 +36,17 @@ namespace nos
             _auto_flush = b;
         }
 
-        int write(const void *ptr, size_t sz) override
+        nos::expected<size_t, nos::output_error> write(const void *ptr,
+                                                       size_t sz) override
         {
-            int ret = fwrite(ptr, sizeof(char), sz, filp);
+            auto ret = fwrite(ptr, sizeof(char), sz, filp);
             if (_auto_flush)
                 fflush(filp);
             return ret;
         }
 
-        nos::expected<int, nos::input_error> read(void *ptr, size_t sz) override
+        nos::expected<size_t, nos::input_error> read(void *ptr,
+                                                     size_t sz) override
         {
             return fread(ptr, sizeof(char), sz, filp);
         }
@@ -62,7 +64,7 @@ namespace nos
 
         int fdopen(int fd, const char *mode = "rw")
         {
-            filp = ::fdopen(fd, mode);
+            filp = ::_fdopen(fd, mode);
             return filp == NULL ? -1 : 0;
         }
 

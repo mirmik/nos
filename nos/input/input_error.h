@@ -3,6 +3,21 @@
 
 namespace nos
 {
+    struct output_error
+    {
+        bool _is_closed = false;
+
+        static constexpr output_error closed()
+        {
+            return {true};
+        }
+
+        static output_error ok()
+        {
+            return {false};
+        }
+    };
+
     struct input_error
     {
         bool _is_timeout = false;
@@ -48,9 +63,9 @@ namespace nos
             return is_ok();
         }
 
-        bool operator == (const input_error& oth) 
+        bool operator==(const input_error &oth)
         {
-            return _is_timeout == oth._is_timeout && 
+            return _is_timeout == oth._is_timeout &&
                    _is_closed == oth._is_closed;
         }
     };

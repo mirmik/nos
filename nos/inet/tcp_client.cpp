@@ -1,8 +1,11 @@
 #include <fcntl.h>
 #include <nos/inet/tcp_client.h>
-#include <unistd.h>
+//#include <unistd.h>
 
 #ifdef __WIN32__
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#elif defined(_MSC_VER)
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #else
@@ -24,8 +27,8 @@ int nos::inet::tcp_client::write(const void *data, size_t size)
     return sts;
 }
 
-nos::expected<int, nos::input_error> nos::inet::tcp_client::read(void *data,
-                                                                 size_t size)
+nos::expected<size_t, nos::input_error> nos::inet::tcp_client::read(void *data,
+                                                                    size_t size)
 {
     int sts = ::recv(fd(), (char *)data, size, 0);
     if (sts <= 0)

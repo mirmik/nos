@@ -4,6 +4,11 @@
 #define pipe(ptr) _pipe(ptr, 1024, 0)
 using suseconds_t = int32_t;
 using socklen_t = int32_t;
+#elif defined(_MSC_VER)
+#include <winsock2.h>
+#define pipe(ptr) _pipe(ptr, 1024, 0)
+using suseconds_t = int32_t;
+using socklen_t = int32_t;
 #else
 #include <sys/select.h>
 #include <sys/time.h>
@@ -12,7 +17,7 @@ using socklen_t = int32_t;
 #include <nos/fprint.h>
 #include <nos/util/osutil.h>
 
-nos::expected<int, nos::input_error> nos::file::read(void *ptr, size_t sz)
+nos::expected<size_t, nos::input_error> nos::file::read(void *ptr, size_t sz)
 {
     assert(m_fd >= 0);
     assert(fd() >= 0);

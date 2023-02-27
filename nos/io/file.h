@@ -9,29 +9,30 @@ namespace nos
     class file : public nos::iostream
     {
     private:
-        int m_fd = -1;
+        int64_t m_fd = -1;
         std::chrono::nanoseconds _input_timeout = 0ns;
 
     public:
         file() = default;
-        file(int fd) : m_fd(fd) {}
+        file(int64_t fd) : m_fd(fd) {}
         file(const char *path, int flags)
         {
             open(path, flags);
         }
 
-        void set_fd(int fd)
+        void set_fd(int64_t fd)
         {
             m_fd = fd;
         }
 
-        int write(const void *ptr, size_t sz) override
+        nos::expected<size_t, nos::output_error> write(const void *ptr,
+                                                       size_t sz) override
         {
             return nos::osutil::write(m_fd, ptr, sz);
         }
 
-        nos::expected<int, nos::input_error> read(void *ptr,
-                                                  size_t sz) override;
+        nos::expected<size_t, nos::input_error> read(void *ptr,
+                                                     size_t sz) override;
 
         bool good()
         {
@@ -48,7 +49,7 @@ namespace nos
             return this->_input_timeout;
         }
 
-        int open(const char *path, int mode)
+        int64_t open(const char *path, int mode)
         {
             m_fd = nos::osutil::open(path, mode);
             return m_fd;
@@ -64,7 +65,7 @@ namespace nos
             return nos::osutil::close(m_fd);
         }
 
-        int fd() const
+        int64_t fd() const
         {
             return m_fd;
         }

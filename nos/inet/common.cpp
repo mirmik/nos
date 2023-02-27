@@ -1,13 +1,16 @@
 #include <fcntl.h>
-#include <unistd.h>
 
 #ifdef __WIN32__
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#elif defined(_MSC_VER)
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #else
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
+#include <unistd.h>
 #endif
 
 #include <errno.h>
@@ -110,7 +113,6 @@ int nos::inet::socket::connect(const nos::inet::hostaddr &haddr,
 int nos::inet::socket::close_socket()
 {
     int sts;
-
     sts = ::shutdown(fd(), SHUT_RDWR);
     sts = ::close(fd());
     return sts;

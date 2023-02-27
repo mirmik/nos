@@ -43,9 +43,10 @@ namespace nos
                 return _is_connect;
             }
 
-            int write(const void *data, size_t size) override;
-            nos::expected<int, nos::input_error> read(void *data,
-                                                      size_t size) override;
+            nos::expected<size_t, nos::output_error>
+            write(const void *data, size_t size) override;
+            nos::expected<size_t, nos::input_error> read(void *data,
+                                                         size_t size) override;
 
             int connect(nos::inet::hostaddr addr,
                         uint16_t port,

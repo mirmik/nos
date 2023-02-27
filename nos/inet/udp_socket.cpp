@@ -2,6 +2,9 @@
 #ifdef __WIN32__
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#elif defined(_MSC_VER)
+#include <winsock2.h>
+#include <ws2tcpip.h>
 #else
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -50,12 +53,12 @@ int nos::inet::udp_broadcast_socket::sendto(const void *data,
     saddr.sin_family = AF_INET;
     saddr.sin_port = htons(port);
     saddr.sin_addr.s_addr = inet_addr(ip.c_str());
-    int ret = ::sendto(fd(),
-                       (const char *)data,
-                       size,
-                       0,
-                       (struct sockaddr *)&saddr,
-                       sizeof(saddr));
+    int ret = (int)::sendto(fd(),
+                            (const char *)data,
+                            size,
+                            0,
+                            (struct sockaddr *)&saddr,
+                            sizeof(saddr));
     if (ret < 0)
     {
         perror("sendto");

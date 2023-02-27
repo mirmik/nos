@@ -9,11 +9,11 @@ namespace nos
 {
     namespace osutil
     {
-        int nonblock(int fd, bool en);
-        int write(int fd, const void *data, size_t size);
-        int read(int fd, void *data, size_t size);
-        int open(const char *data, int mode);
-        int close(int fd);
+        int nonblock(int64_t fd, bool en);
+        int write(int64_t fd, const void *data, size_t size);
+        int read(int64_t fd, void *data, size_t size);
+        int64_t open(const char *data, int mode);
+        int close(int64_t fd);
 
         int access(const std::string &path);
         int access(const char *path);

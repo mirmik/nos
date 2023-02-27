@@ -16,7 +16,7 @@ namespace nos
     public:
         bytearray_istream(Source &arr) : arr(arr) {}
 
-        nos::expected<int, nos::input_error> read(void *data, size_t size)
+        nos::expected<size_t, nos::input_error> read(void *data, size_t size)
         {
             size_t read_counter_new = read_counter + size;
             if (read_counter_new > arr.size())

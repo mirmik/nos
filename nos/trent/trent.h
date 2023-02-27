@@ -811,7 +811,8 @@ namespace nos
             return m_type == type::string;
         }
 
-        template <class O> ssize_t print_to(O &os) const;
+        template <class O>
+        nos::expected<size_t, nos::output_error> print_to(O &os) const;
 
     public:
         trent_basic &operator=(const trent_basic &other)
@@ -948,7 +949,8 @@ namespace nos
 
     template <template <class Allocator> class TAlloc>
     template <class O>
-    ssize_t trent_basic<TAlloc>::print_to(O &os) const
+    nos::expected<size_t, nos::output_error>
+    trent_basic<TAlloc>::print_to(O &os) const
     {
         bool sep = false;
 

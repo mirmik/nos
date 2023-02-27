@@ -15,20 +15,26 @@ namespace nos
     {
     public:
         virtual ~istream() = default;
-        virtual nos::expected<int, nos::input_error> read(void *ptr,
-                                                          size_t sz) = 0;
+        virtual nos::expected<size_t, nos::input_error> read(void *ptr,
+                                                             size_t sz) = 0;
 
-        int ignore()
+        nos::expected<size_t, nos::input_error> ignore()
         {
             char c;
-            int readed = read(&c, 1);
-            return readed;
+            return read(&c, 1);
         }
-        int ignore(int i)
+
+        nos::expected<size_t, nos::input_error> ignore(size_t i)
         {
-            int j = i;
+            size_t j = i;
             while (j--)
-                ignore();
+            {
+                auto r = ignore();
+                if (!r)
+                {
+                    return r;
+                }
+            }
             return i;
         }
     };

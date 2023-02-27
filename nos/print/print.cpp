@@ -4,17 +4,20 @@
 #include <string>
 #include <string_view>
 
-int nos::write_to(nos::ostream &out, const void *buf, size_t sz)
+nos::expected<size_t, nos::output_error>
+nos::write_to(nos::ostream &out, const void *buf, size_t sz)
 {
     return out.write(buf, sz);
 }
 
-int nos::putbyte_to(nos::ostream &out, char c)
+nos::expected<size_t, nos::output_error> nos::putbyte_to(nos::ostream &out,
+                                                         char c)
 {
     return out.write(&c, 1);
 }
 
-int nos::writeln_to(nos::ostream &out, const void *buf, size_t sz)
+nos::expected<size_t, nos::output_error>
+nos::writeln_to(nos::ostream &out, const void *buf, size_t sz)
 {
     int ret = 0;
     ret += out.write(buf, sz);
@@ -22,12 +25,12 @@ int nos::writeln_to(nos::ostream &out, const void *buf, size_t sz)
     return ret;
 }
 
-int nos::println_to(nos::ostream &o)
+nos::expected<size_t, nos::output_error> nos::println_to(nos::ostream &o)
 {
     return o.write("\r\n", 2);
 }
 
-int nos::println()
+nos::expected<size_t, nos::output_error> nos::println()
 {
     return nos::current_ostream->write("\r\n", 2);
 }
@@ -42,10 +45,8 @@ void flush_to(nos::ostream &out)
     out.flush();
 }
 
-int nos::print_dump_to(nos::ostream &out,
-                       const void *mem,
-                       size_t len,
-                       unsigned int columns)
+nos::expected<size_t, nos::output_error> nos::print_dump_to(
+    nos::ostream &out, const void *mem, size_t len, unsigned int columns)
 {
     size_t ret = 0;
     unsigned int i, j;
@@ -111,57 +112,64 @@ int nos::print_dump_to(nos::ostream &out,
     return ret;
 }
 
-int nos::print_dump(const void *ptr, size_t sz, unsigned int columns)
+nos::expected<size_t, nos::output_error>
+nos::print_dump(const void *ptr, size_t sz, unsigned int columns)
 {
     return nos::print_dump_to(*nos::current_ostream, ptr, sz, columns);
 }
 
-int nos::print_dump(const std::string_view &buf, unsigned int columns)
+nos::expected<size_t, nos::output_error>
+nos::print_dump(const std::string_view &buf, unsigned int columns)
 {
     return nos::print_dump_to(
         *nos::current_ostream, buf.data(), buf.size(), columns);
 }
 
-int nos::write(const void *buf, size_t sz)
+nos::expected<size_t, nos::output_error> nos::write(const void *buf, size_t sz)
 {
     return nos::write_to(*nos::current_ostream, buf, sz);
 }
 
-int nos::putbyte(char c)
+nos::expected<size_t, nos::output_error> nos::putbyte(char c)
 {
     return nos::putbyte_to(*nos::current_ostream, c);
 }
 
-int nos::writeln(const void *buf, size_t sz)
+nos::expected<size_t, nos::output_error> nos::writeln(const void *buf,
+                                                      size_t sz)
 {
     return nos::writeln_to(*nos::current_ostream, buf, sz);
 }
 
-int nos::fill_to(nos::ostream &out, char c, size_t sz)
+nos::expected<size_t, nos::output_error>
+nos::fill_to(nos::ostream &out, char c, size_t sz)
 {
     for (size_t i = 0; i < sz; i++)
         out.putbyte(c);
     return sz;
 }
 
-int nos::fill_to(nos::ostream &out, std::string_view &c, size_t sz)
+nos::expected<size_t, nos::output_error>
+nos::fill_to(nos::ostream &out, std::string_view &c, size_t sz)
 {
     for (size_t i = 0; i < sz; i++)
         nos::print_to(out, c);
     return c.size() * sz;
 }
 
-int nos::fill(char c, size_t sz)
+nos::expected<size_t, nos::output_error> nos::fill(char c, size_t sz)
 {
     return nos::fill_to(*nos::current_ostream, c, sz);
 }
 
-int nos::fill(std::string_view &c, size_t sz)
+nos::expected<size_t, nos::output_error> nos::fill(std::string_view &c,
+                                                   size_t sz)
 {
     return nos::fill_to(*nos::current_ostream, c, sz);
 }
 
-int nos::printhex_to(nos::ostream &out, char c)
+nos::expected<size_t, nos::output_error> nos::printhex_to(nos::ostream &out,
+                                                          char c)
 {
     char buf[2];
     buf[0] = __nos_half2hex((uint8_t)((c & 0xF0) >> 4));
@@ -169,7 +177,8 @@ int nos::printhex_to(nos::ostream &out, char c)
     return out.write(buf, 2);
 }
 
-int nos::printhex_to(nos::ostream &out, const void *ptr, size_t sz)
+nos::expected<size_t, nos::output_error>
+nos::printhex_to(nos::ostream &out, const void *ptr, size_t sz)
 {
     size_t ret = 0;
     char *_ptr = (char *)ptr;
@@ -180,7 +189,8 @@ int nos::printhex_to(nos::ostream &out, const void *ptr, size_t sz)
     return ret;
 }
 
-int nos::printbin_to(nos::ostream &out, char c)
+nos::expected<size_t, nos::output_error> nos::printbin_to(nos::ostream &out,
+                                                          char c)
 {
     size_t ret = 0;
     for (int j = 7; j >= 0; --j)
@@ -190,23 +200,26 @@ int nos::printbin_to(nos::ostream &out, char c)
     return ret;
 }
 
-int nos::printbin_to(nos::ostream &out, const void *ptr, size_t sz)
+nos::expected<size_t, nos::output_error>
+nos::printbin_to(nos::ostream &out, const void *ptr, size_t sz)
 {
     size_t ret = 0;
     char *_ptr = (char *)ptr;
 
-    for (int i = sz - 1; i >= 0; --i)
+    for (int i = (int)sz - 1; i >= 0; --i)
         ret += printbin_to(out, _ptr[i]);
 
     return ret;
 }
 
-int nos::printhex_to(nos::ostream &out, void *ptr, size_t sz)
+nos::expected<size_t, nos::output_error>
+nos::printhex_to(nos::ostream &out, void *ptr, size_t sz)
 {
     return nos::printhex_to(out, (const void *)ptr, sz);
 }
 
-int nos::printbin_to(nos::ostream &out, void *ptr, size_t size)
+nos::expected<size_t, nos::output_error>
+nos::printbin_to(nos::ostream &out, void *ptr, size_t size)
 {
     return nos::printbin_to(out, (const void *)ptr, size);
 }

@@ -33,14 +33,15 @@ namespace nos
                     bool include_delimiter = true);
 
     // buffer api
-    nos::expected<int, nos::input_error> read_paired_from(nos::istream &is,
-                                                          char *buf,
-                                                          size_t buflen,
-                                                          char a,
-                                                          char b,
-                                                          bool ignore = true);
+    nos::expected<size_t, nos::input_error>
+    read_paired_from(nos::istream &is,
+                     char *buf,
+                     size_t buflen,
+                     char a,
+                     char b,
+                     bool ignore = true);
 
-    nos::expected<int, nos::input_error>
+    nos::expected<size_t, nos::input_error>
     read_until_from(nos::istream &is,
                     nos::buffer buf,
                     const std::string_view &delimiters,

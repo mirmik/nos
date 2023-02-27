@@ -74,7 +74,7 @@ nos::read_until_from(nos::istream &is,
     }
 }
 
-nos::expected<int, nos::input_error>
+nos::expected<size_t, nos::input_error>
 nos::read_until_from(nos::istream &is,
                      nos::buffer buf,
                      const std::string_view &delimiters,
@@ -116,7 +116,7 @@ nos::read_until_from(nos::istream &is,
 /// Считывает из потока ввода содержимое строки между открывающейся скобкой 'a'
 /// и закрывающейся скобкой 'b' Параметр ignore позволяет отбростить данные
 /// перед первой скобкой.
-nos::expected<int, nos::input_error> nos::read_paired_from(
+nos::expected<size_t, nos::input_error> nos::read_paired_from(
     nos::istream &is, char *buf, size_t buflen, char a, char b, bool ignore)
 {
     char c;

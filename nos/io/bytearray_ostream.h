@@ -13,7 +13,8 @@ namespace nos
     public:
         bytearray_ostream(bytearray &arr) : array(arr) {}
 
-        int write(const void *ptr, size_t sz) override
+        nos::expected<size_t, nos::output_error> write(const void *ptr,
+                                                       size_t sz) override
         {
             array.append((uint8_t *)ptr, sz);
             return sz;

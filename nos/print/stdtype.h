@@ -195,8 +195,8 @@ namespace nos
 
     template <typename T> struct print_implementation<nos::ibinmap_adapter<T>>
     {
-        static int print_to(nos::ostream &out,
-                            const nos::ibinmap_adapter<T> &obj)
+        static nos::expected<size_t, nos::output_error>
+        print_to(nos::ostream &out, const nos::ibinmap_adapter<T> &obj)
         {
             int ret = 0;
             auto bytesize = sizeof(obj.ref());

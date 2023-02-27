@@ -81,22 +81,22 @@ namespace nos
             if (size < ((uint64_t)1 << 8))
             {
                 os.put(1);
-                nos::serialize_to<uint8_t>(os, size);
+                nos::serialize_to<uint8_t>(os, static_cast<uint8_t>(size));
             }
             else if (size < ((uint64_t)1 << 16))
             {
                 os.put(2);
-                nos::serialize_to<uint16_t>(os, size);
+                nos::serialize_to<uint16_t>(os, static_cast<uint16_t>(size));
             }
             else if (size < ((uint64_t)1 << 32))
             {
                 os.put(4);
-                nos::serialize_to<uint32_t>(os, size);
+                nos::serialize_to<uint32_t>(os, static_cast<uint32_t>(size));
             }
             else
             {
                 os.put(8);
-                nos::serialize_to<uint64_t>(os, size);
+                nos::serialize_to<uint64_t>(os, static_cast<uint64_t>(size));
             }
             os.write(obj.data(), size);
         }

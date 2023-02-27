@@ -16,20 +16,22 @@ namespace nos
         stringstream(const std::string &str) : _str(str) {}
         stringstream() {}
 
-        int write(const void *ptr, size_t sz) override
+        nos::expected<size_t, nos::output_error> write(const void *ptr,
+                                                       size_t sz) override
         {
             _str.append((char *)ptr, sz);
             return sz;
         }
 
-        int room()
+        size_t room()
         {
             return _str.size() - read_marker;
         }
 
-        nos::expected<int, nos::input_error> read(void *ptr, size_t sz) override
+        nos::expected<size_t, nos::input_error> read(void *ptr,
+                                                     size_t sz) override
         {
-            int readed = room() - (int)sz > 0 ? sz : room();
+            size_t readed = room() - sz > 0 ? sz : room();
             if (readed <= 0)
                 return nos::input_error::eof();
             memcpy(ptr, _str.data() + read_marker, readed);

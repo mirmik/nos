@@ -14,7 +14,8 @@ namespace nos
     public:
         string_writer(std::string &_str) : str(_str) {}
 
-        int write(const void *ptr, size_t sz) override
+        nos::expected<size_t, nos::output_error> write(const void *ptr,
+                                                       size_t sz) override
         {
             str.append((char *)ptr, sz);
             return sz;
@@ -27,7 +28,8 @@ namespace nos
         std::string _str = {};
 
     public:
-        int write(const void *ptr, size_t sz) override
+        nos::expected<size_t, nos::output_error> write(const void *ptr,
+                                                       size_t sz) override
         {
             _str.append((char *)ptr, sz);
             return sz;
@@ -49,11 +51,12 @@ namespace nos
         cstring_writer(const cstring_writer &_str) = default;
         cstring_writer &operator=(const cstring_writer &_str) = default;
 
-        int write(const void *ptr, size_t sz) override
+        nos::expected<size_t, nos::output_error> write(const void *ptr,
+                                                       size_t sz) override
         {
             memcpy(str, ptr, sz);
             str += sz;
-            return sz;
+            return (int)sz;
         }
     };
     /*

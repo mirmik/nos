@@ -162,7 +162,7 @@ int nos_fprint(nos::ostream &os,
 
 int nos_fprint(nos::ostream &os, double obj, const nos::buffer &opts)
 {
-    int len;
+    ptrdiff_t len;
     nos::float_spec spec(opts);
     char buf[64 + 1];
     if (spec.after_dot != -1)

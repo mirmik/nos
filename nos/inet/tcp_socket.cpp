@@ -1,15 +1,15 @@
-#include <fcntl.h>
 #include <nos/inet/tcp_socket.h>
-#include <unistd.h>
 
 #ifdef __WIN32__
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#elif defined(_MSC_VER)
+#include <fcntl.h>
 #else
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
-
+#include <unistd.h>
 #endif
 
 nos::inet::tcp_socket::tcp_socket(nos::inet::hostaddr addr, uint16_t port)
@@ -31,12 +31,14 @@ int nos::inet::tcp_socket::connect(nos::inet::hostaddr addr, uint16_t port)
     return sts;
 }
 
-int nos::inet::socket::send(const void *data, size_t size, int flags)
+nos::expected<size_t, nos::output_error>
+nos::inet::socket::send(const void *data, size_t size, int flags)
 {
     return ::send(fd(), (const char *)data, size, flags);
 }
 
-int nos::inet::socket::recv(char *data, size_t size, int flags)
+nos::expected<size_t, nos::input_error>
+nos::inet::socket::recv(char *data, size_t size, int flags)
 {
     return ::recv(fd(), data, size, flags);
 }
@@ -56,10 +58,14 @@ int nos::inet::socket::clean()
 {
 #ifndef __WIN32__
     char buf[16];
-    int ret;
+    nos::expected<size_t, nos::output_error> ret;
     do
     {
         ret = recv(buf, 16, MSG_DONTWAIT);
+        if (ret.is_error())
+        {
+            return 0;
+        }
     } while (ret > 0);
 #endif
     return 0;

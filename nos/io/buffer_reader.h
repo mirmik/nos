@@ -14,7 +14,8 @@ namespace nos
     public:
         buffer_reader(char *buf, size_t len) : buf(buf), len(len) {}
 
-        nos::expected<int, nos::input_error> read(void *ptr, size_t sz) override
+        nos::expected<size_t, nos::input_error> read(void *ptr,
+                                                     size_t sz) override
         {
             if (len == 0)
                 return nos::input_error::eof();

@@ -118,7 +118,7 @@ char *__nos_ldtoa(long double f, char *buf, int8_t precision)
         while (precision--)
         {
             f *= 10.0;
-            c = f;
+            c = (char)f;
             *ptr++ = '0' + c;
             f -= c;
         }
