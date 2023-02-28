@@ -75,11 +75,11 @@ TEST_CASE("tcp client connect miss port!")
             break;
         }
     }
+
     server.listen();
     server.close();
 
     nos::inet::tcp_client client;
-
     CHECK_THROWS_AS(client.connect(nos::inet::hostaddr::loopback(),
                                    port,
                                    std::chrono::milliseconds(100)),

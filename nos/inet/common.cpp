@@ -114,13 +114,14 @@ int nos::inet::socket::connect(const nos::inet::hostaddr &haddr,
 
 int nos::inet::socket::close_socket()
 {
-    int sts;
+    int sts = 0;
 #ifdef _MSC_VER
     sts = ::shutdown((int)fd(), SD_BOTH);
+    sts = ::closesocket((int)fd());
 #else
     sts = ::shutdown((int)fd(), SHUT_RDWR);
-#endif
     sts = nos::osutil::close((int)fd());
+#endif
     return sts;
 }
 
