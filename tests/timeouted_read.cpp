@@ -5,7 +5,9 @@
 #include <nos/io/file.h>
 #include <nos/print.h>
 #include <thread>
-//#include <unistd.h>
+#ifndef _MSC_VER
+#include <unistd.h>
+#endif
 
 using namespace std::chrono_literals;
 
