@@ -83,12 +83,16 @@ namespace nos
             return nos::osutil::fileno(filp);
         }
 
+        void seekg(size_t pos)
+        {
+            fseek(filp, pos, SEEK_SET);
+        }
+
         int nonblock(bool en)
         {
             return nos::osutil::nonblock(fd(), en);
         }
     };
-
 }
 
 #endif
