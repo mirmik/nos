@@ -120,7 +120,7 @@ int nos::inet::socket::close_socket()
 #else
     sts = ::shutdown((int)fd(), SHUT_RDWR);
 #endif
-    sts = ::_close((int)fd());
+    sts = nos::osutil::close((int)fd());
     return sts;
 }
 

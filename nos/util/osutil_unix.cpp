@@ -1,5 +1,8 @@
 #include <fcntl.h>
 #include <nos/util/osutil.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 int nos::osutil::nonblock(int64_t fd, bool en)
