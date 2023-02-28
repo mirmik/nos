@@ -3,10 +3,11 @@
 #include <nos/shell/aggregate_executor.h>
 #include <nos/shell/argv.h>
 #include <nos/shell/executor.h>
+#include <nos/util/osutil.h>
 
 TEST_CASE("shell")
 {
-    char *cmd = strdup("hello world shell  \t\n jigly");
+    char *cmd = nos::osutil::strdup("hello world shell  \t\n jigly");
     nos::tokens argv(cmd);
 
     CHECK_EQ(argv[0], "hello");
@@ -51,7 +52,7 @@ int df(const nos::argv &, nos::ostream &os)
 
 TEST_CASE("tokens")
 {
-    char *cmd = strdup("hello a");
+    char *cmd = nos::osutil::strdup("hello a");
     auto tokens = nos::tokens(cmd);
     CHECK_EQ(tokens[0], "hello");
     CHECK_EQ(tokens[1], "a");
@@ -60,7 +61,7 @@ TEST_CASE("tokens")
 
 TEST_CASE("executor")
 {
-    char *cmd = strdup("hello a");
+    char *cmd = nos::osutil::strdup("hello a");
     nos::stringstream answer;
     nos::executor executor({{"hello", "help example", hello}});
 

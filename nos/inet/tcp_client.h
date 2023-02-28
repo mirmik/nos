@@ -32,7 +32,7 @@ namespace nos
                 return _is_connect;
             }
 
-            void init_from_socket(int fd, bool connected)
+            void init_from_socket(int64_t fd, bool connected)
             {
                 set_fd(fd);
                 this->_is_connect = connected;

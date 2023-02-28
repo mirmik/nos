@@ -19,6 +19,8 @@ namespace nos
         bool is_accessible(const std::string &path);
         bool is_accessible(const char *path);
         FILE *fdopen(int64_t fd, const char *mode);
+        int64_t fileno(FILE *f);
+        char *strdup(const char *s);
     }
 }
 

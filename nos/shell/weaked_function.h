@@ -166,7 +166,7 @@ namespace nos
                             const Arg &arg) const
         {
             int index2 = -1;
-            for (size_t i = 0; i < count; i++)
+            for (int i = 0; i < (int)count; i++)
             {
                 if (argument_names[i] == arg.name)
                 {

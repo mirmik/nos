@@ -25,6 +25,7 @@ file(GLOB NOS_SOURCES
 	nos/io/file.cpp
 	nos/io/stdfile.cpp
 	nos/trent/*.cpp
+	nos/log/*.cpp
 )
 
 if(UNIX)

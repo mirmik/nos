@@ -58,3 +58,13 @@ FILE *nos::osutil::fdopen(int64_t fd, const char *mode)
 {
     return ::fdopen(fd, mode);
 }
+
+int64_t nos::osutil::fileno(FILE *f)
+{
+    return ::fileno(f);
+}
+
+char *nos::osutil::strdup(const char *s)
+{
+    return ::strdup(s);
+}

@@ -41,7 +41,7 @@ nos::expected<size_t, nos::input_error> nos::file::read(void *ptr, size_t sz)
     FD_SET(fd(), &fds);
 
     struct timeval tv;
-    tv.tv_sec = ns / 1000000000;
+    tv.tv_sec = (long)(ns / 1000000000);
     tv.tv_usec = (ns % 1000000000) / 1000;
 
     // nonblock(true);

@@ -52,14 +52,14 @@ namespace nos
 
         template <std::integral T> bool reflect(const char *name, T &value)
         {
-            value = tr[name].as_numer();
+            value = static_cast<T>(tr[name].as_numer());
             return true;
         }
 
         template <std::floating_point T>
         bool reflect(const char *name, T &value)
         {
-            value = tr[name].as_numer();
+            value = static_cast<T>(tr[name].as_numer());
             return true;
         }
 

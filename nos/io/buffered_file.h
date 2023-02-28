@@ -80,7 +80,7 @@ namespace nos
 
         int64_t fd() const
         {
-            return fileno(filp);
+            return nos::osutil::fileno(filp);
         }
 
         int nonblock(bool en)

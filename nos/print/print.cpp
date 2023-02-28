@@ -183,7 +183,7 @@ nos::printhex_to(nos::ostream &out, const void *ptr, size_t sz)
     size_t ret = 0;
     char *_ptr = (char *)ptr;
 
-    for (int i = sz - 1; i >= 0; i--)
+    for (int i = (int)sz - 1; i >= 0; i--)
         ret += nos::printhex_to(out, _ptr[i]);
 
     return ret;

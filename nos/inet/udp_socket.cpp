@@ -3,6 +3,7 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #elif defined(_MSC_VER)
+#define _WINSOCK_DEPRECATED_NO_WARNINGS 1
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #else
@@ -10,6 +11,7 @@
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #endif
+
 nos::inet::udp_broadcast_socket::udp_broadcast_socket()
 {
     init();
@@ -53,9 +55,10 @@ int nos::inet::udp_broadcast_socket::sendto(const void *data,
     saddr.sin_family = AF_INET;
     saddr.sin_port = htons(port);
     saddr.sin_addr.s_addr = inet_addr(ip.c_str());
+
     int ret = (int)::sendto(fd(),
                             (const char *)data,
-                            size,
+                            (int)size,
                             0,
                             (struct sockaddr *)&saddr,
                             sizeof(saddr));
@@ -90,7 +93,7 @@ int nos::inet::udp_broadcast_socket::send_broadcast(const void *data,
     saddr.sin_addr.s_addr = INADDR_BROADCAST;
     int ret = ::sendto(fd(),
                        (const char *)data,
-                       size,
+                       (int)size,
                        0,
                        (struct sockaddr *)&saddr,
                        sizeof(saddr));
@@ -110,7 +113,7 @@ nos::inet::udp_broadcast_socket::recvfrom(size_t maxsize)
     std::string data;
     data.resize(maxsize);
     int ret = ::recvfrom(
-        fd(), &data[0], maxsize, 0, (struct sockaddr *)&saddr, &saddr_len);
+        fd(), &data[0], (int)maxsize, 0, (struct sockaddr *)&saddr, &saddr_len);
     if (ret < 0)
     {
         if (errno == EAGAIN || errno == 0)

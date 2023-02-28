@@ -26,10 +26,11 @@ int sum(int a, int b)
 TEST_CASE("kwargs")
 {
     nos::weaked_function<int(int, int)> func(
-        [](int a, int b) { return std::pow(a, b); }, {"a", "b"});
+        [](int a, int b) { return (int)std::pow(a, b); }, {"a", "b"});
 
     nos::weaked_function<int(nos::trent)> bar(
-        [](nos::trent a) { return a[0].as_numer() * a[1].as_numer(); }, {"a"});
+        [](nos::trent a) { return (int)(a[0].as_numer() * a[1].as_numer()); },
+        {"a"});
 
     CHECK_EQ(func(2, 3), 8);
     CHECK_EQ(func(nos::argpair("a", 2), 3), 8);
@@ -62,8 +63,8 @@ TEST_CASE("make_cf_abstract")
         "sub",
         std::function<int(int, int)>([](int a, int b) { return a - b; }));
     collection.add("pow",
-                   std::function<int(int, int)>([](int a, int b)
-                                                { return std::pow(a, b); }),
+                   std::function<int(int, int)>(
+                       [](int a, int b) { return (int)std::pow(a, b); }),
                    {"a", "b"});
     collection.add(
         "stub", std::function<void(int, int)>([](int, int) {}), {"a", "b"});

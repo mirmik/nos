@@ -76,7 +76,7 @@ char *__nos_ldtoa(long double f, char *buf, int8_t precision)
         f += rounders[precision];
 
     // integer part...
-    intPart = f;
+    intPart = (int64_t)f;
     f -= intPart;
 
     if (!intPart)

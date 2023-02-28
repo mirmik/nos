@@ -201,7 +201,7 @@ namespace nos
             int ret = 0;
             auto bytesize = sizeof(obj.ref());
             ret += nos::print_to(out, "{");
-            for (int i = bytesize - 1; i >= 0; i--)
+            for (int i = (int)bytesize - 1; i >= 0; i--)
             {
                 uint8_t *ptr = (uint8_t *)(&obj.ref()) + i;
                 for (int j = 7; j >= 0; j--)

@@ -56,7 +56,7 @@ TEST_CASE("trent_basic_test")
     nos::trent tr;
 
     tr["a"]["b"][28] = 42;
-    int a = tr["a"]["b"][28].as_numer();
+    auto a = tr["a"]["b"][28].as_numer();
     CHECK_EQ(a, 42);
 }
 
@@ -71,7 +71,7 @@ TEST_CASE("trent_basic_test")
 TEST_CASE("trent_path")
 {
     nos::trent tr;
-    int a;
+    nos::trent::numer_type a;
 
     tr["a"]["b"][28] = 42;
     a = tr[nos::trent_path("a/b/28")].as_numer();

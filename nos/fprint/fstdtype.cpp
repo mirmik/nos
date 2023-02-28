@@ -6,7 +6,7 @@
 
 nos::expected<size_t, nos::output_error> nos_fprint(nos::ostream &os,
                                                     const char *text,
-                                                    int size,
+                                                    size_t size,
                                                     const nos::basic_spec &spec)
 {
     int ret = 0;
@@ -14,7 +14,7 @@ nos::expected<size_t, nos::output_error> nos_fprint(nos::ostream &os,
     int pre_fill_len = 0;
     char post_fill_len = 0;
 
-    int difflen = spec.width - size;
+    int difflen = (int)spec.width - (int)size;
 
     if (difflen > 0)
     {
@@ -137,7 +137,7 @@ nos_fprint(nos::ostream &os, signed long long obj, const nos::buffer &opts)
     if (spec.hexmode)
         base = 16;
     char *endptr = __nos_itoa(obj, buf, base);
-    int len = endptr - buf;
+    ptrdiff_t len = endptr - buf;
     return nos_fprint_integer_impl(os, buf, len, spec);
 }
 

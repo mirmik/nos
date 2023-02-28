@@ -17,8 +17,8 @@
 nos::expected<size_t, nos::output_error>
 nos::inet::tcp_client::write(const void *data, size_t size)
 {
-    int sts =
-        ::send(fd(), (const char *)data, size, 0); // file::write(data, size);
+    int sts = ::send(
+        fd(), (const char *)data, (int)size, 0); // file::write(data, size);
     if (sts < 0)
     {
         _is_connect = false;
@@ -31,7 +31,7 @@ nos::inet::tcp_client::write(const void *data, size_t size)
 nos::expected<size_t, nos::input_error> nos::inet::tcp_client::read(void *data,
                                                                     size_t size)
 {
-    int sts = ::recv(fd(), (char *)data, size, 0);
+    int sts = ::recv(fd(), (char *)data, (int)size, 0);
     if (sts <= 0)
     {
         _is_connect = false;
@@ -67,7 +67,7 @@ int nos::inet::tcp_client::connect(nos::inet::hostaddr addr,
     FD_SET(fd(), &writefds);
 
     struct timeval tv;
-    tv.tv_sec = timeout.count() / 1000;
+    tv.tv_sec = (long)(timeout.count() / 1000);
     tv.tv_usec = (timeout.count() % 1000) * 1000;
 
     sts = select((int)(fd() + 1), NULL, &writefds, NULL, &tv);
