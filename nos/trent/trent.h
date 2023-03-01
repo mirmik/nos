@@ -271,21 +271,21 @@ namespace nos
 
         const trent_basic &operator[](const std::string &obj) const
         {
-            if (m_type != type::dict)
+            if (m_type != type::dict || !contains(obj))
                 return nil();
             return at(obj);
         }
 
         const trent_basic &operator[](const nos::buffer &obj) const
         {
-            if (m_type != type::dict)
+            if (m_type != type::dict || !contains(obj))
                 return nil();
             return at(obj);
         }
 
         const trent_basic &operator[](const char *obj) const
         {
-            if (m_type != type::dict)
+            if (m_type != type::dict || !contains(obj))
                 return nil();
             return at(obj);
         }

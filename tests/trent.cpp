@@ -225,7 +225,8 @@ TEST_CASE("const tremt dict")
     tr["a"] = 3;
     const nos::trent &tr2 = tr;
     CHECK_EQ(tr2["a"].as_numer_default(42), 3);
-    const auto &c = tr["c"];
+    const nos::trent &c = tr2["c"];
     CHECK(c.is_nil());
     CHECK_EQ(c.as_numer_default(42), 42);
+    CHECK_EQ(&c, &nos::trent::nil());
 }
