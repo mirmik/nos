@@ -210,3 +210,22 @@ TEST_CASE("trent_get")
     CHECK_EQ(tr.get<int>(), 3);
     CHECK_EQ(std::stod(tr.get<std::string>()), 3);
 }
+
+TEST_CASE("const tremt")
+{
+    nos::trent tr = 3;
+    const nos::trent &tr2 = tr;
+    CHECK_EQ(tr2.get<int>(), 3);
+    CHECK_EQ(std::stod(tr2.get<std::string>()), 3);
+}
+
+TEST_CASE("const tremt dict")
+{
+    nos::trent tr;
+    tr["a"] = 3;
+    const nos::trent &tr2 = tr;
+    CHECK_EQ(tr2["a"].as_numer_default(42), 3);
+    const auto &c = tr["c"];
+    CHECK(c.is_nil());
+    CHECK_EQ(c.as_numer_default(42), 42);
+}
