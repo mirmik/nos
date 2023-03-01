@@ -137,7 +137,7 @@ nos_fprint(nos::ostream &os, signed long long obj, const nos::buffer &opts)
     if (spec.hexmode)
         base = 16;
     char *endptr = __nos_itoa(obj, buf, base);
-    ptrdiff_t len = endptr - buf;
+    std::ptrdiff_t len = endptr - buf;
     return nos_fprint_integer_impl(os, buf, len, spec);
 }
 
@@ -182,7 +182,7 @@ nos::expected<size_t, nos::output_error> nos_fprint(nos::ostream &os,
 nos::expected<size_t, nos::output_error>
 nos_fprint(nos::ostream &os, double obj, const nos::buffer &opts)
 {
-    ptrdiff_t len;
+    std::ptrdiff_t len;
     nos::float_spec spec(opts);
     char buf[64 + 1];
     if (spec.after_dot != -1)
