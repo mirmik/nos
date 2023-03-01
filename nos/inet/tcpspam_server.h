@@ -15,22 +15,7 @@ namespace nos
         {
             std::list<nos::inet::tcp_client> clients = {};
 
-        public:
-            tcpspam_server() = default;
-            tcpspam_server(int port)
-            {
-                start(port);
-            }
-
-            int start(int port)
-            {
-                inet::tcp_server::init();
-                inet::tcp_server::reusing(true);
-                inet::tcp_server::bind("0.0.0.0", port);
-                inet::tcp_server::listen(10);
-                inet::tcp_server::nonblock(true);
-                return 0;
-            }
+        private:
             int __send(const char *str)
             {
                 return __send(str, strlen(str));
@@ -64,7 +49,25 @@ namespace nos
                 return ret;
             }
 
-            int write(const void *str, size_t sz) override
+        public:
+            tcpspam_server() = default;
+            tcpspam_server(int port)
+            {
+                start(port);
+            }
+
+            int start(int port)
+            {
+                inet::tcp_server::init();
+                inet::tcp_server::reusing(true);
+                inet::tcp_server::bind("0.0.0.0", port);
+                inet::tcp_server::listen(10);
+                inet::tcp_server::nonblock(true);
+                return 0;
+            }
+
+            nos::expected<size_t, nos::output_error> write(const void *str,
+                                                           size_t sz) override
             {
                 return __send((char *)str, sz);
             }
