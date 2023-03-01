@@ -39,6 +39,8 @@ namespace nos
     template <template <class Allocator> class TAlloc> class trent_basic
     {
     public:
+        static const trent_basic &nil();
+
         // SPECS
         using type = trent_type;
         using value_type = std::pair<std::string, trent_basic>;
@@ -267,8 +269,31 @@ namespace nos
             return m_dct[std::string(key.data(), key.size())];
         }
 
-        template <typename T> const trent_basic &operator[](const T &obj) const
+        const trent_basic &operator[](const std::string &obj) const
         {
+            if (m_type != type::dict)
+                return nil();
+            return at(obj);
+        }
+
+        const trent_basic &operator[](const nos::buffer &obj) const
+        {
+            if (m_type != type::dict)
+                return nil();
+            return at(obj);
+        }
+
+        const trent_basic &operator[](const char *obj) const
+        {
+            if (m_type != type::dict)
+                return nil();
+            return at(obj);
+        }
+
+        const trent_basic &operator[](int obj) const
+        {
+            if (m_type != type::list)
+                return nil();
             return at(obj);
         }
 
@@ -325,7 +350,7 @@ namespace nos
 
         trent_basic &operator[](const trent_path &path) const
         {
-            trent_basic *tr = this;
+            const trent_basic *tr = this;
             for (auto &p : path)
             {
                 if (p.is_string)
@@ -1121,6 +1146,13 @@ namespace nos
             throw std::runtime_error("isn't string");
 
         return m_str;
+    }
+
+    template <template <class Allocator> class TAlloc>
+    const trent_basic<TAlloc> &trent_basic<TAlloc>::nil()
+    {
+        static const trent_basic _nil;
+        return _nil;
     }
 
     /*template <template <class Allocator> class TAlloc>
