@@ -1,7 +1,18 @@
 #include <nos/fprint.h>
 #include <nos/log/logger.h>
 
-nos::log::logger nos::log::stdlogger("std");
+nos::log::logger _stdlogger("std");
+nos::log::logger *_default_logger = &_stdlogger;
+
+void nos::log::set_default_logger(logger *logger)
+{
+    _default_logger = logger;
+}
+
+nos::log::logger *nos::log::default_logger()
+{
+    return _default_logger;
+}
 
 std::string nos::log::logger::name() const
 {

@@ -45,7 +45,7 @@ namespace nos
 
             template <typename... Args>
             inline void
-            log(level lvl, const std::string_view &fmt, const Args &... args)
+            log(level lvl, const std::string_view &fmt, const Args &...args)
             {
                 log(lvl,
                     fmt,
@@ -53,68 +53,70 @@ namespace nos
                         {visitable_argument(args, nos::format_visitor())...}));
             }
 
-            template <typename... Args> inline void trace(const Args &... args)
+            template <typename... Args> inline void trace(const Args &...args)
             {
                 log(level::Trace, args...);
             }
-            template <typename... Args> inline void debug(const Args &... args)
+            template <typename... Args> inline void debug(const Args &...args)
             {
                 log(level::Debug, args...);
             }
-            template <typename... Args> inline void info(const Args &... args)
+            template <typename... Args> inline void info(const Args &...args)
             {
                 log(level::Info, args...);
             }
-            template <typename... Args> inline void warn(const Args &... args)
+            template <typename... Args> inline void warn(const Args &...args)
             {
                 log(level::Warn, args...);
             }
-            template <typename... Args> inline void error(const Args &... args)
+            template <typename... Args> inline void error(const Args &...args)
             {
                 log(level::Error, args...);
             }
-            template <typename... Args> inline void fault(const Args &... args)
+            template <typename... Args> inline void fault(const Args &...args)
             {
                 log(level::Fault, args...);
             }
         };
 
-        extern logger stdlogger;
+        void set_default_logger(logger *logger);
+        logger *default_logger();
+
         template <typename... Args>
         inline void
-        log(level lvl, const std::string_view &fmt, const Args &... args)
+        log(level lvl, const std::string_view &fmt, const Args &...args)
         {
-            stdlogger.log(lvl,
-                          fmt,
-                          visitable_arglist({visitable_argument(
-                              args, nos::format_visitor())...}));
+            if (default_logger())
+                default_logger()->log(lvl,
+                                      fmt,
+                                      visitable_arglist({visitable_argument(
+                                          args, nos::format_visitor())...}));
         }
 
-        template <typename... Args> inline void trace(const Args &... args)
+        template <typename... Args> inline void trace(const Args &...args)
         {
             log(level::Trace, args...);
         }
-        template <typename... Args> inline void debug(const Args &... args)
+        template <typename... Args> inline void debug(const Args &...args)
         {
             log(level::Debug, args...);
         }
-        template <typename... Args> inline void info(const Args &... args)
+        template <typename... Args> inline void info(const Args &...args)
         {
             log(level::Info, args...);
         }
-        template <typename... Args> inline void warn(const Args &... args)
+        template <typename... Args> inline void warn(const Args &...args)
         {
             log(level::Warn, args...);
         }
-        template <typename... Args> inline void error(const Args &... args)
+        template <typename... Args> inline void error(const Args &...args)
         {
             log(level::Error, args...);
         }
-        template <typename... Args> inline void fault(const Args &... args)
+        template <typename... Args> inline void fault(const Args &...args)
         {
             log(level::Fault, args...);
         }
-
     }
 }
 
