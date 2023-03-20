@@ -4,6 +4,16 @@
 #include <string>
 #include <string_view>
 
+void nos::set_default_ostream(nos::ostream *out)
+{
+    nos::current_ostream = out;
+}
+
+nos::ostream *nos::default_ostream()
+{
+    return nos::current_ostream;
+}
+
 nos::expected<size_t, nos::output_error>
 nos::write_to(nos::ostream &out, const void *buf, size_t sz)
 {

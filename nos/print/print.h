@@ -16,6 +16,9 @@ namespace nos
     class ostream;
     extern ostream *current_ostream;
 
+    void set_default_ostream(ostream *out);
+    ostream *default_ostream();
+
     nos::expected<size_t, nos::output_error> putbyte_to(nos::ostream &out,
                                                         char c);
     nos::expected<size_t, nos::output_error>
@@ -27,11 +30,11 @@ namespace nos
                                                       const Arg &arg);
     template <typename Head, typename... Tail>
     nos::expected<size_t, nos::output_error>
-    print_to(nos::ostream &out, const Head &head, const Tail &... tail);
+    print_to(nos::ostream &out, const Head &head, const Tail &...tail);
     nos::expected<size_t, nos::output_error> println_to(nos::ostream &);
     template <typename... Args>
     nos::expected<size_t, nos::output_error> println_to(nos::ostream &out,
-                                                        const Args &... args);
+                                                        const Args &...args);
     template <typename V>
     nos::expected<size_t, nos::output_error> print_list_to(nos::ostream &out,
                                                            const V &vec);
@@ -40,7 +43,7 @@ namespace nos
                                                              const M &mat);
     template <typename... Args>
     nos::expected<size_t, nos::output_error> printhex_to(nos::ostream &out,
-                                                         const Args &... args);
+                                                         const Args &...args);
     template <typename Arg>
     nos::expected<size_t, nos::output_error> printptr_to(nos::ostream &out,
                                                          const Arg *arg);
@@ -55,18 +58,18 @@ namespace nos
     nos::expected<size_t, nos::output_error> writeln(const void *buf,
                                                      size_t sz);
     template <typename... Args>
-    nos::expected<size_t, nos::output_error> print(const Args &... args);
+    nos::expected<size_t, nos::output_error> print(const Args &...args);
     nos::expected<size_t, nos::output_error> println();
     template <typename... Args>
-    nos::expected<size_t, nos::output_error> println(const Args &... args);
+    nos::expected<size_t, nos::output_error> println(const Args &...args);
     template <typename V>
     nos::expected<size_t, nos::output_error> print_list(const V &vec);
     template <typename M>
     nos::expected<size_t, nos::output_error> print_matrix(const M &mat);
     template <typename... Args>
-    nos::expected<size_t, nos::output_error> printhex(const Args &... args);
+    nos::expected<size_t, nos::output_error> printhex(const Args &...args);
     template <typename... Args>
-    nos::expected<size_t, nos::output_error> printhexln(const Args &... args);
+    nos::expected<size_t, nos::output_error> printhexln(const Args &...args);
     template <typename Arg>
     nos::expected<size_t, nos::output_error> printptr(const Arg &arg);
     nos::expected<size_t, nos::output_error>
@@ -132,19 +135,19 @@ nos::expected<size_t, nos::output_error> nos::print_to(nos::ostream &out,
 }
 
 template <typename... Args>
-nos::expected<size_t, nos::output_error> nos::print(const Args &... args)
+nos::expected<size_t, nos::output_error> nos::print(const Args &...args)
 {
     return print_to(*current_ostream, args...);
 }
 
 template <typename... Args>
-nos::expected<size_t, nos::output_error> nos::println(const Args &... args)
+nos::expected<size_t, nos::output_error> nos::println(const Args &...args)
 {
     return println_to(*current_ostream, args...);
 }
 
 template <typename... Args>
-nos::expected<size_t, nos::output_error> nos::printhex(const Args &... args)
+nos::expected<size_t, nos::output_error> nos::printhex(const Args &...args)
 {
     return printhex_to(*current_ostream, args...);
 }
@@ -178,7 +181,7 @@ nos::expected<size_t, nos::output_error> nos::printptr_to(nos::ostream &out,
 }
 
 template <typename... Args>
-nos::expected<size_t, nos::output_error> nos::printhexln(const Args &... args)
+nos::expected<size_t, nos::output_error> nos::printhexln(const Args &...args)
 {
     auto ret1 = nos::printhex_to(*current_ostream, args...);
     if (!ret1)
@@ -191,7 +194,7 @@ nos::expected<size_t, nos::output_error> nos::printhexln(const Args &... args)
 
 template <typename Head, typename... Tail>
 nos::expected<size_t, nos::output_error>
-nos::print_to(nos::ostream &out, const Head &head, const Tail &... tail)
+nos::print_to(nos::ostream &out, const Head &head, const Tail &...tail)
 {
     char c = ' ';
     auto res1 = print_to(out, head);
@@ -208,7 +211,7 @@ nos::print_to(nos::ostream &out, const Head &head, const Tail &... tail)
 
 template <typename... Args>
 nos::expected<size_t, nos::output_error> nos::println_to(nos::ostream &out,
-                                                         const Args &... args)
+                                                         const Args &...args)
 {
     auto res1 = print_to(out, args...);
     if (!res1)
