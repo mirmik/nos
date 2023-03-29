@@ -28,7 +28,8 @@ namespace nos
             nos::println_to(os, undefined_error_message, name);
         }
 
-        int execute(const nos::argv &argv, nos::ostream &os)
+        int
+        execute(const nos::argv &argv, nos::ostream &os, bool verbose = true)
         {
             if (argv.size() == 0)
                 return 0;
@@ -43,7 +44,7 @@ namespace nos
 
             if (cmd)
                 cmd->execute(argv, os);
-            else
+            else if (verbose)
                 print_undefined(os, argv[0]);
 
             return -1;
@@ -74,10 +75,10 @@ namespace nos
 
         nos::command *find(const nos::buffer &name) override
         {
-            auto it = std::find_if(
-                commands.begin(), commands.end(), [&](const auto &cmd) {
-                    return name == cmd.name();
-                });
+            auto it = std::find_if(commands.begin(),
+                                   commands.end(),
+                                   [&](const auto &cmd)
+                                   { return name == cmd.name(); });
 
             if (it == commands.end())
             {
