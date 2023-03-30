@@ -43,11 +43,16 @@ namespace nos
             auto cmd = find(argv[0]);
 
             if (cmd)
+            {
                 cmd->execute(argv, os);
-            else if (verbose)
-                print_undefined(os, argv[0]);
-
-            return -1;
+                return 0;
+            }
+            else
+            {
+                if (verbose)
+                    print_undefined(os, argv[0]);
+                return -1;
+            }
         }
     };
 
