@@ -4,6 +4,8 @@
 #include <string>
 #include <string_view>
 
+const char *nos::newline_string = "\r\n";
+
 void nos::set_default_ostream(nos::ostream *out)
 {
     nos::current_ostream = out;
@@ -40,12 +42,12 @@ nos::writeln_to(nos::ostream &out, const void *buf, size_t sz)
 
 nos::expected<size_t, nos::output_error> nos::println_to(nos::ostream &o)
 {
-    return o.write("\r\n", 2);
+    return o.write(nos::newline_string, 2);
 }
 
 nos::expected<size_t, nos::output_error> nos::println()
 {
-    return nos::current_ostream->write("\r\n", 2);
+    return nos::println_to(*nos::current_ostream);
 }
 
 void nos::flush()

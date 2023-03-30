@@ -15,6 +15,7 @@ namespace nos
 {
     class ostream;
     extern ostream *current_ostream;
+    extern const char *newline_string;
 
     void set_default_ostream(ostream *out);
     ostream *default_ostream();

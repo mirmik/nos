@@ -16,7 +16,8 @@ namespace nos
         public:
             level _minlevel = level::Trace;
             std::string _name = "undefined";
-            std::string _pattern = "[{level}] {msg}\r\n";
+            std::string _pattern =
+                std::string("[{level}] {msg}") + newline_string;
 
         public:
             logger() = default;
