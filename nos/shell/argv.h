@@ -28,13 +28,13 @@ namespace nos
                 parse();
         }
 
-        std::vector<const char *> classic_argv() const
+        std::vector<const char *> to_classic_pointers_vector() const
         {
-            std::vector<const char *> argv = {};
+            std::vector<const char *> vec;
             for (auto &buf : list)
-                argv.push_back(buf.data());
-            argv.push_back(NULL);
-            return argv;
+                vec.push_back(buf.data());
+            vec.push_back(NULL);
+            return vec;
         }
 
         nos::buffer operator[](int i)
