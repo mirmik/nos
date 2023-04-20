@@ -366,6 +366,13 @@ namespace nos
             return root.check(tr, strvec);
         }
 
+        bool is_correct(const trent &tr, std::string rootname)
+        {
+            std::vector<std::string> strvec{rootname};
+            auto ret = root.check(tr, strvec);
+            return !ret.is_error();
+        }
+
         schema_node root;
         schema(const schema_node &root) : root(root) {}
 
