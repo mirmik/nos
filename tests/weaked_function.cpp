@@ -140,8 +140,31 @@ TEST_CASE("nos::weak_function_interpreter json protocol")
 {
     nos::weaked_function_interpreter interpreter;
     interpreter.add("sum", std::function<int(int, int)>(sum));
-    auto tr = nos::json::parse(R"({"cmd": "sum", "args": [3, 7]})");
-    auto result = interpreter.execute_json_protocol(tr);
-    auto result_num = result.as_numer();
-    CHECK_EQ(result_num, 10);
+    interpreter.add("pow",
+                    std::function<int(int, int)>(
+                        [](int a, int b) { return (int)std::pow(a, b); }),
+                    {"a", "b"});
+
+    {
+        auto tr = nos::json::parse(R"({"cmd": "sum", "args": [3, 7]})");
+        auto result = interpreter.execute_json_protocol(tr);
+        auto result_num = result.as_numer();
+        CHECK_EQ(result_num, 10);
+    }
+
+    {
+        auto tr =
+            nos::json::parse(R"({"cmd": "pow", "kwargs": {"a":2, "b":3}})");
+        auto result = interpreter.execute_json_protocol(tr);
+        auto result_num = result.as_numer();
+        CHECK_EQ(result_num, 8);
+    }
+
+    {
+        auto tr =
+            nos::json::parse(R"({"cmd": "pow", "kwargs": {"a":3, "b":2}})");
+        auto result = interpreter.execute_json_protocol(tr);
+        auto result_num = result.as_numer();
+        CHECK_EQ(result_num, 9);
+    }
 }
