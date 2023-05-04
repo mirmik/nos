@@ -28,11 +28,10 @@ namespace nos
         return println_to(out, arg);
     }
 
-    static nos::expected<size_t, nos::output_error>
-    fprint_format_argument(nos::ostream &out,
-                           const char *&fmt,
-                           const nos::visitable_arglist &list,
-                           uint8_t &argnum)
+    static size_t fprint_format_argument(nos::ostream &out,
+                                         const char *&fmt,
+                                         const nos::visitable_arglist &list,
+                                         uint8_t &argnum)
     {
         int ret;
         char *pend;
@@ -79,12 +78,12 @@ namespace nos
         switch (*fmt)
         {
         case '}':
-            ret = nos::format_visitor::visit(*varg, out, nos::buffer{});
+            ret = *nos::format_visitor::visit(*varg, out, nos::buffer{});
             break;
 
         case ':':
             ++fmt;
-            ret = nos::format_visitor::visit(
+            ret = *nos::format_visitor::visit(
                 *varg, out, nos::buffer{fmt, (size_t)(strchr(fmt, '}') - fmt)});
             break;
 
@@ -116,7 +115,7 @@ namespace nos
         {
             if (*fmtptr == '{')
             {
-                ret += *fprint_format_argument(out, fmtptr, args, argnum);
+                ret += fprint_format_argument(out, fmtptr, args, argnum);
             }
             else
             {

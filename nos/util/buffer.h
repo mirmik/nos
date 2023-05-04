@@ -29,6 +29,19 @@ namespace nos
         {
         }
 
+        buffer(const void *data, size_t size) : _data((char *)data), _size(size)
+        {
+        }
+
+        buffer(void *data, size_t size) : _data((char *)data), _size(size) {}
+
+        buffer(const uint8_t *data, size_t size)
+            : _data((char *)data), _size(size)
+        {
+        }
+
+        buffer(uint8_t *data, size_t size) : _data((char *)data), _size(size) {}
+
         buffer(const char *data) : _data((char *)data), _size(strlen(data)) {}
 
         std::string substr(size_t pos, size_t count = std::string::npos) const

@@ -14,7 +14,8 @@ namespace nos
 
     class format_visitor
     {
-        using ftype = int (*)(void *, nos::ostream &, const nos::buffer &opts);
+        using ftype = nos::expected<size_t, nos::output_error> (*)(
+            void *, nos::ostream &, const nos::buffer &opts);
 
     public:
         template <typename Object> static void *get_visit_implementation()
@@ -24,7 +25,8 @@ namespace nos
         }
 
         template <typename... Args>
-        static inline int visit(nos::visitable_argument varg, Args &&... args)
+        static inline nos::expected<size_t, nos::output_error>
+        visit(nos::visitable_argument varg, Args &&... args)
         {
             ftype fptr = (ftype)varg.visit;
             return fptr(varg.ptr, std::forward<Args>(args)...);
