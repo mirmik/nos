@@ -1,6 +1,7 @@
 #include <cmath>
 #include <doctest/doctest.h>
 #include <nos/shell/weaked_function.h>
+#include <nos/shell/weaked_function_interpreter.h>
 
 class TestComfortableFunction
 {
@@ -59,9 +60,9 @@ TEST_CASE("make_cf_abstract")
 {
     nos::wf_collection collection;
     collection.add("sum", std::function<int(int, int)>(sum));
-    collection.add(
-        "sub",
-        std::function<int(int, int)>([](int a, int b) { return a - b; }));
+    collection.add("sub", std::function<int(int, int)>([](int a, int b) {
+                       return a - b;
+                   }));
     collection.add("pow",
                    std::function<int(int, int)>(
                        [](int a, int b) { return (int)std::pow(a, b); }),
@@ -86,8 +87,25 @@ TEST_CASE("make_cf_abstract")
             .as_numer(),
         2187);
 
+    CHECK_EQ(
+        collection
+            .execute("sub", {nos::trent_argument{"3"}, nos::trent_argument{7}})
+            .as_numer(),
+        -4);
+
     TestComfortableFunction tcf(2, 3);
     collection.add(
         "tcf", std::function<int(int)>([&tcf](int c) { return tcf.sum(c); }));
     CHECK_EQ(collection.execute("tcf", {nos::trent_argument{4}}).as_numer(), 9);
+}
+
+TEST_CASE("weak_function_interpreter")
+{
+    nos::weaked_function_interpreter interpreter;
+    interpreter.add("sum", std::function<int(int, int)>(sum));
+
+    auto result = interpreter.execute_console_command("sum 3 7");
+    auto result_num = result.as_numer();
+
+    CHECK_EQ(result_num, 10);
 }
