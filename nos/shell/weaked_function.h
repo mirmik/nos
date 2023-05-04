@@ -4,6 +4,7 @@
 #include <concepts>
 #include <functional>
 #include <nos/trent/json.h>
+#include <nos/trent/json_print.h>
 #include <nos/trent/trent.h>
 #include <nos/util/arglist.h>
 #include <stdexcept>
@@ -120,18 +121,23 @@ namespace nos
                               void,
                               typename detail::signature<F>::result_type>)
             {
-                call(rarguments, std::make_index_sequence<count>{});
+                auto ret = call(rarguments, std::make_index_sequence<count>{});
+                if (ret.is_error())
+                    return ret.error();
                 return nos::trent();
             }
             else
             {
-                return static_cast<nos::trent>(
-                    call(rarguments, std::make_index_sequence<count>{}));
+                auto ret = call(rarguments, std::make_index_sequence<count>{});
+                if (ret.is_error())
+                    return ret.error();
+                return static_cast<nos::trent>(ret.value());
             }
         }
 
         template <size_t... I>
-        typename nos::detail::signature<F>::result_type
+        nos::expected<typename nos::detail::signature<F>::result_type,
+                      nos::errstring>
         call(const std::array<runtime_argument, count> &arr,
              std::index_sequence<I...>) const
         {
@@ -139,13 +145,27 @@ namespace nos
             {
                 if (!arr[i].inited)
                 {
-                    throw std::runtime_error("Argument " + argument_names[i] +
-                                             " is not inited");
+                    return nos::errstring("Argument " + argument_names[i] +
+                                          " is not inited");
                 }
             }
 
-            return func(trent_to_type<typename nos::detail::signature<
-                            F>::template nth_argtype<I>>(arr[I].value)...);
+            if constexpr (std::is_same_v<
+                              void,
+                              typename detail::signature<F>::result_type>)
+            {
+                func(trent_to_type<typename nos::detail::signature<
+                         F>::template nth_argtype<I>>(arr[I].value)...);
+                return {};
+            }
+            else
+            {
+                auto ret =
+                    func(trent_to_type<typename nos::detail::signature<
+                             F>::template nth_argtype<I>>(arr[I].value)...);
+                return static_cast<
+                    typename nos::detail::signature<F>::result_type>(ret);
+            }
         }
 
         template <class T> static T trent_to_type(const nos::trent &t)
@@ -254,13 +274,15 @@ namespace nos
             collection.emplace(name, make_wf_unique(f, names));
         }
 
-        nos::trent execute_json(const std::string &json)
+        nos::expected<nos::trent, nos::errstring>
+        execute_json(const std::string &json)
         {
             auto trent = nos::json::parse(json);
             return execute_trent(trent);
         }
 
-        nos::trent execute_trent(const nos::trent &trent)
+        nos::expected<nos::trent, nos::errstring>
+        execute_trent(const nos::trent &trent)
         {
             std::vector<nos::trent_argument> targs;
             auto name = trent["cmd"].as_string();
@@ -292,7 +314,11 @@ namespace nos
             auto it = collection.find(name);
             if (it == collection.end())
                 return nos::errstring("Undefined function: " + name);
-            return it->second->call_with_args(args);
+            auto ret = it->second->call_with_args(args);
+            if (ret.is_error())
+                return ret.error();
+            else
+                return ret.value();
         }
     };
 }

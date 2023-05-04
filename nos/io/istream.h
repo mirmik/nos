@@ -30,7 +30,7 @@ namespace nos
             while (j--)
             {
                 auto r = ignore();
-                if (!r)
+                if (r.is_error())
                 {
                     return r;
                 }

@@ -33,27 +33,27 @@ TEST_CASE("kwargs")
         [](nos::trent a) { return (int)(a[0].as_numer() * a[1].as_numer()); },
         {"a"});
 
-    CHECK_EQ(func(2, 3), 8);
-    CHECK_EQ(func(nos::argpair("a", 2), 3), 8);
-    CHECK_EQ(func(2, nos::argpair("b", 3)), 8);
-    CHECK_EQ(func(nos::argpair("a", 2), nos::argpair("b", 3)), 8);
-    CHECK_EQ(func(nos::argpair("b", 3), nos::argpair("a", 2)), 8);
+    CHECK_EQ(func(2, 3).value(), 8);
+    CHECK_EQ(func(nos::argpair("a", 2), 3).value(), 8);
+    CHECK_EQ(func(2, nos::argpair("b", 3)).value(), 8);
+    CHECK_EQ(func(nos::argpair("a", 2), nos::argpair("b", 3)).value(), 8);
+    CHECK_EQ(func(nos::argpair("b", 3), nos::argpair("a", 2)).value(), 8);
 
-    CHECK_EQ(func("2", 3), 8);
-    CHECK_EQ(func(nos::argpair("a", "2"), 3), 8);
-    CHECK_EQ(func("2", nos::argpair("b", 3)), 8);
-    CHECK_EQ(func(nos::argpair("b", "3"), nos::argpair("a", 2)), 8);
+    CHECK_EQ(func("2", 3).value(), 8);
+    CHECK_EQ(func(nos::argpair("a", "2"), 3).value(), 8);
+    CHECK_EQ(func("2", nos::argpair("b", 3)).value(), 8);
+    CHECK_EQ(func(nos::argpair("b", "3"), nos::argpair("a", 2)).value(), 8);
 
     nos::trent t;
     t.push_back(2);
     t.push_back("3");
-    CHECK_EQ(bar(t), 6);
+    CHECK_EQ(bar(t).value(), 6);
 
     TestComfortableFunction tcf(1, 2);
     nos::weaked_function<int(int)> test_func(
         [&tcf](int c) { return tcf.sum(c); }, {"c"});
 
-    CHECK_EQ(test_func(3), 6);
+    CHECK_EQ(test_func(3).value(), 6);
 }
 
 TEST_CASE("make_cf_abstract")

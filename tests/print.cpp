@@ -7,7 +7,7 @@ struct A
     int i = 42;
     int print_to(nos::ostream &os) const
     {
-        return nos::print_to(os, i);
+        return *nos::print_to(os, i);
     };
 };
 struct B
@@ -25,7 +25,7 @@ struct D
 
 int nos_print(nos::ostream &os, const B &b)
 {
-    return nos::print_to(os, b.i);
+    return *nos::print_to(os, b.i);
 }
 std::ostream &operator<<(std::ostream &os, const C &c)
 {
@@ -37,7 +37,7 @@ namespace nos
     {
         static int print_to(nos::ostream &os, const D &d)
         {
-            return nos::print_to(os, d.i);
+            return *nos::print_to(os, d.i);
         }
     };
 }

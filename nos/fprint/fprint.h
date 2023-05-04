@@ -19,37 +19,37 @@ namespace nos
 
     template <typename... Args>
     nos::expected<size_t, nos::output_error> fprint_to(
-        nos::ostream &out, const std::string_view &fmt, const Args &...args)
+        nos::ostream &out, const std::string_view &fmt, const Args &... args)
     {
-        return fprint_impl(out,
-                           fmt,
-                           visitable_arglist({visitable_argument(
-                               args, nos::format_visitor())...}));
+        return *fprint_impl(out,
+                            fmt,
+                            visitable_arglist({visitable_argument(
+                                args, nos::format_visitor())...}));
     }
 
     template <typename... Args>
     nos::expected<size_t, nos::output_error> fprint(const std::string_view &fmt,
-                                                    const Args &...args)
+                                                    const Args &... args)
     {
-        return nos::fprint_to(*current_ostream, fmt, args...);
+        return *nos::fprint_to(*current_ostream, fmt, args...);
     }
 
     template <typename... Args>
-    nos::expected<size_t, nos::output_error> fprintln(const Args &...args)
+    nos::expected<size_t, nos::output_error> fprintln(const Args &... args)
     {
         size_t ret = 0;
-        ret += fprint_to(*current_ostream, args...);
-        ret += println_to(*current_ostream);
+        ret += *fprint_to(*current_ostream, args...);
+        ret += *println_to(*current_ostream);
         return ret;
     }
 
     template <typename... Args>
     nos::expected<size_t, nos::output_error> fprintln_to(nos::ostream &out,
-                                                         const Args &...args)
+                                                         const Args &... args)
     {
         size_t ret = 0;
-        ret += fprint_to(out, args...);
-        ret += println_to(out);
+        ret += *fprint_to(out, args...);
+        ret += *println_to(out);
         return ret;
     }
 
@@ -73,7 +73,7 @@ namespace nos
     }
 
     template <typename... Args>
-    std::string format(const std::string_view &fmt, const Args &...args)
+    std::string format(const std::string_view &fmt, const Args &... args)
     {
         std::string ret;
         nos::string_writer writer(ret);
@@ -86,17 +86,17 @@ namespace nos
                                     const visitable_arglist &args)
     {
         nos::cstring_writer writer(buf);
-        int ret = nos::fprint_impl(writer, fmt, args);
+        int ret = *nos::fprint_impl(writer, fmt, args);
         writer.putbyte('\0');
         return ret;
     }
 
     template <typename... Args>
     int
-    format_buffer(char *buf, const std::string_view &fmt, const Args &...args)
+    format_buffer(char *buf, const std::string_view &fmt, const Args &... args)
     {
         nos::cstring_writer writer(buf);
-        int ret = nos::fprint_to(writer, fmt, args...);
+        int ret = *nos::fprint_to(writer, fmt, args...);
         writer.putbyte('\0');
         return ret;
     }

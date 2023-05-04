@@ -53,13 +53,9 @@ TEST_CASE("nos::timeouted_readline_from")
 {
     int fds[2];
     pipe(fds);
-
     nos::file f(fds[0]);
-
     f.set_input_timeout(10ms);
     auto result = nos::readline_from(f, 100, false);
-
-    CHECK_EQ(bool(result), false);
     CHECK_EQ(result.error().is_timeout(), true);
 }
 #endif

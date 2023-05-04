@@ -15,7 +15,7 @@ nos::readline_from(nos::istream &is, size_t maxsz, bool include_newline)
     {
         auto ret = is.read(&c, 1);
 
-        if (!ret)
+        if (ret.is_error())
             return ret.error();
 
         if (c == '\r')
@@ -51,7 +51,7 @@ nos::read_until_from(nos::istream &is,
         char c;
         auto sts = is.read(&c, 1);
 
-        if (!sts)
+        if (sts.is_error())
         {
             return sts.error();
         }
@@ -89,7 +89,7 @@ nos::read_until_from(nos::istream &is,
     {
         auto readed = is.read(&c, 1);
 
-        if (!readed)
+        if (readed.is_error())
         {
             return readed.error();
         }
@@ -128,7 +128,7 @@ nos::expected<size_t, nos::input_error> nos::read_paired_from(
     if (ignore)
         do
         {
-            int ret = is.read(&c, 1);
+            int ret = *is.read(&c, 1);
             if (ret <= 0)
                 return ret;
         } while (c != a);
@@ -147,7 +147,7 @@ nos::expected<size_t, nos::input_error> nos::read_paired_from(
     {
         auto ret = is.read(&c, 1);
 
-        if (!ret)
+        if (ret.is_error())
         {
             return ret.error();
         }
@@ -183,7 +183,7 @@ nos::expected<std::string, nos::input_error> nos::readall_from(nos::istream &is)
     while (true)
     {
         auto ans = is.read(buf, sizeof(buf));
-        if (!ans)
+        if (ans.is_error())
         {
             return ret;
         }
@@ -204,7 +204,7 @@ nos::expected<std::string, nos::input_error> nos::read_from(nos::istream &is,
     std::string ret;
     ret.resize(size);
     auto result = is.read(&ret[0], size);
-    if (result)
+    if (!result.is_error())
     {
         ret.resize(*result);
         return ret;

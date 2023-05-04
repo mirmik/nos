@@ -116,7 +116,7 @@ namespace nos
         {
             if (*fmtptr == '{')
             {
-                ret += fprint_format_argument(out, fmtptr, args, argnum);
+                ret += *fprint_format_argument(out, fmtptr, args, argnum);
             }
             else
             {
@@ -125,7 +125,7 @@ namespace nos
                 while (*fmtptr != 0 && *fmtptr != '{')
                     fmtptr++;
 
-                ret += out.write(strttxt, fmtptr - strttxt);
+                ret += *out.write(strttxt, fmtptr - strttxt);
             }
         }
 

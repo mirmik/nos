@@ -162,11 +162,6 @@ namespace nos
             return *as_E_ptr();
         }
 
-        operator bool() const
-        {
-            return _is_ok;
-        }
-
         ok_type &operator*()
         {
             return value();

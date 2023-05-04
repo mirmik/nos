@@ -10,7 +10,7 @@ struct A
     int i = 42;
     int print_to(nos::ostream &os) const
     {
-        return nos::print_to(os, i);
+        return *nos::print_to(os, i);
     };
 };
 struct B
@@ -19,7 +19,7 @@ struct B
 
     template <class Out> int print_to(Out &os) const
     {
-        return nos::print_to(os, i);
+        return *nos::print_to(os, i);
     }
 };
 
@@ -27,9 +27,10 @@ struct C
 {
     int i = 42;
 
-    template <class Out> size_t print_to(Out &os) const
+    template <class Out>
+    nos::expected<size_t, nos::output_error> print_to(Out &os) const
     {
-        return nos::print_to(os, i);
+        return *nos::print_to(os, i);
     }
 };
 

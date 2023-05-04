@@ -24,9 +24,10 @@ namespace nos
 
         hostaddr(const std::string &str) : hostaddr(str.c_str()) {}
 
-        size_t print_to(nos::ostream &os) const
+        nos::expected<size_t, nos::output_error>
+        print_to(nos::ostream &os) const
         {
-            return nos::printhex_to(os, addr);
+            return *nos::printhex_to(os, addr);
         }
 
         bool operator==(const hostaddr &oth) const
@@ -74,7 +75,7 @@ namespace nos
 
             int print_to(nos::ostream &o) const
             {
-                return nos::fprint_to(o, "(h:{},p:{})", addr, port);
+                return *nos::fprint_to(o, "(h:{},p:{})", addr, port);
             }
 
             bool operator==(const netaddr &oth) const

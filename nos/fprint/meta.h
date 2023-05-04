@@ -8,6 +8,7 @@
 #include <nos/io/ostream.h>
 #include <nos/meta.h>
 #include <nos/print/meta.h>
+#include <nos/print/stdtype.h>
 #include <nos/util/buffer.h>
 
 namespace nos
@@ -17,30 +18,30 @@ namespace nos
     template <typename T, bool HasNosFPrint = false, bool HasMtdFPrint = false>
     struct fprint_implementation_solver
     {
-        static int
+        static size_t
         fprint_to(const T &obj, nos::ostream &os, const nos::buffer &opts)
         {
             (void)opts;
-            return nos::print_implementation<T>::print_to(os, obj);
+            return nos::print_implementation<T>::print_to(os, obj).value();
         }
     };
 
     template <typename T, bool HasMtdFPrint>
     struct fprint_implementation_solver<T, true, HasMtdFPrint>
     {
-        static int
+        static size_t
         fprint_to(const T &obj, nos::ostream &os, const nos::buffer &opts)
         {
-            return nos_fprint(adl_finder(os), obj, opts);
+            return *nos_fprint(adl_finder(os), obj, opts);
         }
     };
 
     template <typename T> struct fprint_implementation_solver<T, false, true>
     {
-        static int
+        static size_t
         fprint_to(const T &obj, nos::ostream &os, const nos::buffer &opts)
         {
-            return obj.fprint_to(os, opts);
+            return *obj.fprint_to(os, opts);
         }
     };
 

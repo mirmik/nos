@@ -41,25 +41,25 @@ nos::expected<size_t, nos::output_error> nos_fprint(nos::ostream &os,
 
     if (pre_fill_len)
     {
-        ret += os.fill(spec.fill, pre_fill_len);
+        ret += *os.fill(spec.fill, pre_fill_len);
     }
 
     if (spec.tcase == nos::text_case::upper)
     {
-        ret += os.write_upper(text, size);
+        ret += *os.write_upper(text, size);
     }
     else if (spec.tcase == nos::text_case::lower)
     {
-        ret += os.write_lower(text, size);
+        ret += *os.write_lower(text, size);
     }
     else
     {
-        ret += os.write(text, size);
+        ret += *os.write(text, size);
     }
 
     if (post_fill_len)
     {
-        ret += os.fill(spec.fill, post_fill_len);
+        ret += *os.fill(spec.fill, post_fill_len);
     }
 
     return ret;

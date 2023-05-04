@@ -55,7 +55,6 @@ TEST_CASE("tcp client connect with timeout")
     char buf[6];
     buf[5] = 0;
     auto ans = client.read(buf, 5);
-    CHECK_EQ(bool(ans), true);
     CHECK_EQ(*ans, 5);
     CHECK_EQ(std::string(buf), std::string("hello"));
 }
@@ -106,7 +105,7 @@ TEST_CASE("tcp client connect without accept")
 
     nos::inet::tcp_client client;
     // TODO:
-    //CHECK_THROWS_AS(
+    // CHECK_THROWS_AS(
     //    client.connect(UNKNOWN_HOST, port, std::chrono::milliseconds(100)),
     //    nos::inet::tcp_timeout_error);
 }

@@ -39,7 +39,7 @@ namespace nos
                 {
                     cit = it;
                     ++it;
-                    ret = cit->write(str, n);
+                    ret = *cit->write(str, n);
                     if (ret < 0)
                     {
                         clients.erase(cit);
