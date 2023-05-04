@@ -18,7 +18,7 @@ namespace nos
     template <typename T, bool HasNosFPrint = false, bool HasMtdFPrint = false>
     struct fprint_implementation_solver
     {
-        static size_t
+        static nos::expected<size_t, nos::output_error>
         fprint_to(const T &obj, nos::ostream &os, const nos::buffer &opts)
         {
             (void)opts;
@@ -29,7 +29,7 @@ namespace nos
     template <typename T, bool HasMtdFPrint>
     struct fprint_implementation_solver<T, true, HasMtdFPrint>
     {
-        static size_t
+        static nos::expected<size_t, nos::output_error>
         fprint_to(const T &obj, nos::ostream &os, const nos::buffer &opts)
         {
             return *nos_fprint(adl_finder(os), obj, opts);
@@ -38,7 +38,7 @@ namespace nos
 
     template <typename T> struct fprint_implementation_solver<T, false, true>
     {
-        static size_t
+        static nos::expected<size_t, nos::output_error>
         fprint_to(const T &obj, nos::ostream &os, const nos::buffer &opts)
         {
             return *obj.fprint_to(os, opts);
