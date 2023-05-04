@@ -21,7 +21,9 @@ namespace nos
             functions.add(name, f, argnames);
         }
 
-        nos::trent execute_console_command(std::string str)
+        /// Выполняет комманды типа
+        /// cmd ARG1 ARG2
+        nos::trent execute_console_command_protocol(std::string str)
         {
             auto tokens = nos::tokens(str);
             auto argv = nos::argv(tokens);
@@ -29,12 +31,50 @@ namespace nos
             auto argw = argv.without(1);
 
             std::vector<nos::trent_argument> targs;
-            for (auto &arg : argw)
+            auto it = argw.begin();
+            auto eit = argw.end();
+            for (; it != eit; ++it)
             {
-                targs.emplace_back(arg);
+                if ((*it)[0] == '-' && (*it)[1] == '-')
+                {
+                    auto key = (*it).substr(2);
+                    ++it;
+                    if (it == eit)
+                        break;
+                    targs.emplace_back(*it, key);
+                    continue;
+                }
+
+                targs.emplace_back(*it);
             }
 
             return functions.execute(argv[0], targs);
+        }
+
+        nos::trent execute_json_protocol(nos::trent tr,
+                                         std::string cmdfield = "cmd",
+                                         std::string argsfield = "args",
+                                         std::string kwargsfield = "kwargs")
+        {
+            if (!tr.contains(cmdfield) || !tr[cmdfield].is_string())
+                return nos::trent();
+
+            std::string name = tr[cmdfield].as_string();
+            std::vector<nos::trent_argument> targs;
+
+            if (tr.contains(argsfield) && tr[argsfield].is_list())
+                for (auto &arg : tr[argsfield].as_list())
+                {
+                    targs.emplace_back(arg);
+                }
+
+            if (tr.contains(kwargsfield) && tr[kwargsfield].is_dict())
+                for (auto &[key, value] : tr[kwargsfield].as_dict())
+                {
+                    targs.emplace_back(value, key);
+                }
+
+            return functions.execute(name, targs);
         }
     };
 }

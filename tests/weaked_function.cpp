@@ -99,13 +99,49 @@ TEST_CASE("make_cf_abstract")
     CHECK_EQ(collection.execute("tcf", {nos::trent_argument{4}}).as_numer(), 9);
 }
 
-TEST_CASE("weak_function_interpreter")
+TEST_CASE("nos::weak_function_interpreter console command protocol")
+{
+    nos::weaked_function_interpreter interpreter;
+    interpreter.add("sum", std::function<int(int, int)>(sum), {"a", "b"});
+    interpreter.add("pow",
+                    std::function<int(int, int)>(
+                        [](int a, int b) { return (int)std::pow(a, b); }),
+                    {"a", "b"});
+
+    {
+        auto result = interpreter.execute_console_command_protocol("sum 3 7");
+        auto result_num = result.as_numer();
+        CHECK_EQ(result_num, 10);
+    }
+
+    {
+        auto result =
+            interpreter.execute_console_command_protocol("sum --a 3 --b 7");
+        auto result_num = result.as_numer();
+        CHECK_EQ(result_num, 10);
+    }
+
+    {
+        auto result =
+            interpreter.execute_console_command_protocol("pow --a 2 --b 3");
+        auto result_num = result.as_numer();
+        CHECK_EQ(result_num, 8);
+    }
+
+    {
+        auto result =
+            interpreter.execute_console_command_protocol("pow --a 3 --b 2");
+        auto result_num = result.as_numer();
+        CHECK_EQ(result_num, 9);
+    }
+}
+
+TEST_CASE("nos::weak_function_interpreter json protocol")
 {
     nos::weaked_function_interpreter interpreter;
     interpreter.add("sum", std::function<int(int, int)>(sum));
-
-    auto result = interpreter.execute_console_command("sum 3 7");
+    auto tr = nos::json::parse(R"({"cmd": "sum", "args": [3, 7]})");
+    auto result = interpreter.execute_json_protocol(tr);
     auto result_num = result.as_numer();
-
     CHECK_EQ(result_num, 10);
 }

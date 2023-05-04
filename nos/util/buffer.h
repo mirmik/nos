@@ -31,6 +31,13 @@ namespace nos
 
         buffer(const char *data) : _data((char *)data), _size(strlen(data)) {}
 
+        std::string substr(size_t pos, size_t count = std::string::npos) const
+        {
+            if (count == std::string::npos)
+                count = _size - pos;
+            return std::string(_data + pos, count);
+        }
+
         const char *data() const
         {
             return _data;
