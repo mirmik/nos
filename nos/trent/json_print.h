@@ -1,3 +1,6 @@
+#ifndef NOS_JSON_PRINT_H
+#define NOS_JSON_PRINT_H
+
 #include <iostream>
 #include <nos/trent/json.h>
 #include <sstream>
@@ -163,3 +166,5 @@ namespace nos
         }
     }
 }
+
+#endif
