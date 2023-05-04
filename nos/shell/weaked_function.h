@@ -70,13 +70,12 @@ namespace nos
     inline constexpr bool is_specialization<T<Args...>, T> = true;
 
     /// @brief Является ли тип инстансом nos::argpair?
-    template <class T>
-    concept ArgPair = is_specialization<T, nos::argpair>;
+    template <class T> concept ArgPair = is_specialization<T, nos::argpair>;
 
     class weaked_function_basic
     {
     public:
-        virtual nos::trent
+        virtual nos::expected<nos::trent, nos::errstring>
         call_with_args(const std::vector<nos::trent_argument> &args) = 0;
         virtual ~weaked_function_basic() = default;
     };
@@ -98,7 +97,7 @@ namespace nos
 
         ~weaked_function() override = default;
 
-        template <class... Args2> auto operator()(Args2 &&...args) const
+        template <class... Args2> auto operator()(Args2 &&... args) const
         {
             std::tuple<Args2...> args_tuple{(args)...};
             std::array<runtime_argument, count> rarguments = {};
@@ -111,7 +110,8 @@ namespace nos
             return call(rarguments, std::make_index_sequence<count>{});
         }
 
-        nos::trent call_with_args(const std::vector<nos::trent_argument> &args)
+        nos::expected<nos::trent, nos::errstring>
+        call_with_args(const std::vector<nos::trent_argument> &args)
         {
             std::array<runtime_argument, count> rarguments = {};
             parse_arguments(rarguments, args);
@@ -125,7 +125,8 @@ namespace nos
             }
             else
             {
-                return call(rarguments, std::make_index_sequence<count>{});
+                return static_cast<nos::trent>(
+                    call(rarguments, std::make_index_sequence<count>{}));
             }
         }
 
@@ -284,12 +285,13 @@ namespace nos
             return execute(name, targs);
         }
 
-        nos::trent execute(const std::string &name,
-                           const std::vector<nos::trent_argument> &args)
+        nos::expected<nos::trent, nos::errstring>
+        execute(const std::string &name,
+                const std::vector<nos::trent_argument> &args)
         {
             auto it = collection.find(name);
             if (it == collection.end())
-                throw std::runtime_error("Undefined function: " + name);
+                return nos::errstring("Undefined function: " + name);
             return it->second->call_with_args(args);
         }
     };

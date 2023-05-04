@@ -73,30 +73,36 @@ TEST_CASE("make_cf_abstract")
     CHECK_EQ(
         collection
             .execute("sum", {nos::trent_argument{3}, nos::trent_argument{7}})
+            .value()
             .as_numer(),
         10);
     CHECK_EQ(
         collection
             .execute("sub", {nos::trent_argument{3}, nos::trent_argument{7}})
+            .value()
             .as_numer(),
         -4);
     CHECK_EQ(
         collection
             .execute("pow",
                      {nos::trent_argument{7, "b"}, nos::trent_argument{3, "a"}})
+            .value()
             .as_numer(),
         2187);
 
     CHECK_EQ(
         collection
             .execute("sub", {nos::trent_argument{"3"}, nos::trent_argument{7}})
+            .value()
             .as_numer(),
         -4);
 
     TestComfortableFunction tcf(2, 3);
     collection.add(
         "tcf", std::function<int(int)>([&tcf](int c) { return tcf.sum(c); }));
-    CHECK_EQ(collection.execute("tcf", {nos::trent_argument{4}}).as_numer(), 9);
+    CHECK_EQ(
+        collection.execute("tcf", {nos::trent_argument{4}}).value().as_numer(),
+        9);
 }
 
 TEST_CASE("nos::weak_function_interpreter console command protocol")
@@ -109,28 +115,28 @@ TEST_CASE("nos::weak_function_interpreter console command protocol")
                     {"a", "b"});
 
     {
-        auto result = interpreter.execute_console_command_protocol("sum 3 7");
+        auto result = *interpreter.execute_console_command_protocol("sum 3 7");
         auto result_num = result.as_numer();
         CHECK_EQ(result_num, 10);
     }
 
     {
         auto result =
-            interpreter.execute_console_command_protocol("sum --a 3 --b 7");
+            *interpreter.execute_console_command_protocol("sum --a 3 --b 7");
         auto result_num = result.as_numer();
         CHECK_EQ(result_num, 10);
     }
 
     {
         auto result =
-            interpreter.execute_console_command_protocol("pow --a 2 --b 3");
+            *interpreter.execute_console_command_protocol("pow --a 2 --b 3");
         auto result_num = result.as_numer();
         CHECK_EQ(result_num, 8);
     }
 
     {
         auto result =
-            interpreter.execute_console_command_protocol("pow --a 3 --b 2");
+            *interpreter.execute_console_command_protocol("pow --a 3 --b 2");
         auto result_num = result.as_numer();
         CHECK_EQ(result_num, 9);
     }
@@ -147,7 +153,7 @@ TEST_CASE("nos::weak_function_interpreter json protocol")
 
     {
         auto tr = nos::json::parse(R"({"cmd": "sum", "args": [3, 7]})");
-        auto result = interpreter.execute_json_protocol(tr);
+        auto result = *interpreter.execute_json_protocol(tr);
         auto result_num = result.as_numer();
         CHECK_EQ(result_num, 10);
     }
@@ -155,7 +161,7 @@ TEST_CASE("nos::weak_function_interpreter json protocol")
     {
         auto tr =
             nos::json::parse(R"({"cmd": "pow", "kwargs": {"a":2, "b":3}})");
-        auto result = interpreter.execute_json_protocol(tr);
+        auto result = *interpreter.execute_json_protocol(tr);
         auto result_num = result.as_numer();
         CHECK_EQ(result_num, 8);
     }
@@ -163,7 +169,7 @@ TEST_CASE("nos::weak_function_interpreter json protocol")
     {
         auto tr =
             nos::json::parse(R"({"cmd": "pow", "kwargs": {"a":3, "b":2}})");
-        auto result = interpreter.execute_json_protocol(tr);
+        auto result = *interpreter.execute_json_protocol(tr);
         auto result_num = result.as_numer();
         CHECK_EQ(result_num, 9);
     }

@@ -23,7 +23,8 @@ namespace nos
 
         /// Выполняет комманды типа
         /// cmd ARG1 ARG2
-        nos::trent execute_console_command_protocol(std::string str)
+        nos::expected<nos::trent, nos::errstring>
+        execute_console_command_protocol(std::string str)
         {
             auto tokens = nos::tokens(str);
             auto argv = nos::argv(tokens);
@@ -51,10 +52,11 @@ namespace nos
             return functions.execute(argv[0], targs);
         }
 
-        nos::trent execute_json_protocol(nos::trent tr,
-                                         std::string cmdfield = "cmd",
-                                         std::string argsfield = "args",
-                                         std::string kwargsfield = "kwargs")
+        nos::expected<nos::trent, nos::errstring>
+        execute_json_protocol(nos::trent tr,
+                              std::string cmdfield = "cmd",
+                              std::string argsfield = "args",
+                              std::string kwargsfield = "kwargs")
         {
             if (!tr.contains(cmdfield) || !tr[cmdfield].is_string())
                 return nos::trent();
