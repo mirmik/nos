@@ -11,17 +11,6 @@ std::string nos::log::logger::pattern() const
     return _pattern;
 }
 
-nos::log::level nos::log::logger::minlevel() const
-{
-    return _minlevel;
-}
-
-nos::log::logger &nos::log::logger::set_level(level lvl)
-{
-    _minlevel = lvl;
-    return *this;
-}
-
 nos::log::logger &nos::log::logger::set_pattern(const std::string &pattern)
 {
     this->_pattern = pattern;
@@ -38,7 +27,7 @@ void nos::log::logger::log(level lvl,
                            const std::string_view &msgfmt,
                            const visitable_arglist &arglist)
 {
-    if (lvl < _minlevel)
+    if (lvl < minlevel())
         return;
 
     using namespace nos::argument_literal;

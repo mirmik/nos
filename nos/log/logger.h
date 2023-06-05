@@ -15,7 +15,6 @@ namespace nos
         class logger : public ilogger
         {
         public:
-            level _minlevel = level::Trace;
             std::string _name = "undefined";
             std::string _pattern =
                 std::string("[{level}] {msg}") + newline_string;
@@ -32,11 +31,7 @@ namespace nos
 
             std::string pattern() const;
 
-            level minlevel() const;
-
             logger &set_name(const std::string &_name);
-
-            logger &set_level(level lvl);
 
             logger &set_pattern(const std::string &pattern);
 
@@ -46,6 +41,18 @@ namespace nos
             virtual ~logger() = default;
 
             using ilogger::log;
+
+            logger &set_level(level lvl)
+            {
+                ilogger::set_level(lvl);
+                return *this;
+            }
+
+            logger &set_pattern(const char *pattern)
+            {
+                _pattern = pattern;
+                return *this;
+            }
         };
     }
 }

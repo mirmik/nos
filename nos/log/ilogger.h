@@ -13,6 +13,8 @@ namespace nos
     {
         class ilogger
         {
+            level _minlevel = level::Trace;
+
         public:
             ilogger() = default;
             virtual ~ilogger() = default;
@@ -20,6 +22,16 @@ namespace nos
             virtual void log(level lvl,
                              const std::string_view &msgfmt,
                              const visitable_arglist &arglist) = 0;
+
+            level minlevel() const
+            {
+                return _minlevel;
+            }
+
+            void set_level(level lvl)
+            {
+                _minlevel = lvl;
+            }
 
             template <typename... Args>
             inline void
