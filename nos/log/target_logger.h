@@ -33,8 +33,19 @@ namespace nos
                      const visitable_arglist &arglist) override;
             virtual ~target_logger() = default;
 
-            void add_target(nos::log::target *target);
-            void remove_target(nos::log::target *target);
+            void add_target(nos::log::target &target)
+            {
+                _targets.push_back(target);
+            }
+            void remove_target(nos::log::target &target)
+            {
+                _targets.erase(std::remove_if(_targets.begin(),
+                                              _targets.end(),
+                                              [&target](auto &t) {
+                                                  return &t.get() == &target;
+                                              }),
+                               _targets.end());
+            }
 
             bool has_one_who_need(level lvl);
 
