@@ -1,6 +1,8 @@
 #include <doctest/doctest.h>
 #include <nos/io/sstream.h>
 #include <nos/log.h>
+#include <nos/log/ostream_target.h>
+#include <nos/log/target_logger.h>
 
 TEST_CASE("nos.log")
 {
@@ -124,4 +126,14 @@ TEST_CASE("class initialization")
         CHECK_EQ(c.logger.pattern(), "[{level}] {msg}\n");
         nos::newline_string = "\r\n";
     }
+}
+
+TEST_CASE("target log")
+{
+    nos::stringstream ss;
+    nos::log::ostream_target target(ss);
+    nos::log::target_logger logger({target});
+    logger.log(nos::log::level::Info, "Hello, world!");
+
+    CHECK_EQ(ss.str(), "[ info] Hello, world!\r\n");
 }

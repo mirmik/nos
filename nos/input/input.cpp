@@ -128,13 +128,20 @@ nos::expected<size_t, nos::input_error> nos::read_paired_from(
     if (ignore)
         do
         {
-            int ret = *is.read(&c, 1);
-            if (ret <= 0)
+            auto ret = is.read(&c, 1);
+            if (ret.is_error())
+                return ret.error();
+
+            if (*ret <= 0)
                 return ret;
+
         } while (c != a);
     else
     {
-        is.read(&c, 1);
+        auto ret = is.read(&c, 1);
+        if (ret.is_error())
+            return ret.error();
+
         if (c != a)
             return -1;
     }
@@ -146,11 +153,8 @@ nos::expected<size_t, nos::input_error> nos::read_paired_from(
     while (paircount != 0 && buf != last)
     {
         auto ret = is.read(&c, 1);
-
         if (ret.is_error())
-        {
             return ret.error();
-        }
 
         if (c == a)
         {
