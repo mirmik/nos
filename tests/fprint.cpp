@@ -126,6 +126,12 @@ TEST_CASE("fprint")
         CHECK_EQ(out, "format aaa bbb ccc");
     }
 
+    SUBCASE("format.zero")
+    {
+        std::string out = nos::format("format {:05>}", "aaa");
+        CHECK_EQ(out, "format 00aaa");
+    }
+
     SUBCASE("format cmd")
     {
         auto cmd = nos::format("cnc G01 {poses} {speed} {accel}",
