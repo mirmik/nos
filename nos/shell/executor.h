@@ -13,7 +13,7 @@ namespace nos
         nos::buffer undefined_error_message = "Undefined command:";
 
     public:
-        virtual void help(nos::ostream &os) = 0;
+        virtual void print_help_to(nos::ostream &os) = 0;
         virtual nos::command *find(const nos::buffer &name) = 0;
         virtual ~executor_basic() = default;
 
@@ -33,12 +33,6 @@ namespace nos
         {
             if (argv.size() == 0)
                 return 0;
-
-            if (argv[0] == "help")
-            {
-                help(os);
-                return 0;
-            }
 
             auto cmd = find(argv[0]);
 
@@ -70,7 +64,7 @@ namespace nos
             commands.push_back(cmd);
         }
 
-        void help(nos::ostream &os)
+        void print_help_to(nos::ostream &os)
         {
             for (auto &cmd : commands)
             {
@@ -80,10 +74,10 @@ namespace nos
 
         nos::command *find(const nos::buffer &name) override
         {
-            auto it = std::find_if(commands.begin(),
-                                   commands.end(),
-                                   [&](const auto &cmd)
-                                   { return name == cmd.name(); });
+            auto it = std::find_if(
+                commands.begin(), commands.end(), [&](const auto &cmd) {
+                    return name == cmd.name();
+                });
 
             if (it == commands.end())
             {

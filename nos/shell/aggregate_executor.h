@@ -5,34 +5,36 @@
 
 namespace nos
 {
-	class aggregate_executor : public nos::executor_basic
-	{
-		std::vector<nos::executor_basic*> executors;
+    class aggregate_executor : public nos::executor_basic
+    {
+        std::vector<nos::executor_basic *> executors;
 
-	public:
-		aggregate_executor(const std::vector<nos::executor_basic*>& executors) 
-			: executors(executors)
-		{}
+    public:
+        aggregate_executor(const std::vector<nos::executor_basic *> &executors)
+            : executors(executors)
+        {
+        }
 
-		void help(nos::ostream& os) 
-		{
-			for (auto* ex: executors) 
-			{
-				ex->help(os);
-			}
-		}
+        void print_help_to(nos::ostream &os)
+        {
+            for (auto *ex : executors)
+            {
+                ex->print_help_to(os);
+            }
+        }
 
-		nos::command * find(const nos::buffer& name) override
-		{
-			nos::command * ptr = nullptr;
-			for (auto it = executors.begin(); it != executors.end() && !ptr; ++it) 
-			{
-				ptr = (*it)->find(name);
-			}
+        nos::command *find(const nos::buffer &name) override
+        {
+            nos::command *ptr = nullptr;
+            for (auto it = executors.begin(); it != executors.end() && !ptr;
+                 ++it)
+            {
+                ptr = (*it)->find(name);
+            }
 
-			return ptr;
-		}
-	};
+            return ptr;
+        }
+    };
 }
 
 #endif
