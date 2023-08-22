@@ -8,16 +8,16 @@ namespace nos
 {
     class argv;
 
-    class command
+    template <class... AddArgs> class command_t
     {
         nos::buffer _name;
         nos::buffer _help;
         nos::delegate<int, const nos::argv &, nos::ostream &> _func;
 
     public:
-        command(nos::buffer name,
-                nos::buffer help,
-                nos::delegate<int, const nos::argv &, nos::ostream &> func)
+        command_t(nos::buffer name,
+                  nos::buffer help,
+                  nos::delegate<int, const nos::argv &, nos::ostream &> func)
             : _name(name), _help(help), _func(func)
         {
         }
@@ -31,12 +31,15 @@ namespace nos
             return _help;
         }
 
-        int execute(const nos::argv &argv, nos::ostream &os) const
+        int execute(const nos::argv &argv,
+                    nos::ostream &os,
+                    AddArgs &&...addargs) const
         {
-            return _func(argv, os);
+            return _func(argv, os, addargs...);
         }
     };
 
+    using command = command_t<void>;
 }
 
 #endif

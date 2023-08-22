@@ -5,12 +5,14 @@
 
 namespace nos
 {
-    class aggregate_executor : public nos::executor_basic
+    template <class... AddArgs>
+    class aggregate_executor_t : public nos::executor_basic_t<AddArgs...>
     {
-        std::vector<nos::executor_basic *> executors;
+        std::vector<nos::executor_basic_t<AddArgs...> *> executors;
 
     public:
-        aggregate_executor(const std::vector<nos::executor_basic *> &executors)
+        aggregate_executor_t(
+            const std::vector<nos::executor_basic_t<AddArgs...> *> &executors)
             : executors(executors)
         {
         }
@@ -23,9 +25,9 @@ namespace nos
             }
         }
 
-        nos::command *find(const nos::buffer &name) override
+        nos::command_t<AddArgs...> *find(const nos::buffer &name) override
         {
-            nos::command *ptr = nullptr;
+            nos::command_t<AddArgs...> *ptr = nullptr;
             for (auto it = executors.begin(); it != executors.end() && !ptr;
                  ++it)
             {
@@ -35,6 +37,8 @@ namespace nos
             return ptr;
         }
     };
+
+    using aggregate_executor = aggregate_executor_t<>;
 }
 
 #endif
