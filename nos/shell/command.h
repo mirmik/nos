@@ -33,10 +33,9 @@ namespace nos
             return _help;
         }
 
-        template <class... UAddArgs>
         int execute(const nos::argv &argv,
                     nos::ostream &os,
-                    UAddArgs &&...addargs) const
+                    AddArgs... addargs) const
         {
             return _func(argv, os, addargs...);
         }

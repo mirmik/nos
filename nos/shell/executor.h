@@ -28,9 +28,7 @@ namespace nos
             nos::println_to(os, undefined_error_message, name);
         }
 
-        template <class... UAddArgs>
-        int
-        execute(const nos::argv &argv, nos::ostream &os, UAddArgs &&...addargs)
+        int execute(const nos::argv &argv, nos::ostream &os, AddArgs... addargs)
         {
             if (argv.size() == 0)
                 return 0;
@@ -39,7 +37,7 @@ namespace nos
 
             if (cmd)
             {
-                cmd->execute(argv, os, std::forward<AddArgs>(addargs)...);
+                cmd->execute(argv, os, addargs...);
                 return 0;
             }
             return -1;
