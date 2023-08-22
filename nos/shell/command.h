@@ -39,7 +39,7 @@ namespace nos
         }
     };
 
-    using command = command_t<void>;
+    using command = command_t<>;
 }
 
 #endif
