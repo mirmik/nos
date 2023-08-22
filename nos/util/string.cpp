@@ -66,7 +66,7 @@ std::vector<std::string> nos::split(const std::string_view &str,
     while (true)
     {
         // Skip delimiters
-        while (strchr(delims, *ptr) != NULL && ptr != end)
+        while (ptr != end && strchr(delims, *ptr) != NULL)
             ptr++;
 
         if (ptr == end)
