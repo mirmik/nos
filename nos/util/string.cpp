@@ -34,7 +34,7 @@ std::vector<std::string> nos::split(const std::string_view &str, char delim)
 
     while (true)
     {
-        while (*ptr == delim)
+        while (ptr != end && *ptr == delim)
             ptr++;
 
         if (ptr == end)
