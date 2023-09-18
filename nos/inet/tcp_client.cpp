@@ -17,8 +17,10 @@
 nos::expected<size_t, nos::output_error>
 nos::inet::tcp_client::write(const void *data, size_t size)
 {
-    int sts = ::send(
-        fd(), (const char *)data, (int)size, 0); // file::write(data, size);
+    int sts = ::send(fd(),
+                     (const char *)data,
+                     (int)size,
+                     MSG_NOSIGNAL); // file::write(data, size);
     if (sts < 0)
     {
         _is_connect = false;
