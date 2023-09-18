@@ -50,6 +50,15 @@ namespace nos
         {
             return hostaddr(0x7f000001);
         }
+
+        std::string to_string() const
+        {
+            return nos::format("{}.{}.{}.{}",
+                               (addr >> 24) & 0xff,
+                               (addr >> 16) & 0xff,
+                               (addr >> 8) & 0xff,
+                               (addr)&0xff);
+        }
     };
 
     namespace inet

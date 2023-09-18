@@ -45,6 +45,7 @@ namespace nos
             {
                 return close_socket();
             }
+            bool is_closed();
 
             bool operator==(const nos::inet::socket &oth) const
             {

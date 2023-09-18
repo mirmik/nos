@@ -43,6 +43,9 @@ nos::expected<size_t, nos::input_error> nos::inet::tcp_client::read(void *data,
 int nos::inet::tcp_client::connect(nos::inet::hostaddr addr, uint16_t port)
 {
     init();
+    this->_addr = addr;
+    this->_port = port;
+
     int sts = tcp_socket::connect(addr, port);
     if (sts < 0)
     {
@@ -59,6 +62,9 @@ int nos::inet::tcp_client::connect(nos::inet::hostaddr addr,
                                    std::chrono::milliseconds timeout)
 {
     init();
+    this->_addr = addr;
+    this->_port = port;
+
     nonblock(true);
     int sts = tcp_socket::connect(addr, port);
 

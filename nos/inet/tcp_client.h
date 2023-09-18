@@ -14,6 +14,8 @@ namespace nos
         class tcp_client : public nos::inet::tcp_socket
         {
             bool _is_connect = false;
+            nos::inet::hostaddr _addr = {};
+            uint16_t _port = 0;
 
         public:
             tcp_client() = default;
@@ -27,9 +29,14 @@ namespace nos
             }
             tcp_client(nos::inet::hostaddr addr, uint16_t port);
 
-            [[deprecated("use connected() instead")]] bool is_connected()
+            std::string ip()
             {
-                return _is_connect;
+                return _addr.to_string();
+            }
+
+            uint16_t port()
+            {
+                return _port;
             }
 
             void init_from_socket(int64_t fd, bool connected)
@@ -39,6 +46,11 @@ namespace nos
             }
 
             bool connected() const
+            {
+                return _is_connect;
+            }
+
+            bool is_connected()
             {
                 return _is_connect;
             }

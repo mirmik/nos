@@ -122,7 +122,13 @@ int nos::inet::socket::close_socket()
     sts = ::shutdown((int)fd(), SHUT_RDWR);
     sts = nos::osutil::close((int)fd());
 #endif
+    set_fd(-1);
     return sts;
+}
+
+bool nos::inet::socket::is_closed()
+{
+    return (int)fd() < 0;
 }
 
 nos::inet::datagramm_socket::datagramm_socket(int domain, int type, int proto)
