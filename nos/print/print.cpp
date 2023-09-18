@@ -4,6 +4,18 @@
 #include <string>
 #include <string_view>
 
+const char *nos::newline_string = "\r\n";
+
+void nos::set_default_ostream(nos::ostream *out)
+{
+    nos::current_ostream = out;
+}
+
+nos::ostream *nos::default_ostream()
+{
+    return nos::current_ostream;
+}
+
 nos::expected<size_t, nos::output_error>
 nos::write_to(nos::ostream &out, const void *buf, size_t sz)
 {
@@ -20,22 +32,22 @@ nos::expected<size_t, nos::output_error>
 nos::writeln_to(nos::ostream &out, const void *buf, size_t sz)
 {
     auto ret1 = out.write(buf, sz);
-    if (!ret1)
-        return ret1;
+    if (ret1.is_error())
+        return ret1.error();
     auto ret2 = nos::println_to(out);
-    if (!ret2)
-        return ret2;
+    if (ret2.is_error())
+        return ret2.error();
     return *ret1 + *ret2;
 }
 
 nos::expected<size_t, nos::output_error> nos::println_to(nos::ostream &o)
 {
-    return o.write("\r\n", 2);
+    return o.write(nos::newline_string, 2);
 }
 
 nos::expected<size_t, nos::output_error> nos::println()
 {
-    return nos::current_ostream->write("\r\n", 2);
+    return nos::println_to(*nos::current_ostream);
 }
 
 void nos::flush()
@@ -151,7 +163,7 @@ nos::fill_to(nos::ostream &out, char c, size_t sz)
     for (size_t i = 0; i < sz; i++)
     {
         auto r = out.putbyte(c);
-        if (!r)
+        if (r.is_error())
             return r;
         ret += *r;
     }
@@ -165,7 +177,7 @@ nos::fill_to(nos::ostream &out, std::string_view &c, size_t sz)
     for (size_t i = 0; i < sz; i++)
     {
         auto r = nos::print_to(out, c);
-        if (!r)
+        if (r.is_error())
             return r;
         ret += *r;
     }
@@ -200,7 +212,7 @@ nos::printhex_to(nos::ostream &out, const void *ptr, size_t sz)
     for (int i = (int)sz - 1; i >= 0; i--)
     {
         auto ret1 = nos::printhex_to(out, _ptr[i]);
-        if (!ret1)
+        if (ret1.is_error())
             return ret1.error();
         ret += ret1.value();
     }
@@ -213,7 +225,7 @@ nos::expected<size_t, nos::output_error> nos::printbin_to(nos::ostream &out,
     size_t ret = 0;
     for (int j = 7; j >= 0; --j)
     {
-        ret += out.putbyte((c & (1 << j)) ? '1' : '0');
+        ret += *out.putbyte((c & (1 << j)) ? '1' : '0');
     }
     return ret;
 }
@@ -226,7 +238,7 @@ nos::printbin_to(nos::ostream &out, const void *ptr, size_t sz)
     for (int i = (int)sz - 1; i >= 0; --i)
     {
         auto ret1 = printbin_to(out, _ptr[i]);
-        if (!ret1)
+        if (ret1.is_error())
             return ret1.error();
         ret += ret1.value();
     }

@@ -15,6 +15,10 @@ namespace nos
 {
     class ostream;
     extern ostream *current_ostream;
+    extern const char *newline_string;
+
+    void set_default_ostream(ostream *out);
+    ostream *default_ostream();
 
     nos::expected<size_t, nos::output_error> putbyte_to(nos::ostream &out,
                                                         char c);
@@ -169,10 +173,10 @@ nos::expected<size_t, nos::output_error> nos::printptr_to(nos::ostream &out,
     snprintf(buf, sizeof(buf), "%p", ptr);
     size_t len = std::strlen(buf);
     auto ret1 = nos::fill_to(out, '0', sizeof(void *) * 2 - len);
-    if (!ret1)
+    if (ret1.is_error())
         return ret1;
     auto ret2 = nos::print_to(out, (const char *)buf);
-    if (!ret2)
+    if (ret2.is_error())
         return ret2;
     return *ret1 + *ret2;
 }
@@ -181,10 +185,10 @@ template <typename... Args>
 nos::expected<size_t, nos::output_error> nos::printhexln(const Args &... args)
 {
     auto ret1 = nos::printhex_to(*current_ostream, args...);
-    if (!ret1)
+    if (ret1.is_error())
         return ret1;
     auto ret2 = nos::println_to(*current_ostream);
-    if (!ret2)
+    if (ret2.is_error())
         return ret2;
     return *ret1 + *ret2;
 }
@@ -195,13 +199,13 @@ nos::print_to(nos::ostream &out, const Head &head, const Tail &... tail)
 {
     char c = ' ';
     auto res1 = print_to(out, head);
-    if (!res1)
+    if (res1.is_error())
         return res1;
     auto res2 = nos::write_to(out, &c, 1);
-    if (!res2)
+    if (res2.is_error())
         return res2;
     auto res3 = print_to(out, tail...);
-    if (!res3)
+    if (res3.is_error())
         return res3;
     return *res1 + *res2 + *res3;
 }
@@ -211,10 +215,10 @@ nos::expected<size_t, nos::output_error> nos::println_to(nos::ostream &out,
                                                          const Args &... args)
 {
     auto res1 = print_to(out, args...);
-    if (!res1)
+    if (res1.is_error())
         return res1;
     auto res2 = nos::println_to(out);
-    if (!res2)
+    if (res2.is_error())
         return res2;
     return *res1 + *res2;
 }
@@ -230,24 +234,24 @@ nos::expected<size_t, nos::output_error> nos::print_list_to(nos::ostream &out,
     }
 
     auto ret1 = out.putbyte('{');
-    if (!ret1)
+    if (ret1.is_error())
         return ret1;
 
     for (unsigned int i = 0; i < std::size(vec) - 1; ++i)
     {
         auto ret11 = print_to(out, vec[i]);
-        if (!ret11)
+        if (ret11.is_error())
             return ret11;
         auto ret12 = out.putbyte(',');
-        if (!ret12)
+        if (ret12.is_error())
             return ret12;
         ret += *ret11 + *ret12;
     }
     auto ret2 = print_to(out, vec[std::size(vec) - 1]);
-    if (!ret2)
+    if (ret2.is_error())
         return ret2;
     auto ret3 = out.putbyte('}');
-    if (!ret3)
+    if (ret3.is_error())
         return ret3;
     return *ret1 + ret + *ret2 + *ret3;
 }
@@ -262,15 +266,15 @@ nos::expected<size_t, nos::output_error> nos::print_matrix_to(nos::ostream &out,
         for (unsigned int j = 0; j < mat.size2(); ++j)
         {
             auto ret1 = nos::print_to(out, mat(i, j));
-            if (!ret1)
+            if (ret1.is_error())
                 return ret1;
             auto ret2 = nos::print_to(out, " ");
-            if (!ret2)
+            if (ret2.is_error())
                 return ret2;
             ret += *ret1 + *ret2;
         }
         auto ret3 = nos::println_to(out);
-        if (!ret3)
+        if (ret3.is_error())
             return ret3;
         ret += *ret3;
     }

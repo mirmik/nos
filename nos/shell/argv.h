@@ -28,6 +28,15 @@ namespace nos
                 parse();
         }
 
+        std::vector<const char *> to_classic_pointers_vector() const
+        {
+            std::vector<const char *> vec;
+            for (auto &buf : list)
+                vec.push_back(buf.data());
+            vec.push_back(NULL);
+            return vec;
+        }
+
         nos::buffer operator[](int i)
         {
             return list[offset + i];

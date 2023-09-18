@@ -69,7 +69,7 @@ namespace nos
 
             int send(const void *data, size_t size)
             {
-                return write(data, size);
+                return *write(data, size);
             }
 
             int send(const std::string_view &data)

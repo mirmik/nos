@@ -34,6 +34,11 @@ namespace nos
 
         const char *analyze(const char *ptr)
         {
+            if (*ptr == '0')
+            {
+                fill = '0';
+            }
+
             if (isdigit(*ptr))
             {
                 width = strtoul(ptr, (char **)&ptr, 10);

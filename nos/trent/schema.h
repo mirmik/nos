@@ -345,7 +345,8 @@ namespace nos
             numer_or_string() : schema_node(numer_or_string_checker_type) {}
         };
 
-        void asserted_check(const trent &tr, std::string rootname)
+        [[deprecated]] void asserted_check(const trent &tr,
+                                           std::string rootname)
         {
             std::vector<std::string> strvec{rootname};
             auto ret = root.check(tr, strvec);
@@ -363,6 +364,13 @@ namespace nos
         {
             std::vector<std::string> strvec{rootname};
             return root.check(tr, strvec);
+        }
+
+        bool is_correct(const trent &tr, std::string rootname)
+        {
+            std::vector<std::string> strvec{rootname};
+            auto ret = root.check(tr, strvec);
+            return !ret.is_error();
         }
 
         schema_node root;

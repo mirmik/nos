@@ -8,14 +8,14 @@
 
 namespace nos
 {
-    class executor_basic
+    template <class... AddArgs> class executor_basic_t
     {
         nos::buffer undefined_error_message = "Undefined command:";
 
     public:
-        virtual void help(nos::ostream &os) = 0;
-        virtual nos::command *find(const nos::buffer &name) = 0;
-        virtual ~executor_basic() = default;
+        virtual void print_help_to(nos::ostream &os) = 0;
+        virtual nos::command_t<AddArgs...> *find(const nos::buffer &name) = 0;
+        virtual ~executor_basic_t() = default;
 
         int execute(const char *cmd, nos::ostream &os)
         {
@@ -28,43 +28,41 @@ namespace nos
             nos::println_to(os, undefined_error_message, name);
         }
 
-        int execute(const nos::argv &argv, nos::ostream &os)
+        int execute(const nos::argv &argv, nos::ostream &os, AddArgs... addargs)
         {
             if (argv.size() == 0)
                 return 0;
 
-            if (argv[0] == "help")
-            {
-                help(os);
-                return 0;
-            }
-
             auto cmd = find(argv[0]);
 
             if (cmd)
-                cmd->execute(argv, os);
-            else
-                print_undefined(os, argv[0]);
-
+            {
+                cmd->execute(argv, os, addargs...);
+                return 0;
+            }
             return -1;
         }
     };
 
-    class executor : public executor_basic
+    template <class... AddArgs>
+    class executor_t : public executor_basic_t<AddArgs...>
     {
-        std::vector<nos::command> commands = {};
+        std::vector<nos::command_t<AddArgs...>> commands = {};
 
     public:
-        executor() = default;
+        executor_t() = default;
 
-        executor(const std::vector<nos::command> &vec) : commands(vec) {}
+        executor_t(const std::vector<nos::command_t<AddArgs...>> &vec)
+            : commands(vec)
+        {
+        }
 
-        void add_command(const nos::command &cmd)
+        void add_command(const nos::command_t<AddArgs...> &cmd)
         {
             commands.push_back(cmd);
         }
 
-        void help(nos::ostream &os)
+        void print_help_to(nos::ostream &os)
         {
             for (auto &cmd : commands)
             {
@@ -72,12 +70,12 @@ namespace nos
             }
         }
 
-        nos::command *find(const nos::buffer &name) override
+        nos::command_t<AddArgs...> *find(const nos::buffer &name) override
         {
-            auto it = std::find_if(
-                commands.begin(), commands.end(), [&](const auto &cmd) {
-                    return name == cmd.name();
-                });
+            auto it = std::find_if(commands.begin(),
+                                   commands.end(),
+                                   [&](const auto &cmd)
+                                   { return name == cmd.name(); });
 
             if (it == commands.end())
             {
@@ -87,6 +85,8 @@ namespace nos
             return &*it;
         }
     };
+
+    using executor = executor_t<>;
 }
 
 #endif

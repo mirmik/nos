@@ -92,16 +92,16 @@ namespace nos
         int print_to(nos::ostream &os) const
         {
             int ret = 0;
-            ret += nos::fprint_to(os, "first: {}\n", first);
-            ret += nos::fprint_to(os, "values:\n");
+            ret += *nos::fprint_to(os, "first: {}\n", first);
+            ret += *nos::fprint_to(os, "values:\n");
             for (auto &[name, value] : values)
             {
-                ret += nos::fprint_to(os, "\t{}: {}\n", name, value);
+                ret += *nos::fprint_to(os, "\t{}: {}\n", name, value);
             }
-            ret += nos::fprint_to(os, "free args:\n");
+            ret += *nos::fprint_to(os, "free args:\n");
             for (auto &[name, args] : _freeargs)
             {
-                ret += nos::fprint_to(os, "\t{}: {}\n", name, args);
+                ret += *nos::fprint_to(os, "\t{}: {}\n", name, args);
             }
             return ret;
         }

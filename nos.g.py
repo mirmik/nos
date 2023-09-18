@@ -56,6 +56,10 @@ licant.module("nos.log",
               srcdir="nos/log",
               sources=[
                   "level.cpp",
+                  "ilogger.cpp",
+                  "target_logger.cpp",
+                  "ostream_target.cpp",
+                  "target.cpp",
                   "logger.cpp",
               ]
               )
