@@ -14,6 +14,12 @@
 #include <netinet/tcp.h>
 #endif
 
+#ifdef __WIN32__
+#ifndef MSG_NOSIGNAL
+#define MSG_NOSIGNAL 0
+#endif
+#endif
+
 nos::expected<size_t, nos::output_error>
 nos::inet::tcp_client::write(const void *data, size_t size)
 {
