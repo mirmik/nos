@@ -1,4 +1,5 @@
 #include <doctest/doctest.h>
+#include <nos/fprint.h>
 #include <nos/io/sstream.h>
 #include <nos/print.h>
 
@@ -114,5 +115,34 @@ TEST_CASE("fprint")
     {
         nos::print((int64_t)16);
         CHECK_EQ(output, "16");
+    }
+
+    SUBCASE("print_inf")
+    {
+        nos::print(2.0 / 0.0);
+        CHECK_EQ(output, "+inf");
+    }
+
+    SUBCASE("print_-inf")
+    {
+        nos::print(-2.0 / 0.0);
+        CHECK_EQ(output, "-inf");
+    }
+    SUBCASE("fprint_inf")
+    {
+        nos::fprint("{}", 2.0 / 0.0);
+        CHECK_EQ(output, "+inf");
+    }
+
+    SUBCASE("fprint_-inf")
+    {
+        nos::fprint("{}", -2.0 / 0.0);
+        CHECK_EQ(output, "-inf");
+    }
+
+    SUBCASE("print_nan")
+    {
+        nos::print((2.0 / 0.0) / (2.0 / 0.0));
+        CHECK_EQ(output, "nan");
     }
 }

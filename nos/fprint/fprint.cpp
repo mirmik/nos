@@ -109,9 +109,11 @@ namespace nos
     {
         uint8_t argnum = 0;
         const char *fmtptr = fmt.data();
+        const char *fmtptr_start = fmt.data();
+        size_t fmtsize = fmt.size();
         int ret = 0;
 
-        while (*fmtptr != 0)
+        while (*fmtptr != 0 && (fmtptr - fmtptr_start < fmtsize))
         {
             if (*fmtptr == '{')
             {
@@ -121,7 +123,8 @@ namespace nos
             {
                 auto strttxt = fmtptr;
 
-                while (*fmtptr != 0 && *fmtptr != '{')
+                while (*fmtptr != 0 && *fmtptr != '{' &&
+                       (fmtptr - fmtptr_start < fmtsize))
                     fmtptr++;
 
                 ret += *out.write(strttxt, fmtptr - strttxt);
