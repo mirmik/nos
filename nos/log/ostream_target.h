@@ -16,6 +16,8 @@ namespace nos
                 std::string("[{level}] {msg}") + newline_string;
 
         public:
+            ostream_target() : nos::log::target(nos::log::level::Trace){};
+
             ostream_target(nos::ostream &stream,
                            nos::log::level minlevel = nos::log::level::Trace)
                 : nos::log::target(minlevel), _stream(&stream)
