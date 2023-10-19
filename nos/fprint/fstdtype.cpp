@@ -185,31 +185,13 @@ nos_fprint(nos::ostream &os, double obj, const nos::buffer &opts)
     std::ptrdiff_t len;
     nos::float_spec spec(opts);
     char buf[64 + 1];
+    int after_dot = 6;
+
+    memset(buf, 0, sizeof(buf));
     if (spec.after_dot != -1)
-    {
-        // len = snprintf(buf, sizeof(buf) - 1, "%.*lf", spec.after_dot, obj);
-        //#if __cpp_lib_to_chars > 201611L
-        len = __nos_dtoa(obj, buf, spec.after_dot) - buf;
-        //#else
-        //        auto [eptr, err] = std::to_chars(std::begin(buf),
-        //                                         std::end(buf),
-        //                                         obj,
-        //                                         std::chars_format::fixed,
-        //                                         spec.after_dot);
-        //        len = eptr - buf;
-        //#endif
-    }
-    else
-    {
-        //#if __cpp_lib_to_chars > 201611L
-        len = __nos_dtoa(obj, buf, 6) - buf;
-        //#else
-        //        auto [eptr, err] = std::to_chars(
-        //            std::begin(buf), std::end(buf), obj,
-        //            std::chars_format::fixed);
-        //        len = eptr - buf;
-        //#endif
-    }
+        after_dot = spec.after_dot;
+
+    len = __nos_dtoa(obj, buf, after_dot) - buf;
     return nos_fprint(os, buf, (int)len, spec);
 }
 

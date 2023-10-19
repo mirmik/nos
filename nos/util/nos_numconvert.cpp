@@ -1,4 +1,5 @@
-#include <math.h>
+#include <cmath>
+#include <cstdio>
 #include <nos/util/numconvert.h>
 #include <string.h>
 
@@ -21,7 +22,22 @@ static const long double rounders[MAX_PRECISION + 1] = {
     0.000000000000005, // 14
 };
 
-char *__nos_ldtoa(long double f, char *buf, int8_t precision)
+char *__nos_return_inf(char *const buf, bool neg)
+{
+    char *ptr = buf;
+    *ptr++ = neg ? '-' : '+';
+    strcpy(ptr, "inf");
+    return buf + strlen(buf);
+}
+
+char *__nos_return_nan(char *const buf)
+{
+    char *ptr = buf;
+    strcpy(ptr, "nan");
+    return buf + strlen(buf);
+}
+
+char *__nos_ldtoa(long double f, char *const buf, int8_t precision)
 {
     char *ptr = buf;
     char *p = ptr;
@@ -29,18 +45,11 @@ char *__nos_ldtoa(long double f, char *buf, int8_t precision)
     char c = 0;
     int64_t intPart = 0;
 
-    if (isinf(f))
-    {
-        *buf++ = f > 0 ? '+' : '-';
-        strcpy(buf, "inf");
-        return buf + strlen(buf);
-    }
+    if (std::isinf(f))
+        return __nos_return_inf(buf, f < 0);
 
-    if (isnan(f))
-    {
-        strcpy(buf, "nan");
-        return buf + strlen(buf);
-    }
+    if (std::isnan(f))
+        return __nos_return_nan(buf);
 
     // check precision bounds
     if (precision > MAX_PRECISION)
@@ -130,17 +139,29 @@ char *__nos_ldtoa(long double f, char *buf, int8_t precision)
     return ptr;
 }
 
-char *__nos_ftoa(float f, char *buf, int8_t precision)
+char *__nos_ftoa(float f, char *const buf, int8_t precision)
 {
+    if (std::isinf(f))
+        return __nos_return_inf(buf, f < 0);
+
+    if (std::isnan(f))
+        return __nos_return_nan(buf);
+
     return __nos_ldtoa(f, buf, precision);
 }
 
-char *__nos_dtoa(double f, char *buf, int8_t precision)
+char *__nos_dtoa(double f, char *const buf, int8_t precision)
 {
+    if (std::isinf(f))
+        return __nos_return_inf(buf, f < 0);
+
+    if (std::isnan(f))
+        return __nos_return_nan(buf);
+
     return __nos_ldtoa(f, buf, precision);
 }
 
-char *__nos_itoa(int64_t num, char *buf, uint8_t base)
+char *__nos_itoa(int64_t num, char *const buf, uint8_t base)
 {
     char *p = buf;
     char *p1, *p2;
@@ -194,7 +215,7 @@ char *__nos_itoa(int64_t num, char *buf, uint8_t base)
     return p;
 }
 
-char *__nos_utoa(uint64_t num, char *buf, uint8_t base)
+char *__nos_utoa(uint64_t num, char *const buf, uint8_t base)
 {
 
     char *p = buf;

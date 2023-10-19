@@ -131,6 +131,7 @@ TEST_CASE("fprint")
     SUBCASE("fprint_inf")
     {
         nos::fprint("{}", 2.0 / 0.0);
+        CHECK_EQ(output.size(), 4);
         CHECK_EQ(output, "+inf");
     }
 
