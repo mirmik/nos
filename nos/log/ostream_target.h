@@ -11,15 +11,24 @@ namespace nos
     {
         class ostream_target : public nos::log::target
         {
-            nos::ostream &_stream;
+            nos::ostream *_stream = nullptr;
             std::string _pattern =
                 std::string("[{level}] {msg}") + newline_string;
 
         public:
             ostream_target(nos::ostream &stream,
                            nos::log::level minlevel = nos::log::level::Trace)
-                : nos::log::target(minlevel), _stream(stream)
+                : nos::log::target(minlevel), _stream(&stream)
             {
+            }
+            ostream_target(const ostream_target &) = default;
+            ostream_target &operator=(const ostream_target &) = default;
+
+            ~ostream_target() = default;
+
+            void set_ostream(nos::ostream &stream)
+            {
+                _stream = &stream;
             }
 
             void set_pattern(const std::string &pattern)
