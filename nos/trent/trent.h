@@ -1033,6 +1033,7 @@ namespace nos
             nos::print_to(os, "nil");
             return 0;
         }
+        return 0;
     }
 
     template <template <class Allocator> class TAlloc>

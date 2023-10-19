@@ -239,6 +239,12 @@ namespace nos
             return !_is_ok;
         }
     };
+
+    template <typename T, typename E>
+    expected<T, E> make_unexpected(const E &err)
+    {
+        return expected<T, E>(err);
+    }
 }
 
 #endif
