@@ -110,7 +110,7 @@ namespace nos
         uint8_t argnum = 0;
         const char *fmtptr = fmt.data();
         const char *fmtptr_start = fmt.data();
-        size_t fmtsize = fmt.size();
+        int64_t fmtsize = (int64_t)fmt.size();
         int ret = 0;
 
         while (*fmtptr != 0 && (fmtptr - fmtptr_start < fmtsize))
