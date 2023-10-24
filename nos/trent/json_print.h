@@ -2,6 +2,8 @@
 #define NOS_JSON_PRINT_H
 
 #include <iostream>
+#include <nos/io/std_adapter.h>
+#include <nos/io/test_width_ostream.h>
 #include <nos/trent/json.h>
 #include <sstream>
 #include <string>
@@ -73,12 +75,24 @@ namespace nos
                         if (pretty)
                         {
                             os << "\r\n";
-
                             for (int i = 0; i < tab + 1; i++)
                                 os.put('\t');
                         }
 
-                        json::print_to(v, os, pretty, tab + 1);
+                        if (pretty)
+                        {
+                            nos::test_width_ostream testwidth;
+                            nos::std_ostream_adapter adapter =
+                                nos::make_std_adapter(testwidth);
+                            json::print_to(v, adapter, false, 0);
+                            if (testwidth.result > 20)
+                                json::print_to(v, os, true, tab + 1);
+                            else
+                                json::print_to(v, os, false, tab + 1);
+                        }
+                        else
+                            json::print_to(v, os, pretty, tab + 1);
+
                         sep = true;
                     }
 
@@ -118,7 +132,19 @@ namespace nos
                     else
                         os.put(':');
 
-                    json::print_to(p.second, os, pretty, tab + 1);
+                    if (pretty)
+                    {
+                        nos::test_width_ostream testwidth;
+                        nos::std_ostream_adapter adapter =
+                            nos::make_std_adapter(testwidth);
+                        json::print_to(p.second, adapter, false, 0);
+                        if (testwidth.result > 20)
+                            json::print_to(p.second, os, true, tab + 1);
+                        else
+                            json::print_to(p.second, os, false, tab + 1);
+                    }
+                    else
+                        json::print_to(p.second, os, pretty, tab + 1);
                     sep = true;
                 }
 
