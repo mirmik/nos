@@ -105,6 +105,20 @@ int nos::inet::udp_broadcast_socket::send_broadcast(const void *data,
     return ret;
 }
 
+int nos::inet::udp_broadcast_socket::send_broadcast(const void *data, size_t size, uint16_t port, std::string broadcast_ip) 
+{
+    struct sockaddr_in saddr;
+    saddr.sin_family = AF_INET;
+    saddr.sin_port = htons(port);
+    saddr.sin_addr.s_addr = inet_addr(broadcast_ip.c_str());
+    int ret = ::sendto(fd(), (const char *)data, (int)size, 0, (struct sockaddr *)&saddr, sizeof(saddr));
+    if (ret < 0) {
+        perror("sendto");
+        throw std::runtime_error("sendto failed");
+    }
+    return ret;
+}
+
 std::tuple<std::string, std::string, uint16_t>
 nos::inet::udp_broadcast_socket::recvfrom(size_t maxsize)
 {
