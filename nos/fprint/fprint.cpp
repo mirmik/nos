@@ -54,7 +54,7 @@ namespace nos
             const char *count_ptr = fmt;
             int len = 0;
 
-            while (isalpha(*count_ptr) || isdigit(*count_ptr) || *fmt == '_')
+            while (isalpha(*count_ptr) || isdigit(*count_ptr) || *count_ptr == '_')
             {
                 len++;
                 count_ptr++;
