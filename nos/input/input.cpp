@@ -191,7 +191,10 @@ nos::expected<std::string, nos::input_error> nos::readall_from(nos::istream &is)
         {
             return ret;
         }
-        ret.append(buf, ans.value());
+        auto val = ans.value();
+        if (val == 0)
+            return ret;
+        ret.append(buf, val);
     }
     return ret;
 }

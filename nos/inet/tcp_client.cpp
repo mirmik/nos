@@ -40,6 +40,22 @@ nos::expected<size_t, nos::input_error> nos::inet::tcp_client::read(void *data,
                                                                     size_t size)
 {
     int sts = ::recv(fd(), (char *)data, (int)size, 0);
+    
+    if (sts == -1 && errno == 0 && is_nonblock()) 
+    {
+        return 0;
+    }
+
+    if (errno == EAGAIN || EWOULDBLOCK == errno) 
+    {
+        return 0;
+    }
+
+    if (sts == -1 && (errno == EAGAIN || EWOULDBLOCK == errno))
+    {
+        return 0;
+    }
+    
     if (sts <= 0)
     {
         _is_connect = false;
