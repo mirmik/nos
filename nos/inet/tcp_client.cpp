@@ -127,6 +127,55 @@ int nos::inet::tcp_client::connect(nos::inet::hostaddr addr,
     return sts;
 }
 
+int nos::inet::tcp_client::connect(nos::inet::hostaddr addr,
+                                   uint16_t port,
+                                   std::chrono::milliseconds timeout, bool reuse)
+{
+    init();
+    this->_addr = addr;
+    this->_port = port;
+
+    nonblock(true);
+    reusing(reuse);
+    int sts = tcp_socket::connect(addr, port);
+    reusing(reuse);
+
+    fd_set writefds;
+    FD_ZERO(&writefds);
+    FD_SET(fd(), &writefds);
+
+    struct timeval tv;
+    tv.tv_sec = (long)(timeout.count() / 1000);
+    tv.tv_usec = (timeout.count() % 1000) * 1000;
+
+    sts = select((int)(fd() + 1), NULL, &writefds, NULL, &tv);
+    if (sts < 0)
+    {
+        perror("tcp_client::connect");
+        throw nos::inet::tcp_connect_error();
+    }
+    else if (sts == 0)
+    {
+        throw nos::inet::tcp_timeout_error();
+    }
+    else
+    {
+        int so_error;
+        socklen_t len = sizeof(so_error);
+
+        getsockopt(fd(), SOL_SOCKET, SO_ERROR, (char *)&so_error, &len);
+
+        if (so_error != 0)
+        {
+            throw nos::inet::tcp_connect_error();
+        }
+    }
+    nonblock(false);
+    _is_connect = true;
+    return sts;
+}
+
+
 int nos::inet::tcp_client::disconnect()
 {
     if (!_is_connect)
@@ -148,6 +197,14 @@ nos::inet::tcp_client nos::inet::tcp_client::dial(
 {
     tcp_client client;
     client.connect(addr, port, timeout);
+    return client;
+}
+
+nos::inet::tcp_client nos::inet::tcp_client::dial(
+    nos::inet::hostaddr addr, uint16_t port, std::chrono::milliseconds timeout, bool reusing)
+{
+    tcp_client client;
+    client.connect(addr, port, timeout, reusing);
     return client;
 }
 
