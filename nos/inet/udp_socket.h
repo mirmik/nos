@@ -43,6 +43,7 @@ namespace nos
                         uint16_t port);
 
             int send_broadcast(const void *data, size_t size, uint16_t port);
+            int send_broadcast(const void *data, size_t size, uint16_t port, std::string broadcast_ip);
 
             std::tuple<std::string, std::string, uint16_t>
             recvfrom(size_t maxsize = 1 << 16);

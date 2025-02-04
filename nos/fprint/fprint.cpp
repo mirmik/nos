@@ -49,12 +49,12 @@ namespace nos
 
         const visitable_argument *varg = nullptr;
 
-        if (isalpha(*fmt))
+        if (isalpha(*fmt) || *fmt == '_')
         {
             const char *count_ptr = fmt;
             int len = 0;
 
-            while (isalpha(*count_ptr) || isdigit(*count_ptr))
+            while (isalpha(*count_ptr) || isdigit(*count_ptr) || *count_ptr == '_')
             {
                 len++;
                 count_ptr++;

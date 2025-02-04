@@ -31,11 +31,6 @@ int64_t nos::osutil::open(const char *data, int mode)
     return ::open(data, mode);
 }
 
-int64_t nos::osutil::open(const char *data, int mode, int perms)
-{
-    return ::open(data, mode, perms);
-}
-
 int nos::osutil::close(int64_t fd)
 {
     return ::close(fd);

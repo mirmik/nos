@@ -20,11 +20,6 @@ namespace nos
             open(path, flags);
         }
 
-        file(const char *path, int flags, int mode)
-        {
-            open(path, flags, mode);
-        }
-
         void set_fd(int64_t fd)
         {
             m_fd = fd;
@@ -57,12 +52,6 @@ namespace nos
         int64_t open(const char *path, int mode)
         {
             m_fd = nos::osutil::open(path, mode);
-            return m_fd;
-        }
-
-        int64_t open(const char *path, int flags, int perms)
-        {
-            m_fd = nos::osutil::open(path, flags, perms);
             return m_fd;
         }
 

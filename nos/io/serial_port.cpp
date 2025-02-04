@@ -81,9 +81,24 @@ int nos::serial_port::open(const char *path,
         cfsetispeed(&tattr, B115200);
         cfsetospeed(&tattr, B115200);
     }
+    else if (baud == 9600)
+    {
+        cfsetispeed(&tattr, B9600);
+        cfsetospeed(&tattr, B9600);
+    }
+    else if (baud == 19200)
+    {
+        cfsetispeed(&tattr, B19200);
+        cfsetospeed(&tattr, B19200);
+    }
+    else if (baud == 38400)
+    {
+        cfsetispeed(&tattr, B38400);
+        cfsetospeed(&tattr, B38400);
+    }
     else
     {
-        nos::println("baud != 115200 ???");
+        nos::println("baud rate is unknown");
         return -1;
     }
 
