@@ -244,7 +244,6 @@ namespace nos
                 // TRACE();
                 trent_basic<TAlloc> js(trent::type::dict);
 
-                int counter = 0;
                 onebuf = readnext_skipping();
 
                 if (onebuf == '}')
@@ -289,7 +288,6 @@ namespace nos
                             " symbno:" + std::to_string(symbno));
                     }
 
-                    counter++;
                     onebuf = readnext_skipping();
 
                     if (onebuf == '}')
