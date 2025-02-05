@@ -1,6 +1,7 @@
 #ifndef NOS_SHELL_ARGV_H
 #define NOS_SHELL_ARGV_H
 
+#include <cstdint>
 #include <nos/util/buffer.h>
 #include <nos/util/strtok.h>
 #include <string.h>

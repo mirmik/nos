@@ -1,6 +1,7 @@
 #ifndef NOS_AGGREGATE_EXECUTOR_H
 #define NOS_AGGREGATE_EXECUTOR_H
 
+#include <cstdint>
 #include <nos/shell/executor.h>
 
 namespace nos

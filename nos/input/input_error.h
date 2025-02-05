@@ -1,6 +1,8 @@
 #ifndef NOS_INPUT_ERROR_H
 #define NOS_INPUT_ERROR_H
 
+#include <cstdint>
+
 namespace nos
 {
     struct output_error
