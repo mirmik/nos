@@ -205,7 +205,6 @@ namespace nos
                 // TRACE();
                 trent_basic<TAlloc> js(trent::type::list);
 
-                int counter = 0;
                 onebuf = readnext_skipping();
 
                 if (onebuf == ']')
