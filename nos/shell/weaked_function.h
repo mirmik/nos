@@ -112,7 +112,7 @@ namespace nos
         }
 
         nos::expected<nos::trent, nos::errstring>
-        call_with_args(const std::vector<nos::trent_argument> &args)
+        call_with_args(const std::vector<nos::trent_argument> &args) override
         {
             std::array<runtime_argument, count> rarguments = {};
             parse_arguments(rarguments, args);

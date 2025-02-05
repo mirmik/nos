@@ -234,7 +234,6 @@ namespace nos
                             errloc());
                     }
 
-                    counter++;
                     onebuf = readnext_skipping();
                 }
             }
