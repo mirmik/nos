@@ -18,7 +18,7 @@ namespace nos
         {
         }
 
-        void print_help_to(nos::ostream &os)
+        void print_help_to(nos::ostream &os) override
         {
             for (auto *ex : executors)
             {

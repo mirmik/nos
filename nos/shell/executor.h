@@ -62,7 +62,7 @@ namespace nos
             commands.push_back(cmd);
         }
 
-        void print_help_to(nos::ostream &os)
+        void print_help_to(nos::ostream &os) override
         {
             for (auto &cmd : commands)
             {
@@ -72,10 +72,10 @@ namespace nos
 
         nos::command_t<AddArgs...> *find(const nos::buffer &name) override
         {
-            auto it = std::find_if(commands.begin(),
-                                   commands.end(),
-                                   [&](const auto &cmd)
-                                   { return name == cmd.name(); });
+            auto it = std::find_if(
+                commands.begin(), commands.end(), [&](const auto &cmd) {
+                    return name == cmd.name();
+                });
 
             if (it == commands.end())
             {
