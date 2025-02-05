@@ -42,7 +42,7 @@ licant.cxx_application("runtests",
                        cxx_flags="-flto -Weffc++ -g -O0 -fPIC -Werror=all -Werror=pedantic -Wno-gnu-zero-variadic-macro-arguments",
                        cc_flags="-flto -g -O0 -fPIC -Werror=all -Werror=pedantic -Wno-gnu-zero-variadic-macro-arguments",
                        ld_flags="-flto -g -O0 -fPIC -L/usr/local/lib/",
-                       libs=["pthread"],
+                       libs=["pthread", "nos"],
                        )
 
 licant.install.install_library(tgt="install",
