@@ -81,6 +81,22 @@ namespace nos
                             _size < other._size ? _size : other._size) == 0);
         }
 
+        bool operator==(const std::string &other) const
+        {
+            return (_size == other.size()) &&
+                   (strncmp(_data,
+                            other.data(),
+                            _size < other.size() ? _size : other.size()) == 0);
+        }
+
+        bool operator==(const std::string_view &other) const
+        {
+            return (_size == other.size()) &&
+                   (strncmp(_data,
+                            other.data(),
+                            _size < other.size() ? _size : other.size()) == 0);
+        }
+
         bool operator!=(const buffer &other) const
         {
             return (_size != other._size) ||
