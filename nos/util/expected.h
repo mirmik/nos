@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cstdint>
 #include <functional>
 #include <nos/util/error.h>
 #include <nos/util/unexpected.h>
