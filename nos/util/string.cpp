@@ -24,6 +24,29 @@ std::string nos::trim(const std::string_view &view)
     return std::string(left, (right - left) + 1);
 }
 
+std::string_view trim_view(const std::string_view &view)
+{
+    if (view.size() == 0)
+        return "";
+
+    const char *left = view.data();
+    const char *right = view.data() + view.size() - 1;
+    const char *end = view.data() + view.size();
+
+    while (left != end &&
+           (*left == ' ' || *left == '\n' || *left == '\r' || *left == '\t'))
+        ++left;
+
+    if (left == end)
+        return "";
+
+    while (left != right && (*right == ' ' || *right == '\n' ||
+                             *right == '\r' || *right == '\t'))
+        --right;
+
+    return std::string_view(left, (right - left) + 1);
+}
+
 std::vector<std::string> nos::split(const std::string_view &str, char delim)
 {
     std::vector<std::string> outvec;
@@ -55,6 +78,68 @@ std::vector<std::string> nos::split(const std::string_view &str,
                                     const char *delims)
 {
     std::vector<std::string> outvec;
+
+    if (str.size() == 0)
+        return outvec;
+
+    char *strt;
+    char *ptr = (char *)str.data();
+    char *end = (char *)str.data() + str.size();
+
+    while (true)
+    {
+        // Skip delimiters
+        while (ptr != end && strchr(delims, *ptr) != NULL)
+            ptr++;
+
+        if (ptr == end)
+            break;
+
+        strt = ptr;
+
+        while (ptr != end && strchr(delims, *ptr) == NULL)
+            ptr++;
+
+        outvec.emplace_back(strt, ptr - strt);
+        if (ptr == end)
+            break;
+    }
+
+    return outvec;
+}
+
+std::vector<std::string_view> nos::split_view(const std::string_view &str,
+                                              char delim)
+{
+    std::vector<std::string_view> outvec;
+
+    char *strt;
+    char *ptr = (char *)str.data();
+    char *end = (char *)str.data() + str.size();
+
+    while (true)
+    {
+        while (ptr != end && *ptr == delim)
+            ptr++;
+
+        if (ptr == end)
+            break;
+
+        strt = ptr;
+
+        while (ptr != end && *ptr != delim)
+            ptr++;
+
+        outvec.emplace_back(strt, ptr - strt);
+    }
+
+    return outvec;
+}
+
+std::vector<std::string_view> nos::split_view(const std::string_view &str,
+                                              const char *delims)
+{
+    std::vector<std::string_view> outvec;
 
     if (str.size() == 0)
         return outvec;

@@ -24,6 +24,11 @@ namespace nos
     std::vector<std::string> split(const std::string_view &str,
                                    const char *delims);
 
+    std::vector<std::string_view> split_view(const std::string_view &str,
+                                             char delim = ' ');
+    std::vector<std::string_view> split_view(const std::string_view &str,
+                                             const char *delims);
+
     std::string join(const std::vector<std::string> &, char delim);
 
     template <class Iter>
@@ -61,6 +66,7 @@ namespace nos
     }
 
     std::string trim(const std::string_view &view);
+    std::string_view trim_view(const std::string_view &view);
 }
 
 #endif
