@@ -12,6 +12,55 @@ namespace nos
 {
     namespace json
     {
+        namespace detail
+        {
+            inline void write_escaped_string(const std::string &str,
+                                             std::ostream &os)
+            {
+                static const char hex[] = "0123456789ABCDEF";
+                os.put('"');
+                for (unsigned char c : str)
+                {
+                    switch (c)
+                    {
+                    case '"':
+                        os << "\\\"";
+                        break;
+                    case '\\':
+                        os << "\\\\";
+                        break;
+                    case '\b':
+                        os << "\\b";
+                        break;
+                    case '\f':
+                        os << "\\f";
+                        break;
+                    case '\n':
+                        os << "\\n";
+                        break;
+                    case '\r':
+                        os << "\\r";
+                        break;
+                    case '\t':
+                        os << "\\t";
+                        break;
+                    default:
+                        if (c < 0x20)
+                        {
+                            os << "\\u00" << hex[(c >> 4) & 0x0F]
+                               << hex[c & 0x0F];
+                        }
+                        else
+                        {
+                            os.put(static_cast<char>(c));
+                        }
+                        break;
+                    }
+                }
+                os.put('"');
+            }
+        }
+
         template <template <class Allocator> class TAlloc = std::allocator>
         void print_to(const trent_basic<TAlloc> &tr,
                       std::ostream &os,
@@ -32,9 +81,7 @@ namespace nos
                 break;
 
             case trent::type::string:
-                os.put('"');
-                os << tr.unsafe_string_const();
-                os.put('"');
+                detail::write_escaped_string(tr.unsafe_string_const(), os);
                 break;
 
             case trent::type::list:
@@ -124,9 +171,7 @@ namespace nos
                             os.put('\t');
                     }
 
-                    os.put('"');
-                    os << p.first;
-                    os.put('"');
+                    detail::write_escaped_string(p.first, os);
                     if (pretty)
                         os.write(": ", 2);
                     else

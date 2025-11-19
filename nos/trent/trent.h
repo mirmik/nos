@@ -352,18 +352,18 @@ namespace nos
             return *tr;
         }
 
-        trent_basic &operator[](const trent_path &path) const
+        const trent_basic &operator[](const trent_path &path) const
         {
             const trent_basic *tr = this;
-            for (auto &p : path)
+            for (const auto &p : path)
             {
                 if (p.is_string)
                 {
-                    tr = &((*tr)[p.str]);
+                    tr = &tr->at(p.str);
                 }
                 else
                 {
-                    tr = &((*tr)[p.i32]);
+                    tr = &tr->at(p.i32);
                 }
             }
             return *tr;
@@ -525,7 +525,7 @@ namespace nos
 
             if (tr.m_type != trent_type::boolean)
             {
-                throw wrong_type(path, trent_type::string, tr.m_type);
+                throw wrong_type(path, trent_type::boolean, tr.m_type);
             }
 
             return tr.m_bool;
@@ -890,7 +890,7 @@ namespace nos
                 m_num = other.m_num;
                 return *this;
             case type::boolean:
-                m_num = other.m_num;
+                m_bool = other.m_bool;
                 return *this;
             case type::nil:
                 return *this;

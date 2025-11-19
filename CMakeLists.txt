@@ -44,6 +44,7 @@ file(GLOB NOS_SOURCES_PLUS)
 
 file(GLOB SOURCES_TEST
 	tests/*.cpp
+	tests/trent/*.cpp
 )
 
 if(UNIX)
