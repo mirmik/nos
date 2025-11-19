@@ -7,6 +7,7 @@
 
 #include <cassert>
 #include <cstdint>
+#include <initializer_list>
 #include <map>
 #include <nos/buffer.h>
 #include <nos/print.h>
@@ -15,11 +16,10 @@
 #include <nos/util/error.h>
 #include <nos/util/expected.h>
 #include <nos/util/flat_map.h>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
-
-// using namespace nos::nos::expected_type;
 
 namespace nos
 {
@@ -36,22 +36,23 @@ namespace nos
 
     class trent_path;
 
-    template <template <class Allocator> class TAlloc> class trent_basic
+    class trent
     {
     public:
-        static const trent_basic &static_nil();
-        static trent_basic nil()
+        static const trent &static_nil();
+        static trent nil()
         {
-            return trent_basic();
+            return trent();
         }
 
-        // SPECS
         using type = trent_type;
-        using value_type = std::pair<std::string, trent_basic>;
+        using value_type = std::pair<std::string, trent>;
 
-        using valloc_t = std::allocator<trent_basic>;
-        using malloc_t =
-            std::allocator<std::pair<const std::string, trent_basic>>;
+        using list_type = std::vector<trent>;
+        using dict_type = nos::flat_map<std::string, trent>;
+        using string_type = std::string;
+        using numer_type = long double;
+        using integer_type = int64_t;
 
         class wrong_path : public std::exception
         {
@@ -59,15 +60,8 @@ namespace nos
             std::string str = {};
 
         public:
-            wrong_path(const nos::trent_path &path) : path(path)
-            {
-                str = std::string("trent:wrong_path: ") + path.to_string();
-            }
-
-            const char *what() const noexcept override
-            {
-                return str.c_str();
-            }
+            explicit wrong_path(const nos::trent_path &path);
+            const char *what() const noexcept override;
         };
 
         class wrong_type : public std::exception
@@ -77,19 +71,8 @@ namespace nos
             std::string str = {};
 
         public:
-            wrong_type(const trent_path &path, type t, type rt)
-                : path(path), t(t)
-            {
-                str = std::string("trent:wrong_type:") + std::string(" path:") +
-                      path.to_string() + std::string(" request:") +
-                      nos::typestr(t) + std::string(" realtype:") +
-                      nos::typestr(rt);
-            }
-
-            const char *what() const noexcept override
-            {
-                return str.c_str();
-            }
+            wrong_type(const trent_path &path, type t, type rt);
+            const char *what() const noexcept override;
         };
 
         class wrong_index : public std::exception
@@ -99,28 +82,11 @@ namespace nos
             type t;
 
         public:
-            wrong_index(const trent_path &path, type t) : path(path), t(t)
-            {
-                str = std::string("trent:wrong_index: path: ") +
-                      path.to_string() + std::string(" index: ") +
-                      nos::typestr(t);
-            }
-
-            const char *what() const noexcept override
-            {
-                return str.c_str();
-            }
+            wrong_index(const trent_path &path, type t);
+            const char *what() const noexcept override;
         };
 
-        using numer_type = long double;
-        using integer_type = int64_t;
-        using list_type = std::vector<trent_basic, valloc_t>;
-        // using dict_type = std::map<std::string, trent_basic,
-        // std::less<std::string>, malloc_t>;
-        using dict_type = nos::flat_map<std::string, trent_basic>;
-        using string_type = std::string;
-
-    protected:
+    private:
         type m_type = type::nil;
         union
         {
@@ -132,43 +98,26 @@ namespace nos
         };
 
     public:
-        const char *typestr()
-        {
-            return nos::typestr(m_type);
-        }
+        const char *typestr();
 
-        ~trent_basic();
-        trent_basic() : m_type(type::nil) {}
-        trent_basic(const trent_basic &other);
-        trent_basic(trent_basic &&other);
+        ~trent();
+        trent();
+        trent(const trent &other);
+        trent(trent &&other) noexcept;
 
         void invalidate();
 
-        template <class T> trent_basic(const T &obj)
+        template <class T> trent(const T &obj)
         {
             init(obj);
         }
 
-    public:
-        void init_sint(const int64_t &i)
-        {
-            m_type = type::numer;
-            m_num = static_cast<numer_type>(i);
-        }
-        void init_uint(const uint64_t &i)
-        {
-            m_type = type::numer;
-            m_num = i;
-        }
-        void init_flt(const long double &i)
-        {
-            m_type = type::numer;
-            m_num = i;
-        }
+        void init_sint(const int64_t &i);
+        void init_uint(const uint64_t &i);
+        void init_flt(const long double &i);
         void init_str(const char *data, size_t size);
 
         void init(type t);
-        // void init(const trent_basic &oth);
 
         void init(const char *ptr)
         {
@@ -242,665 +191,118 @@ namespace nos
             init(obj);
         }
 
-    public:
-        trent_basic &operator[](int i)
-        {
-            if (m_type != type::list)
-                init(type::list);
-            if (m_arr.size() <= (unsigned int)i)
-                m_arr.resize(i + 1);
-            return m_arr[i];
-        }
+        trent &operator[](int i);
+        trent &operator[](const char *key);
+        trent &operator[](const std::string &key);
+        trent &operator[](const nos::buffer &key);
+        trent &operator[](const trent_path &path);
 
-        trent_basic &operator[](const char *key)
-        {
-            if (m_type != type::dict)
-                init(type::dict);
-            return m_dct[std::string(key)];
-        }
+        const trent &operator[](const std::string &obj) const;
+        const trent &operator[](const nos::buffer &obj) const;
+        const trent &operator[](const char *obj) const;
+        const trent &operator[](int obj) const;
+        const trent &operator[](const trent_path &path) const;
 
-        trent_basic &operator[](const std::string &key)
-        {
-            if (m_type != type::dict)
-                init(type::dict);
-            return m_dct[key];
-        }
+        const trent &at(const trent_path &path) const;
+        trent &at(const trent_path &path);
 
-        trent_basic &operator[](const nos::buffer &key)
-        {
-            if (m_type != type::dict)
-                init(type::dict);
-            return m_dct[std::string(key.data(), key.size())];
-        }
+        bool contains(const char *key) const;
+        bool contains(std::string key) const;
 
-        const trent_basic &operator[](const std::string &obj) const
-        {
-            if (m_type != type::dict || !contains(obj))
-                return static_nil();
-            return at(obj);
-        }
+        void init_from_list(const std::initializer_list<double> l);
+        void init_from_list(const std::initializer_list<std::string> l);
 
-        const trent_basic &operator[](const nos::buffer &obj) const
-        {
-            if (m_type != type::dict || !contains(obj))
-                return static_nil();
-            return at(obj);
-        }
+        trent &at(int i);
+        const trent &at(int i) const;
+        trent &at(const std::string &key);
+        const trent &at(const std::string &key) const;
+        trent &at(const char *key);
+        const trent &at(const char *key) const;
 
-        const trent_basic &operator[](const char *obj) const
-        {
-            if (m_type != type::dict || !contains(obj))
-                return static_nil();
-            return at(obj);
-        }
+        void push_back(const trent &tr);
 
-        const trent_basic &operator[](int obj) const
-        {
-            if (m_type != type::list)
-                return static_nil();
-            return at(obj);
-        }
+        const trent *_get(const std::string &str) const;
+        const trent *_get(const char *str) const;
+        const trent *_get(int index) const;
+        const trent *get(const trent_path &path) const;
+        const trent &get_except(const trent_path &path) const;
 
-        const trent_basic &at(const trent_path &path) const
-        {
-            const trent_basic *tr = this;
-            for (const auto &p : path)
-            {
-                if (p.is_string)
-                {
-                    tr = &tr->at(p.str);
-                }
-                else
-                {
-                    tr = &tr->at(p.i32);
-                }
-            }
-            return *tr;
-        }
+        numer_type get_as_numer_ex(const trent_path &path) const;
+        const string_type &get_as_string_ex(const trent_path &path) const;
+        bool get_as_boolean_ex(const trent_path &path) const;
 
-        trent_basic &at(const trent_path &path)
-        {
-            trent_basic *tr = this;
-            for (auto &p : path)
-            {
-                if (p.is_string)
-                {
-                    tr = &tr->at(p.str);
-                }
-                else
-                {
-                    tr = &tr->at(p.i32);
-                }
-            }
-            return *tr;
-        }
-
-        trent_basic &operator[](const trent_path &path)
-        {
-            trent_basic *tr = this;
-            for (auto &p : path)
-            {
-                if (p.is_string)
-                {
-                    tr = &((*tr)[p.str]);
-                }
-                else
-                {
-                    tr = &((*tr)[p.i32]);
-                }
-            }
-            return *tr;
-        }
-
-        const trent_basic &operator[](const trent_path &path) const
-        {
-            const trent_basic *tr = this;
-            for (const auto &p : path)
-            {
-                if (p.is_string)
-                {
-                    tr = &tr->at(p.str);
-                }
-                else
-                {
-                    tr = &tr->at(p.i32);
-                }
-            }
-            return *tr;
-        }
-
-        bool contains(const char *key) const
-        {
-            if (m_type != type::dict)
-                return false;
-            return m_dct.find(key) != m_dct.end();
-        }
-
-        bool contains(std::string key) const
-        {
-            if (m_type != type::dict)
-                return false;
-            return m_dct.find(std::string(key)) != m_dct.end();
-        }
-
-        void init_from_list(const std::initializer_list<double> l)
-        {
-            init(type::list);
-            m_arr.reserve(l.size());
-            for (auto &i : l)
-            {
-                m_arr.emplace_back(i);
-            }
-        }
-
-        void init_from_list(const std::initializer_list<std::string> l)
-        {
-            init(type::list);
-            m_arr.reserve(l.size());
-            for (auto &i : l)
-            {
-                m_arr.emplace_back(i);
-            }
-        }
-
-        const trent_basic &at(int i) const
-        {
-            if (m_type != type::list)
-                throw std::runtime_error(std::string("trent: is not a list: ") +
-                                         nos::typestr(m_type));
-            if (m_arr.size() <= (unsigned int)i)
-                throw std::runtime_error(std::string("trent:wrong_index: ") +
-                                         std::to_string(i));
-            return m_arr[i];
-        }
-
-        const trent_basic &at(const std::string &key) const
-        {
-            if (m_type != type::dict)
-                throw std::runtime_error(std::string("trent: is not a dict: ") +
-                                         nos::typestr(m_type));
-            return m_dct.at(key);
-        }
-
-        const trent_basic &at(const char *key) const
-        {
-            if (m_type != type::dict)
-                throw std::runtime_error(std::string("trent: is not a dict: ") +
-                                         nos::typestr(m_type));
-            return m_dct.at(std::string(key));
-        }
-
-        void push_back(const trent_basic &tr)
-        {
-            if (m_type != type::list)
-                init(type::list);
-            m_arr.push_back(tr);
-        }
-
-        const trent_basic *_get(const std::string &str) const
-        {
-            if (is_dict())
-            {
-                auto it = m_dct.find(str);
-                if (it == m_dct.end())
-                    return nullptr;
-                return &it->second;
-            }
-
-            return nullptr;
-        }
-
-        const trent_basic *_get(const char *str) const
-        {
-            return get(std::string(str));
-        }
-
-        const trent_basic *_get(int index) const
-        {
-            if (is_list())
-                return &m_arr[index];
-
-            return nullptr;
-        }
-
-        const trent_basic *get(const trent_path &path) const
-        {
-            const trent_basic *tr = this;
-            for (const auto &p : path)
-            {
-                if (p.is_string)
-                {
-                    if (!tr->is_dict())
-                        return nullptr;
-                    tr = tr->_get(p.str);
-                }
-                else
-                {
-                    tr = tr->_get(p.i32);
-                }
-
-                if (tr == nullptr)
-                    return nullptr;
-            }
-            return tr;
-        }
-
-        const trent_basic &get_except(const trent_path &path) const
-        {
-            const trent_basic *tr = get(path);
-            if (tr == nullptr)
-            {
-                throw wrong_path(path);
-            }
-            return *tr;
-        }
-
-        numer_type get_as_numer_ex(const trent_path &path) const
-        {
-            const trent_basic &tr = get_except(path);
-
-            if (tr.m_type != trent_type::numer)
-            {
-                throw wrong_type(path, trent_type::numer, tr.m_type);
-            }
-
-            return tr.m_num;
-        }
-
-        const string_type &get_as_string_ex(const trent_path &path) const
-        {
-            const trent_basic &tr = get_except(path);
-
-            if (tr.m_type != trent_type::string)
-            {
-                throw wrong_type(path, trent_type::string, tr.m_type);
-            }
-
-            return tr.m_str;
-        }
-
-        bool get_as_boolean_ex(const trent_path &path) const
-        {
-            const trent_basic &tr = get_except(path);
-
-            if (tr.m_type != trent_type::boolean)
-            {
-                throw wrong_type(path, trent_type::boolean, tr.m_type);
-            }
-
-            return tr.m_bool;
-        }
-
-        numer_type get_as_numer_def(const trent_path &path,
-                                    numer_type def) const
-        {
-            const trent_basic *tr = get(path);
-            if (tr == nullptr || tr->m_type != trent_type::numer)
-                return def;
-            return tr->m_num;
-        }
-
+        numer_type get_as_numer_def(const trent_path &path, numer_type def) const;
         const string_type &get_as_string_def(const trent_path &path,
-                                             const std::string &def) const
-        {
-            const trent_basic *tr = get(path);
-            if (tr == nullptr || tr->m_type != trent_type::string)
-                return def;
-            return tr->m_str;
-        }
+                                             const std::string &def) const;
+        bool get_as_boolean_def(const trent_path &path, bool def) const;
 
-        bool get_as_boolean_def(const trent_path &path, bool def) const
-        {
-            const trent_basic *tr = get(path);
-            if (tr == nullptr || tr->m_type != trent_type::boolean)
-                return def;
-            return tr->m_bool;
-        }
-
-        string_type &as_string()
-        {
-            if (!is_string())
-                init(type::string);
-            return m_str;
-        }
-
-        const string_type &as_string() const
-        {
-            if (!is_string())
-                throw std::runtime_error(
-                    std::string("trent: is not a string: ") +
-                    nos::typestr(m_type));
-            return m_str;
-        }
-
-        nos::expected<string_type &, nos::errstring> as_string_critical()
-        {
-            if (!is_string())
-                return errstring("is't string");
-            return m_str;
-        }
-
+        string_type &as_string();
+        const string_type &as_string() const;
+        nos::expected<string_type &, nos::errstring> as_string_critical();
         nos::expected<const string_type &, nos::errstring>
-        as_string_critical() const
-        {
-            if (!is_string())
-                return errstring("is't string");
-            return m_str;
-        }
-
+        as_string_critical() const;
         string_type &as_string_except();
         const string_type &as_string_except() const;
-        const string_type &as_string_default(const string_type &def) const
-        {
-            if (!is_string())
-                return def;
-            return m_str;
-        }
+        const string_type &as_string_default(const string_type &def) const;
 
-        dict_type &as_dict()
-        {
-            if (!is_dict())
-                init(type::dict);
-            return m_dct;
-        }
-        const dict_type &as_dict() const
-        {
-            if (!is_dict())
-                throw std::runtime_error("is't dict");
-            return m_dct;
-        }
-        nos::expected<dict_type &, nos::errstring> as_dict_critical()
-        {
-            if (!is_dict())
-                return errstring("is't list");
-            return m_dct;
-        }
+        dict_type &as_dict();
+        const dict_type &as_dict() const;
+        nos::expected<dict_type &, nos::errstring> as_dict_critical();
         nos::expected<const dict_type &, nos::errstring>
-        as_dict_critical() const
-        {
-            if (!is_dict())
-                return errstring("is't list");
-            return m_dct;
-        }
-        dict_type &as_dict_except()
-        {
-            if (!is_dict())
-                throw std::runtime_error("is't list");
-            return m_dct;
-        }
-        const dict_type &as_dict_except() const
-        {
-            if (!is_dict())
-                throw std::runtime_error("is't list");
-            return m_dct;
-        }
+        as_dict_critical() const;
+        dict_type &as_dict_except();
+        const dict_type &as_dict_except() const;
 
-        list_type &as_list()
-        {
-            if (!is_list())
-                init(type::list);
-            return m_arr;
-        }
-
-        const list_type &as_list() const
-        {
-            if (!is_list())
-                throw std::runtime_error("is't list");
-            return m_arr;
-        }
-
-        nos::expected<list_type &, nos::errstring> as_list_critical()
-        {
-            if (!is_list())
-                return errstring("is't list");
-            return m_arr;
-        }
+        list_type &as_list();
+        const list_type &as_list() const;
+        nos::expected<list_type &, nos::errstring> as_list_critical();
         nos::expected<const list_type &, nos::errstring>
-        as_list_critical() const
-        {
-            if (!is_list())
-                return errstring("is't list");
-            return m_arr;
-        }
-        list_type &as_list_except()
-        {
-            if (!is_list())
-                throw std::runtime_error("is't list");
-            return m_arr;
-        }
-        const list_type &as_list_except() const
-        {
-            if (!is_list())
-                throw std::runtime_error("is't list");
-            return m_arr;
-        }
+        as_list_critical() const;
+        list_type &as_list_except();
+        const list_type &as_list_except() const;
 
-        numer_type as_numer() const
-        {
-            if (is_bool())
-                return (int)m_bool;
-            if (is_string())
-                return std::stod(m_str);
-            if (!is_numer())
-                throw std::runtime_error("is't numer");
-            return m_num;
-        }
+        numer_type as_numer() const;
+        integer_type as_integer() const;
+        nos::expected<numer_type, nos::errstring> as_numer_critical() const;
+        numer_type as_numer_except() const;
+        numer_type as_numer_default(numer_type def) const;
+        int64_t as_integer_default(int64_t def) const;
+        nos::expected<int64_t, nos::errstring> as_integer_critical() const;
+        int64_t as_integer_except() const;
 
-        integer_type as_integer() const
-        {
-            if (is_bool())
-                return (int)m_bool;
-            if (!is_numer())
-                throw std::runtime_error("is't numer");
-            return m_num;
-        }
-
-        nos::expected<numer_type, nos::errstring> as_numer_critical() const
-        {
-            if (is_bool())
-                return (int)m_bool;
-
-            if (!is_numer())
-                return errstring("is't numer");
-            return m_num;
-        }
-        numer_type as_numer_except() const
-        {
-            if (is_bool())
-                return (int)m_bool;
-            if (!is_numer())
-                throw std::runtime_error("is't numer");
-            return m_num;
-        }
-        numer_type as_numer_default(numer_type def) const
-        {
-            if (is_bool())
-                return (int)m_bool;
-            if (!is_numer())
-                return def;
-            return m_num;
-        }
-
-        int64_t as_integer_default(int64_t def) const
-        {
-            return as_numer_default(def);
-        }
-
-        // TODO добавить проверку на целое.
-        nos::expected<int64_t, nos::errstring> as_integer_critical() const
-        {
-            if (!is_numer())
-                return errstring("is't numer");
-            return m_num;
-        }
-        int64_t as_integer_except() const
-        {
-            if (!is_numer())
-                throw std::runtime_error("is't numer");
-            return m_num;
-        }
-
-        bool as_bool() const
-        {
-            return m_bool;
-        }
-        bool as_bool_default(bool def) const
-        {
-            if (!is_bool())
-                return def;
-            return m_bool;
-        }
-
-        // TODO добавить проверку на целое.
-        nos::expected<bool, nos::errstring> as_bool_critical() const
-        {
-            if (!is_bool())
-                return errstring("is't bool");
-            return m_bool;
-        }
-
-        bool as_bool_except() const
-        {
-            if (!is_bool())
-                throw std::runtime_error("is't bool");
-            return m_bool;
-        }
+        bool as_bool() const;
+        bool as_bool_default(bool def) const;
+        nos::expected<bool, nos::errstring> as_bool_critical() const;
+        bool as_bool_except() const;
 
         const nos::buffer as_buffer() const;
 
-        // integer_type& unsafe_integer_const() { return m_int; }
-        numer_type &unsafe_numer_const()
-        {
-            return m_num;
-        }
-        string_type &unsafe_string_const()
-        {
-            return m_str;
-        }
-        list_type &unsafe_list_const()
-        {
-            return m_arr;
-        }
-        dict_type &unsafe_dict_const()
-        {
-            return m_dct;
-        }
+        numer_type &unsafe_numer_const();
+        string_type &unsafe_string_const();
+        list_type &unsafe_list_const();
+        dict_type &unsafe_dict_const();
 
-        //          const integer_type& unsafe_integer_const() const { return
-        // m_int;
-        //}
-        const numer_type &unsafe_numer_const() const
-        {
-            return m_num;
-        }
-        const string_type &unsafe_string_const() const
-        {
-            return m_str;
-        }
-        const list_type &unsafe_list_const() const
-        {
-            return m_arr;
-        }
-        const dict_type &unsafe_dict_const() const
-        {
-            return m_dct;
-        }
-        const bool &unsafe_bool_const() const
-        {
-            return m_bool;
-        }
+        const numer_type &unsafe_numer_const() const;
+        const string_type &unsafe_string_const() const;
+        const list_type &unsafe_list_const() const;
+        const dict_type &unsafe_dict_const() const;
+        const bool &unsafe_bool_const() const;
 
-        trent_basic::type get_type() const
-        {
-            return m_type;
-        }
-
-        bool is_nil() const
-        {
-            return m_type == type::nil;
-        }
-        bool is_bool() const
-        {
-            return m_type == type::boolean;
-        }
-        bool is_numer() const
-        {
-            return m_type == type::numer;
-        }
-        bool is_list() const
-        {
-            return m_type == type::list;
-        }
-        bool is_dict() const
-        {
-            return m_type == type::dict;
-        }
-        bool is_string() const
-        {
-            return m_type == type::string;
-        }
+        trent::type get_type() const;
+        bool is_nil() const;
+        bool is_bool() const;
+        bool is_numer() const;
+        bool is_list() const;
+        bool is_dict() const;
+        bool is_string() const;
 
         template <class O>
         nos::expected<size_t, nos::output_error> print_to(O &os) const;
 
-    public:
-        trent_basic &operator=(const trent_basic &other)
-        {
-            invalidate();
-            m_type = other.m_type;
-            switch (m_type)
-            {
-            case type::string:
-                nos::constructor(&m_str, other.m_str);
-                return *this;
-            case type::list:
-                nos::constructor(&m_arr, other.m_arr);
-                return *this;
-            case type::dict:
-                nos::constructor(&m_dct, other.m_dct);
-                return *this;
-            case type::numer:
-                m_num = other.m_num;
-                return *this;
-            case type::boolean:
-                m_bool = other.m_bool;
-                return *this;
-            case type::nil:
-                return *this;
-            }
-            return *this;
-        }
+        trent &operator=(const trent &other);
+        trent &operator=(trent &&other) noexcept;
 
-        trent_basic &operator=(trent_basic &&other)
-        {
-            invalidate();
-            m_type = other.m_type;
-            switch (m_type)
-            {
-            case type::string:
-                nos::move_constructor(&m_str, std::move(other.m_str));
-                return *this;
-            case type::list:
-                nos::move_constructor(&m_arr, std::move(other.m_arr));
-                return *this;
-            case type::dict:
-                nos::move_constructor(&m_dct, std::move(other.m_dct));
-                return *this;
-            case type::numer:
-                m_num = other.m_num;
-                return *this;
-            case type::boolean:
-                m_bool = other.m_bool;
-                return *this;
-            case type::nil:
-                return *this;
-            }
-
-            other.reset(type::nil);
-            return *this;
-        }
-
-        template <class T> trent_basic &operator=(const T &arg)
+        template <class T> trent &operator=(const T &arg)
         {
             reset(arg);
             return *this;
@@ -910,7 +312,7 @@ namespace nos
         {
             using DT = typename std::decay<T>::type;
 
-            if constexpr (std::is_same_v<DT, trent_basic>)
+            if constexpr (std::is_same_v<DT, trent>)
             {
                 return *this;
             }
@@ -935,51 +337,8 @@ namespace nos
         }
     };
 
-    using trent = trent_basic<std::allocator>;
-
-    template <template <class Allocator> class TAlloc>
-    trent_basic<TAlloc>::~trent_basic()
-    {
-        invalidate();
-    }
-
-    template <template <class Allocator> class TAlloc>
-    void trent_basic<TAlloc>::invalidate()
-    {
-        switch (m_type)
-        {
-        case type::string:
-            nos::destructor(&m_str);
-            return;
-
-        case type::list:
-            nos::destructor(&m_arr);
-            return;
-
-        case type::dict:
-            nos::destructor(&m_dct);
-            return;
-
-        case type::nil:
-        case type::numer:
-        case type::boolean:
-            return;
-        }
-
-        m_type = type::nil;
-    }
-
-    template <template <class Allocator> class TAlloc>
-    void trent_basic<TAlloc>::init_str(const char *data, size_t size)
-    {
-        m_type = trent_basic::type::string;
-        nos::constructor(&m_str, data, size);
-    }
-
-    template <template <class Allocator> class TAlloc>
     template <class O>
-    nos::expected<size_t, nos::output_error>
-    trent_basic<TAlloc>::print_to(O &os) const
+    nos::expected<size_t, nos::output_error> trent::print_to(O &os) const
     {
         bool sep = false;
 
@@ -1040,160 +399,6 @@ namespace nos
         return 0;
     }
 
-    template <template <class Allocator> class TAlloc>
-    void trent_basic<TAlloc>::init(trent_basic::type t)
-    {
-        if (m_type != trent_basic::type::nil)
-            invalidate();
-
-        m_type = t;
-
-        switch (m_type)
-        {
-        case trent_basic::type::string:
-            nos::constructor(&m_str);
-            return;
-
-        case trent_basic::type::list:
-            nos::constructor(&m_arr);
-            return;
-
-        case trent_basic::type::dict:
-            nos::constructor(&m_dct);
-            return;
-
-        case trent_basic::type::boolean:
-        case trent_basic::type::numer:
-        case trent_basic::type::nil:
-            return;
-        }
-    }
-
-    template <template <class Allocator> class TAlloc>
-    trent_basic<TAlloc>::trent_basic(const trent_basic<TAlloc> &other)
-    {
-        m_type = other.m_type;
-
-        switch (m_type)
-        {
-        case trent_basic::type::string:
-            nos::constructor(&m_str, other.m_str);
-            return;
-
-        case trent_basic::type::list:
-            nos::constructor(&m_arr, other.m_arr);
-            return;
-
-        case trent_basic::type::dict:
-            nos::constructor(&m_dct, other.m_dct);
-            return;
-
-        case trent_basic::type::numer:
-            m_num = other.m_num;
-            return;
-
-        case trent_basic::type::boolean:
-            m_bool = other.m_bool;
-            return;
-
-        case trent_basic::type::nil:
-            return;
-        }
-    }
-
-    template <template <class Allocator> class TAlloc>
-    trent_basic<TAlloc>::trent_basic(trent_basic<TAlloc> &&other)
-    {
-        m_type = other.m_type;
-
-        switch (m_type)
-        {
-        case trent_basic::type::string:
-            nos::move_constructor(&m_str, std::move(other.m_str));
-            return;
-
-        case trent_basic::type::list:
-            nos::move_constructor(&m_arr, std::move(other.m_arr));
-            return;
-
-        case trent_basic::type::dict:
-            nos::move_constructor(&m_dct, std::move(other.m_dct));
-            return;
-
-        case trent_basic::type::numer:
-            m_num = other.m_num;
-            return;
-
-        case trent_basic::type::boolean:
-            m_bool = other.m_bool;
-            return;
-
-        case trent_basic::type::nil:
-            return;
-        }
-
-        other.invalidate();
-    }
-
-    template <template <class Allocator> class TAlloc>
-    std::string &trent_basic<TAlloc>::as_string_except()
-    {
-        if (!is_string())
-            throw std::runtime_error("isn't string");
-
-        return m_str;
-    }
-
-    template <template <class Allocator> class TAlloc>
-    const std::string &trent_basic<TAlloc>::as_string_except() const
-    {
-        if (!is_string())
-            throw std::runtime_error("isn't string");
-
-        return m_str;
-    }
-
-    template <template <class Allocator> class TAlloc>
-    const trent_basic<TAlloc> &trent_basic<TAlloc>::static_nil()
-    {
-        static const trent_basic _nil;
-        return _nil;
-    }
-
-    /*template <template <class Allocator> class TAlloc>
-    void trent_basic<TAlloc>::init(const trent_basic<TAlloc> &other)
-    {
-        if (m_type != trent_basic::type::nil)
-            invalidate();
-
-        m_type = other.m_type;
-
-        switch (m_type)
-        {
-        case trent_basic::type::string:
-            nos::constructor(&m_str, other.m_str);
-            return;
-
-        case trent_basic::type::list:
-            nos::constructor(&m_arr, other.m_arr);
-            return;
-
-        case trent_basic::type::dict:
-            nos::constructor(&m_dct, other.m_dct);
-            return;
-
-        case trent_basic::type::numer:
-            m_num = other.m_num;
-            return;
-
-        case trent_basic::type::boolean:
-            m_bool = other.m_bool;
-            return;
-
-        case trent_basic::type::nil:
-            return;
-        }
-    }*/
-}
+} // namespace nos
 
 #endif

@@ -61,11 +61,10 @@ namespace nos
             }
         }
 
-        template <template <class Allocator> class TAlloc = std::allocator>
-        void print_to(const trent_basic<TAlloc> &tr,
-                      std::ostream &os,
-                      bool pretty,
-                      int tab)
+        inline void print_to(const nos::trent &tr,
+                             std::ostream &os,
+                             bool pretty,
+                             int tab)
         {
             bool sep = false;
             bool havedict;
@@ -213,25 +212,21 @@ namespace nos
                     os << "\r\n";
         }
 
-        template <template <class Allocator> class TAlloc = std::allocator>
-        std::string to_string(const nos::trent_basic<TAlloc> &tr,
-                              bool pretty = false)
+        inline std::string to_string(const nos::trent &tr, bool pretty = false)
         {
             std::stringstream ss;
             print_to(tr, ss, pretty, 0);
             return ss.str();
         }
 
-        template <template <class Allocator> class TAlloc = std::allocator>
-        std::string to_pretty_string(const nos::trent_basic<TAlloc> &tr)
+        inline std::string to_pretty_string(const nos::trent &tr)
         {
             std::stringstream ss;
             print_to(tr, ss, true, 0);
             return ss.str();
         }
 
-        template <template <class Allocator> class TAlloc = std::allocator>
-        void pretty_print_to(const trent_basic<TAlloc> &tr, std::ostream &os)
+        inline void pretty_print_to(const nos::trent &tr, std::ostream &os)
         {
             print_to(tr, os, true, 0);
         }

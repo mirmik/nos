@@ -25,7 +25,7 @@ namespace nos
 
         template <typename U> struct ok_type_helper<const U &>
         {
-            using type = std::reference_wrapper<U>;
+            using type = std::reference_wrapper<const U>;
         };
 
         using ok_type = typename ok_type_helper<T>::type;

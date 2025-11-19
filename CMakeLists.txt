@@ -6,7 +6,7 @@ file(GLOB HEADERS
 	nos/**/*.h
 )
 
-file(GLOB NOS_SOURCES
+file(GLOB NOS_SOURCES CONFIGURE_DEPENDS
 	nos/*.cpp
 	nos/print/*.cpp
 	nos/fprint/*.cpp
@@ -26,7 +26,7 @@ file(GLOB NOS_SOURCES
 )
 
 if(UNIX)
-	file(GLOB NOS_SOURCES ${NOS_SOURCES}
+	file(GLOB NOS_SOURCES ${NOS_SOURCES} CONFIGURE_DEPENDS
 		nos/util/osutil_unix.cpp
 		nos/inet/*.cpp
 		nos/log/*.cpp
@@ -34,7 +34,7 @@ if(UNIX)
 endif()
 
 if(WIN32)
-	file(GLOB NOS_SOURCES ${NOS_SOURCES}
+	file(GLOB NOS_SOURCES ${NOS_SOURCES} CONFIGURE_DEPENDS
 		nos/util/osutil_windows.cpp
 		nos/inet/*.cpp
 	)
@@ -48,7 +48,7 @@ file(GLOB SOURCES_TEST
 )
 
 if(UNIX)
-	file(GLOB SOURCES_TEST ${SOURCES_TEST}
+	file(GLOB SOURCES_TEST ${SOURCES_TEST} CONFIGURE_DEPENDS
 		tests/unix/*.cpp
 	)
 endif()
