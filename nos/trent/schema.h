@@ -5,7 +5,6 @@
     @file
 */
 
-#include <nos/fprint.h>
 #include <nos/print.h>
 #include <nos/trent/trent.h>
 #include <nos/util/string.h>
@@ -162,18 +161,11 @@ namespace nos
                         strvec.push_back(n.first);
                         if (!tr.contains(n.first))
                         {
-                            // nos::println("check_dict doesn't have",
-                            // strvec);
                             if (n.second._optional == false)
                             {
                                 if (!_ifexist)
                                     return errstring(nos::format(
                                         "subopt {} isn't exist", n.first));
-                            }
-                            else
-                            {
-                                // nos::fprintln("don't have optional node
-                                // {}", strvec);
                             }
                         }
                         else
@@ -344,20 +336,6 @@ namespace nos
         {
             numer_or_string() : schema_node(numer_or_string_checker_type) {}
         };
-
-        // [[deprecated]] void asserted_check(const trent &tr,
-        //                                    std::string rootname)
-        // {
-        //     std::vector<std::string> strvec{rootname};
-        //     auto ret = root.check(tr, strvec);
-        //     if (ret.is_error())
-        //     {
-        //         std::string path = nos::join(strvec, '/');
-        //         std::string errtxt =
-        //             nos::format("SCHEMA: trent {} {}", path, ret.error());
-        //         throw std::runtime_error("schema: errstring:" + errtxt);
-        //     }
-        // }
 
         nos::expected<void, nos::errstring> check(const trent &tr,
                                                   std::string rootname)

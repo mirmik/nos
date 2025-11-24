@@ -9,9 +9,9 @@ const char *nos::log::level_to_string(level lvl)
     case level::Debug:
         return "debug";
     case level::Info:
-        return " info";
+        return "info";
     case level::Warn:
-        return " warn";
+        return "warn";
     case level::Error:
         return "error";
     case level::Fault:

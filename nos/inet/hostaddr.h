@@ -1,6 +1,9 @@
 #ifndef NOS_HOSTADDR_H
 #define NOS_HOSTADDR_H
 
+#include <cstdint>
+#include <cstdio>
+#include <string>
 #include <nos/fprint.h>
 #include <nos/print.h>
 
