@@ -9,7 +9,7 @@ TEST_CASE("nos.log")
     nos::stringstream ss;
     nos::current_ostream = &ss;
     nos::log::info("Hello, world!");
-    CHECK_EQ(ss.str(), "[ info] Hello, world!\r\n");
+    CHECK_EQ(ss.str(), "[info] Hello, world!\r\n");
     nos::current_ostream = nullptr;
 }
 
@@ -135,5 +135,5 @@ TEST_CASE("target log")
     nos::log::target_logger logger({target});
     logger.log(nos::log::level::Info, "Hello, world!");
 
-    CHECK_EQ(ss.str(), "[ info] Hello, world!\r\n");
+    CHECK_EQ(ss.str(), "[info] Hello, world!\r\n");
 }
