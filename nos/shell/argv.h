@@ -66,7 +66,7 @@ namespace nos
     private:
         void parse()
         {
-            char *rest;
+            char *rest = NULL;
             char *token = nos_strtok_r((char *)data.c_str(), delims, &rest);
 
             while (token != NULL)
