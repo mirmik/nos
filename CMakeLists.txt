@@ -1,127 +1,170 @@
 cmake_minimum_required(VERSION 3.5.1)
-project(nos)
+project(nos LANGUAGES C CXX)
+
+# Настройки стандартов
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
+# Опция: собирать ли тесты
+option(NOS_BUILD_TESTS "Build nos tests" ON)
+
+# =========================
+# Сбор исходников библиотеки
+# =========================
 
 file(GLOB HEADERS
-	nos/*.h
-	nos/**/*.h
+    nos/*.h
+    nos/**/*.h
 )
 
 file(GLOB NOS_SOURCES CONFIGURE_DEPENDS
-	nos/*.cpp
-	nos/print/*.cpp
-	nos/fprint/*.cpp
-	nos/check/*.cpp
-	nos/util/osutil.cpp
-	nos/util/trace.cpp
-	nos/util/numconvert.cpp
-	nos/util/nos_numconvert.cpp
-	nos/util/string.cpp
-	nos/meta/*.cpp
-	nos/input/*.cpp
-	nos/io/impls/current_ostream_stdout.cpp
-	nos/convert/*.cpp
-	nos/io/*.cpp
-	nos/trent/*.cpp
-	nos/log/*.cpp
+    nos/*.cpp
+    nos/print/*.cpp
+    nos/fprint/*.cpp
+    nos/check/*.cpp
+    nos/util/osutil.cpp
+    nos/util/trace.cpp
+    nos/util/numconvert.cpp
+    nos/util/nos_numconvert.cpp
+    nos/util/string.cpp
+    nos/meta/*.cpp
+    nos/input/*.cpp
+    nos/io/impls/current_ostream_stdout.cpp
+    nos/convert/*.cpp
+    nos/io/*.cpp
+    nos/trent/*.cpp
+    nos/log/*.cpp
 )
 
 if(UNIX)
-	file(GLOB NOS_SOURCES ${NOS_SOURCES} CONFIGURE_DEPENDS
-		nos/util/osutil_unix.cpp
-		nos/inet/*.cpp
-		nos/log/*.cpp
-	)
+    file(GLOB UNIX_SOURCES CONFIGURE_DEPENDS
+        nos/util/osutil_unix.cpp
+        nos/inet/*.cpp
+        nos/log/*.cpp
+    )
+    list(APPEND NOS_SOURCES ${UNIX_SOURCES})
 endif()
 
 if(WIN32)
-	file(GLOB NOS_SOURCES ${NOS_SOURCES} CONFIGURE_DEPENDS
-		nos/util/osutil_windows.cpp
-		nos/inet/*.cpp
-	)
+    file(GLOB WIN_SOURCES CONFIGURE_DEPENDS
+        nos/util/osutil_windows.cpp
+        nos/inet/*.cpp
+    )
+    list(APPEND NOS_SOURCES ${WIN_SOURCES})
 endif()
 
-file(GLOB NOS_SOURCES_PLUS)
+# =========================
+# Библиотека nos
+# =========================
 
-file(GLOB SOURCES_TEST
-	tests/*.cpp
-	tests/trent/*.cpp
+add_library(nos SHARED ${NOS_SOURCES})
+target_include_directories(nos
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-if(UNIX)
-	file(GLOB SOURCES_TEST ${SOURCES_TEST} CONFIGURE_DEPENDS
-		tests/unix/*.cpp
-	)
+# Флаги компилятора, похожие на licant
+if(MSVC)
+    # Под MSVC свои флаги, если надо, но сейчас оставим дефолт.
+else()
+    target_compile_options(nos PRIVATE
+        -Weffc++
+        -Wall
+        -Wextra
+    )
 endif()
 
-if(${CMAKE_PROJECT_NAME} STREQUAL ${PROJECT_NAME})
-	set(CMAKE_VERBOSE_MAKEFILE on)
-	set(CMAKE_CXX_STANDARD 20)
-	set(CMAKE_CC_STANDARD 11)
-	set(PLATFORM_SOURCES)
+# =========================
+# Тесты
+# =========================
 
-	if(${STATIC_LIBS})
-		set(CMAKE_SHARED_LINKER_FLAGS "-static-libstdc++")
-	endif()
+if(NOS_BUILD_TESTS)
+    enable_testing()
 
-	if(WIN32 OR WIN64)
-		set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_CRT_SECURE_NO_WARNINGS")
-	endif()
+    file(GLOB SOURCES_TEST
+        tests/*.cpp
+        tests/trent/*.cpp
+    )
 
-	add_library(nos SHARED ${NOS_SOURCES})
-	target_include_directories(nos PRIVATE . ${ADDITIONAL_INCLUDES})
+    if(UNIX)
+        file(GLOB UNIX_TEST_SOURCES CONFIGURE_DEPENDS
+            tests/unix/*.cpp
+        )
+        list(APPEND SOURCES_TEST ${UNIX_TEST_SOURCES})
+    endif()
 
-	if(NOT DEFINED WITHOUT_TESTS)
-		add_executable(nos_test ${SOURCES_TEST} ${NOS_SOURCES})
-		target_include_directories(nos_test PRIVATE . tests ${ADDITIONAL_INCLUDES})
-	endif()
+    add_executable(nos_test
+        ${SOURCES_TEST}
+        ${NOS_SOURCES} # как у тебя в licant: тесты линкуются вместе с lib
+    )
 
-	if(WIN32)
-		target_link_libraries(nos ws2_32)
-		target_link_libraries(nos_test ws2_32)
+    target_include_directories(nos_test
+        PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests
+    )
 
-		install(TARGETS ${PROJECT_NAME}
-			EXPORT ${PROJECT_NAME}
-			LIBRARY DESTINATION /)
+    if(NOT MSVC)
+        target_compile_options(nos_test PRIVATE
+            -Weffc++
+            -Wall
+            -Wextra
+            -Werror=all
+            -Werror=pedantic
+            -Wno-gnu-zero-variadic-macro-arguments
+        )
+    endif()
 
-		install(EXPORT ${PROJECT_NAME}
-			NAMESPACE ${PROJECT_NAME}::
-			FILE ${PROJECT_NAME}-config.cmake
-			DESTINATION lib/cmake/${PROJECT_NAME})
+    if(UNIX AND NOT APPLE)
+        target_link_libraries(nos_test PRIVATE pthread)
+    endif()
 
-		install(DIRECTORY ${PROJECT_NAME}
-			DESTINATION "C:/Program Files (x86)/${PROJECT_NAME}/include"
-			PATTERN "*HIDE*" EXCLUDE
-		)
-	endif()
+    if(WIN32)
+        target_link_libraries(nos PRIVATE ws2_32)
+        target_link_libraries(nos_test PRIVATE ws2_32)
+    endif()
 
-	if(UNIX AND NOT APPLE)
-		target_link_libraries(nos_test pthread)
+    add_test(NAME nos_test COMMAND nos_test)
+endif()
 
-		install(TARGETS ${PROJECT_NAME}
-			LIBRARY DESTINATION /usr/lib
-		)
+# =========================
+# Установка (install)
+# =========================
 
-		install(DIRECTORY ${PROJECT_NAME}
-			DESTINATION /usr/local/include
-			PATTERN "*HIDE*" EXCLUDE
-		)
-	endif()
+if(UNIX AND NOT APPLE)
+    install(TARGETS nos
+        LIBRARY DESTINATION /usr/lib
+    )
 
-	if(APPLE)
-		install(TARGETS ${PROJECT_NAME}
-			LIBRARY DESTINATION /usr/local/lib
-		)
+    install(DIRECTORY nos
+        DESTINATION /usr/local/include
+        PATTERN "*HIDE*" EXCLUDE
+    )
+elseif(APPLE)
+    install(TARGETS nos
+        LIBRARY DESTINATION /usr/local/lib
+    )
 
-		install(DIRECTORY ${PROJECT_NAME}
-			DESTINATION /usr/local/include
-			PATTERN "*HIDE*" EXCLUDE
-		)
-	endif()
+    install(DIRECTORY nos
+        DESTINATION /usr/local/include
+        PATTERN "*HIDE*" EXCLUDE
+    )
+elseif(WIN32)
+    install(TARGETS nos
+        EXPORT nos
+        LIBRARY DESTINATION /
+    )
 
-	enable_testing()
-	add_test(NAME nos_test COMMAND nos_test)
+    install(EXPORT nos
+        NAMESPACE nos::
+        FILE nos-config.cmake
+        DESTINATION lib/cmake/nos
+    )
 
-else()
-	set(NOS_SOURCES ${NOS_SOURCES} ${NOS_SOURCES_PLUS} PARENT_SCOPE)
+    install(DIRECTORY nos
+        DESTINATION "C:/Program Files (x86)/nos/include"
+        PATTERN "*HIDE*" EXCLUDE
+    )
 endif()
