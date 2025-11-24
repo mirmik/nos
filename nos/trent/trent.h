@@ -66,6 +66,7 @@ namespace nos
 
         class wrong_type : public std::exception
         {
+        public:
             trent_path path = {};
             type t = {};
             std::string str = {};
@@ -77,6 +78,7 @@ namespace nos
 
         class wrong_index : public std::exception
         {
+        public:
             std::string str;
             trent_path path;
             type t;
@@ -231,7 +233,8 @@ namespace nos
         const string_type &get_as_string_ex(const trent_path &path) const;
         bool get_as_boolean_ex(const trent_path &path) const;
 
-        numer_type get_as_numer_def(const trent_path &path, numer_type def) const;
+        numer_type get_as_numer_def(const trent_path &path,
+                                    numer_type def) const;
         const string_type &get_as_string_def(const trent_path &path,
                                              const std::string &def) const;
         bool get_as_boolean_def(const trent_path &path, bool def) const;
