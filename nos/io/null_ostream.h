@@ -12,7 +12,7 @@ namespace nos
     class null_ostream : public nos::ostream
     {
     public:
-        nos::expected<size_t, nos::output_error> write(const void *ptr,
+        nos::expected<size_t, nos::output_error> write(const void *,
                                                        size_t sz) override
         {
             return sz;
