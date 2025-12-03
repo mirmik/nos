@@ -79,3 +79,10 @@ nos_test
 runtests
 beam
 listener
+
+.git
+.gitignore
+.gitmodules
+.gitattributes
+.github
+.vscode
