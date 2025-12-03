@@ -5,6 +5,7 @@
     @file
 */
 
+#include <nos/fprint.h>
 #include <nos/print.h>
 #include <nos/trent/trent.h>
 #include <nos/util/string.h>
