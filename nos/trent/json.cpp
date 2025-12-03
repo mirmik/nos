@@ -371,9 +371,9 @@ nos::trent nos::json::parser::parse_dict()
 
         if (onebuf != ':')
             throw std::runtime_error("json:parse_dict_0 wait_: expect_"s +
-                                     onebuf + " lineno:" +
-                                     std::to_string(lineno) + " symbno:" +
-                                     std::to_string(symbno));
+                                     onebuf +
+                                     " lineno:" + std::to_string(lineno) +
+                                     " symbno:" + std::to_string(symbno));
 
         onebuf = 0;
 
@@ -395,9 +395,9 @@ nos::trent nos::json::parser::parse_dict()
         if (onebuf != ',')
         {
             throw std::runtime_error("json:parse_dict_1 wait_: expect_"s +
-                                     onebuf + " lineno:" +
-                                     std::to_string(lineno) + " symbno:" +
-                                     std::to_string(symbno));
+                                     onebuf +
+                                     " lineno:" + std::to_string(lineno) +
+                                     " symbno:" + std::to_string(symbno));
         }
 
         onebuf = readnext_skipping();

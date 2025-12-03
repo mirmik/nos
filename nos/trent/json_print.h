@@ -61,10 +61,8 @@ namespace nos
             }
         }
 
-        inline void print_to(const nos::trent &tr,
-                             std::ostream &os,
-                             bool pretty,
-                             int tab)
+        inline void
+        print_to(const nos::trent &tr, std::ostream &os, bool pretty, int tab)
         {
             bool sep = false;
             bool havedict;

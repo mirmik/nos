@@ -490,8 +490,7 @@ const nos::trent &nos::trent::get_except(const trent_path &path) const
     }
     return *tr;
 }
-nos::trent::numer_type
-nos::trent::get_as_numer_ex(const trent_path &path) const
+nos::trent::numer_type nos::trent::get_as_numer_ex(const trent_path &path) const
 {
     const trent &tr = get_except(path);
 
@@ -528,8 +527,8 @@ bool nos::trent::get_as_boolean_ex(const trent_path &path) const
     return tr.m_bool;
 }
 
-nos::trent::numer_type
-nos::trent::get_as_numer_def(const trent_path &path, numer_type def) const
+nos::trent::numer_type nos::trent::get_as_numer_def(const trent_path &path,
+                                                    numer_type def) const
 {
     const trent *tr = get(path);
     if (tr == nullptr || tr->m_type != trent_type::numer)
@@ -752,8 +751,7 @@ int64_t nos::trent::as_integer_default(int64_t def) const
     return as_numer_default(def);
 }
 
-nos::expected<int64_t, nos::errstring>
-nos::trent::as_integer_critical() const
+nos::expected<int64_t, nos::errstring> nos::trent::as_integer_critical() const
 {
     if (!is_numer())
         return errstring("is't numer");

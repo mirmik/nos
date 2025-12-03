@@ -3,9 +3,9 @@
 
 #include <cstdint>
 #include <cstdio>
-#include <string>
 #include <nos/fprint.h>
 #include <nos/print.h>
+#include <string>
 
 namespace nos
 {
