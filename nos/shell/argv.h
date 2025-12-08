@@ -63,6 +63,11 @@ namespace nos
             return &list[0];
         }
 
+        bool empty() 
+        {
+            return list.empty();
+        }
+
     private:
         void parse()
         {
