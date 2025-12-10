@@ -27,8 +27,11 @@ namespace nos
         execute_console_command_protocol(std::string str)
         {
             auto tokens = nos::tokens(str);
+            if (tokens.empty())
+                return nos::errstring("Empty command");
+
             auto argv = nos::argv(tokens);
-            std::string name = argv[0];
+            std::string name = argv[0].to_string();
             auto argw = argv.without(1);
 
             std::vector<nos::trent_argument> targs;
@@ -36,12 +39,17 @@ namespace nos
             auto eit = argw.end();
             for (; it != eit; ++it)
             {
-                if ((*it)[0] == '-' && (*it)[1] == '-')
+                // Check for --key value pattern (need at least 3 chars: "--x")
+                if ((*it).size() >= 3 && (*it)[0] == '-' && (*it)[1] == '-')
                 {
                     auto key = (*it).substr(2);
                     ++it;
                     if (it == eit)
+                    {
+                        // --key without value, treat as flag with empty value
+                        targs.emplace_back(nos::trent(), key);
                         break;
+                    }
                     targs.emplace_back(*it, key);
                     continue;
                 }
@@ -49,7 +57,7 @@ namespace nos
                 targs.emplace_back(*it);
             }
 
-            return functions.execute(argv[0], targs);
+            return functions.execute(name, targs);
         }
 
         nos::expected<nos::trent, nos::errstring>

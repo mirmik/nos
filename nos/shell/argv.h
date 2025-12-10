@@ -55,12 +55,12 @@ namespace nos
 
         const nos::buffer *first() const
         {
-            return &list[0];
+            return list.empty() ? nullptr : &list[0];
         }
 
         nos::buffer *first()
         {
-            return &list[0];
+            return list.empty() ? nullptr : &list[0];
         }
 
         bool empty() 
@@ -94,7 +94,10 @@ namespace nos
         argv &operator=(const argv &) = default;
         argv &operator=(argv &&) = default;
 
-        argv(const tokens &args) : list(args.first()), _size(args.size()) {}
+        argv(const tokens &args)
+            : list(args.size() ? args.first() : nullptr), _size(args.size())
+        {
+        }
         argv(const nos::buffer *buf, size_t sz) : list(buf), _size(sz) {}
 
         argv without(size_t i) const
