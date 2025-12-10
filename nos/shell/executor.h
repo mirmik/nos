@@ -57,6 +57,11 @@ namespace nos
         {
         }
 
+        executor_t(std::initializer_list<nos::command_t<AddArgs...>> list)
+            : commands(list)
+        {
+        }
+
         void add_command(const nos::command_t<AddArgs...> &cmd)
         {
             commands.push_back(cmd);
