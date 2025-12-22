@@ -59,28 +59,56 @@ namespace nos
             return (int)sz;
         }
     };
-    /*
-    class buffer_writer : public nos::ostream
+
+    /// Output stream that writes to a fixed-size buffer.
+    /// Tracks written size and prevents buffer overflow.
+    class static_buffer_ostream : public nos::ostream
     {
     private:
-        char *str;
-        size_t len;
+        char *_buf;
+        size_t _capacity;
+        size_t _size = 0;
 
     public:
-        buffer_writer(char *_str, int _room) : str(_str), len(_room) {}
-        buffer_writer(char *_str, size_t _room) : str(_str), len(_room) {}
-        buffer_writer(const buffer_writer &_str) = default;
-        buffer_writer &operator=(const buffer_writer &) = default;
-
-        int write(const void *ptr, size_t sz) override
+        static_buffer_ostream(char *buf, size_t capacity)
+            : _buf(buf), _capacity(capacity)
         {
-            int l = sz < len ? sz : len;
-            memcpy(str, ptr, l);
-            str += l;
-            len -= l;
-            return l;
         }
-    };*/
+
+        static_buffer_ostream(const static_buffer_ostream &) = delete;
+        static_buffer_ostream &operator=(const static_buffer_ostream &) = delete;
+
+        nos::expected<size_t, nos::output_error> write(const void *ptr,
+                                                       size_t sz) override
+        {
+            size_t to_write =
+                (_size + sz <= _capacity) ? sz : (_capacity - _size);
+            memcpy(_buf + _size, ptr, to_write);
+            _size += to_write;
+            return to_write;
+        }
+
+        size_t size() const
+        {
+            return _size;
+        }
+        const char *data() const
+        {
+            return _buf;
+        }
+        size_t capacity() const
+        {
+            return _capacity;
+        }
+        size_t room() const
+        {
+            return _capacity - _size;
+        }
+        void reset()
+        {
+            _size = 0;
+        }
+    };
 }
 
 #endif
