@@ -79,3 +79,5 @@ nos_test
 runtests
 beam
 listener
+
+.codex

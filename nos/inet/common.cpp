@@ -31,6 +31,7 @@ typedef unsigned short sa_family_t;
 
 int nos::inet::socket::nonblock(bool en)
 {
+    _nonblock_flag = en;
     int ret = nos::osutil::nonblock(fd(), en);
     return ret;
 }

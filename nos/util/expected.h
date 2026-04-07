@@ -8,6 +8,7 @@
 #include <nos/util/error.h>
 #include <nos/util/unexpected.h>
 #include <type_traits>
+#include <cstdint>
 
 namespace nos
 {
