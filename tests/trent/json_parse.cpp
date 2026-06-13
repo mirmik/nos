@@ -47,6 +47,25 @@ TEST_CASE("json parses arrays and dicts through comments and newlines")
     CHECK(list.is_list());
 }
 
+TEST_CASE("json parses empty objects inside arrays")
+{
+    auto tr = nos::json::parse(R"(
+        {
+            "items": [
+                {},
+                {"k": 1}
+            ]
+        }
+    )");
+
+    CHECK(tr.is_dict());
+    CHECK(tr["items"].is_list());
+    CHECK_EQ(tr["items"].as_list().size(), 2);
+    CHECK(tr["items"][0].is_dict());
+    CHECK(tr["items"][0].as_dict().empty());
+    CHECK_EQ(tr["items"][1]["k"].as_numer(), 1);
+}
+
 TEST_CASE("json parses booleans and nil/null mnemonics")
 {
     auto tr = nos::json::parse(" {'a': false} ");

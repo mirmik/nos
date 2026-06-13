@@ -63,6 +63,9 @@ namespace nos
             int connect(nos::inet::hostaddr addr,
                         uint16_t port,
                         std::chrono::milliseconds timeout);
+            int connect(nos::inet::hostaddr addr,
+                        uint16_t port,
+                        std::chrono::milliseconds timeout, bool reusing);
             int connect(nos::inet::hostaddr addr, uint16_t port);
             int disconnect();
             using istream::read;
@@ -80,6 +83,10 @@ namespace nos
             static tcp_client dial(nos::inet::hostaddr addr,
                                    uint16_t port,
                                    std::chrono::milliseconds timeout = 3250ms);
+                                   
+            static tcp_client dial(nos::inet::hostaddr addr,
+                                   uint16_t port,
+                                   std::chrono::milliseconds timeout, bool reusing);
 
             netaddr getaddr()
             {

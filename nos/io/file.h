@@ -11,6 +11,9 @@ namespace nos
     private:
         int64_t m_fd = -1;
         std::chrono::nanoseconds _input_timeout = 0ns;
+    
+    protected:
+        bool _nonblock_flag = false;
 
     public:
         file() = default;
@@ -52,6 +55,7 @@ namespace nos
         int64_t open(const char *path, int mode)
         {
             m_fd = nos::osutil::open(path, mode);
+            _nonblock_flag = false;
             return m_fd;
         }
 
@@ -72,7 +76,13 @@ namespace nos
 
         int nonblock(bool en)
         {
+            _nonblock_flag = en;
             return nos::osutil::nonblock(fd(), en);
+        }
+
+        bool is_nonblock()
+        {
+            return _nonblock_flag;
         }
     };
 }
