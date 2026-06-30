@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 3.5.1)
 project(nos LANGUAGES C CXX)
 
+include(GNUInstallDirs)
+
+set(NOS_TOP_LEVEL OFF)
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    set(NOS_TOP_LEVEL ON)
+endif()
+
 # Настройки стандартов
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -8,7 +15,7 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 # Опция: собирать ли тесты
-option(NOS_BUILD_TESTS "Build nos tests" ON)
+option(NOS_BUILD_TESTS "Build nos tests" ${NOS_TOP_LEVEL})
 
 # =========================
 # Сбор исходников библиотеки
@@ -62,7 +69,8 @@ endif()
 add_library(nos SHARED ${NOS_SOURCES})
 target_include_directories(nos
     PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
 # Флаги компилятора, похожие на licant
@@ -135,36 +143,42 @@ endif()
 
 if(UNIX AND NOT APPLE)
     install(TARGETS nos
-        LIBRARY DESTINATION /usr/lib
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
 
     install(DIRECTORY nos
-        DESTINATION /usr/local/include
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
         PATTERN "*HIDE*" EXCLUDE
     )
 elseif(APPLE)
     install(TARGETS nos
-        LIBRARY DESTINATION /usr/local/lib
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
 
     install(DIRECTORY nos
-        DESTINATION /usr/local/include
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
         PATTERN "*HIDE*" EXCLUDE
     )
 elseif(WIN32)
     install(TARGETS nos
         EXPORT nos
-        LIBRARY DESTINATION /
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
 
     install(EXPORT nos
         NAMESPACE nos::
         FILE nos-config.cmake
-        DESTINATION lib/cmake/nos
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/nos
     )
 
     install(DIRECTORY nos
-        DESTINATION "C:/Program Files (x86)/nos/include"
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
         PATTERN "*HIDE*" EXCLUDE
     )
 endif()
